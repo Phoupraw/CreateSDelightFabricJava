@@ -1,34 +1,14 @@
-# Create Fabric Addon Template
+# 机械动力乐事
+- 让传送带能直接输入炉灶、厨锅、煎锅、篮子、砧板。
+- 让动力臂能与炉灶、厨锅、煎锅、篮子、砧板交互。
+- 为巧克力派添加注液配方。
+- 让点燃的烈焰人燃烧室能作为农夫乐事的热源。
 
-This template mod comes pre-configured for developing an addon mod for Create on Fabric.
+本模组还处于极早期开发阶段，任何特性都不稳定，如果想要持久游戏，请注意备份存档。
+# Create'S Delight
+- Let belt directly output to stove, cooking pot, skillet, basket, cutting board.
+- Let mechanical arm interact with stove, cooking pot, skillet, basket, cutting board.
+- Add filling recipe for chocolate pie.
+- Let lit blaze burner become heat source of farmer's delight.
 
-
-## Setup
-
-This template is an extension of the base [Fabric Example Mod](https://github.com/FabricMC/fabric-example-mod).
-Setup is mostly the same.
-
-Additionally, set `recipe_viewer` in [gradle.properties](gradle.properties). Remember to remove unused
-example code. Make sure versions are up-to-date.
-
-When you publish your mod, you should use jars provided by GitHub Actions. These jars will have
-build number metadata and will be compressed by the Machete plugin.
-
-## Features
-- Access to Create and all of its dependencies
-- Mojang Mappings base, with Quilt Mappings and Parchment providing Javadoc and parameters
-- QuiltFlower decompiler for high quality Minecraft sources: `gradlew genSourcesWithQuiltflower`
-- GitHub Actions automatic build workflow
-- Machete Gradle plugin to shrink jar file sizes
-- Developer QOL: Mod Menu, LazyDFU, recipe viewers
-
-## Other Templates
-- [Multi-loader template](https://github.com/Fabricators-of-Create/create-multiloader-addon-template)
-- [Forge-only template](https://github.com/kotakotik22/CreateAddonTemplate)
-
-## Help
-Questions? Join us in the #devchat channel of the [Create Discord](https://discord.com/invite/hmaD7Se).
-
-## License
-
-This template is available under the CC0 license. Feel free to do as you wish with it.
+This mod is still in very early development. Any features are unstable. If you want to play for a long time, please backup.
