@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "Create's Delight",
+  "description": "in-game translation",
+  "authors": ["Phoupraw"],
+  "contact": {
+    "homepage_": "https://www.mcmod.cn/class/TODO.html",
+    "issues_": "https://github.com/Phoupraw/TODO/issues"
+  },
+  "license": "CC0",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
+    "client": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
+    "fabric-datagen": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"]
+  },
+  "mixins": ["${mod_id}.mixins.json"],
+  "accessWidener": "${mod_id}.accessWidener",
+  "depends": {
+    "minecraft": ">=1.19.2",
+    "fabricloader": "*",
+    "fabric-api": "*",
+    "create": "*",
+    "farmersdelight": ">=1.2.0"
+  },
+  "suggests": {
+    "iceberg": "*"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+    }
+  }
+}
