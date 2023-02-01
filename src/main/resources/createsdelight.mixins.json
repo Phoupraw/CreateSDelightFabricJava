@@ -2,12 +2,8 @@
   "required": true,
   "package": "phoupraw.mcmod.createsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "MixinDirectBeltInputBehaviour",
-    "MixinTileEntityBehaviour"
-  ],
-  "client": [
-  ],
+  "mixins": ["MixinDirectBeltInputBehaviour", "MixinTileEntityBehaviour"],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

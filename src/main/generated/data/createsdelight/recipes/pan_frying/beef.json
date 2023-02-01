@@ -1,0 +1,19 @@
+{
+  "type": "createsdelight:pan_frying",
+  "ingredients": [
+    {
+      "item": "farmersdelight:minced_beef"
+    },
+    {
+      "amount": 2700,
+      "fluid": "createsdelight:sunflower_oil",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "createsdelight:pan_fried_beef_patty"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:sunflower"
+    }
+  ],
+  "results": [
+    {
+      "amount": 13500,
+      "fluid": "createsdelight:sunflower_oil"
+    }
+  ]
+}

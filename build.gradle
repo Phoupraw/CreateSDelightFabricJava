@@ -62,18 +62,19 @@ dependencies {
     }
 //    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
     modImplementation "net.minecraftforge:forgeconfigapiport-fabric:${forgeconfigapiport}"
-    modLocalRuntime("maven.modrinth:lazydfu:${lazydfu_version}")
+    modCompileOnly("maven.modrinth:lazydfu:${lazydfu_version}")
 //    modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
     modImplementation("curse.maven:farmersdelightfabric-482834:${farmersdelight_version}")//这句是从https://github.com/ianm1647/expandeddelight/blob/1.19/build.gradle抄的。
     // Recipe Viewers - Create Fabric supports JEI, REI, and EMI.
     // See root gradle.properties to choose which to use at runtime.
     switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
-        case "jei": modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
-        case "rei": modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
-        case "emi": modLocalRuntime("dev.emi:emi:${emi_version}"); break
-        case "disabled": break
-        default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
+        case "jei": modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
+        case "rei": modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
+        case "emi": modCompileOnly("dev.emi:emi:${emi_version}"); break
+       // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
     }
+//    modImplementation(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
+//    modImplementation(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
 }
 
 processResources {
