@@ -18,7 +18,7 @@
     "fabric-datagen": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
     "rei_client": ["phoupraw.mcmod.${mod_id}.rei.MyREIPlugin"]
   },
-  "mixins": ["${mod_id}.mixins.json","${mod_id}_dev.mixins.json"],
+  "mixins": ["${mod_id}.mixins.json"],
   "accessWidener": "${mod_id}.accessWidener",
   "depends": {
     "minecraft": ">=1.19.2",
