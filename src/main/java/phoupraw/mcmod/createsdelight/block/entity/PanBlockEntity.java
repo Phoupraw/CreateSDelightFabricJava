@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ItemEntity;
@@ -110,8 +111,10 @@ public class PanBlockEntity extends SmartTileEntity implements SidedStorageBlock
                             resetTicks();
                             getTransportedBehaviour().getStorage().setTransported(TransportedItemStack.EMPTY);
                             if (!recipe.getFluidIngredients().isEmpty()) {
-                                LerpedFloat fluidLevel = getTankBehaviour().getPrimaryTank().getFluidLevel();
-                                fluidLevel.setValue(fluidLevel.getValue() - recipe.getFluidIngredients().get(0).getRequiredAmount());
+                                try (var transaction = Transaction.openOuter()) {
+                                    getTankBehaviour().getCapability().extract(getTankBehaviour().getPrimaryTank().getRenderedFluid().getType(), recipe.getFluidIngredients().get(0).getRequiredAmount(), transaction);
+                                    transaction.commit();
+                                }
                             }
                             var result = recipe.rollResults().get(0);
                             var pos = Vec3d.ofCenter(getPos());
