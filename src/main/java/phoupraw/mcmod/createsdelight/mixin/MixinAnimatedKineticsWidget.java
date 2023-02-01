@@ -14,19 +14,19 @@ import java.util.List;
  */
 @Mixin(AnimatedKineticsWidget.class)
 public abstract class MixinAnimatedKineticsWidget implements ParentElement, Drawable {
-    @Shadow(remap = false)
-    public abstract void method_25394(MatrixStack matrices, int mouseX, int mouseY, float delta);
-
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        method_25394(matrices, mouseX, mouseY, delta);
-    }
-
-    @Shadow(remap = false)
-    public abstract List<? extends Element> method_25396();
-
-    @Override
-    public List<? extends Element> children() {
-        return method_25396();
-    }
+//    @Shadow(remap = false)
+//    public abstract void method_25394(MatrixStack matrices, int mouseX, int mouseY, float delta);
+//
+//    @Override
+//    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+//        method_25394(matrices, mouseX, mouseY, delta);
+//    }
+//
+//    @Shadow(remap = false)
+//    public abstract List<? extends Element> method_25396();
+//
+//    @Override
+//    public List<? extends Element> children() {
+//        return method_25396();
+//    }
 }
