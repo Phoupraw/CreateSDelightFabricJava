@@ -1,0 +1,36 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "farmersdelight:grill_top",
+		"1": "farmersdelight:block/stove_side",
+		"particle": "farmersdelight:grill_top"
+	},
+	"elements": [
+		{
+			"name": "out",
+			"from": [0, 0, 0],
+			"to": [16, 4, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 4], "texture": "#1", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 4], "texture": "#1", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 4], "texture": "#1", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 4], "texture": "#1", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "in",
+			"from": [16, 4, 16],
+			"to": [0, 0, 0],
+			"faces": {
+				"north": {"uv": [0, 4, 16, 0], "texture": "#1"},
+				"east": {"uv": [0, 4, 16, 0], "texture": "#1"},
+				"south": {"uv": [0, 4, 16, 0], "texture": "#1"},
+				"west": {"uv": [0, 4, 16, 0], "texture": "#1"},
+				"down": {"uv": [16, 0, 0, 16], "texture": "#0"}
+			}
+		}
+	]
+}

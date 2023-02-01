@@ -29,6 +29,7 @@ import phoupraw.mcmod.createsdelight.api.ConstantSingleFluidStorage;
 import phoupraw.mcmod.createsdelight.api.ConstantSingleItemStorage;
 import phoupraw.mcmod.createsdelight.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 
@@ -62,6 +63,10 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
             transported.beltPosition = .25f;
         }
         return success;
+    }
+
+    public static void addSteam(World world, BlockPos pos, Random random) {
+        world.addParticle(ParticleTypesRegistry.STEAM.get(), pos.getX() + 0.5 + (random.nextDouble() * 0.4 - 0.2), pos.getY() + 0.1, pos.getZ() + 0.5 + (random.nextDouble() * 0.4 - 0.2), 0.0, random.nextBoolean() ? 0.015 : 0.005, 0.0);
     }
 
     public PanBlock(Settings settings) {
@@ -98,11 +103,11 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
-        if (world.getBlockEntity(pos) instanceof PanBlockEntity pan && pan.isProcessing()) {
+        if (world.getBlockEntity(pos) instanceof MyBlockEntity1 pan && pan.isProcessing()) {
             if (random.nextInt(10) == 0) {
                 world.playSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, SoundsRegistry.BLOCK_SKILLET_SIZZLE.get(), SoundCategory.BLOCKS, 0.4F, random.nextFloat() * 0.2F + 0.9F, false);
             }
-            world.addParticle(ParticleTypesRegistry.STEAM.get(), pos.getX() + 0.5 + (random.nextDouble() * 0.4 - 0.2), pos.getY() + 0.1, pos.getZ() + 0.5 + (random.nextDouble() * 0.4 - 0.2), 0.0, random.nextBoolean() ? 0.015 : 0.005, 0.0);
+            addSteam(world, pos, random);
         }
     }
 

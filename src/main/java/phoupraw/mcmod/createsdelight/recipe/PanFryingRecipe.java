@@ -6,6 +6,7 @@ import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.function.Predicate;
@@ -54,6 +55,6 @@ public class PanFryingRecipe extends ProcessingRecipe<Inventory> implements Pred
      */
     @Override
     public boolean test(PanBlockEntity pan) {
-        return (getIngredients().isEmpty() || getIngredients().get(0).test(pan.getTransportedBehaviour().getStorage().getStack())) && (getFluidIngredients().isEmpty() || getFluidIngredients().get(0).test(pan.getTankBehaviour().getPrimaryHandler().getFluid()));
+        return (getIngredients().isEmpty() || getIngredients().get(0).test(pan.getItem().getStorage().getStack())) && (getFluidIngredients().isEmpty() || getFluidIngredients().get(0).test(pan.getTank().getPrimaryHandler().getFluid()));
     }
 }

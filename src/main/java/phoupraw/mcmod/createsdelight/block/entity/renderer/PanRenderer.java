@@ -12,8 +12,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 
-public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
+public class PanRenderer extends SmartTileEntityRenderer<MyBlockEntity1> {
     public PanRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }
@@ -21,11 +22,11 @@ public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
     @Override
     protected void renderSafe(PanBlockEntity pan, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(pan, partialTicks, ms, buffer, light, overlay);
-        SmartFluidTankBehaviour.TankSegment segment = pan.getTankBehaviour().getPrimaryTank();
+        SmartFluidTankBehaviour.TankSegment segment = pan.getTank().getPrimaryTank();
         if (!segment.isEmpty(partialTicks)) {
             FluidRenderer.renderFluidBox(segment.getRenderedFluid(), 2 / 16f, 1 / 16f, 2 / 16f, 14 / 16f, 1 / 16f + segment.getFluidLevel().getValue(partialTicks) * 0.5f / 16f, 14 / 16f, buffer, ms, light, false);
         }
-        TransportedItemStack trans = pan.getTransportedBehaviour().getStorage().getTransported();
+        TransportedItemStack trans = pan.getItem().getStorage().getTransported();
 //        trans.angle=90;
         ms.push();
         ms.translate(0.5, 3 / 16.0, 0.5);
@@ -40,7 +41,7 @@ public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
           .multiply(0.75);
         ms.translate(offset.getX(), offset.getY(), offset.getZ());
         if (pan.getFlippingStage() == PanBlockEntity.Stage.DOING) {
-            float progress = MathHelper.lerp(partialTicks, pan.getFlippingTicks(), pan.getFlippingTicks() + 1) / PanBlockEntity.FLIPPING_DURATION;
+            float progress = MathHelper.lerp(partialTicks, pan.getFlippingTicks(), pan.getFlippingTicks() + 1) / MyBlockEntity1.FLIPPING_DURATION;
             ms.translate(0, 0.5 * Math.sin(Math.PI * progress), 0);
             ms.multiply(new Quaternion(new Vec3f((float) Math.cos(Math.PI / 180 * trans.angle), 0, (float) -Math.sin(Math.PI / 180 * trans.angle)), progress * 180, true));
         }

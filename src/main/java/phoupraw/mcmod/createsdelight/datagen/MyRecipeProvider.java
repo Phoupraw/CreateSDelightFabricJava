@@ -17,6 +17,7 @@ import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
+import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 
 import java.util.function.Consumer;
@@ -32,7 +33,7 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET / 2)
           .output(ItemsRegistry.CHOCOLATE_PIE.get())
           .build(exporter);
-        new ProcessingRecipeBuilder<>(CuttingRecipe::new, Registry.ITEM.getId(MyItems.PAN))
+        new ProcessingRecipeBuilder<>(CuttingRecipe::new, MyIdentifiers.PAN)
           .require(ItemsRegistry.SKILLET.get())
           .output(MyItems.PAN)
           .output(Items.BRICK)
@@ -44,10 +45,16 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.PAN_FRIED_BEEF_PATTY)
           .duration(100)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(CompactingRecipe::new, Registry.FLUID.getId(MyFluids.SUNFLOWER_OIL))
+        new ProcessingRecipeBuilder<>(CompactingRecipe::new, MyIdentifiers.SUNFLOWER_OIL)
           .require(Items.SUNFLOWER)
           .output(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2)
           .build(exporter);
-
+        new ProcessingRecipeBuilder<>(CuttingRecipe::new, MyIdentifiers.GRILL)
+          .require(ItemsRegistry.STOVE.get())
+          .output(MyItems.GRILL)
+          .output(Items.BRICKS,4)
+          .output(Items.CAMPFIRE)
+          .duration(20)
+          .build(exporter);
     }
 }
