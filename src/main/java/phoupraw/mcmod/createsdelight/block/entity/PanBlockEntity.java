@@ -93,7 +93,7 @@ public class PanBlockEntity extends SmartTileEntity implements SidedStorageBlock
         if (getFlippingStage() == Stage.DOING) {
             setFlippingTicks(getFlippingTicks() + 1);
             var pos = Vec3d.ofCenter(getPos());
-            var particle = new RotationIndicatorParticleData(MapColor.TERRACOTTA_YELLOW.color, 16f, 0.3f, 0.3f, 20, 'Y');
+            var particle = new RotationIndicatorParticleData(MapColor.TERRACOTTA_YELLOW.color, 24f, 0.3f, 0.3f, 20, 'Y');
             getWorld().addParticle(particle, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
             if (getFlippingStage() == Stage.DONE) {
                 getTransportedBehaviour().getStorage().getTransported().angle += 180;
