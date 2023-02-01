@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "package": "phoupraw.mcmod.createsdelight.mixin2",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client_": [
+    "MixinAnimatedKineticsWidget",
+    "MixinWidgetUtil_1"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

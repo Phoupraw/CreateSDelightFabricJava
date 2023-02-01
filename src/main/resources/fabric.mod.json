@@ -6,18 +6,19 @@
   "description": "in-game translation",
   "authors": ["Phoupraw"],
   "contact": {
-    "homepage_": "https://www.mcmod.cn/class/TODO.html",
-    "issues_": "https://github.com/Phoupraw/TODO/issues"
+    "homepage": "https://modrinth.com/mod/creates-delight",
+    "issues": "https://github.com/Phoupraw/CreateSDelightFabricJava/issues"
   },
-  "license": "CC0",
+  "license": "MIT",
   "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
     "client": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
-    "fabric-datagen": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"]
+    "fabric-datagen": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
+    "rei_client": ["phoupraw.mcmod.${mod_id}.rei.MyREIPlugin"]
   },
-  "mixins": ["${mod_id}.mixins.json"],
+  "mixins": ["${mod_id}.mixins.json","${mod_id}_dev.mixins.json"],
   "accessWidener": "${mod_id}.accessWidener",
   "depends": {
     "minecraft": ">=1.19.2",
@@ -27,7 +28,8 @@
     "farmersdelight": ">=1.2.0"
   },
   "suggests": {
-    "iceberg": "*"
+    "iceberg": "*",
+    "rei": "*"
   },
   "custom": {
     "loom:injected_interfaces": {
