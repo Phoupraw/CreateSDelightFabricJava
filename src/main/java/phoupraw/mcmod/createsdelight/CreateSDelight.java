@@ -22,6 +22,7 @@ public final class CreateSDelight implements ModInitializer, ClientModInitialize
         MyRecipeTypes.PAN_FRYING.hashCode();
         MySpoutingBehaviours.PAN.hashCode();
         MyFluids.SUNFLOWER_OIL.hashCode();
+        MyStatusEffects.SATIATION.hashCode();
     }
 
     @Override

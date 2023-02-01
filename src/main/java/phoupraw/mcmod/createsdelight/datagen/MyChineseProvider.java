@@ -6,10 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.VirtualFluid;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.*;
 import phoupraw.mcmod.createsdelight.rei.PanFryingCategory;
 public class MyChineseProvider extends FabricLanguageProvider {
     public static String categoryKeyOf(Identifier recipeTypeId) {
@@ -37,5 +34,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyFluids.SUNFLOWER_OIL.getBottle(), "瓶装葵花籽油");
         builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "香煎牛肉饼");
         builder.add(categoryKeyOf(MyRecipeTypes.PAN_FRYING.getId()), "煎");
+        builder.add(MyStatusEffects.SATIATION,"饱食");
     }
 }

@@ -4,10 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.VirtualFluid;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.*;
 
 import static phoupraw.mcmod.createsdelight.datagen.MyChineseProvider.categoryKeyOf;
 public class MyEnglishProvider extends FabricLanguageProvider {
@@ -32,5 +29,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
 		builder.add(MyFluids.SUNFLOWER_OIL.getBottle(), "Bottled Sunflower Seed Oil");
 		builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "Pan Fried Beef Patty");
 		builder.add(categoryKeyOf(MyRecipeTypes.PAN_FRYING.getId()), "Pan Frying");
+		builder.add(MyStatusEffects.SATIATION,"Satiation");
 	}
 }
