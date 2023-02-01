@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.contraptions.particle.RotationIndicatorParticleData;
 import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
@@ -19,6 +20,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -26,6 +28,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 
 import net.minecraft.util.math.Direction;
@@ -47,6 +50,9 @@ import java.util.function.Predicate;
 
 public class PanBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity, IHaveGoggleInformation, Predicate<PanFryingRecipe>, Runnable {
     public static final int FLIPPING_DURATION = 10;
+    //    public static void renderRotaryParticle() {
+//
+//    }
     private BlockApiCache<Double, Direction> heatCache;
     private int processedTicks;
     private int flippingTicks = -1;
@@ -86,6 +92,9 @@ public class PanBlockEntity extends SmartTileEntity implements SidedStorageBlock
         super.tick();
         if (getFlippingStage() == Stage.DOING) {
             setFlippingTicks(getFlippingTicks() + 1);
+            var pos = Vec3d.ofCenter(getPos());
+            var particle = new RotationIndicatorParticleData(MapColor.TERRACOTTA_YELLOW.color, 16f, 0.3f, 0.3f, 20, 'Y');
+            getWorld().addParticle(particle, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
             if (getFlippingStage() == Stage.DONE) {
                 getTransportedBehaviour().getStorage().getTransported().angle += 180;
             }
