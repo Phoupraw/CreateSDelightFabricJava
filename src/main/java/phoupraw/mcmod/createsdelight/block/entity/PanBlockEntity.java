@@ -73,7 +73,6 @@ public class PanBlockEntity extends SmartTileEntity implements SidedStorageBlock
                 super.onFinalCommit();
                 if (!getStorage().getStack().isEmpty()) {
                     getWorld().playSound(null, getPos(), SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);
-                    if (getRecipe() != null && getHeat() >= 1) playSizzleSound();
                 }
             }
         };
@@ -99,6 +98,9 @@ public class PanBlockEntity extends SmartTileEntity implements SidedStorageBlock
                 return;
             }
             setProcessedTicks(getProcessedTicks() + 1);
+            if (getProcessedTicks() == 1) {
+                playSizzleSound();
+            }
             if (getProcessedTicks() >= recipe.getProcessingDuration() / 2) {
                 switch (getFlippingStage()) {
                     case NOT_DONE -> {
