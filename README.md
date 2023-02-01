@@ -1,9 +1,11 @@
 # 机械动力乐事
 [Modrinth](https://modrinth.com/mod/creates-delight)
+[Github](https://github.com/Phoupraw/CreateSDelightFabricJava)
 [Discord](https://discord.com/invite/MskvEhPDQz)
 ## 简介
 一个Minecraft模组，主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
 ## 内容
+本模组还处于极早期开发阶段，任何特性都不稳定，如果想要持久游戏，请注意备份存档。
 ### 平底锅
 - 用动力锯切割煎锅制得。
 - 用于新配方类型“煎”。
@@ -27,12 +29,11 @@
 - 让动力臂能与炉灶、厨锅、煎锅、篮子、砧板交互。
 - 为巧克力派添加注液配方。
 - 让点燃的烈焰人燃烧室能作为农夫乐事的热源。
-
-本模组还处于极早期开发阶段，任何特性都不稳定，如果想要持久游戏，请注意备份存档。
 # Create'S Delight
 ## Synopsis
 A Minecraft mod, mainly add interaction between create and farmer's delight and unique food processing.
 ## Content
+This mod is still in very early development. Any features are unstable. If you want to play for a long time, please backup.
 ### Pan
 - Use mechanical saw to cut skillet to get.
 - For new recipe type "pan frying".
@@ -56,5 +57,3 @@ A Minecraft mod, mainly add interaction between create and farmer's delight and 
 - Let mechanical arm interact with stove, cooking pot, skillet, basket, cutting board.
 - Add filling recipe for chocolate pie.
 - Let lit blaze burner become heat source of farmer's delight.
-
-This mod is still in very early development. Any features are unstable. If you want to play for a long time, please backup.
