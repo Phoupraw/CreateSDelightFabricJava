@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:thin_pork_slice_from_thick_pork_slice_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_thick_pork_slice": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createsdelight:thick_pork_slice"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_thick_pork_slice",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:thin_pork_slice_from_thick_pork_slice_stonecutting"
+    ]
+  }
+}

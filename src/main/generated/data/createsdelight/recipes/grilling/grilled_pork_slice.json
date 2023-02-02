@@ -1,0 +1,14 @@
+{
+  "type": "createsdelight:grilling",
+  "ingredients": [
+    {
+      "item": "createsdelight:thin_pork_slice"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "createsdelight:grilled_pork_slice"
+    }
+  ]
+}

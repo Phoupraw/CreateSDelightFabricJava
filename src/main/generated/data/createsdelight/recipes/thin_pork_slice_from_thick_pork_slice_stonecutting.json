@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "createsdelight:thick_pork_slice"
+  },
+  "result": "createsdelight:thin_pork_slice"
+}

@@ -3,7 +3,6 @@ package phoupraw.mcmod.createsdelight.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
-import net.minecraft.client.model.Model;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.item.Item;
@@ -25,7 +24,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.GRILL);
 //        generator.excludeFromSimpleItemModelGeneration();
 
-        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(),MyFluids.SUNFLOWER_OIL.getBottle(),MyItems.PAN_FRIED_BEEF_PATTY}) {
+        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(),MyFluids.SUNFLOWER_OIL.getBottle(),MyItems.PAN_FRIED_BEEF_PATTY,MyItems.THICK_PORK_SLICE,MyItems.PAN_FRIED_PORK_SLICE,MyItems.THIN_PORK_SLICE,MyItems.GRILLED_PORK_SLICE}) {
             generator.registerItemModel(item);
         }
     }

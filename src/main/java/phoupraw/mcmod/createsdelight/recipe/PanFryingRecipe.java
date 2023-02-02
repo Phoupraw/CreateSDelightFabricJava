@@ -10,7 +10,7 @@ import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.function.Predicate;
-public class PanFryingRecipe extends ProcessingRecipe<Inventory> implements Predicate<PanBlockEntity> {
+public class PanFryingRecipe extends ProcessingRecipe<Inventory>{
     public PanFryingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {this(MyRecipeTypes.PAN_FRYING, params);}
 
     public PanFryingRecipe(IRecipeTypeInfo typeInfo, ProcessingRecipeBuilder.ProcessingRecipeParams params) {
@@ -41,20 +41,5 @@ public class PanFryingRecipe extends ProcessingRecipe<Inventory> implements Pred
     @Override
     protected int getMaxFluidInputCount() {
         return 1;
-    }
-
-    @Override
-    protected int getMaxFluidOutputCount() {
-        return 1;
-    }
-
-    /**
-     * @see PanBlockEntity#test(PanFryingRecipe)
-     * @param pan the input argument
-     * @return
-     */
-    @Override
-    public boolean test(PanBlockEntity pan) {
-        return (getIngredients().isEmpty() || getIngredients().get(0).test(pan.getItem().getStorage().getStack())) && (getFluidIngredients().isEmpty() || getFluidIngredients().get(0).test(pan.getTank().getPrimaryHandler().getFluid()));
     }
 }

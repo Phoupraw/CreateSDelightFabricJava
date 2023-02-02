@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
+import com.simibubi.create.content.contraptions.particle.RotationIndicatorParticleData;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
@@ -10,6 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
@@ -17,13 +19,13 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.behaviour.BlockingTransportedBehaviour;
-import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +47,7 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
         return Objects.requireNonNull(super.getWorld());
     }
 
+    @MustBeInvokedByOverriders
     @Override
     public void addBehaviours(List<TileEntityBehaviour> behaviours) {
         var b = new BlockingTransportedBehaviour(this) {
@@ -60,6 +63,7 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
         behaviours.add(new DirectBeltInputBehaviour(this).setInsertionHandler(b.getStorage()));
     }
 
+    @MustBeInvokedByOverriders
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
@@ -67,6 +71,7 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
         tag.putInt("flippingTicks", getFlippingTicks());
     }
 
+    @MustBeInvokedByOverriders
     @Override
     protected void read(NbtCompound tag, boolean clientPacket) {
         super.read(tag, clientPacket);
@@ -97,11 +102,13 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
         return getProcessedTicks() > 0;
     }
 
-    public BlockApiCache<Double, Direction> getHeatCache() {
+    public @NotNull BlockApiCache<Double, Direction> getHeatCache() {
         if (heatCache == null) {
             if (getWorld() instanceof ServerWorld serverWorld) {
                 heatCache = BlockApiCache.create(HeatSources.SIDED, serverWorld, pos.down());
-            } else {throw new UnsupportedOperationException("cannot invoke this at client");}
+            } else {
+                throw new UnsupportedOperationException("cannot invoke this at client");
+            }
         }
         return heatCache;
     }
@@ -121,10 +128,6 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
         if (previous != PanBlockEntity.Stage.DONE && getFlippingStage() == PanBlockEntity.Stage.DONE) playSizzleSound();
     }
 
-    public @Nullable PanFryingRecipe getRecipe() {
-        return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.PAN_FRYING.getRecipeType()).parallelStream().filter(this).findFirst().orElse(null);
-    }
-
     public PanBlockEntity.Stage getFlippingStage() {
         return getFlippingTicks() < 0 ? PanBlockEntity.Stage.NOT_DONE : getFlippingTicks() < FLIPPING_DURATION ? PanBlockEntity.Stage.DOING : PanBlockEntity.Stage.DONE;
     }
@@ -136,5 +139,22 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
 
     public void playSizzleSound() {
         getWorld().playSound(null, getPos(), SoundsRegistry.BLOCK_SKILLET_ADD_FOOD.get(), SoundCategory.BLOCKS, 0.8F, 1.0F);
+    }
+
+    public abstract @Nullable ProcessingRecipe<?> getRecipe();
+
+    @MustBeInvokedByOverriders
+    @Override
+    public void tick() {
+        super.tick();
+        if (getFlippingStage() == PanBlockEntity.Stage.DOING) {
+            setFlippingTicks(getFlippingTicks() + 1);
+            var pos = Vec3d.ofCenter(getPos());
+            var particle = new RotationIndicatorParticleData(MapColor.TERRACOTTA_YELLOW.color, 24f, 0.3f, 0.3f, 20, 'Y');
+            getWorld().addParticle(particle, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
+            if (getFlippingStage() == PanBlockEntity.Stage.DONE) {
+//                getItem().getStorage().getTransported().angle += 180;
+            }
+        }
     }
 }

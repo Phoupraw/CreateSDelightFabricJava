@@ -3,7 +3,6 @@ package phoupraw.mcmod.createsdelight.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.VirtualFluid;
 import phoupraw.mcmod.createsdelight.registry.*;
 public class MyChineseProvider extends FabricLanguageProvider {
@@ -21,13 +20,9 @@ public class MyChineseProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(TranslationBuilder builder) {
-        builder.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
-          # 机械动力乐事
-          - 让传送带能直接输入炉灶、厨锅、煎锅、篮子、砧板。
-          - 让动力臂能与炉灶、厨锅、煎锅、篮子、砧板交互。
-          - 为巧克力派添加注液配方。
-          - 让点燃的烈焰人燃烧室能作为农夫乐事的热源。
-          本模组还处于极早期开发阶段，任何特性都不稳定，如果想要持久游戏，请注意备份存档。
+        builder.add("modmenu.descriptionTranslation." + MyIdentifiers.MOD_ID, """
+          机械动力乐事
+          主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
           """);
         builder.add(keyOfItemGroup(MyIdentifiers.ITEM_GROUP), "机械动力乐事");
         builder.add(MyBlocks.PAN, "平底锅");
@@ -37,5 +32,11 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "香煎牛肉饼");
         builder.add(keyOfCategory(MyRecipeTypes.PAN_FRYING.getId()), "煎");
         builder.add(MyStatusEffects.SATIATION, "饱食");
+        builder.add(MyBlocks.GRILL,"烤架");
+        builder.add(keyOfCategory(MyRecipeTypes.GRILLING.getId()), "烤");
+        builder.add(MyItems.THICK_PORK_SLICE, "厚猪肉片");
+        builder.add(MyItems.PAN_FRIED_PORK_SLICE, "煎猪肉片");
+        builder.add(MyItems.THIN_PORK_SLICE, "薄猪肉片");
+        builder.add(MyItems.GRILLED_PORK_SLICE, "烤猪肉片");
     }
 }

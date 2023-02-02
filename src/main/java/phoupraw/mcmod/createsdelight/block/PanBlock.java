@@ -15,13 +15,18 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +41,7 @@ import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import java.util.function.Predicate;
 //TODO 支架
 public class PanBlock extends Block implements ITE<PanBlockEntity> {
-    public static final VoxelShape SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 4.0, 15.0);
+    public static final VoxelShape SHAPE = VoxelShapes.combine(Block.createCuboidShape(1, 0, 1, 15, 4, 15), Block.createCuboidShape(2, 1, 2, 14, 4, 14), BooleanBiFunction.ONLY_FIRST);
 
     public static <T> Predicate<@Nullable T> always() {
         return t -> true;
@@ -109,6 +114,15 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
             }
             addSteam(world, pos, random);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (world.getBlockEntity(pos) instanceof PanBlockEntity pan) {
+            ItemScatterer.spawn(world, pos, new SimpleInventory(pan.getItem().getStorage().getStack()));
+        }
+        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override

@@ -23,10 +23,10 @@ public class PlayerEntityStorage implements LivingEntityStorage {
         delegate = PlayerInventoryStorage.of(this.player);
         slots.put(EquipmentSlot.MAINHAND, getDelegate().getHandSlot(Hand.MAIN_HAND));
         slots.put(EquipmentSlot.OFFHAND, getDelegate().getHandSlot(Hand.OFF_HAND));
-        slots.put(EquipmentSlot.FEET, getDelegate().getSlot(100));
-        slots.put(EquipmentSlot.LEGS, getDelegate().getSlot(101));
-        slots.put(EquipmentSlot.CHEST, getDelegate().getSlot(102));
-        slots.put(EquipmentSlot.HEAD, getDelegate().getSlot(103));
+        slots.put(EquipmentSlot.FEET, getDelegate().getSlot(36));
+        slots.put(EquipmentSlot.LEGS, getDelegate().getSlot(37));
+        slots.put(EquipmentSlot.CHEST, getDelegate().getSlot(38));
+        slots.put(EquipmentSlot.HEAD, getDelegate().getSlot(39));
     }
 
     @Override

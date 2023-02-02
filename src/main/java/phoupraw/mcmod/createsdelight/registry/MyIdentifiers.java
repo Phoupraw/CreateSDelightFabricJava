@@ -1,14 +1,26 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.CreateSDelight;
+
+import java.util.Locale;
 public final class MyIdentifiers {
-    public static final Identifier PAN = new Identifier(CreateSDelight.MOD_ID,"pan");
-    public static final Identifier GRILL = new Identifier(CreateSDelight.MOD_ID,"grill");
+    public static final String MOD_ID = "createsdelight";
 
-    public static final Identifier ITEM_GROUP = new Identifier(CreateSDelight.MOD_ID,"item_group");
-    public static final Identifier PAN_FRIED_BEEF_PATTY = new Identifier(CreateSDelight.MOD_ID,"pan_fried_beef_patty");
+    public static final Identifier PAN = of("pan");
+    public static final Identifier GRILL = of("grill");
 
-    public static final Identifier SUNFLOWER_OIL = new Identifier(CreateSDelight.MOD_ID,"sunflower_oil");
-    private MyIdentifiers(){}
+    public static final Identifier ITEM_GROUP = of("item_group");
+    public static final Identifier PAN_FRIED_BEEF_PATTY = of("pan_fried_beef_patty");
+    public static final Identifier THICK_PORK_SLICE = of("THICK_PORK_slice");
+    public static final Identifier PAN_FRIED_PORK_SLICE = of("PAN_FRIED_PORK_slice");
+    public static final Identifier THIN_PORK_SLICE = of("THIN_PORK_slice");
+    public static final Identifier GRILLED_PORK_SLICE = of("GRILLED_PORK_slice");
+
+    public static final Identifier SUNFLOWER_OIL = of("sunflower_oil");
+
+    public static Identifier of(String path) {
+        return new Identifier(MOD_ID, path.toLowerCase(Locale.ROOT));
+    }
+
+    private MyIdentifiers() {}
 }

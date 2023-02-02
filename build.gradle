@@ -82,7 +82,7 @@ processResources {
     Map<String, String> properties = new HashMap<>()
     properties.put("version", version)
     properties.put("mod_id", mod_id)
-    properties.put("archives_base_name", archives_base_name)
+//    properties.put("archives_base_name", archives_base_name)
 
     properties.forEach((k, v) -> inputs.property(k, v))
 

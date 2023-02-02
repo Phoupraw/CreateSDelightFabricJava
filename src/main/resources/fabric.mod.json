@@ -3,23 +3,23 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "Create's Delight",
-  "description": "in-game translation",
+  "description": "\\u673a\\u68b0\\u52a8\\u529b\\u4e50\\u4e8b\\n\\u4e3b\\u8981\\u4e3a\\u673a\\u68b0\\u52a8\\u529b\\u548c\\u519c\\u592b\\u4e50\\u4e8b\\u6dfb\\u52a0\\u8054\\u52a8\\uff0c\\u4ee5\\u53ca\\u72ec\\u7279\\u7684\\u6c89\\u6d78\\u5f0f\\u98df\\u6750\\u52a0\\u5de5\\u3002",
   "authors": ["Phoupraw"],
   "contact": {
     "homepage": "https://modrinth.com/mod/creates-delight",
     "issues": "https://github.com/Phoupraw/CreateSDelightFabricJava/issues"
   },
   "license": "MIT",
-  "icon": "assets/${mod_id}/icon.png",
+  "icon": "assets/createsdelight/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
-    "client": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
-    "fabric-datagen": ["phoupraw.mcmod.${mod_id}.${archives_base_name}"],
-    "rei_client": ["phoupraw.mcmod.${mod_id}.rei.MyREIPlugin"]
+    "main": ["phoupraw.mcmod.createsdelight.registry.MyModInitializer"],
+    "fabric-datagen": ["phoupraw.mcmod.createsdelight.registry.MyDataGeneratorEntrypoint"],
+    "client": ["phoupraw.mcmod.createsdelight.registry.MyClientModInitializer"],
+    "rei_client": ["phoupraw.mcmod.createsdelight.registry.MyREIClientPlugin"]
   },
-  "mixins": ["${mod_id}.mixins.json"],
-  "accessWidener": "${mod_id}.accessWidener",
+  "mixins": ["createsdelight.mixins.json"],
+  "accessWidener": "createsdelight.accessWidener",
   "depends": {
     "minecraft": ">=1.19.2",
     "fabricloader": "*",

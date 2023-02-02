@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 /**
  * @see DirectBeltInputBehaviour
  */
@@ -29,7 +29,7 @@ public final class DirectBeltInput {
     /**
      * 注册传送带直接输入开放式容器的回调函数。用法与{@link ItemStorage#SIDED}类似，但是{@link BlockApiLookup#find}中的{@code context}参数是多余的，故以{@link Void}作为类型，只能传{@code null}，仅作为占位符，没有用处。
      */
-    public static final BlockApiLookup<InsertionHandler, @Nullable Void> LOOKUP = BlockApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "direct_belt_input"), InsertionHandler.class, Void.class);
+    public static final BlockApiLookup<InsertionHandler, @Nullable Void> LOOKUP = BlockApiLookup.get(new Identifier(MyIdentifiers.MOD_ID, "direct_belt_input"), InsertionHandler.class, Void.class);
 
     static {
         LOOKUP.registerFallback((world, pos, state, blockEntity, v) -> {

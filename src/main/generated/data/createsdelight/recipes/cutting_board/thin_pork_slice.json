@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "group": "",
+  "ingredients": [
+    {
+      "item": "createsdelight:thick_pork_slice"
+    }
+  ],
+  "result": [
+    {
+      "count": 2,
+      "item": "createsdelight:thin_pork_slice"
+    }
+  ],
+  "sound": "BLOCK_CUTTING_BOARD_KNIFE",
+  "tool": {
+    "tag": "farmersdelight:straw_harvesters"
+  }
+}

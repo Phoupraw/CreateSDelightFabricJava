@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.List;
 
@@ -43,21 +44,14 @@ public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInforma
 
     @Override
     public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+        super.addBehaviours(behaviours);
         behaviours.add(new SmartFluidTankBehaviour(SmartFluidTankBehaviour.TYPE, this, 1, FluidConstants.BOTTLE, false).whenFluidUpdates(this));
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (getFlippingStage() == Stage.DOING) {
-            setFlippingTicks(getFlippingTicks() + 1);
-            var pos = Vec3d.ofCenter(getPos());
-            var particle = new RotationIndicatorParticleData(MapColor.TERRACOTTA_YELLOW.color, 24f, 0.3f, 0.3f, 20, 'Y');
-            getWorld().addParticle(particle, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
-            if (getFlippingStage() == Stage.DONE) {
-                getItem().getStorage().getTransported().angle += 180;
-            }
-        }
+
         if (!getWorld().isClient()) {
             if (getHeat() < 1) return;
             var recipe = getRecipe();
@@ -82,13 +76,12 @@ public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInforma
                             getItem().getStorage().setTransported(TransportedItemStack.EMPTY);
                             if (!recipe.getFluidIngredients().isEmpty()) {
                                 try (var transaction = Transaction.openOuter()) {
-                                    getTank().getCapability().extract(getTank().getPrimaryTank().getRenderedFluid().getType(), recipe.getFluidIngredients().get(0).getRequiredAmount(), transaction);
+                                    getTank().getCapability().extract(getTank().getPrimaryHandler().getResource(), recipe.getFluidIngredients().get(0).getRequiredAmount(), transaction);
                                     transaction.commit();
                                 }
                             }
                             var result = recipe.rollResults().get(0);
-                            var pos = Vec3d.ofCenter(getPos());
-                            var itemEntity = new ItemEntity(getWorld(), pos.getX(), pos.getY(), pos.getZ(), result, 0, 0.3, 0);
+                            var itemEntity = new ItemEntity(getWorld(), getPos().getX()+0.5, getPos().getY()+1/16.0, getPos().getZ()+0.5, result, 0, 0.3, 0);
                             getWorld().spawnEntity(itemEntity);
                             notifyUpdate();
                         }
@@ -118,6 +111,11 @@ public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInforma
 
     public @NotNull SmartFluidTankBehaviour getTank() {
         return getBehaviour(SmartFluidTankBehaviour.TYPE);
+    }
+
+    @Override
+    public @Nullable ProcessingRecipe<?> getRecipe() {
+        return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.PAN_FRYING.getRecipeType()).parallelStream().filter(this).findFirst().orElse(null);
     }
 
     public enum Stage {

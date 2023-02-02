@@ -1,11 +1,17 @@
 {
+  "block.createsdelight.grill": "Grill",
   "block.createsdelight.pan": "Pan",
+  "category.createsdelight.grilling": "Grilling",
   "category.createsdelight.pan_frying": "Pan Frying",
   "effect.createsdelight.satiation": "Satiation",
   "fluid.createsdelight.sunflower_oil": "Sunflower Seed Oil",
+  "item.createsdelight.grilled_pork_slice": "Grilled Pork Slice",
   "item.createsdelight.pan_fried_beef_patty": "Pan Fried Beef Patty",
+  "item.createsdelight.pan_fried_pork_slice": "Pan Fired Pork Slice",
   "item.createsdelight.sunflower_oil_bottle": "Bottled Sunflower Seed Oil",
   "item.createsdelight.sunflower_oil_bucket": "Bucketed Sunflower Seed Oil",
+  "item.createsdelight.thick_pork_slice": "Thick Pork Slice",
+  "item.createsdelight.thin_pork_slice": "Thin Pork Slice",
   "itemGroup.createsdelight.item_group": "Create'S Delight",
-  "modmenu.descriptionTranslation.createsdelight": "# Create'S Delight\n- Let belt directly output to stove, cooking pot, skillet, basket, cutting board.\n- Let mechanical arm interact with stove, cooking pot, skillet, basket, cutting board.\n- Add filling recipe for chocolate pie.\n- Let lit blaze burner become heat source of farmer's delight.\nThis mod is still in very early development. Any features are unstable. If you want to play for a long time, please backup.\n"
+  "modmenu.descriptionTranslation.createsdelight": "Create'S Delight\nMainly add interaction between create and farmer's delight and unique food processing.\n"
 }

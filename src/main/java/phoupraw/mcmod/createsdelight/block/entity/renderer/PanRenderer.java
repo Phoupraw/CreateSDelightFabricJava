@@ -14,7 +14,7 @@ import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 
-public class PanRenderer extends SmartTileEntityRenderer<MyBlockEntity1> {
+public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
     public PanRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }
@@ -29,7 +29,7 @@ public class PanRenderer extends SmartTileEntityRenderer<MyBlockEntity1> {
         TransportedItemStack trans = pan.getItem().getStorage().getTransported();
 //        trans.angle=90;
         ms.push();
-        ms.translate(0.5, 3 / 16.0, 0.5);
+        ms.translate(0.5, 1.5 / 16.0, 0.5);
         float beltPos = MathHelper.lerp(partialTicks, trans.prevBeltPosition, trans.beltPosition);
         float sideOffset = MathHelper.lerp(partialTicks, trans.prevSideOffset, trans.sideOffset);
         Direction insertedFrom = trans.insertedFrom;
@@ -40,11 +40,17 @@ public class PanRenderer extends SmartTileEntityRenderer<MyBlockEntity1> {
           .add(alongX ? sideOffset : 0, 0, alongX ? 0 : sideOffset)
           .multiply(0.75);
         ms.translate(offset.getX(), offset.getY(), offset.getZ());
-        if (pan.getFlippingStage() == PanBlockEntity.Stage.DOING) {
-            float progress = MathHelper.lerp(partialTicks, pan.getFlippingTicks(), pan.getFlippingTicks() + 1) / MyBlockEntity1.FLIPPING_DURATION;
-            ms.translate(0, 0.5 * Math.sin(Math.PI * progress), 0);
-            ms.multiply(new Quaternion(new Vec3f((float) Math.cos(Math.PI / 180 * trans.angle), 0, (float) -Math.sin(Math.PI / 180 * trans.angle)), progress * 180, true));
+        float progress = 0;
+        switch (pan.getFlippingStage()) {
+            case NOT_DONE -> progress = 0;
+            case DOING -> {
+                progress = MathHelper.lerp(partialTicks, pan.getFlippingTicks(), pan.getFlippingTicks() + 1) / MyBlockEntity1.FLIPPING_DURATION;
+                ms.translate(0, 0.5 * Math.sin(Math.PI * progress), 0);
+            }
+            case DONE -> progress = 1;
         }
+        ms.multiply(new Quaternion(new Vec3f((float) Math.cos(Math.PI / 180 * trans.angle), 0, (float) -Math.sin(Math.PI / 180 * trans.angle)), progress * 180, true));
+        ms.translate(0, 1.5 / 16.0, 0);
         DepotRenderer.renderItem(ms, buffer, light, overlay, trans.stack, trans.angle, Random.create(0), Vec3d.ofCenter(pan.getPos()));
         ms.pop();
     }

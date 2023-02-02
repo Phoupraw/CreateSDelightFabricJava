@@ -23,8 +23,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 public class PanFryingCategory implements DisplayCategory<PanFryingDisplay> {
-    @SuppressWarnings("ConstantConditions")
-    public static final CategoryIdentifier<PanFryingDisplay> ID = CategoryIdentifier.of(Registry.RECIPE_TYPE.getId(MyRecipeTypes.PAN_FRYING.getRecipeType()));
+    public static final CategoryIdentifier<PanFryingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.PAN_FRYING.getId());
     public static final PanFryingCategory INSTANCE = new PanFryingCategory();
 
     @Override

@@ -1,0 +1,14 @@
+{
+  "type": "createsdelight:pan_frying",
+  "ingredients": [
+    {
+      "item": "createsdelight:thick_pork_slice"
+    }
+  ],
+  "processingTime": 140,
+  "results": [
+    {
+      "item": "createsdelight:pan_fried_pork_slice"
+    }
+  ]
+}

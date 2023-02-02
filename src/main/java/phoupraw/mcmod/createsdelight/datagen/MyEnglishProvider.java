@@ -2,7 +2,6 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.VirtualFluid;
 import phoupraw.mcmod.createsdelight.registry.*;
 
@@ -15,13 +14,9 @@ public class MyEnglishProvider extends FabricLanguageProvider {
 
 	@Override
 	public void generateTranslations(TranslationBuilder builder) {
-		builder.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
-			# Create'S Delight
-			- Let belt directly output to stove, cooking pot, skillet, basket, cutting board.
-			- Let mechanical arm interact with stove, cooking pot, skillet, basket, cutting board.
-			- Add filling recipe for chocolate pie.
-			- Let lit blaze burner become heat source of farmer's delight.
-			This mod is still in very early development. Any features are unstable. If you want to play for a long time, please backup.
+		builder.add("modmenu.descriptionTranslation." + MyIdentifiers.MOD_ID, """
+			Create'S Delight
+			Mainly add interaction between create and farmer's delight and unique food processing.
 			""");
 		builder.add(keyOfItemGroup(MyIdentifiers.ITEM_GROUP),"Create'S Delight");
 		builder.add(MyBlocks.PAN,"Pan");
@@ -31,5 +26,11 @@ public class MyEnglishProvider extends FabricLanguageProvider {
 		builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "Pan Fried Beef Patty");
 		builder.add(keyOfCategory(MyRecipeTypes.PAN_FRYING.getId()), "Pan Frying");
 		builder.add(MyStatusEffects.SATIATION,"Satiation");
+		builder.add(MyBlocks.GRILL,"Grill");
+		builder.add(keyOfCategory(MyRecipeTypes.GRILLING.getId()), "Grilling");
+		builder.add(MyItems.THICK_PORK_SLICE, "Thick Pork Slice");
+		builder.add(MyItems.PAN_FRIED_PORK_SLICE, "Pan Fired Pork Slice");
+		builder.add(MyItems.THIN_PORK_SLICE, "Thin Pork Slice");
+		builder.add(MyItems.GRILLED_PORK_SLICE, "Grilled Pork Slice");
 	}
 }
