@@ -15,14 +15,15 @@ public final class CreateSDelight implements ModInitializer, ClientModInitialize
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        MyPointTypes.BASKET.hashCode();
         MyBlocks.PAN.hashCode();
         MyBlockEntityTypes.PAN.hashCode();
         MyItems.ITEM_GROUP.hashCode();
-        MyRecipeTypes.PAN_FRYING.hashCode();
-        MySpoutingBehaviours.PAN.hashCode();
         MyFluids.SUNFLOWER_OIL.hashCode();
+        MyRecipeTypes.PAN_FRYING.hashCode();
         MyStatusEffects.SATIATION.hashCode();
+
+        MyArmPointTypes.BASKET.hashCode();
+        MySpoutingBehaviours.PAN.hashCode();
     }
 
     @Override
