@@ -104,6 +104,7 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
 //        sendData();
         if (elapsed == -1) {
             elapsed = 0;
+            sendData();
         }
         if (elapsed % 5 == 0) {
             getWorld().playSound(null, getPos(), SoundEvents.BLOCK_SAND_BREAK, SoundCategory.BLOCKS, 0.1f, 1);
