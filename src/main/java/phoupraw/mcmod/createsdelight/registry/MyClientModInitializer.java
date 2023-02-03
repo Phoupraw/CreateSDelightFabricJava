@@ -8,12 +8,22 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.GrillRenderer;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.PanRenderer;
+import phoupraw.mcmod.createsdelight.block.entity.renderer.SprinklerRenderer;
 @Environment(EnvType.CLIENT)
 public final class MyClientModInitializer implements ClientModInitializer {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void loadClasses() {
+        MyInstancings.SPRINKLER.hashCode();
+        MyPartialModels.SPRINKLER_LID.hashCode();
+    }
+
     @Override
     public void onInitializeClient() {
+        loadClasses();
+
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.PAN, PanRenderer::new);
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.GRILL, GrillRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL);
+        BlockEntityRendererRegistry.register(MyBlockEntityTypes.SPRINKLER, SprinklerRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER);
     }
 }

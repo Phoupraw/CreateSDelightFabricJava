@@ -7,7 +7,8 @@ public class MyDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {
         generator.addProvider(MyRecipeProvider::new);
-        generator.addProvider(MyTagProvider::new);
+        generator.addProvider(MyBlockTagProvider::new);
+        generator.addProvider(MyItemTagProvider::new);
         generator.addProvider(MyBlockLootTableProvider::new);
 
         generator.addProvider(MyChineseProvider::new);

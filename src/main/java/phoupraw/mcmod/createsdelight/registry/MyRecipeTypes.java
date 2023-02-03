@@ -10,9 +10,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
 public class MyRecipeTypes {
-    public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID,"pan_frying"), PanFryingRecipe::new);
-    public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID,"grilling"), GrillingRecipe::new);
+    public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "pan_frying"), PanFryingRecipe::new);
+    public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "grilling"), GrillingRecipe::new);
+    public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "sprinkling"), SprinklingRecipe::new);
 
     /**
      * <b>不要注册！</b>已在构造器中注册。

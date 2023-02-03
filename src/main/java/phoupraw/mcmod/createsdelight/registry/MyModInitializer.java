@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.registry;
 
+import com.simibubi.create.foundation.block.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
 public class MyModInitializer implements ModInitializer{
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -18,5 +19,6 @@ public class MyModInitializer implements ModInitializer{
     @Override
     public void onInitialize() {
         loadClasses();
+        BlockStressDefaults.setDefaultImpact(MyIdentifiers.SPRINKLER, 1);
     }
 }

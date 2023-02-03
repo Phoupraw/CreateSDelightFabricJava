@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:sprinkling",
+  "ingredients": [
+    {
+      "tag": "c:cooked_pork"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "results": [
+    {
+      "item": "createsdelight:sugar_pork"
+    }
+  ]
+}

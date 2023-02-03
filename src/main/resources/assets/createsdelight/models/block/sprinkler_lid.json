@@ -1,0 +1,35 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "1": "createsdelight:block/sprinkler_lid",
+    "particle": "createsdelight:block/sprinkler_lid"
+  },
+  "elements": [
+    {
+      "name": "out",
+      "from": [2.5, 0, 2.5],
+      "to": [13.5, 2, 13.5],
+      "faces": {
+        "north": {"uv": [2, 1, 13, 3], "texture": "#1"},
+        "east": {"uv": [2, 1, 13, 3], "texture": "#1"},
+        "south": {"uv": [2, 1, 13, 3], "texture": "#1"},
+        "west": {"uv": [2, 1, 13, 3], "texture": "#1"},
+        "down": {"uv": [2, 2, 13, 13], "texture": "#1"}
+      }
+    },
+    {
+      "name": "in",
+      "from": [13.5, 2, 13.5],
+      "to": [2.5, 0, 2.5],
+      "faces": {
+        "north": {"uv": [2, 3, 13, 1], "texture": "#1"},
+        "east": {"uv": [2, 3, 13, 1], "texture": "#1"},
+        "south": {"uv": [2, 3, 13, 1], "texture": "#1"},
+        "west": {"uv": [2, 3, 13, 1], "texture": "#1"},
+        "up": {"uv": [2, 2, 13, 13], "texture": "#1"}
+      }
+    }
+  ]
+}

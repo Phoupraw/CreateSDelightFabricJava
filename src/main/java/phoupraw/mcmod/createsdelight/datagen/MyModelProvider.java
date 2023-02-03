@@ -21,6 +21,7 @@ public class MyModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
         generator.registerSimpleState(MyBlocks.PAN);
         generator.registerSimpleState(MyBlocks.GRILL);
+        generator.registerSimpleState(MyBlocks.SPRINKLER);
 //        generator.excludeFromSimpleItemModelGeneration();
 
         for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(), MyFluids.SUNFLOWER_OIL.getBottle(), MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK}) {
