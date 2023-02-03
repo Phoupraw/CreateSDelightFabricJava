@@ -2,7 +2,7 @@
   "required": true,
   "package": "phoupraw.mcmod.createsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["MixinDirectBeltInputBehaviour", "MixinTileEntityBehaviour"],
+  "mixins": ["MixinDirectBeltInputBehaviour", "MixinLivingEntity", "MixinTileEntityBehaviour"],
   "client": [
     "MixinAnimatedKineticsWidget",
     "MixinWidgetUtil_1"

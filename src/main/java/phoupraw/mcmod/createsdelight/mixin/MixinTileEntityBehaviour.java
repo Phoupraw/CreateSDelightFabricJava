@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import phoupraw.mcmod.createsdelight.mixindelegates.InjectTileEntityBehaviour;
+import phoupraw.mcmod.createsdelight.inject.InjectTileEntityBehaviour;
 @Mixin(TileEntityBehaviour.class)
 public abstract class MixinTileEntityBehaviour {
     @Inject(method = "get(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;get(Lnet/minecraft/block/entity/BlockEntity;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
