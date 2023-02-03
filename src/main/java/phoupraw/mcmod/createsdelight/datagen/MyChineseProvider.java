@@ -32,7 +32,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "香煎牛肉饼");
         builder.add(keyOfCategory(MyRecipeTypes.PAN_FRYING.getId()), "煎");
         builder.add(MyStatusEffects.SATIATION, "饱食");
-        builder.add(MyBlocks.GRILL, "烤架");
+        builder.add(MyBlocks.GRILL,"烤架");
         builder.add(keyOfCategory(MyRecipeTypes.GRILLING.getId()), "烤");
         builder.add(MyItems.THICK_PORK_SLICE, "厚猪肉片");
         builder.add(MyItems.PAN_FRIED_PORK_SLICE, "煎猪肉片");
