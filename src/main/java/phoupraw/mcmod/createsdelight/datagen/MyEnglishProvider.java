@@ -32,5 +32,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
 		builder.add(MyItems.PAN_FRIED_PORK_SLICE, "Pan Fired Pork Slice");
 		builder.add(MyItems.THIN_PORK_SLICE, "Thin Pork Slice");
 		builder.add(MyItems.GRILLED_PORK_SLICE, "Grilled Pork Slice");
+		builder.add(MyItems.SUGAR_PORK, "糖霜猪肉");
 	}
 }

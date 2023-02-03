@@ -38,5 +38,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.PAN_FRIED_PORK_SLICE, "煎猪肉片");
         builder.add(MyItems.THIN_PORK_SLICE, "薄猪肉片");
         builder.add(MyItems.GRILLED_PORK_SLICE, "烤猪肉片");
+        builder.add(MyItems.SUGAR_PORK, "糖霜猪肉");
     }
 }

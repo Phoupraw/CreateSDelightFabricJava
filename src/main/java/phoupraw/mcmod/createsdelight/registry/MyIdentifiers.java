@@ -15,6 +15,7 @@ public final class MyIdentifiers {
     public static final Identifier PAN_FRIED_PORK_SLICE = of("PAN_FRIED_PORK_slice");
     public static final Identifier THIN_PORK_SLICE = of("THIN_PORK_slice");
     public static final Identifier GRILLED_PORK_SLICE = of("GRILLED_PORK_slice");
+    public static final Identifier SUGAR_PORK = of("sugar_pork");
 
     public static final Identifier SUNFLOWER_OIL = of("sunflower_oil");
 

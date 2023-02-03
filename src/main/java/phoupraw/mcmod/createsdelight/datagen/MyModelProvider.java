@@ -16,7 +16,6 @@ public class MyModelProvider extends FabricModelProvider {
 
     /**
      * {@link BlockStateModelGenerator#registerSimpleState(Block)}会自动生成物品模型。
-     * @param generator
      */
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
@@ -24,7 +23,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.GRILL);
 //        generator.excludeFromSimpleItemModelGeneration();
 
-        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(),MyFluids.SUNFLOWER_OIL.getBottle(),MyItems.PAN_FRIED_BEEF_PATTY,MyItems.THICK_PORK_SLICE,MyItems.PAN_FRIED_PORK_SLICE,MyItems.THIN_PORK_SLICE,MyItems.GRILLED_PORK_SLICE}) {
+        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(), MyFluids.SUNFLOWER_OIL.getBottle(), MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK}) {
             generator.registerItemModel(item);
         }
     }

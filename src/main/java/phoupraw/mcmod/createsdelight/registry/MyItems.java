@@ -11,11 +11,12 @@ public final class MyItems {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
     public static final BlockItem PAN = new BlockItem(MyBlocks.PAN, new FabricItemSettings().group(ITEM_GROUP));
     public static final BlockItem GRILL = new BlockItem(MyBlocks.GRILL, new FabricItemSettings().group(ITEM_GROUP));
-    public static final Item PAN_FRIED_BEEF_PATTY = new TooltipedFoodItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 15), 1).meat().alwaysEdible().build()));
+    public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(15);
     public static final Item THICK_PORK_SLICE = new TooltipedFoodItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
-    public static final Item PAN_FRIED_PORK_SLICE = new TooltipedFoodItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 14), 1).alwaysEdible().build()));
+    public static final Item PAN_FRIED_PORK_SLICE = satiationMeat(14);
     public static final Item THIN_PORK_SLICE = new TooltipedFoodItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
-    public static final Item GRILLED_PORK_SLICE = new TooltipedFoodItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 7), 1).alwaysEdible().build()));
+    public static final Item GRILLED_PORK_SLICE = satiationMeat(7);
+    public static final Item SUGAR_PORK = satiationMeat(11);
     static {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
@@ -24,6 +25,10 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_PORK_SLICE, PAN_FRIED_PORK_SLICE);
         Registry.register(Registry.ITEM, MyIdentifiers.THIN_PORK_SLICE, THIN_PORK_SLICE);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILLED_PORK_SLICE, GRILLED_PORK_SLICE);
+        Registry.register(Registry.ITEM, MyIdentifiers.SUGAR_PORK, SUGAR_PORK);
+    }
+    public static Item satiationMeat(int amplifier) {
+        return new TooltipedFoodItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().build()));
     }
 
     private static ItemStack stupidJavaCompiler() {
