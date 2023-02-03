@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
+import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -16,12 +17,12 @@ public final class MyItems {
     public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(MyBlocks.SPRINKLER, new FabricItemSettings().group(ITEM_GROUP));
 
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
-    public static final Item THICK_PORK_SLICE = new Item(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
+    public static final Item THICK_PORK_SLICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
     public static final Item PAN_FRIED_PORK_SLICE = satiationMeat(4, 0.6f, 0);
-    public static final Item THIN_PORK_SLICE = new Item(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
+    public static final Item THIN_PORK_SLICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
     public static final Item GRILLED_PORK_SLICE = satiationMeat(2, 0.6f, 0);
     public static final Item SUGAR_PORK = satiationMeat(4, 0.8f, 2);
-//    public static final Item LEAVES_RICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(16).food());
+    public static final Item LEAVES_RICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(16).recipeRemainder(Items.BOWL).food(new FoodComponent.Builder().hunger(6).saturationModifier(0.4f).statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f).statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1).build()), true);
     static {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
@@ -33,13 +34,14 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.THIN_PORK_SLICE, THIN_PORK_SLICE);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILLED_PORK_SLICE, GRILLED_PORK_SLICE);
         Registry.register(Registry.ITEM, MyIdentifiers.SUGAR_PORK, SUGAR_PORK);
+        Registry.register(Registry.ITEM, MyIdentifiers.LEAVES_RICE, LEAVES_RICE);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
     }
 
     public static Item food(FoodComponent foodComponent) {
-        return new Item(new FabricItemSettings().group(ITEM_GROUP).food(foodComponent));
+        return new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(foodComponent), true);
     }
 
     private static ItemStack stupidJavaCompiler() {

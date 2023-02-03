@@ -36,5 +36,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SPRINKLER, "Flavour Sprinkler");
         builder.add("empty", "Empty");
         builder.add(keyOfCategory(MyRecipeTypes.SPRINKLING.getId()), "Sprinkling Flavour");
+        builder.add(MyItems.LEAVES_RICE,"Leaves Rice");
     }
 }

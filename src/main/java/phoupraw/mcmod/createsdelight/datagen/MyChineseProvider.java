@@ -42,5 +42,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SPRINKLER, "调料喷撒机");
         builder.add("empty", "空");
         builder.add(keyOfCategory(MyRecipeTypes.SPRINKLING.getId()), "撒料");
+        builder.add(MyItems.LEAVES_RICE,"树叶米饭");
     }
 }

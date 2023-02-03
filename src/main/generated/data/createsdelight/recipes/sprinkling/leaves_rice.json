@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:sprinkling",
+  "ingredients": [
+    {
+      "item": "farmersdelight:cooked_rice"
+    },
+    {
+      "tag": "minecraft:leaves"
+    }
+  ],
+  "results": [
+    {
+      "item": "createsdelight:leaves_rice"
+    }
+  ]
+}

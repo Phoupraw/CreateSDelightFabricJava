@@ -23,6 +23,7 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import phoupraw.mcmod.createsdelight.api.CuttingBoardRecipeJsonProvider;
@@ -99,6 +100,11 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .require(MyItemTags.COOKED_PORK)
           .require(Items.SUGAR)
           .output(MyItems.SUGAR_PORK)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(SprinklingRecipe::new, MyIdentifiers.LEAVES_RICE)
+          .require(ItemsRegistry.COOKED_RICE.get())
+          .require(ItemTags.LEAVES)
+          .output(MyItems.LEAVES_RICE)
           .build(exporter);
     }
 }
