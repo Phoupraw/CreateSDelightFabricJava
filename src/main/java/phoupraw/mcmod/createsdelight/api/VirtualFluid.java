@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.api;
 
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
@@ -165,6 +166,10 @@ public class VirtualFluid extends AbstractVirtualFluid {
     }
 
     public static class Builder {
+        public static void registerClient() {
+
+        }
+
         private Identifier id;
         private Item bucket;
         private Item bottle;
@@ -233,17 +238,21 @@ public class VirtualFluid extends AbstractVirtualFluid {
             }
             FluidVariantAttributes.register(fluid, ATTRIBUTE_HANDLER);
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-                FluidRenderHandler renderHandler;
-                if (customTexture) {
-                    var textureId = new Identifier(id.getNamespace(), "block/" + id.getPath());
-                    renderHandler = new SimpleFluidRenderHandler(textureId, textureId);
-                } else {
-                    renderHandler = SimpleFluidRenderHandler.coloredWater(tint);
-                }
-                FluidRenderHandlerRegistry.INSTANCE.register(fluid, fluid.getFlowing(), renderHandler);
-                BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), fluid, fluid.getFlowing());
+                registerClient(fluid);
             }
             return fluid;
+        }
+        @Environment(EnvType.CLIENT)
+        public void registerClient(VirtualFluid fluid) {
+            FluidRenderHandler renderHandler;
+            if (customTexture) {
+                var textureId = new Identifier(id.getNamespace(), "block/" + id.getPath());
+                renderHandler = new SimpleFluidRenderHandler(textureId, textureId);
+            } else {
+                renderHandler = SimpleFluidRenderHandler.coloredWater(tint);
+            }
+            FluidRenderHandlerRegistry.INSTANCE.register(fluid, fluid.getFlowing(), renderHandler);
+            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), fluid, fluid.getFlowing());
         }
     }
 }
