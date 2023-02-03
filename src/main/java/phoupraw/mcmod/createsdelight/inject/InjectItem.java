@@ -1,27 +1,21 @@
-package phoupraw.mcmod.createsdelight.item;
+package phoupraw.mcmod.createsdelight.inject;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.registry.MyItemTags;
 
 import java.util.List;
-import java.util.Optional;
-public class TooltipedFoodItem extends Item {
-    public TooltipedFoodItem(Settings settings) {
-        super(settings);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-        FoodComponent component = getFoodComponent();
+public class InjectItem {
+    public static void addFoodEffectTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if (!stack.isIn(MyItemTags.FOOD_TOOLTIP)) return;
+        FoodComponent component = stack.getItem().getFoodComponent();
         if (component != null) {
             for (Pair<StatusEffectInstance, Float> pair : component.getStatusEffects()) {
                 StatusEffectInstance instance = pair.getFirst();

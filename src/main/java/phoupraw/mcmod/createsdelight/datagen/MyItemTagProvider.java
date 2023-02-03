@@ -15,5 +15,7 @@ public class MyItemTagProvider extends FabricTagProvider.ItemTagProvider {
     protected void generateTags() {
         getOrCreateTagBuilder(MyItemTags.COOKED_PORK)
           .add(MyItems.PAN_FRIED_PORK_SLICE);
+        getOrCreateTagBuilder(MyItemTags.FOOD_TOOLTIP)
+          .add(MyItems.PAN_FRIED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.GRILLED_PORK_SLICE, MyItems.THICK_PORK_SLICE, MyItems.THICK_PORK_SLICE);
     }
 }
