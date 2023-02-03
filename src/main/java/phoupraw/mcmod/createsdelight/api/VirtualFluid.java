@@ -166,10 +166,6 @@ public class VirtualFluid extends AbstractVirtualFluid {
     }
 
     public static class Builder {
-        public static void registerClient() {
-
-        }
-
         private Identifier id;
         private Item bucket;
         private Item bottle;
