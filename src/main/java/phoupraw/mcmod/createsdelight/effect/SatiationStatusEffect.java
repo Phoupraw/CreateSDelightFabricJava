@@ -7,22 +7,37 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 public class SatiationStatusEffect extends InstantStatusEffect {
-    public SatiationStatusEffect(StatusEffectCategory statusEffectCategory, int i) {
-        super(statusEffectCategory, i);
-    }
-    @Override
-    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        if (entity instanceof PlayerEntity player) {
+    public static float apply(LivingEntity target, int amplifier) {
+        float recovered = 0;
+        if (target instanceof PlayerEntity player) {
             int amount = amplifier + 1;
             var manager = player.getHungerManager();
             int food0 = manager.getFoodLevel();
             int food = Math.min(20, food0 + amount);
-            amount -= food - food0;
+            recovered = food - food0;
+            amount -= recovered;
             manager.setFoodLevel(food);
             if (amount > 0) {
-                float saturation = Math.min(food, manager.getSaturationLevel() + amount);
-                manager.setSaturationLevel(saturation);
+                float satu0 = manager.getSaturationLevel();
+                float satu = Math.min(food, satu0 + amount);
+                recovered += satu - satu0;
+                manager.setSaturationLevel(satu);
             }
         }
+        return recovered;
+    }
+
+    public SatiationStatusEffect(StatusEffectCategory statusEffectCategory, int i) {
+        super(statusEffectCategory, i);
+    }
+
+    @Override
+    public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
+        apply(target, amplifier);
+    }
+
+    @Override
+    public void applyUpdateEffect(LivingEntity target, int amplifier) {
+        apply(target, amplifier);
     }
 }
