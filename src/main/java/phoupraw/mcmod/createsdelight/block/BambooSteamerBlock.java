@@ -14,6 +14,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.core.appender.rolling.OnStartupTriggeringPolicy;
 import phoupraw.mcmod.createsdelight.block.entity.BambooSteamerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 
@@ -53,5 +54,14 @@ public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockE
         if (world.getBlockEntity(pos, MyBlockEntityTypes.BAMBOO_STEAMER).orElseThrow().isWorkable()) {
             world.addParticle(ParticleTypesRegistry.STEAM.get(), pos.getX() + 0.2 + random.nextDouble() * 0.6, pos.getY()-0.5 + random.nextDouble(), pos.getZ() + 0.2 + random.nextDouble() * 0.6, 0, 0, 0);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!newState.isOf(this)) {
+            ITE.onRemove(state,world,pos,newState);
+        }
+        super.onStateReplaced(state, world, pos, newState, moved);
     }
 }

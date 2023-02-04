@@ -4,6 +4,7 @@ import com.simibubi.create.content.contraptions.processing.BasinTileEntity;
 import com.simibubi.create.foundation.item.SmartInventory;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
+import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -13,8 +14,10 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -23,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,9 +39,10 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
         return new Vec3d(x, y, z);
     }
 
-    public final SmartInventory inventory = new SmartInventory(8, this);
+    public final SmartInventory inventory = new SmartInventory(8, this, 1, false);
     private BlockApiCache<Double, Direction> heatCache;
     private boolean workable;
+    public final int[] elapsed = new int[8];
 
     public BambooSteamerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.BAMBOO_STEAMER, pos, state);}
 
@@ -89,7 +94,7 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
-        tag.put("inventory",inventory.serializeNBT());
+        tag.put("inventory", inventory.serializeNBT());
         if (clientPacket) {
             tag.putBoolean("workable", workable);
         }
@@ -108,6 +113,30 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
     public void tick() {
         super.tick();
         if (!isWorkable()) return;
+        if (getWorld().isClient()) return;
+        for (int i = 0; i < inventory.size(); i++) {
+            ItemStack itemStack = inventory.getStack(i);
+            if (itemStack.isEmpty()) {
+                elapsed[i] = 0;
+                continue;
+            }
+            var recipe = getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.STEAMING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(itemStack)).findFirst().orElse(null);
+            if (recipe == null) {
+                elapsed[i] = 0;
+                continue;
+            }
+            elapsed[i]++;
+            if (elapsed[i] == recipe.getProcessingDuration()) {
+                elapsed[i] = 0;
+                inventory.setStack(i, recipe.getOutput().copy());
+                sendData();
+            }
+        }
+    }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        ItemScatterer.spawn(getWorld(), getPos(), inventory);
     }
 }
