@@ -42,5 +42,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.BAMBOO_STEAMER,"Bamboo Steamer");
         builder.add(keyOfCategory(MyRecipeTypes.STEAMING.getId()),"Steaming");
         builder.add(MyItems.STEAMED_BUNS,"Steamed Buns");
+        builder.add(MyBlocks.SMART_DRAIN,"Smart Item Drain");
     }
 }

@@ -14,16 +14,13 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import phoupraw.mcmod.createsdelight.block.entity.BambooSteamerBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.SprinklerBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.*;
 import phoupraw.mcmod.createsdelight.datagen.*;
 /**
  * 方块及其方块实体编写流程：<br>
- * - 创建{@link BlockEntity}类，继承{@link SmartTileEntity}，创建符合{@link Factory}的构造器<br>
- * - 创建{@link Block}类，实现{@link ITE}<br>
- * - 创建{@link BlockEntityRenderer}类，继承{@link SmartTileEntityRenderer}
+ * - 创建方块实体类类，继承{@link SmartTileEntity}，创建符合{@link Factory}的构造器<br>
+ * - 创建方块类，继承{@link Block}，实现{@link ITE}<br>
+ * - 创建方块实体渲染器类，继承{@link SmartTileEntityRenderer}
  * - 在{@link MyIdentifiers}创建{@link Identifier}<br>
  * - 在{@link MyBlocks}创建{@link Block}<b>并注册</b><br>
  * - 在{@link MyItems}创建{@link BlockItem}<b>并注册</b><br>
@@ -47,12 +44,14 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<GrillBlockEntity> GRILL = FabricBlockEntityTypeBuilder.create(GrillBlockEntity::new, MyBlocks.GRILL).build();
     public static final BlockEntityType<SprinklerBlockEntity> SPRINKLER = FabricBlockEntityTypeBuilder.create(SprinklerBlockEntity::new, MyBlocks.SPRINKLER).build();
     public static final BlockEntityType<BambooSteamerBlockEntity> BAMBOO_STEAMER = FabricBlockEntityTypeBuilder.create(BambooSteamerBlockEntity::new, MyBlocks.BAMBOO_STEAMER).build();
+    public static final BlockEntityType<SmartDrainBlockEntity> SMART_DRAIN = FabricBlockEntityTypeBuilder.create(SmartDrainBlockEntity::new, MyBlocks.SMART_DRAIN).build();
 
     static {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PAN, PAN);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.GRILL, GRILL);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.SPRINKLER, SPRINKLER);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
     }
 
     private MyBlockEntityTypes() {}

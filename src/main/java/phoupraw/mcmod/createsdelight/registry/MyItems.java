@@ -37,6 +37,7 @@ public final class MyItems {
     public static final BlockItem GRILL = new BlockItem(MyBlocks.GRILL, new FabricItemSettings().group(ITEM_GROUP));
     public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(MyBlocks.SPRINKLER, new FabricItemSettings().group(ITEM_GROUP));
     public static final BlockItem BAMBOO_STEAMER = new BlockItem(MyBlocks.BAMBOO_STEAMER, new FabricItemSettings().group(ITEM_GROUP));
+    public static final BlockItem SMART_DRAIN = new BlockItem(MyBlocks.SMART_DRAIN, new FabricItemSettings().group(ITEM_GROUP));
 
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
     public static final Item THICK_PORK_SLICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
@@ -86,6 +87,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
         Registry.register(Registry.ITEM, MyIdentifiers.SPRINKLER, SPRINKLER);
         Registry.register(Registry.ITEM, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
+        Registry.register(Registry.ITEM, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
 
         Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registry.register(Registry.ITEM, MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "addition": {
+    "item": "create:electron_tube"
+  },
+  "base": {
+    "item": "create:item_drain"
+  },
+  "result": {
+    "item": "createsdelight:smart_drain"
+  }
+}

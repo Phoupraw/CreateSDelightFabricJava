@@ -21,6 +21,8 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.impl.tag.convention.TagRegistration;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -63,6 +65,12 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('B', Items.SCAFFOLDING)
           .criterion("stupidMojang", conditionsFromItem(Items.BAMBOO))
           .offerTo(exporter);
+        SmithingRecipeJsonBuilder.create(
+            Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
+            Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
+            MyItems.SMART_DRAIN)
+          .criterion("",conditionsFromItem(AllBlocks.ITEM_DRAIN.get()))
+          .offerTo(exporter,MyIdentifiers.SMART_DRAIN);
 
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THICK_PORK_SLICE, "", Ingredient.ofItems(Items.PORKCHOP), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THICK_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THIN_PORK_SLICE, "", Ingredient.ofItems(MyItems.THICK_PORK_SLICE), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THIN_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));

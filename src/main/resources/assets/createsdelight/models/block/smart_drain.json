@@ -1,0 +1,38 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"1": "createsdelight:block/smart_drain_side",
+		"2": "create:block/copper_casing",
+		"3": "create:block/pump",
+		"4": "createsdelight:block/smart_drain_top",
+		"particle": "createsdelight:block/smart_drain_top"
+	},
+	"elements": [
+		{
+			"name": "out",
+			"from": [0, 0, 0],
+			"to": [16, 13, 16],
+			"faces": {
+				"north": {"uv": [0, 3, 16, 16], "texture": "#1", "cullface": "north"},
+				"east": {"uv": [0, 3, 16, 16], "texture": "#1", "cullface": "east"},
+				"south": {"uv": [0, 3, 16, 16], "texture": "#1", "cullface": "south"},
+				"west": {"uv": [0, 3, 16, 16], "texture": "#1", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#4"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "down"}
+			}
+		},
+		{
+			"name": "in",
+			"from": [14, 13, 14],
+			"to": [2, 2, 2],
+			"faces": {
+				"north": {"uv": [2, 14, 14, 3], "texture": "#1"},
+				"east": {"uv": [2, 14, 14, 3], "texture": "#1"},
+				"south": {"uv": [2, 14, 14, 3], "texture": "#1"},
+				"west": {"uv": [2, 14, 14, 3], "texture": "#1"},
+				"up": {"uv": [0, 0, 12, 12], "texture": "#3"}
+			}
+		}
+	]
+}
