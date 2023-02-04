@@ -32,7 +32,7 @@ public class GrillingCategory implements DisplayCategory<GrillingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.PAN);
+        return EntryStacks.of(MyItems.GRILL);
     }
 
     @Override

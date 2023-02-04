@@ -32,7 +32,7 @@ public class SprinklingCategory implements DisplayCategory<SprinklingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.PAN);
+        return EntryStacks.of(MyItems.SPRINKLER);
     }
 
     @Override
