@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
 import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
+import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -18,13 +19,13 @@ import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
 /**
  * 物品编写流程：<br>
  * 1. 在{@link MyIdentifiers}创建{@link Identifier}<br>
- * 2. 在{@link MyItems}创建物品并注册<br>
+ * 2. 在{@link MyItems}创建物品<b>并注册</b><br>
  * 3. 在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译<br>
  * 4. 在{@link MyModelProvider}添加模型<br>
  * 5. 在{@link MyRecipeProvider}添加配方<br>
  * 6. 在{@link MyItemTagProvider}添加标签<br>
- * 7. 在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理<br>
- * 8. 运行数据生成器<br>
+ * 7. 运行数据生成器<br>
+ * 8. 在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理<br>
  * 9. 运行客户端，检查物品效果是否如预期<br>
  * 10. 在{@code ChangeLog.md}添加更新日志<br>
  * 11. 提交git
@@ -62,6 +63,15 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
         .build()
       ), true);
+    public static final Item VANILLA_SWEET_ROLL = new ConsumableItem(new FabricItemSettings()
+      .group(ITEM_GROUP)
+      .food(new FoodComponent.Builder()
+        .hunger(6)
+        .saturationModifier(0.8f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION,1,0), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 300, 0), 1)
+        .build()
+      ), true);
     static {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
@@ -75,6 +85,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.SUGAR_PORK, SUGAR_PORK);
         Registry.register(Registry.ITEM, MyIdentifiers.LEAVES_RICE, LEAVES_RICE);
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
+        Registry.register(Registry.ITEM, MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

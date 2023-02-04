@@ -38,5 +38,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(keyOfCategory(MyRecipeTypes.SPRINKLING.getId()), "Sprinkling Flavour");
         builder.add(MyItems.LEAVES_RICE, "Leaves Rice");
         builder.add(MyItems.VANILLA, "Vanilla");
+        builder.add(MyItems.VANILLA_SWEET_ROLL,"Vanilla Sweet Roll");
     }
 }

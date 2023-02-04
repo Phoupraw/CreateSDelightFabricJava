@@ -112,5 +112,10 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.VANILLA)
           .duration(60)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(SprinklingRecipe::new, MyIdentifiers.VANILLA_SWEET_ROLL)
+          .require(AllItems.SWEET_ROLL.get())
+          .require(MyItems.VANILLA)
+          .output(MyItems.VANILLA_SWEET_ROLL)
+          .build(exporter);
     }
 }
