@@ -106,5 +106,11 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .require(ItemTags.LEAVES)
           .output(MyItems.LEAVES_RICE)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(PanFryingRecipe::new, MyIdentifiers.VANILLA)
+          .require(Items.GRASS)
+          .require(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 10)
+          .output(MyItems.VANILLA)
+          .duration(60)
+          .build(exporter);
     }
 }

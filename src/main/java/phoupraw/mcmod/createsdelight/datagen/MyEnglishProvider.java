@@ -8,12 +8,12 @@ import phoupraw.mcmod.createsdelight.registry.*;
 import static phoupraw.mcmod.createsdelight.datagen.MyChineseProvider.keyOfCategory;
 import static phoupraw.mcmod.createsdelight.datagen.MyChineseProvider.keyOfItemGroup;
 public class MyEnglishProvider extends FabricLanguageProvider {
-	public MyEnglishProvider(FabricDataGenerator dataGenerator) {
-		super(dataGenerator);
-	}
+    public MyEnglishProvider(FabricDataGenerator dataGenerator) {
+        super(dataGenerator);
+    }
 
-	@Override
-	public void generateTranslations(TranslationBuilder builder) {
+    @Override
+    public void generateTranslations(TranslationBuilder builder) {
         builder.add("modmenu.descriptionTranslation." + MyIdentifiers.MOD_ID, """
           Create'S Delight
           Mainly add interaction between create and farmer's delight and unique food processing.
@@ -36,6 +36,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SPRINKLER, "Flavour Sprinkler");
         builder.add("empty", "Empty");
         builder.add(keyOfCategory(MyRecipeTypes.SPRINKLING.getId()), "Sprinkling Flavour");
-        builder.add(MyItems.LEAVES_RICE,"Leaves Rice");
+        builder.add(MyItems.LEAVES_RICE, "Leaves Rice");
+        builder.add(MyItems.VANILLA, "Vanilla");
     }
 }

@@ -8,7 +8,27 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.MyItemTagProvider;
+import phoupraw.mcmod.createsdelight.datagen.MyModelProvider;
+import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
+/**
+ * 物品编写流程：<br>
+ * 1. 在{@link MyIdentifiers}创建{@link Identifier}<br>
+ * 2. 在{@link MyItems}创建物品并注册<br>
+ * 3. 在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译<br>
+ * 4. 在{@link MyModelProvider}添加模型<br>
+ * 5. 在{@link MyRecipeProvider}添加配方<br>
+ * 6. 在{@link MyItemTagProvider}添加标签<br>
+ * 7. 在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理<br>
+ * 8. 运行数据生成器<br>
+ * 9. 运行客户端，检查物品效果是否如预期<br>
+ * 10. 在{@code ChangeLog.md}添加更新日志<br>
+ * 11. 提交git
+ */
 public final class MyItems {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
 
@@ -22,7 +42,26 @@ public final class MyItems {
     public static final Item THIN_PORK_SLICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
     public static final Item GRILLED_PORK_SLICE = satiationMeat(2, 0.6f, 0);
     public static final Item SUGAR_PORK = satiationMeat(4, 0.8f, 2);
-    public static final Item LEAVES_RICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(16).recipeRemainder(Items.BOWL).food(new FoodComponent.Builder().hunger(6).saturationModifier(0.4f).statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f).statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1).build()), true);
+    public static final Item LEAVES_RICE = new ConsumableItem(new FabricItemSettings()
+      .group(ITEM_GROUP)
+      .maxCount(16)
+      .recipeRemainder(Items.BOWL)
+      .food(new FoodComponent.Builder()
+        .hunger(6)
+        .saturationModifier(0.4f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1)
+        .build()
+      ), true);
+    public static final Item VANILLA = new ConsumableItem(new FabricItemSettings()
+      .group(ITEM_GROUP)
+      .food(new FoodComponent.Builder()
+        .hunger(1)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
+        .build()
+      ), true);
     static {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
@@ -35,6 +74,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.GRILLED_PORK_SLICE, GRILLED_PORK_SLICE);
         Registry.register(Registry.ITEM, MyIdentifiers.SUGAR_PORK, SUGAR_PORK);
         Registry.register(Registry.ITEM, MyIdentifiers.LEAVES_RICE, LEAVES_RICE);
+        Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

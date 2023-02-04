@@ -17,7 +17,9 @@ public final class MyIdentifiers {
       THIN_PORK_SLICE = of("THIN_PORK_slice"),
       GRILLED_PORK_SLICE = of("GRILLED_PORK_slice"),
       SUGAR_PORK = of("sugar_pork"),
-      SUNFLOWER_OIL = of("sunflower_oil"),LEAVES_RICE = of("LEAVES_RICE");
+      SUNFLOWER_OIL = of("sunflower_oil"),
+      LEAVES_RICE = of("LEAVES_RICE"),
+      VANILLA = of("vanilla");
 
     public static Identifier of(String path) {
         return new Identifier(MOD_ID, path.toLowerCase(Locale.ROOT));
