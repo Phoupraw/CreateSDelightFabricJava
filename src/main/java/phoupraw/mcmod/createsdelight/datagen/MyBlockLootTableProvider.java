@@ -13,5 +13,6 @@ public class MyBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(MyBlocks.PAN);
         addDrop(MyBlocks.GRILL);
         addDrop(MyBlocks.SPRINKLER);
+        addDrop(MyBlocks.BAMBOO_STEAMER);
     }
 }

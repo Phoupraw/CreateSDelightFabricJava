@@ -54,6 +54,13 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('C', Items.IRON_BARS)
           .criterion("stupidMojang", conditionsFromItem(AllBlocks.SHAFT.get()))
           .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.BAMBOO_STEAMER)
+          .pattern("A")
+          .pattern("B")
+          .input('A', ItemsRegistry.BASKET.get())
+          .input('B', Items.SCAFFOLDING)
+          .criterion("stupidMojang", conditionsFromItem(Items.BAMBOO))
+          .offerTo(exporter);
 
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THICK_PORK_SLICE, "", Ingredient.ofItems(Items.PORKCHOP), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THICK_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THIN_PORK_SLICE, "", Ingredient.ofItems(MyItems.THICK_PORK_SLICE), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THIN_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));

@@ -5,7 +5,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.RenderLayer;
+import phoupraw.mcmod.createsdelight.block.entity.renderer.BambooSteamerRenderer;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.GrillRenderer;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.PanRenderer;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.SprinklerRenderer;
@@ -24,6 +26,7 @@ public final class MyClientModInitializer implements ClientModInitializer {
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.PAN, PanRenderer::new);
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.GRILL, GrillRenderer::new);
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.SPRINKLER, SprinklerRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER);
+        BlockEntityRendererRegistry.register(MyBlockEntityTypes.BAMBOO_STEAMER, BambooSteamerRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER,MyBlocks.BAMBOO_STEAMER);
     }
 }

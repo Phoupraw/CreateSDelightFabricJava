@@ -20,7 +20,8 @@ public final class MyIdentifiers {
       SUNFLOWER_OIL = of("sunflower_oil"),
       LEAVES_RICE = of("LEAVES_RICE"),
       VANILLA = of("vanilla"),
-    VANILLA_SWEET_ROLL=of("vanilla_sweet_roll");
+    VANILLA_SWEET_ROLL=of("vanilla_sweet_roll"),
+    BAMBOO_STEAMER=of("BAMBOO_STEAMER");
 
     public static Identifier of(String path) {
         return new Identifier(MOD_ID, path.toLowerCase(Locale.ROOT));

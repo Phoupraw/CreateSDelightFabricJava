@@ -39,5 +39,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.LEAVES_RICE, "Leaves Rice");
         builder.add(MyItems.VANILLA, "Vanilla");
         builder.add(MyItems.VANILLA_SWEET_ROLL,"Vanilla Sweet Roll");
+        builder.add(MyBlocks.BAMBOO_STEAMER,"Bamboo Steamer");
     }
 }

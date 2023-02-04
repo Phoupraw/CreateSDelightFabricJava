@@ -45,5 +45,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.LEAVES_RICE,"树叶米饭");
         builder.add(MyItems.VANILLA,"香草");
         builder.add(MyItems.VANILLA_SWEET_ROLL,"香草甜甜卷");
+        builder.add(MyBlocks.BAMBOO_STEAMER,"竹蒸笼");
     }
 }
