@@ -1,0 +1,14 @@
+{
+  "type": "createsdelight:steaming",
+  "ingredients": [
+    {
+      "tag": "c:dough"
+    }
+  ],
+  "processingTime": 200,
+  "results": [
+    {
+      "item": "createsdelight:steamed_buns"
+    }
+  ]
+}

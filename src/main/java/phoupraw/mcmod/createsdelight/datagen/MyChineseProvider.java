@@ -47,5 +47,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.VANILLA_SWEET_ROLL,"香草甜甜卷");
         builder.add(MyBlocks.BAMBOO_STEAMER,"竹蒸笼");
         builder.add(keyOfCategory(MyRecipeTypes.STEAMING.getId()),"蒸");
+        builder.add(MyItems.STEAMED_BUNS,"馒头");
     }
 }

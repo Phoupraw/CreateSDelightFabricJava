@@ -8,6 +8,7 @@ import com.nhoryzon.mc.farmersdelight.registry.TagsRegistry;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllTags;
 import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
@@ -30,6 +31,7 @@ import phoupraw.mcmod.createsdelight.api.CuttingBoardRecipeJsonProvider;
 import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.SteamingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.MyItemTags;
@@ -123,6 +125,11 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .require(AllItems.SWEET_ROLL.get())
           .require(MyItems.VANILLA)
           .output(MyItems.VANILLA_SWEET_ROLL)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(SteamingRecipe::new, MyIdentifiers.STEAMED_BUNS)
+          .require(MyItemTags.DOUGH)
+          .output(MyItems.STEAMED_BUNS)
+          .duration(200)
           .build(exporter);
     }
 }

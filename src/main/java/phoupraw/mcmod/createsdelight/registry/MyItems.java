@@ -73,6 +73,14 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 300, 0), 1)
         .build()
       ), true);
+    public static final Item STEAMED_BUNS = new ConsumableItem(new FabricItemSettings()
+      .group(ITEM_GROUP)
+      .food(new FoodComponent.Builder()
+        .hunger(3)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION,1,4), 1f)
+        .build()
+      ), true);
     static {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
         Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
@@ -88,6 +96,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.LEAVES_RICE, LEAVES_RICE);
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
+        Registry.register(Registry.ITEM, MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

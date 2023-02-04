@@ -21,7 +21,8 @@ public final class MyIdentifiers {
       LEAVES_RICE = of("LEAVES_RICE"),
       VANILLA = of("vanilla"),
     VANILLA_SWEET_ROLL=of("vanilla_sweet_roll"),
-    BAMBOO_STEAMER=of("BAMBOO_STEAMER");
+    BAMBOO_STEAMER=of("BAMBOO_STEAMER"),
+    STEAMED_BUNS =of("steamed_buns");
 
     public static Identifier of(String path) {
         return new Identifier(MOD_ID, path.toLowerCase(Locale.ROOT));
