@@ -1,7 +1,17 @@
 {
-  "variants": {
-    "": {
-      "model": "createsdelight:block/smart_drain"
+  "multipart": [
+    {
+      "apply": {
+        "model": "createsdelight:block/smart_drain"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/smart_drain_fire"
+      },
+      "when": {
+        "lit": "true"
+      }
     }
-  }
+  ]
 }

@@ -1,5 +1,7 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
+import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
+import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.content.contraptions.fluids.actors.ItemDrainTileEntity;
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.contraptions.processing.EmptyingByBasin;
@@ -9,14 +11,17 @@ import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -27,18 +32,24 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.MyFluids;
+import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -76,12 +87,16 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         });
     }
     public final Map<@NotNull Direction, SurfaceStorage> surfaceS = new EnumMap<>(Direction.class);
+    public final Map<@NotNull Direction, InnerStorage> innerS = new EnumMap<>(Direction.class);
     public TransportedItemStack surface = TransportedItemStack.EMPTY;
-    public boolean continueRoll = false;
+    private boolean continueRoll = false;
     public int drainTicks;
     public SmartFluidTankBehaviour tank;
     public String surfaceRenderer = "";
     public SurfaceStrategy surfaceStrategy;
+    public TransportedItemStack inner = TransportedItemStack.EMPTY;
+    public int fuelTicks;
+    public int grillTicks;
 //    @Environment(EnvType.CLIENT)
 //    public SmartDrainRenderer.Renderer surfaceRenderer;
 
@@ -113,9 +128,9 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
                 if (beltPosition < 0.5f || beltPosition >= 0.5f + speed && beltPosition < 1) {
                     beltPosition += speed;
                 } else if (beltPosition >= 0.5f && beltPosition < 0.5f + speed) {
-                    if (continueRoll) {
+                    if (isContinueRoll()) {
                         beltPosition += speed;
-                        continueRoll = false;
+                        setContinueRoll(false);
                     } else {
                         if (getWorld().isClient()) {
                             if (drainTicks > 0) {
@@ -137,15 +152,37 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
                                         drainTicks = 0;
                                     }
                                 }
-                                    if (drainTicks == 5) {try (Transaction t = TransferUtil.getTransaction()) {
-                                        tank.getPrimaryHandler().insert(pair.getFirst().getType(), pair.getFirst().getAmount(),t);
+                                if (drainTicks == 5) {
+                                    try (Transaction t = TransferUtil.getTransaction()) {
+                                        tank.getPrimaryHandler().insert(pair.getFirst().getType(), pair.getFirst().getAmount(), t);
                                         t.commit();
                                         surface.stack = pair.getSecond();
                                     }
                                 }
                             } else {
-                                continueRoll = true;
-                                sendData();
+                                drainTicks = 0;
+                                boolean grill = false;
+                                if (FluidVariantAttributes.getTemperature(tank.getPrimaryHandler().getResource()) > 400 || fuelTicks > 0) {
+                                    var recipe = getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.GRILLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(surface.stack)).findFirst().orElse(null);
+                                    if (recipe != null) {
+                                        grill = true;
+                                        if (grillTicks == 0) {
+                                            grillTicks = (int) (recipe.getProcessingDuration() * Math.sqrt(surface.stack.getCount()) - 1);
+                                            sendData();
+                                        } else {
+                                            grillTicks--;
+                                            if (grillTicks == 0) {
+                                                var count = surface.stack.getCount();
+                                                surface.stack = recipe.getOutput().copy();
+                                                surface.stack.setCount(count);
+                                            }
+                                        }
+                                    }
+                                }
+                                if (!grill) {
+                                    grillTicks = 0;
+                                    setContinueRoll(true);
+                                }
                             }
                         }
                     }
@@ -160,30 +197,52 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
             }
         }
         this.surface = surface;
+        if (fuelTicks > 0) {
+            fuelTicks--;
+            if (fuelTicks == 0) {
+                if (!ignite())
+                    getWorld().setBlockState(getPos(), getCachedState().with(Properties.LIT, false));
+            }
+        }
+        if (!inner.stack.isEmpty()) {
+            BlockingTransportedStorage.tickMovement(inner);
+        }
+        if (getWorld().isClient() && grillTicks > 0 && getWorld().getRandom().nextInt(5) == 0) {
+
+            Vec3d offset = Vec3d.ofCenter(getPos())
+              .add(0, 5 / 16.0, 0)
+//              .add(new Vec3d(surface.insertedFrom.getUnitVector()).rotateY(90).multiply(beltPosition))
+              .add(new Vec3d(surface.insertedFrom.getUnitVector()).rotateY(-90).multiply(surface.sideOffset));
+            getWorld().addParticle(ParticleTypesRegistry.STEAM.get(), offset.getX(), offset.getY(), offset.getZ(), 0, 0, 0);
+        }
     }
 
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
         tag.put("surface", surface.serializeNBT());
-        tag.putBoolean("continueRoll", continueRoll);
-        tag.putInt("surfaceTicks", drainTicks);
+        tag.putBoolean("continueRoll", isContinueRoll());
+        tag.putInt("drainTicks", drainTicks);
+        tag.put("inner", inner.serializeNBT());
         tag.putString("surfaceRenderer", surfaceRenderer);
+        tag.putInt("grillTicks", grillTicks);
     }
 
     @Override
     protected void read(NbtCompound tag, boolean clientPacket) {
         super.read(tag, clientPacket);
         surface = TransportedItemStack.read(tag.getCompound("surface"));
-        continueRoll = tag.getBoolean("continueRoll");
-        drainTicks = tag.getInt("surfaceTicks");
+        setContinueRoll(tag.getBoolean("continueRoll"));
+        drainTicks = tag.getInt("drainTicks");
+        inner = TransportedItemStack.read(tag.getCompound("inner"));
         surfaceRenderer = tag.getString("surfaceRenderer");
+        grillTicks = tag.getInt("grillTicks");
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        ItemScatterer.spawn(getWorld(), getPos(), DefaultedList.ofSize(1, surface.stack));
+        ItemScatterer.spawn(getWorld(), getPos(), new SimpleInventory(surface.stack, inner.stack));
     }
 
     @NotNull
@@ -200,8 +259,9 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
 
     @Override
     public @Nullable Storage<ItemVariant> getItemStorage(Direction side) {
-        if (side == Direction.UP) return getSurfaceStorage(Direction.UP);
-        return null;//TODO
+        if (side == Direction.UP) return getSurfaceStorage(side);
+        if (side != null) return getInnerStorage(side);
+        return getInnerStorage(Direction.DOWN);
     }
 
     @Override
@@ -226,6 +286,17 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         return s;
     }
 
+    public @NotNull InnerStorage getInnerStorage(@NotNull Direction side) {
+        if (side == Direction.UP) throw new IllegalArgumentException(side.asString());
+        var s = innerS.get(side);
+        if (s == null) {
+            if (side == Direction.DOWN) s = new InnerDownStorage();
+            else s = new InnerHorizontalStorage(side);
+            innerS.put(side, s);
+        }
+        return s;
+    }
+
     public float getSurfaceSpeed() {
         return 1 / 8f;
     }
@@ -246,6 +317,38 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         if (inputting.isEmpty()) return 0;
         if (EmptyingByBasin.canItemBeEmptied(getWorld(), inputting)) return 1;
         return inputting.getCount();
+    }
+
+    public boolean ignite() {
+        if (fuelTicks > 0) return false;
+        if (tank.getPrimaryHandler().getResource().isOf(MyFluids.SUNFLOWER_OIL)) {
+            try (var t = TransferUtil.getTransaction()) {
+                tank.getPrimaryHandler().extract(tank.getPrimaryHandler().getResource(), FluidConstants.NUGGET, t);
+                t.commit();
+                fuelTicks = 20;
+                getWorld().setBlockState(getPos(), getCachedState().with(Properties.LIT, true));
+                return true;
+            }
+        } else if (FuelRegistry.INSTANCE.get(inner.stack.getItem()) != null && !inner.stack.isOf(Items.LAVA_BUCKET)) {
+            fuelTicks = FuelRegistry.INSTANCE.get(inner.stack.getItem());
+            inner.stack.decrement(1);
+            sendData();
+            getWorld().setBlockState(getPos(), getCachedState().with(Properties.LIT, true));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isContinueRoll() {
+        return continueRoll;
+    }
+
+    public void setContinueRoll(boolean continueRoll) {
+        var previoud = this.continueRoll;
+        this.continueRoll = continueRoll;
+        if (previoud ^ continueRoll) {
+            sendData();
+        }
     }
 
     public abstract class SurfaceStorage extends SingleStackStorage implements DirectBeltInputBehaviour.InsertionCallback {
@@ -309,6 +412,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         public void beforeNotify() {
             TransportedItemStack surface = SmartDrainBlockEntity.this.surface;
             surface.prevBeltPosition = surface.beltPosition = 0;
+            surface.insertedFrom = side;
         }
     }
 
@@ -317,9 +421,81 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         public void beforeNotify() {
             TransportedItemStack surface = SmartDrainBlockEntity.this.surface;
             surface.prevBeltPosition = surface.beltPosition = 0.5f;
+            surface.insertedFrom = Direction.DOWN;
             setRollingToAround();
         }
     }
+
+    public abstract class InnerStorage extends SingleStackStorage implements DirectBeltInputBehaviour.InsertionCallback {
+        @MustBeInvokedByOverriders
+        @Override
+        public ItemStack getStack() {
+            return inner.stack;
+        }
+
+        @MustBeInvokedByOverriders
+        @Override
+        public void setStack(ItemStack stack) {
+            inner = new TransportedItemStack(stack);
+        }
+
+        @Override
+        protected boolean canInsert(ItemVariant itemVariant) {
+            return getStack().isEmpty();
+        }
+
+        @MustBeInvokedByOverriders
+        @Override
+        protected void onFinalCommit() {
+            super.onFinalCommit();
+            beforeNotify();
+            notifyUpdate();
+        }
+
+        @Override
+        public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
+            ItemStack stack = transp.stack;
+            if (!getStack().isEmpty()) return stack;
+            int count = stack.getCount();
+            if (!simulate) {
+                var inserted = transp.copy();
+                inserted.stack.setCount(count);
+                inserted.insertedFrom = side;
+                inner = inserted;
+                beforeNotify();
+                notifyUpdate();
+            }
+            var remainder = stack.copy();
+            remainder.decrement(count);
+            return remainder;
+        }
+
+        public abstract void beforeNotify();
+    }
+
+    public class InnerHorizontalStorage extends InnerStorage {
+        public final Direction side;
+
+        public InnerHorizontalStorage(Direction side) {this.side = side;}
+
+        @Override
+        public void beforeNotify() {
+            TransportedItemStack inner = SmartDrainBlockEntity.this.inner;
+            inner.prevBeltPosition = inner.beltPosition = 0;
+            inner.insertedFrom = side;
+        }
+    }
+
+    public class InnerDownStorage extends InnerStorage {
+        @Override
+        public void beforeNotify() {
+            TransportedItemStack inner = SmartDrainBlockEntity.this.inner;
+            inner.prevBeltPosition = inner.beltPosition = 0.5f;
+            inner.insertedFrom = Direction.UP;
+//            setRollingToAround();
+        }
+    }
+
 
     public interface SurfaceStrategy {
         int limitInput(SmartDrainBlockEntity drain, ItemStack inputStack);

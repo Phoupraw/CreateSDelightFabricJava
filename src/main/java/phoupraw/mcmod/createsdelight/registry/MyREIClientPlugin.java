@@ -22,7 +22,7 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.add(PanFryingCategory.INSTANCE);
         registry.addWorkstations(PanFryingCategory.ID, EntryStacks.of(MyItems.PAN));
         registry.add(GrillingCategory.INSTANCE);
-        registry.addWorkstations(GrillingCategory.ID, EntryStacks.of(MyItems.GRILL));
+        registry.addWorkstations(GrillingCategory.ID, EntryStacks.of(MyItems.GRILL),EntryStacks.of(MyItems.SMART_DRAIN));
         registry.add(SprinklingCategory.INSTANCE);
         registry.addWorkstations(SprinklingCategory.ID, EntryStacks.of(MyItems.SPRINKLER));
         registry.add(SteamingCategory.INSTANCE);

@@ -139,8 +139,7 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
                     processingProgress = MathHelper.clamp(processingProgress, 0, 1);
                     float radius = (float) (Math.pow(((2 * processingProgress) - 1), 2) - 1);
                     Box bb = new Box(0.5, 1.0, 0.5, 0.5, 2/16.0, 0.5).expand(radius / 32f);
-                    FluidRenderer.renderFluidBox(drainFluid, (float) bb.minX, (float) bb.minY, (float) bb.minZ,
-                      (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ, buffer, ms, light, true);
+                    FluidRenderer.renderFluidBox(drainFluid, (float) bb.minX, (float) bb.minY, (float) bb.minZ, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ, buffer, ms, light, true);
                 }
             } else {
                 renderLikeDepot(surface, partialTicks, ms, buffer, light, overlay);
@@ -148,8 +147,14 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
         }
         SmartFluidTankBehaviour.TankSegment segment = drain.tank.getPrimaryTank();
         var fluidStack = segment.getRenderedFluid();
-        if (!fluidStack.isEmpty()) {
+        if (!drain.tank.getPrimaryHandler().isEmpty()) {
             FluidRenderer.renderFluidBox(fluidStack, 2 / 16f, 2 / 16f, 2 / 16f, 14 / 16f, 2 / 16f + segment.getFluidLevel().getValue(partialTicks) * 10 / 16f, 14 / 16f, buffer, ms, light, false);
+        }
+        if (!drain.inner.stack.isEmpty()){
+            ms.push();
+            ms.translate(0,-11/16.0,0);
+            renderLikeDepot(drain.inner,partialTicks,ms,buffer,light,overlay);
+            ms.pop();
         }
 //        String surfaceRenderer = drain.surfaceRenderer;
 //        if (!surfaceRenderer.isEmpty()) SURFACE_RENDERERS.get(surfaceRenderer).render(drain, partialTicks, ms, buffer, light, overlay);
