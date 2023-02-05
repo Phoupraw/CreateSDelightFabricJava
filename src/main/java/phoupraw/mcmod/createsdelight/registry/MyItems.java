@@ -4,11 +4,14 @@ import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
 import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
@@ -16,6 +19,8 @@ import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyItemTagProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyModelProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
+
+import java.util.List;
 /**
  * 物品编写流程：<br>
  * 1. 在{@link MyIdentifiers}创建{@link Identifier}<br>
@@ -70,7 +75,7 @@ public final class MyItems {
       .food(new FoodComponent.Builder()
         .hunger(6)
         .saturationModifier(0.8f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION,1,0), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1f)
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 300, 0), 1)
         .build()
       ), true);
@@ -79,7 +84,7 @@ public final class MyItems {
       .food(new FoodComponent.Builder()
         .hunger(3)
         .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION,1,4), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 4), 1f)
         .build()
       ), true);
     static {
@@ -99,6 +104,13 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
         Registry.register(Registry.ITEM, MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
+
+        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
+            if (stack.isOf(SMART_DRAIN)) {
+                lines.add(Text.literal("in dev, do not use"));
+                lines.add(Text.literal("开发中，请勿使用"));
+            }
+        });
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
