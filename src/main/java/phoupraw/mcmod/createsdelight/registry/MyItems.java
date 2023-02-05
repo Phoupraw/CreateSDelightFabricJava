@@ -104,13 +104,6 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
         Registry.register(Registry.ITEM, MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
-
-        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-            if (stack.isOf(SMART_DRAIN)) {
-                lines.add(Text.literal("in dev, do not use"));
-                lines.add(Text.literal("开发中，请勿使用"));
-            }
-        });
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

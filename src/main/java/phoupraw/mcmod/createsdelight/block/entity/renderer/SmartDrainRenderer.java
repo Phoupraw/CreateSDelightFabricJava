@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
 import com.simibubi.create.content.contraptions.fluids.actors.ItemDrainRenderer;
+import com.simibubi.create.content.contraptions.processing.EmptyingByBasin;
 import com.simibubi.create.content.contraptions.relays.belt.BeltHelper;
 import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
 import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
@@ -23,11 +24,13 @@ import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockEntity> {
-    public static final List<Renderer> SURFACE_RENDERERS = new ArrayList<>();
+    public static final Map<String,Renderer> SURFACE_RENDERERS = new HashMap<>();
     static {
-        SURFACE_RENDERERS.add((drain, partialTicks, ms, buffer, light, overlay) -> {
+        SURFACE_RENDERERS.put("drain",(drain, partialTicks, ms, buffer, light, overlay) -> {
 
         });
     }
@@ -122,13 +125,23 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
     protected void renderSafe(SmartDrainBlockEntity drain, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(drain, partialTicks, ms, buffer, light, overlay);
         var surface = drain.surface;
-        ItemStack itemStack = surface.stack;
-        if (!itemStack.isEmpty()) {
+        ItemStack surfaceItem = surface.stack;
+        if (!surfaceItem.isEmpty()) {
             float beltPosition = MathHelper.lerp(partialTicks, surface.prevBeltPosition, surface.beltPosition);
             float sideOffset = MathHelper.lerp(partialTicks, surface.prevSideOffset, surface.sideOffset);
             Direction insertedFrom = surface.insertedFrom;
             if (insertedFrom.getAxis().isHorizontal()) {
                 renderLikeDrain(surface, drain.getPos(), partialTicks, ms, buffer, light, overlay);
+                var drainFluid = EmptyingByBasin.emptyItem(drain.getWorld(),surfaceItem,true).getFirst();
+                if (drain.drainTicks>0) {
+                    float processingPT = drain.drainTicks - partialTicks;
+                    float processingProgress = 1 - (processingPT - 5) / 10;
+                    processingProgress = MathHelper.clamp(processingProgress, 0, 1);
+                    float radius = (float) (Math.pow(((2 * processingProgress) - 1), 2) - 1);
+                    Box bb = new Box(0.5, 1.0, 0.5, 0.5, 2/16.0, 0.5).expand(radius / 32f);
+                    FluidRenderer.renderFluidBox(drainFluid, (float) bb.minX, (float) bb.minY, (float) bb.minZ,
+                      (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ, buffer, ms, light, true);
+                }
             } else {
                 renderLikeDepot(surface, partialTicks, ms, buffer, light, overlay);
             }
@@ -138,8 +151,8 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
         if (!fluidStack.isEmpty()) {
             FluidRenderer.renderFluidBox(fluidStack, 2 / 16f, 2 / 16f, 2 / 16f, 14 / 16f, 2 / 16f + segment.getFluidLevel().getValue(partialTicks) * 10 / 16f, 14 / 16f, buffer, ms, light, false);
         }
-        int surfaceRenderer = drain.surfaceRenderer;
-        if (surfaceRenderer >= 0) SURFACE_RENDERERS.get(surfaceRenderer).render(drain, partialTicks, ms, buffer, light, overlay);
+//        String surfaceRenderer = drain.surfaceRenderer;
+//        if (!surfaceRenderer.isEmpty()) SURFACE_RENDERERS.get(surfaceRenderer).render(drain, partialTicks, ms, buffer, light, overlay);
     }
 
     @FunctionalInterface

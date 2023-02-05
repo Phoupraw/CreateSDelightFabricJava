@@ -9,12 +9,12 @@ import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -25,10 +25,11 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -37,29 +38,22 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBeltInputBehaviour.InsertionCallback, SidedStorageBlockEntity, IHaveGoggleInformation {
-    public static final ItemApiLookup<Integer, SmartDrainBlockEntity> SURFACE_INPUT = ItemApiLookup.get(new Identifier(MyIdentifiers.MOD_ID, "input_limiters"), Integer.class, SmartDrainBlockEntity.class);
     public static final Event<Predicate<SmartDrainBlockEntity>> SURFACE_TICKER = EventFactory.createArrayBacked(Predicate.class, tickers -> drain -> {
         for (Predicate<SmartDrainBlockEntity> ticker : tickers) if (!ticker.test(drain)) return false;
         return true;
     });
+    //    public static final Map<String,Function<SmartDrainBlockEntity,>>
     static {
-        SURFACE_INPUT.registerFallback((inputStack, drain) -> {
-            if (!EmptyingByBasin.canItemBeEmptied(drain.getWorld(), inputStack)) {return null;}
-            return Math.min(1, inputStack.getCount());
-        });
         SURFACE_TICKER.register(drain -> {
-            ItemStack stack = drain.surface.stack;
+            TransportedItemStack surface = drain.surface;
+            ItemStack stack = surface.stack;
             if (!EmptyingByBasin.canItemBeEmptied(drain.getWorld(), stack)) return true;
-            drain.surfaceRenderer=0;
+            drain.surfaceRenderer = "drain";
             var pair = EmptyingByBasin.emptyItem(drain.getWorld(), stack, true);
             FluidStack fluidStack = pair.getFirst();
             long amount = fluidStack.getAmount();
@@ -68,13 +62,13 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
             try (var transaction = Transaction.openOuter()) {
                 if (tank.insert(variant, amount, transaction) != amount) return false;
             }
-            if (drain.surfaceTicks < ItemDrainTileEntity.FILLING_TIME) {
-                drain.surfaceTicks++;
+            if (drain.drainTicks < ItemDrainTileEntity.FILLING_TIME) {
+                drain.drainTicks++;
             } else {
-                drain.surfaceTicks = 0;
+                drain.drainTicks = 0;
                 try (var transaction = Transaction.openOuter()) {
                     tank.insert(variant, amount, transaction);
-                    stack = pair.getSecond();
+                    surface.stack = pair.getSecond();
                     transaction.commit();
                 }
             }
@@ -84,9 +78,10 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
     public final Map<@NotNull Direction, SurfaceStorage> surfaceS = new EnumMap<>(Direction.class);
     public TransportedItemStack surface = TransportedItemStack.EMPTY;
     public boolean continueRoll = false;
-    public int surfaceTicks;
+    public int drainTicks;
     public SmartFluidTankBehaviour tank;
-    public int surfaceRenderer = -1;
+    public String surfaceRenderer = "";
+    public SurfaceStrategy surfaceStrategy;
 //    @Environment(EnvType.CLIENT)
 //    public SmartDrainRenderer.Renderer surfaceRenderer;
 
@@ -106,34 +101,59 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
     public void tick() {
         super.tick();
         TransportedItemStack surface = this.surface;
-        ItemStack itemStack = surface.stack;
+        ItemStack surfaceItem = surface.stack;
         float beltPosition = surface.beltPosition;
         float speed = getSurfaceSpeed();
-        if (!itemStack.isEmpty()) {
+        if (!surfaceItem.isEmpty()) {
+            surface.prevBeltPosition = beltPosition;
             Direction insertedFrom = surface.insertedFrom;
             if (insertedFrom.getAxis().isVertical()) {
                 setRollingToAround();
             } else {
-                surface.prevBeltPosition = beltPosition;
                 if (beltPosition < 0.5f || beltPosition >= 0.5f + speed && beltPosition < 1) {
                     beltPosition += speed;
                 } else if (beltPosition >= 0.5f && beltPosition < 0.5f + speed) {
-                    boolean continueRoll = this.continueRoll;
-                    boolean previous = continueRoll;
                     if (continueRoll) {
                         beltPosition += speed;
                         continueRoll = false;
                     } else {
-                        continueRoll = SURFACE_TICKER.invoker().test(this);
-                        if (!continueRoll) surfaceRenderer=-1;
+                        if (getWorld().isClient()) {
+                            if (drainTicks > 0) {
+                                drainTicks--;
+                            }
+                        } else {
+                            if (drainTicks <= 5 && drainTicks > 0) {
+                                drainTicks--;
+                            } else if (EmptyingByBasin.canItemBeEmptied(getWorld(), surfaceItem)) {
+                                var pair = EmptyingByBasin.emptyItem(getWorld(), surfaceItem, true);
+                                try (Transaction t = TransferUtil.getTransaction()) {
+                                    if (pair.getFirst().getAmount() == tank.getPrimaryHandler().insert(pair.getFirst().getType(), pair.getFirst().getAmount(), t)) {
+                                        if (drainTicks == 0) {
+                                            drainTicks = ItemDrainTileEntity.FILLING_TIME;
+                                            sendData();
+                                        }
+                                        drainTicks--;
+                                    } else {
+                                        drainTicks = 0;
+                                    }
+                                }
+                                    if (drainTicks == 5) {try (Transaction t = TransferUtil.getTransaction()) {
+                                        tank.getPrimaryHandler().insert(pair.getFirst().getType(), pair.getFirst().getAmount(),t);
+                                        t.commit();
+                                        surface.stack = pair.getSecond();
+                                    }
+                                }
+                            } else {
+                                continueRoll = true;
+                                sendData();
+                            }
+                        }
                     }
-                    this.continueRoll = continueRoll;
-                    if (!getWorld().isClient() && previous ^ continueRoll) sendData();
                 } else if (beltPosition >= 1) {
                     DirectBeltInputBehaviour b = TileEntityBehaviour.get(getWorld(), pos.offset(insertedFrom), DirectBeltInputBehaviour.TYPE);
                     if (b != null) {
                         ItemStack now = surface.stack = b.handleInsertion(surface, insertedFrom, false);
-                        if (!itemStack.equals(now)) notifyUpdate();
+                        if (!surfaceItem.equals(now)) notifyUpdate();
                     }
                 }
                 surface.beltPosition = beltPosition;
@@ -147,7 +167,8 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         super.write(tag, clientPacket);
         tag.put("surface", surface.serializeNBT());
         tag.putBoolean("continueRoll", continueRoll);
-        tag.putInt("surfaceRenderer",surfaceRenderer);
+        tag.putInt("surfaceTicks", drainTicks);
+        tag.putString("surfaceRenderer", surfaceRenderer);
     }
 
     @Override
@@ -155,7 +176,8 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         super.read(tag, clientPacket);
         surface = TransportedItemStack.read(tag.getCompound("surface"));
         continueRoll = tag.getBoolean("continueRoll");
-        surfaceRenderer=tag.getInt("surfaceRenderer");
+        drainTicks = tag.getInt("surfaceTicks");
+        surfaceRenderer = tag.getString("surfaceRenderer");
     }
 
     @Override
@@ -220,6 +242,12 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
         }
     }
 
+    public int limitInput(ItemStack inputting) {
+        if (inputting.isEmpty()) return 0;
+        if (EmptyingByBasin.canItemBeEmptied(getWorld(), inputting)) return 1;
+        return inputting.getCount();
+    }
+
     public abstract class SurfaceStorage extends SingleStackStorage implements DirectBeltInputBehaviour.InsertionCallback {
         @MustBeInvokedByOverriders
         @Override
@@ -248,16 +276,14 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
 
         @Override
         public long insert(ItemVariant insertedVariant, long maxAmount, TransactionContext transaction) {
-            Integer limit = SURFACE_INPUT.find(insertedVariant.toStack((int) maxAmount), SmartDrainBlockEntity.this);
-            return super.insert(insertedVariant, limit == null ? maxAmount : limit, transaction);
+            return super.insert(insertedVariant, limitInput(insertedVariant.toStack((int) maxAmount)), transaction);
         }
 
         @Override
         public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
             ItemStack stack = transp.stack;
             if (!getStack().isEmpty()) return stack;
-            var limit = SURFACE_INPUT.find(stack, SmartDrainBlockEntity.this);
-            int count = limit == null ? stack.getCount() : limit;
+            int count = limitInput(stack);
             if (!simulate) {
                 var inserted = transp.copy();
                 inserted.stack.setCount(count);
@@ -293,6 +319,14 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements DirectBelt
             surface.prevBeltPosition = surface.beltPosition = 0.5f;
             setRollingToAround();
         }
+    }
+
+    public interface SurfaceStrategy {
+        int limitInput(SmartDrainBlockEntity drain, ItemStack inputStack);
+        void tick(SmartDrainBlockEntity drain);
+        boolean queryRoll(SmartDrainBlockEntity drain);
+        @Environment(EnvType.CLIENT)
+        void render(SmartDrainBlockEntity drain, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay);
     }
 
 }
