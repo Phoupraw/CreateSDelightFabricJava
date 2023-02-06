@@ -10,7 +10,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -29,15 +28,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import phoupraw.mcmod.createsdelight.api.ConstantSingleItemStorage;
 import phoupraw.mcmod.createsdelight.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
-import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static phoupraw.mcmod.createsdelight.block.PanBlock.always;
+import static phoupraw.mcmod.createsdelight.api.Lambdas.always;
 public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
     public static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
 

@@ -3,7 +3,6 @@ package phoupraw.mcmod.createsdelight.block;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.AllShapes;
 import com.simibubi.create.foundation.block.ITE;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -27,16 +26,10 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import phoupraw.mcmod.createsdelight.api.Lambdas;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
 public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity> {
-    public static <T> Consumer<T> nothing() {
-        return t -> {};
-    }
 
     public SmartDrainBlock(Settings settings) {
         super(settings);
@@ -80,7 +73,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
             var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
             if (drain.ignite()) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
-                    handStack.damage(1, player, nothing());
+                    handStack.damage(1, player, Lambdas.nothing());
                     world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1, 1);
                 } else if (handStack.isOf(Items.FIRE_CHARGE)) {
                     handStack.decrement(1);
