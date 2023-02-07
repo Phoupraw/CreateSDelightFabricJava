@@ -7,7 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +15,7 @@ public interface WorldBlockApiCache<A, C> {
     static <A, C> WorldBlockApiCache<A, C> of(@NotNull ServerWorld world, BlockApiLookup<A, C> lookup) {
         return new WorldBlockApiCacheImpl<>(world, lookup);
     }
-    default @Nullable A find(World world, BlockPos pos, C context) {
+    default @Nullable A find(BlockPos pos, C context) {
         return find(pos, null, null, context);
     }
     default @Nullable A find(BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, C context) {
