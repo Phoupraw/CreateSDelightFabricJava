@@ -2,7 +2,6 @@ package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
 import com.simibubi.create.content.contraptions.fluids.actors.ItemDrainRenderer;
-import com.simibubi.create.content.contraptions.processing.EmptyingByBasin;
 import com.simibubi.create.content.contraptions.relays.belt.BeltHelper;
 import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
 import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
@@ -10,6 +9,10 @@ import com.simibubi.create.foundation.fluid.FluidRenderer;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
 import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.foundation.utility.animation.LerpedFloat;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -21,19 +24,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.createsdelight.behaviour.DepotItemBehaviour;
+import phoupraw.mcmod.createsdelight.behaviour.EmptyingBehaviour;
+import phoupraw.mcmod.createsdelight.behaviour.RollingItemBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import phoupraw.mcmod.createsdelight.mixin.AccessLerpedFloat;
+@Environment(EnvType.CLIENT)
 public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockEntity> {
-    public static final Map<String,Renderer> SURFACE_RENDERERS = new HashMap<>();
-    static {
-        SURFACE_RENDERERS.put("drain",(drain, partialTicks, ms, buffer, light, overlay) -> {
-
-        });
-    }
     /**
      * @see ItemDrainRenderer#renderItem
      */
@@ -117,6 +114,22 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
         ms.pop();
     }
 
+    public static void render(SmartFluidTankBehaviour tank, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
+        SmartFluidTankBehaviour.TankSegment segment = tank.getPrimaryTank();
+        if (!tank.getPrimaryHandler().isEmpty()) {
+            FluidStack fluidStack = segment.getRenderedFluid();
+            LerpedFloat fluidLevel = segment.getFluidLevel();
+            FluidRenderer.renderFluidBox(fluidStack, 2 / 16f, 2 / 16f, 2 / 16f, 14 / 16f, 2 / 16f + fluidLevel.getValue(partialTicks) * 10 / 16f, 14 / 16f, buffer, ms, light, false);
+            float value = fluidLevel.getValue(0.5f);
+            float previousValue = ((AccessLerpedFloat) fluidLevel).getPreviousValue();
+            float chaseTarget = fluidLevel.getChaseTarget();
+            if (chaseTarget > value) {
+                float radius = (value - previousValue);
+//                FluidRenderer.renderFluidBox(fluidStack, 0.5f - radius, 2 / 16f, 0.5f - radius, 0.5f + radius, 13 / 16f, 0.5f + radius, buffer, ms, light, false);
+            }
+        }
+    }
+
     public SmartDrainRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }
@@ -124,44 +137,10 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
     @Override
     protected void renderSafe(SmartDrainBlockEntity drain, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(drain, partialTicks, ms, buffer, light, overlay);
-        var surface = drain.surface;
-        ItemStack surfaceItem = surface.stack;
-        if (!surfaceItem.isEmpty()) {
-            float beltPosition = MathHelper.lerp(partialTicks, surface.prevBeltPosition, surface.beltPosition);
-            float sideOffset = MathHelper.lerp(partialTicks, surface.prevSideOffset, surface.sideOffset);
-            Direction insertedFrom = surface.insertedFrom;
-            if (insertedFrom.getAxis().isHorizontal()) {
-                renderLikeDrain(surface, drain.getPos(), partialTicks, ms, buffer, light, overlay);
-                var drainFluid = EmptyingByBasin.emptyItem(drain.getWorld(),surfaceItem,true).getFirst();
-                if (drain.drainTicks>0) {
-                    float processingPT = drain.drainTicks - partialTicks;
-                    float processingProgress = 1 - (processingPT - 5) / 10;
-                    processingProgress = MathHelper.clamp(processingProgress, 0, 1);
-                    float radius = (float) (Math.pow(((2 * processingProgress) - 1), 2) - 1);
-                    Box bb = new Box(0.5, 1.0, 0.5, 0.5, 2/16.0, 0.5).expand(radius / 32f);
-                    FluidRenderer.renderFluidBox(drainFluid, (float) bb.minX, (float) bb.minY, (float) bb.minZ, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ, buffer, ms, light, true);
-                }
-            } else {
-                renderLikeDepot(surface, partialTicks, ms, buffer, light, overlay);
-            }
-        }
-        SmartFluidTankBehaviour.TankSegment segment = drain.tank.getPrimaryTank();
-        var fluidStack = segment.getRenderedFluid();
-        if (!drain.tank.getPrimaryHandler().isEmpty()) {
-            FluidRenderer.renderFluidBox(fluidStack, 2 / 16f, 2 / 16f, 2 / 16f, 14 / 16f, 2 / 16f + segment.getFluidLevel().getValue(partialTicks) * 10 / 16f, 14 / 16f, buffer, ms, light, false);
-        }
-        if (!drain.inner.stack.isEmpty()){
-            ms.push();
-            ms.translate(0,-11/16.0,0);
-            renderLikeDepot(drain.inner,partialTicks,ms,buffer,light,overlay);
-            ms.pop();
-        }
-//        String surfaceRenderer = drain.surfaceRenderer;
-//        if (!surfaceRenderer.isEmpty()) SURFACE_RENDERERS.get(surfaceRenderer).render(drain, partialTicks, ms, buffer, light, overlay);
+        drain.getBehaviour(RollingItemBehaviour.TYPE).render(partialTicks, ms, buffer, light, overlay);
+        render(drain.getBehaviour(SmartFluidTankBehaviour.TYPE), partialTicks, ms, buffer, light, overlay);
+        drain.getBehaviour(DepotItemBehaviour.TYPE).render(partialTicks, ms, buffer, light, overlay);
+        drain.getBehaviour(EmptyingBehaviour.TYPE).render(partialTicks, ms, buffer, light, overlay);
     }
 
-    @FunctionalInterface
-    public interface Renderer {
-        void render(SmartDrainBlockEntity drain, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay);
-    }
 }

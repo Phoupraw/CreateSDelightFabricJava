@@ -27,8 +27,7 @@ public class BlockingTransportedStorage extends SingleStackStorage implements Di
     }
 
     /**
-     * @param heldItem
-     * @return
+     * @return 没有移动
      * @see DepotBehaviour#tick(TransportedItemStack)
      */
     public static boolean tickMovement(TransportedItemStack heldItem) {

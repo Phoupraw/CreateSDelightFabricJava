@@ -3,6 +3,7 @@ package phoupraw.mcmod.createsdelight.block;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.AllShapes;
 import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -27,6 +28,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.api.Lambdas;
+import phoupraw.mcmod.createsdelight.behaviour.BurnerBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity> {
@@ -71,7 +73,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         ItemStack handStack = player.getStackInHand(hand);
         if (hit.getSide() == Direction.UP && (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE))) {
             var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
-            if (drain.ignite()) {
+            if (drain.getBehaviour(BurnerBehaviour.TYPE).tryIgnite()>0) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
                     handStack.damage(1, player, Lambdas.nothing());
                     world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1, 1);
@@ -93,11 +95,11 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1, 1);
             world.addParticle(ParticleTypes.LARGE_SMOKE, pos.getX() + 0.2 + random.nextDouble() * 0.6, pos.getY() + 0.5, pos.getZ() + 0.2 + random.nextDouble() * 0.6, 0, 0, 0);
         }
-        if (drain.tank.getPrimaryHandler().getResource().isOf(Fluids.LAVA)) {
+        if (drain.getBehaviour(SmartFluidTankBehaviour.TYPE).getPrimaryHandler().getResource().isOf(Fluids.LAVA)) {
             ((LavaFluid) Fluids.LAVA).randomDisplayTick(world, pos, Fluids.LAVA.getDefaultState(), random);
         }
-        if (drain.grillTicks > 0 && random.nextInt(5)==0) {
-            world.playSound(null, pos, SoundsRegistry.BLOCK_STOVE_CRACKLE.get(), SoundCategory.BLOCKS, 1, 1);
-        }
+//        if (drain.grillTicks > 0 && random.nextInt(5)==0) {
+//            world.playSound(null, pos, SoundsRegistry.BLOCK_STOVE_CRACKLE.get(), SoundCategory.BLOCKS, 1, 1);
+//        }
     }
 }
