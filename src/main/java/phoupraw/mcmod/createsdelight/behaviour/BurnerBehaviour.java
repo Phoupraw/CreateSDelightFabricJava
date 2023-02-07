@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
+import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
@@ -12,12 +13,16 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
-public class BurnerBehaviour extends TileEntityBehaviour {
+
+import java.util.List;
+public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleInformation {
     public static final BehaviourType<BurnerBehaviour> TYPE = new BehaviourType<>("burner");
     public @Nullable Storage<ItemVariant> itemS;
     public @Nullable Storage<FluidVariant> fluidS;
@@ -72,11 +77,18 @@ public class BurnerBehaviour extends TileEntityBehaviour {
                 Integer fuelTime = FuelRegistry.INSTANCE.get(resource.getItem());
                 if (fuelTime == null) continue;
                 try (var transa = Transaction.openOuter()) {
-                    long amount = view.extract(resource, 1, transa);
-                    if (amount == 1) {
-                        transa.commit();
-                        setFuelTicks(getFuelTicks() + fuelTime);
-                        return fuelTime;
+                    long extract = view.extract(resource, 1, transa);
+                    if (extract == 1) {
+                        boolean b = true;
+                        if (resource.getItem().getRecipeRemainder() != null) {
+                            long inserted = itemS.insert(ItemVariant.of(resource.getItem().getRecipeRemainder()), 1, transa);
+                            if (inserted != 1) b = false;
+                        }
+                        if (b) {
+                            transa.commit();
+                            setFuelTicks(getFuelTicks() + fuelTime);
+                            return fuelTime;
+                        }
                     }
                 }
             }
@@ -98,6 +110,7 @@ public class BurnerBehaviour extends TileEntityBehaviour {
         }
         return 0;
     }
+
     public int getFuelTicks() {
         return fuelTicks;
     }
@@ -122,5 +135,23 @@ public class BurnerBehaviour extends TileEntityBehaviour {
     @MustBeInvokedByOverriders
     public void onExtinguish() {
         tileEntity.sendData();
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Text> tooltip, boolean isPlayerSneaking) {
+        if (fuelTicks <= 0) return false;
+        Formatting formatting;
+        if (fuelTicks < 5 * 20) {
+            formatting = Formatting.GRAY;
+        } else if (fuelTicks < 60 * 20) {
+            formatting = Formatting.GOLD;
+        } else if (fuelTicks < 10 * 60 * 20) {
+            formatting = Formatting.RED;
+        } else {
+            formatting = Formatting.DARK_RED;
+        }
+        String time = "%d:%02d:%02d".formatted(fuelTicks / 20 / 60, fuelTicks / 20 % 60, fuelTicks % 20);
+        tooltip.add(Text.translatable("burn_time", Text.literal(time).formatted(formatting)));
+        return true;
     }
 }

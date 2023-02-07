@@ -88,23 +88,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
 
     @Override
     public boolean addToGoggleTooltip(List<Text> tooltip, boolean isPlayerSneaking) {
-        IHaveGoggleInformation.super.containedFluidTooltip(tooltip, isPlayerSneaking, getBehaviour(SmartFluidTankBehaviour.TYPE).getCapability());
-        int fuelTicks = getBehaviour(BurnerBehaviour.TYPE).getFuelTicks();
-        if (fuelTicks > 0) {
-            Formatting formatting;
-            if (fuelTicks <= 5 * 20) {
-                formatting = Formatting.GRAY;
-            } else if (fuelTicks <= 20 * 20) {
-                formatting = Formatting.GOLD;
-            } else if (fuelTicks <= 60 * 20) {
-                formatting = Formatting.RED;
-            } else {
-                formatting = Formatting.DARK_RED;
-            }
-            String time = "%d:%02d:%02d".formatted(fuelTicks / 20 / 60, fuelTicks / 20 % 60, fuelTicks % 20);
-            tooltip.add(Text.translatable("burn_time", Text.translatable("category.rei.campfire.time", Text.literal(time).formatted(formatting))));
-        }
-        return true;
+        return IHaveGoggleInformation.super.containedFluidTooltip(tooltip, isPlayerSneaking, getBehaviour(SmartFluidTankBehaviour.TYPE).getCapability()) | getBehaviour(BurnerBehaviour.TYPE).addToGoggleTooltip(tooltip, isPlayerSneaking);
     }
 
 }
