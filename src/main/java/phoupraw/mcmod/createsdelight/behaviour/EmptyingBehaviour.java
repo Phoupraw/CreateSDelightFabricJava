@@ -78,23 +78,26 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
         }
         var pair = EmptyingByBasin.emptyItem(getWorld(), getStack(), true);
         FluidStack fluidStack = pair.getFirst();
-        if (ticks > 0) {
-            ticks--;
-        } else if (ticks == 0) {
-            long amount = fluidStack.getAmount();
-            try (var transa = Transaction.openOuter()) {
-                if (amount != fluidStorage.insert(fluidStack.getType(), amount, transa)) {
-                    ticks = DURATION;
-                } else {
-                    transa.commit();
-                    setStack(pair.getSecond());
-                    ticks = -1;
-                }
-            }
-        } else {
+        if (ticks < 0) {
             fluid = fluidStack;
             ticks = DURATION;
             tileEntity.sendData();
+            return;
+        }
+        if (ticks>0) ticks--;
+        long amount = fluidStack.getAmount();
+        try (var transa = Transaction.openOuter()) {
+            if (amount != fluidStorage.insert(fluidStack.getType(), amount, transa)) {
+                ticks = DURATION;
+            }
+        }
+        if (ticks == 0) {
+            try (var transa = Transaction.openOuter()) {
+                fluidStorage.insert(fluidStack.getType(), amount, transa);
+                transa.commit();
+                setStack(pair.getSecond());
+                ticks = -1;
+            }
         }
     }
 
@@ -135,7 +138,7 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
     }
 
     public boolean isNotEmptying() {
-        return ticks <= 0;
+        return ticks < 0;
     }
 
     @Environment(EnvType.CLIENT)

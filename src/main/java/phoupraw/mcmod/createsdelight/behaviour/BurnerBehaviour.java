@@ -66,8 +66,11 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
         super.tick();
         if (getFuelTicks() <= 0) {return;}
         setFuelTicks(getFuelTicks() - 1);
+        if (getWorld().isClient()) return;
         if (getFuelTicks() != 0) {return;}
-        tryIgnite();
+        if (tryIgnite() == 0) {
+            setFuelTicks(-1);
+        }
     }
 
     public int tryIgnite() {
@@ -118,9 +121,9 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
     public void setFuelTicks(int fuelTicks) {
         int p = getFuelTicks();
         this.fuelTicks = fuelTicks;
-        if (p <= 0 && fuelTicks > 0) {
+        if (p < 0 && fuelTicks >= 0) {
             onIgnite();
-        } else if (p > 0 && fuelTicks <= 0) {
+        } else if (p >= 0 && fuelTicks < 0) {
             onExtinguish();
         }
     }
@@ -139,7 +142,8 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
 
     @Override
     public boolean addToGoggleTooltip(List<Text> tooltip, boolean isPlayerSneaking) {
-        if (fuelTicks <= 0) return false;
+        int fuelTicks = getFuelTicks();
+        if (fuelTicks < 0) fuelTicks = 0;
         Formatting formatting;
         if (fuelTicks < 5 * 20) {
             formatting = Formatting.GRAY;
@@ -150,7 +154,7 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
         } else {
             formatting = Formatting.DARK_RED;
         }
-        String time = "%d:%02d".formatted(fuelTicks / 20 / 60, fuelTicks / 20 % 60);
+        String time = "%d:%02d:%02d".formatted(fuelTicks / 20 / 60, fuelTicks / 20 % 60, fuelTicks % 20);
         tooltip.add(Text.translatable("burn_time", Text.literal(time).formatted(formatting)));
         return true;
     }

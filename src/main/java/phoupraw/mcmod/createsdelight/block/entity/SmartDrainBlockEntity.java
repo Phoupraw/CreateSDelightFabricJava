@@ -100,10 +100,10 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         behaviours.add(bb);
         behaviours.add(new EmptyingBehaviour(this));
         tb.whenFluidUpdates(() -> {
-            if (bb.getFuelTicks() > 0) {
+            if (bb.getFuelTicks() >= 0) {
                 var fluid = tb.getPrimaryHandler().getResource();
                 if (!fluid.isBlank() && !fluid.isOf(MyFluids.SUNFLOWER_OIL)) {
-                    bb.setFuelTicks(0);
+                    bb.setFuelTicks(-1);
                     getWorld().playSound(null, getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
                 }
             }
