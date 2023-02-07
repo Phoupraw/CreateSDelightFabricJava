@@ -8,10 +8,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 public class BlockingTransportedBehaviour extends TileEntityBehaviour {
-    public static final BehaviourType<BlockingTransportedBehaviour> TYPE = new BehaviourType<>(new Identifier(MyIdentifiers.MOD_ID, "blocking_transported").toString());
+    public static final BehaviourType<BlockingTransportedBehaviour> TYPE = new BehaviourType<>(new Identifier(CreateSDelight.MOD_ID, "blocking_transported").toString());
 
     private final BlockingTransportedStorage transported = new BlockingTransportedStorage() {
         @Override

@@ -36,7 +36,7 @@ import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
-//TODO 支架
+
 public class PanBlock extends Block implements ITE<PanBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.combine(Block.createCuboidShape(1, 0, 1, 15, 4, 15), Block.createCuboidShape(2, 1, 2, 14, 4, 14), BooleanBiFunction.ONLY_FIRST);
 

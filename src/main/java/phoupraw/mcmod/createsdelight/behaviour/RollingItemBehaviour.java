@@ -26,7 +26,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
 
     public @NotNull TransportedItemStack transp = TransportedItemStack.EMPTY;
     public final Map<Direction, SideStorage> views = new EnumMap<>(Direction.class);
-    public ItemApiLookup<Integer, RollingItemBehaviour> inputLimit = ItemApiLookup.get(new Identifier(MyIdentifiers.MOD_ID, "roll/input_limit"), Integer.class, RollingItemBehaviour.class);
+    public ItemApiLookup<Integer, RollingItemBehaviour> inputLimit = ItemApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "roll/input_limit"), Integer.class, RollingItemBehaviour.class);
     public Event<Predicate<RollingItemBehaviour>> continueRoll = EventFactory.createArrayBacked(Predicate.class, providers -> rb -> {
         for (Predicate<RollingItemBehaviour> provider : providers) if (!provider.test(rb)) return false;
         return true;

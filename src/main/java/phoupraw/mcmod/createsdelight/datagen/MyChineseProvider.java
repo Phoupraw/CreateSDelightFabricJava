@@ -3,6 +3,7 @@ package phoupraw.mcmod.createsdelight.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.util.Identifier;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.VirtualFluid;
 import phoupraw.mcmod.createsdelight.registry.*;
 public class MyChineseProvider extends FabricLanguageProvider {
@@ -20,7 +21,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(TranslationBuilder builder) {
-        builder.add("modmenu.descriptionTranslation." + MyIdentifiers.MOD_ID, """
+        builder.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
           机械动力乐事
           主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
           """);

@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import net.minecraft.util.Identifier;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 
 import java.util.Locale;
 public final class MyIdentifiers {
-    public static final String MOD_ID = "createsdelight";
 
     public static final Identifier
       PAN = of("pan"),
@@ -26,7 +26,7 @@ public final class MyIdentifiers {
     SMART_DRAIN=of("smart_drain");
 
     public static Identifier of(String path) {
-        return new Identifier(MOD_ID, path.toLowerCase(Locale.ROOT));
+        return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));
     }
 
     private MyIdentifiers() {}

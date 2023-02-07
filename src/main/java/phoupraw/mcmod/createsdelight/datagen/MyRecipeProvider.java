@@ -1,14 +1,9 @@
 package phoupraw.mcmod.createsdelight.datagen;
 
-import com.nhoryzon.mc.farmersdelight.recipe.CuttingBoardRecipe;
-import com.nhoryzon.mc.farmersdelight.recipe.ingredient.ChanceResult;
 import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
-import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
-import com.nhoryzon.mc.farmersdelight.registry.TagsRegistry;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllTags;
 import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
@@ -16,20 +11,15 @@ import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuild
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.impl.tag.convention.TagRegistration;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
-import phoupraw.mcmod.createsdelight.api.CuttingBoardRecipeJsonProvider;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
@@ -75,7 +65,7 @@ public class MyRecipeProvider extends FabricRecipeProvider {
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THICK_PORK_SLICE, "", Ingredient.ofItems(Items.PORKCHOP), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THICK_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THIN_PORK_SLICE, "", Ingredient.ofItems(MyItems.THICK_PORK_SLICE), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THIN_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 
-        new ProcessingRecipeBuilder<>(FillingRecipe::new, new Identifier(MyIdentifiers.MOD_ID, "chocolate_pie"))
+        new ProcessingRecipeBuilder<>(FillingRecipe::new, new Identifier(CreateSDelight.MOD_ID, "chocolate_pie"))
           .require(ItemsRegistry.PIE_CRUST.get())
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET / 2)
           .output(ItemsRegistry.CHOCOLATE_PIE.get())

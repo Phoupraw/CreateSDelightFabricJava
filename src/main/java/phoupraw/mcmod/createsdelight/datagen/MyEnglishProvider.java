@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.VirtualFluid;
 import phoupraw.mcmod.createsdelight.registry.*;
 
@@ -14,7 +15,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(TranslationBuilder builder) {
-        builder.add("modmenu.descriptionTranslation." + MyIdentifiers.MOD_ID, """
+        builder.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
           Create'S Delight
           Mainly add interaction between create and farmer's delight and unique food processing.
           """);

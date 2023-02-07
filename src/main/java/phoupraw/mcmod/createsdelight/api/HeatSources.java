@@ -6,9 +6,9 @@ import com.simibubi.create.content.contraptions.fluids.tank.BoilerHeaters;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
-import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 public final class HeatSources {
-    public static final BlockApiLookup<Double, Direction> SIDED = BlockApiLookup.get(new Identifier(MyIdentifiers.MOD_ID, "heat_source"), Double.class, Direction.class);
+    public static final BlockApiLookup<Double, Direction> SIDED = BlockApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "heat_source"), Double.class, Direction.class);
     static {
         SIDED.registerFallback((world, pos, state, blockEntity, side) -> {
             if (side != Direction.UP) return null;

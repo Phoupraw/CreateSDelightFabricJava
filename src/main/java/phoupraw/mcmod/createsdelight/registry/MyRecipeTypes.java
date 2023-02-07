@@ -1,18 +1,17 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder.ProcessingRecipeFactory;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
 import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.display.Display;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
 import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
@@ -36,10 +35,10 @@ import phoupraw.mcmod.createsdelight.recipe.SteamingRecipe;
  */
 @SuppressWarnings("OverrideOnly")
 public class MyRecipeTypes {
-    public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "pan_frying"), PanFryingRecipe::new);
-    public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "grilling"), GrillingRecipe::new);
-    public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "sprinkling"), SprinklingRecipe::new);
-    public static final RecipeTypeInfo<SteamingRecipe> STEAMING = new RecipeTypeInfo<>(new Identifier(MyIdentifiers.MOD_ID, "steaming"), SteamingRecipe::new);
+    public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "pan_frying"), PanFryingRecipe::new);
+    public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "grilling"), GrillingRecipe::new);
+    public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "sprinkling"), SprinklingRecipe::new);
+    public static final RecipeTypeInfo<SteamingRecipe> STEAMING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "steaming"), SteamingRecipe::new);
 
     /**
      * <b>不要注册！</b>已在构造器中注册。

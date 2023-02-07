@@ -6,23 +6,20 @@ import com.nhoryzon.mc.farmersdelight.entity.block.StoveBlockEntity;
 import com.nhoryzon.mc.farmersdelight.registry.BlocksRegistry;
 import com.simibubi.create.content.logistics.block.mechanicalArm.ArmInteractionPoint;
 import com.simibubi.create.content.logistics.block.mechanicalArm.ArmInteractionPointType;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.FarmersDelightWrappers;
-import phoupraw.mcmod.createsdelight.behaviour.BlockingTransportedBehaviour;
 
 import java.util.Objects;
 public final class MyArmPointTypes {
-    public static final ArmInteractionPointType STOVE = new DefaultPointType(new Identifier(MyIdentifiers.MOD_ID, "stove"), BlocksRegistry.STOVE.get()) {
+    public static final ArmInteractionPointType STOVE = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "stove"), BlocksRegistry.STOVE.get()) {
         @Override
         public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
             return new ArmInteractionPoint(this, level, pos, state) {
@@ -35,9 +32,9 @@ public final class MyArmPointTypes {
             };
         }
     };
-    public static final ArmInteractionPointType COOKING_POT = new DefaultPointType(new Identifier(MyIdentifiers.MOD_ID, "cooking_pot"), BlocksRegistry.COOKING_POT.get());
-    public static final ArmInteractionPointType BASKET = new DefaultPointType(new Identifier(MyIdentifiers.MOD_ID, "basket"), BlocksRegistry.BASKET.get());
-    public static final ArmInteractionPointType CUTTING_BOARD = new DefaultPointType(new Identifier(MyIdentifiers.MOD_ID, "cutting_board"), BlocksRegistry.CUTTING_BOARD.get()) {
+    public static final ArmInteractionPointType COOKING_POT = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "cooking_pot"), BlocksRegistry.COOKING_POT.get());
+    public static final ArmInteractionPointType BASKET = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "basket"), BlocksRegistry.BASKET.get());
+    public static final ArmInteractionPointType CUTTING_BOARD = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "cutting_board"), BlocksRegistry.CUTTING_BOARD.get()) {
         @Override
         public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
             return new ArmInteractionPoint(this, level, pos, state) {
@@ -50,7 +47,7 @@ public final class MyArmPointTypes {
             };
         }
     };
-    public static final ArmInteractionPointType SKILLET = new DefaultPointType(new Identifier(MyIdentifiers.MOD_ID, "skillet"), BlocksRegistry.SKILLET.get()) {
+    public static final ArmInteractionPointType SKILLET = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "skillet"), BlocksRegistry.SKILLET.get()) {
         @Override
         public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
             return new ArmInteractionPoint(this, level, pos, state) {
@@ -105,7 +102,7 @@ public final class MyArmPointTypes {
         private final Block block;
 
         /**
-         * @param id
+         * @param id {@link ArmInteractionPointType#ArmInteractionPointType(Identifier)}
          * @param block {@link #getBlock()}
          */
         public DefaultPointType(Identifier id, Block block) {
