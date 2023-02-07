@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputB
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.behaviour.BurnerBehaviour;
 import phoupraw.mcmod.createsdelight.behaviour.DepotItemBehaviour;
 import phoupraw.mcmod.createsdelight.behaviour.EmptyingBehaviour;
@@ -83,12 +85,29 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
 
     @Override
     public @Nullable Storage<FluidVariant> getFluidStorage(@Nullable Direction side) {
-        return side == Direction.UP ? null : getBehaviour(SmartFluidTankBehaviour.TYPE).getCapability();
+        return side == Direction.UP ? null : getTank().getCapability();
     }
 
     @Override
     public boolean addToGoggleTooltip(List<Text> tooltip, boolean isPlayerSneaking) {
-        return IHaveGoggleInformation.super.containedFluidTooltip(tooltip, isPlayerSneaking, getBehaviour(SmartFluidTankBehaviour.TYPE).getCapability()) | getBehaviour(BurnerBehaviour.TYPE).addToGoggleTooltip(tooltip, isPlayerSneaking);
+        return IHaveGoggleInformation.super.containedFluidTooltip(tooltip, isPlayerSneaking, getTank().getCapability()) | getBurner().addToGoggleTooltip(tooltip, isPlayerSneaking);
     }
 
+    public SmartFluidTankBehaviour getTank() {
+        return getBehaviour(SmartFluidTankBehaviour.TYPE);
+    }
+
+    public BurnerBehaviour getBurner() {
+        return getBehaviour(BurnerBehaviour.TYPE);
+    }
+
+    /**
+     * @see HeatSources
+     */
+    public double getSelfHeat(@Nullable Direction side) {
+        if (side != Direction.UP && side != null) return 0;
+        if (FluidVariantAttributes.getTemperature(getTank().getPrimaryHandler().getResource()) >= 400) return 1;
+        if (getBurner().getFuelTicks() > 0) return 1;
+        return 0;
+    }
 }

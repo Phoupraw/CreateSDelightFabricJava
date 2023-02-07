@@ -73,7 +73,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         ItemStack handStack = player.getStackInHand(hand);
         if (hit.getSide() == Direction.UP && (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE))) {
             var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
-            if (drain.getBehaviour(BurnerBehaviour.TYPE).tryIgnite()>0) {
+            if (drain.getBurner().tryIgnite()>0) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
                     handStack.damage(1, player, Lambdas.nothing());
                     world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1, 1);
@@ -95,7 +95,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1, 1);
             world.addParticle(ParticleTypes.LARGE_SMOKE, pos.getX() + 0.2 + random.nextDouble() * 0.6, pos.getY() + 0.5, pos.getZ() + 0.2 + random.nextDouble() * 0.6, 0, 0, 0);
         }
-        if (drain.getBehaviour(SmartFluidTankBehaviour.TYPE).getPrimaryHandler().getResource().isOf(Fluids.LAVA)) {
+        if (drain.getTank().getPrimaryHandler().getResource().isOf(Fluids.LAVA)) {
             ((LavaFluid) Fluids.LAVA).randomDisplayTick(world, pos, Fluids.LAVA.getDefaultState(), random);
         }
 //        if (drain.grillTicks > 0 && random.nextInt(5)==0) {

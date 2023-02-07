@@ -17,9 +17,9 @@ public interface WorldBlockApiCache<A, C> {
         return new WorldBlockApiCacheImpl<>(world, lookup);
     }
     default @Nullable A find(World world, BlockPos pos, C context) {
-        return find(world, pos, null, null, context);
+        return find(pos, null, null, context);
     }
-    default @Nullable A find(World world, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, C context) {
+    default @Nullable A find(BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, C context) {
         try {
             return getWorldCache().get(pos).find(state, context);
         } catch (ExecutionException e) {
