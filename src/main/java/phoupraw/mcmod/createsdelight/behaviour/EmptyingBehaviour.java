@@ -14,13 +14,17 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 public class EmptyingBehaviour extends TileEntityBehaviour {
+    public static final int DURATION = 15;
     public static final BehaviourType<EmptyingBehaviour> TYPE = new BehaviourType<>("emptying");
     public int ticks;
     public FluidStack fluid = FluidStack.EMPTY;
+    private RollingItemBehaviour rolling;
     private @Nullable Storage<FluidVariant> target;
 
     public EmptyingBehaviour(SmartTileEntity te) {
@@ -38,7 +42,7 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
         var rb0 = tileEntity.getBehaviour(RollingItemBehaviour.TYPE);
         if (rb0 != null) {
             rb0.inputLimit.registerFallback((stack, rb) -> EmptyingByBasin.canItemBeEmptied(getWorld(), stack) ? 1 : null);
-            rb0.continueRoll.register(this::tickEmpty);
+            rb0.continueRoll.register(this::isContinueRoll);
         }
     }
 
@@ -63,40 +67,39 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
     @Override
     public void tick() {
         super.tick();
+        if (!EmptyingByBasin.canItemBeEmptied(getWorld(), getStack())) {
+            ticks = -1;
+            return;
+        }
+        var fluidStorage = getTarget();
+        if (fluidStorage == null) {
+            ticks = -1;
+            return;
+        }
+        var pair = EmptyingByBasin.emptyItem(getWorld(), getStack(), true);
+        FluidStack fluidStack = pair.getFirst();
         if (ticks > 0) {
             ticks--;
+        } else if (ticks == 0) {
+            long amount = fluidStack.getAmount();
+            try (var transa = Transaction.openOuter()) {
+                if (amount != fluidStorage.insert(fluidStack.getType(), amount, transa)) {
+                    ticks = DURATION;
+                } else {
+                    transa.commit();
+                    setStack(pair.getSecond());
+                    ticks = -1;
+                }
+            }
+        } else {
+            fluid = fluidStack;
+            ticks = DURATION;
+            tileEntity.sendData();
         }
     }
 
-    public boolean tickEmpty(RollingItemBehaviour rb) {//FIXME
-        if (!EmptyingByBasin.canItemBeEmptied(getWorld(), rb.transp.stack)) return true;
-        var fluidStorage = getTarget();
-        if (fluidStorage == null) return true;
-        if (ticks == 0) {
-            ticks = 15;
-            tileEntity.sendData();
-            return false;
-        }
-        var pair = EmptyingByBasin.emptyItem(getWorld(), rb.transp.stack, true);
-        FluidStack fluidStack = pair.getFirst();
-        long amount = fluidStack.getAmount();
-        try (var transa = Transaction.openOuter()) {
-            if (amount != fluidStorage.insert(fluidStack.getType(), amount, transa)) {
-                ticks = 15;
-                return false;
-            }
-        }
-        ticks--;
-        if (ticks == 0) {
-            try (var transa = Transaction.openOuter()) {
-                fluidStorage.insert(fluidStack.getType(), amount, transa);
-                transa.commit();
-                rb.transp.stack = pair.getSecond();
-                tileEntity.sendData();
-                return true;
-            }
-        }
-        return false;
+    public boolean isContinueRoll(RollingItemBehaviour rb) {
+        return !isEmptying();
     }
 
     public @Nullable Storage<FluidVariant> getTarget() {
@@ -113,9 +116,40 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
         this.target = target;
     }
 
+    public ItemStack getStack() {
+        var rb = getRolling();
+        if (rb == null) return ItemStack.EMPTY;
+        return rb.transp.stack;
+    }
+
+    public void setStack(ItemStack stack) {
+        var rb = getRolling();
+        if (rb == null) {
+            CreateSDelight.LOGGER.warn(stack + "; " + this);
+            return;
+        }
+        rb.transp.stack = stack;
+    }
+
+    public RollingItemBehaviour getRolling() {
+        if (rolling == null) {
+            rolling = tileEntity.getBehaviour(RollingItemBehaviour.TYPE);
+        }
+        return rolling;
+    }
+
+    public boolean isEmptying() {
+        return ticks > 0;
+    }
+
     @Environment(EnvType.CLIENT)
     public void render(float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
-        float radius = (float) (Math.pow(((2 * ticks) - 1), 2) - 1);
+        if (!isEmptying()) return;
+        float radius;
+        if (ticks < DURATION / 3) radius = ticks;
+        else if (ticks < DURATION * 2 / 3) radius = DURATION / 3f;
+        else radius = (DURATION - ticks);
+        radius /= 128;
         FluidRenderer.renderFluidBox(fluid, 0.5f - radius, 2 / 16f, 0.5f - radius, 0.5f + radius, 13 / 16f, 0.5f + radius, buffer, ms, light, false);
     }
 }
