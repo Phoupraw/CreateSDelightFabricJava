@@ -1,0 +1,19 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"1": "createsdelight:block/copper_tunnel",
+		"particle": "create:block/copper_casing"
+	},
+	"elements": [
+		{
+			"from": [2, -3, 14],
+			"to": [14, 10, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [1, 3, 7, 9.5], "texture": "#1"},
+				"south": {"uv": [1, 3, 7, 9.5], "texture": "#1"}
+			}
+		}
+	]
+}

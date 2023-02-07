@@ -22,36 +22,39 @@ import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
 
 import java.util.List;
 /**
- * 物品编写流程：<br>
- * 1. 在{@link MyIdentifiers}创建{@link Identifier}<br>
- * 2. 在{@link MyItems}创建物品<b>并注册</b><br>
- * 3. 在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译<br>
- * 4. 在{@link MyModelProvider}添加模型<br>
- * 5. 在{@link MyRecipeProvider}添加配方<br>
- * 6. 在{@link MyItemTagProvider}添加标签<br>
- * 7. 运行数据生成器<br>
- * 8. 在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理<br>
- * 9. 运行客户端，检查物品效果是否如预期<br>
- * 10. 在{@code ChangeLog.md}添加更新日志<br>
- * 11. 提交git
+ * 物品编写流程：
+ * <ol>
+ * <li>在{@link MyIdentifiers}创建{@link Identifier}<br>
+ * <li>在{@link MyItems}创建物品<b>并注册</b><br>
+ * <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译<br>
+ * <li>在{@link MyModelProvider}添加模型<br>
+ * <li>在{@link MyRecipeProvider}添加配方<br>
+ * <li>在{@link MyItemTagProvider}添加标签<br>
+ * <li>运行数据生成器<br>
+ * <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理<br>
+ * <li>运行客户端，检查物品效果是否如预期<br>
+ * <li>在{@code ChangeLog.md}添加更新日志<br>
+ * <li>提交git
+ * </ol>
  */
 public final class MyItems {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
 
-    public static final BlockItem PAN = new BlockItem(MyBlocks.PAN, new FabricItemSettings().group(ITEM_GROUP));
-    public static final BlockItem GRILL = new BlockItem(MyBlocks.GRILL, new FabricItemSettings().group(ITEM_GROUP));
-    public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(MyBlocks.SPRINKLER, new FabricItemSettings().group(ITEM_GROUP));
-    public static final BlockItem BAMBOO_STEAMER = new BlockItem(MyBlocks.BAMBOO_STEAMER, new FabricItemSettings().group(ITEM_GROUP));
-    public static final BlockItem SMART_DRAIN = new BlockItem(MyBlocks.SMART_DRAIN, new FabricItemSettings().group(ITEM_GROUP));
+    public static final BlockItem PAN = new BlockItem(MyBlocks.PAN, newSettings());
+
+    public static final BlockItem GRILL = new BlockItem(MyBlocks.GRILL, newSettings());
+    public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(MyBlocks.SPRINKLER, newSettings());
+    public static final BlockItem BAMBOO_STEAMER = new BlockItem(MyBlocks.BAMBOO_STEAMER, newSettings());
+    public static final BlockItem SMART_DRAIN = new BlockItem(MyBlocks.SMART_DRAIN, newSettings());
+    public static final BlockItem COPPER_TUNNEL = new BlockItem(MyBlocks.COPPER_TUNNEL, newSettings());
 
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
-    public static final Item THICK_PORK_SLICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
+    public static final Item THICK_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
     public static final Item PAN_FRIED_PORK_SLICE = satiationMeat(4, 0.6f, 0);
-    public static final Item THIN_PORK_SLICE = new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
+    public static final Item THIN_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
     public static final Item GRILLED_PORK_SLICE = satiationMeat(2, 0.6f, 0);
     public static final Item SUGAR_PORK = satiationMeat(4, 0.8f, 2);
-    public static final Item LEAVES_RICE = new ConsumableItem(new FabricItemSettings()
-      .group(ITEM_GROUP)
+    public static final Item LEAVES_RICE = new ConsumableItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.BOWL)
       .food(new FoodComponent.Builder()
@@ -62,16 +65,14 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1)
         .build()
       ), true);
-    public static final Item VANILLA = new ConsumableItem(new FabricItemSettings()
-      .group(ITEM_GROUP)
+    public static final Item VANILLA = new ConsumableItem(newSettings()
       .food(new FoodComponent.Builder()
         .hunger(1)
         .saturationModifier(0.5f)
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
         .build()
       ), true);
-    public static final Item VANILLA_SWEET_ROLL = new ConsumableItem(new FabricItemSettings()
-      .group(ITEM_GROUP)
+    public static final Item VANILLA_SWEET_ROLL = new ConsumableItem(newSettings()
       .food(new FoodComponent.Builder()
         .hunger(6)
         .saturationModifier(0.8f)
@@ -79,8 +80,7 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 300, 0), 1)
         .build()
       ), true);
-    public static final Item STEAMED_BUNS = new ConsumableItem(new FabricItemSettings()
-      .group(ITEM_GROUP)
+    public static final Item STEAMED_BUNS = new ConsumableItem(newSettings()
       .food(new FoodComponent.Builder()
         .hunger(3)
         .saturationModifier(0.5f)
@@ -93,6 +93,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.SPRINKLER, SPRINKLER);
         Registry.register(Registry.ITEM, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
         Registry.register(Registry.ITEM, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
+        Registry.register(Registry.ITEM, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
 
         Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registry.register(Registry.ITEM, MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
@@ -110,7 +111,11 @@ public final class MyItems {
     }
 
     public static Item food(FoodComponent foodComponent) {
-        return new ConsumableItem(new FabricItemSettings().group(ITEM_GROUP).food(foodComponent), true);
+        return new ConsumableItem(newSettings().food(foodComponent), true);
+    }
+
+    private static FabricItemSettings newSettings() {
+        return new FabricItemSettings().group(ITEM_GROUP);
     }
 
     private static ItemStack stupidJavaCompiler() {

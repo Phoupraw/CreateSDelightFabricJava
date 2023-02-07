@@ -1,0 +1,81 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_frame"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_glass",
+        "y": 180
+      },
+      "when": {
+        "north": "glass"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_copper",
+        "y": 180
+      },
+      "when": {
+        "north": "copper"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_glass",
+        "y": 270
+      },
+      "when": {
+        "east": "glass"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_copper",
+        "y": 270
+      },
+      "when": {
+        "east": "copper"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_glass",
+        "y": 0
+      },
+      "when": {
+        "south": "glass"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_copper",
+        "y": 0
+      },
+      "when": {
+        "south": "copper"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_glass",
+        "y": 90
+      },
+      "when": {
+        "west": "glass"
+      }
+    },
+    {
+      "apply": {
+        "model": "createsdelight:block/copper_tunnel_copper",
+        "y": 90
+      },
+      "when": {
+        "west": "copper"
+      }
+    }
+  ]
+}

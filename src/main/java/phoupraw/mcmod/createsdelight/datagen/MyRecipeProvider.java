@@ -55,6 +55,13 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('B', Items.SCAFFOLDING)
           .criterion("stupidMojang", conditionsFromItem(Items.BAMBOO))
           .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.COPPER_TUNNEL)
+          .pattern("AA")
+          .pattern("BB")
+          .input('A', AllItems.COPPER_SHEET.get())
+          .input('B', Items.DRIED_KELP)
+          .criterion("stupidMojang", conditionsFromItem(Items.DRIED_KELP))
+          .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
             Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),

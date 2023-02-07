@@ -33,7 +33,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "香煎牛肉饼");
         builder.add(keyOfCategory(MyRecipeTypes.PAN_FRYING.getId()), "煎");
         builder.add(MyStatusEffects.SATIATION, "饱食");
-        builder.add(MyBlocks.GRILL,"烤架");
+        builder.add(MyBlocks.GRILL, "烤架");
         builder.add(keyOfCategory(MyRecipeTypes.GRILLING.getId()), "烤");
         builder.add(MyItems.THICK_PORK_SLICE, "厚猪肉片");
         builder.add(MyItems.PAN_FRIED_PORK_SLICE, "煎猪肉片");
@@ -43,13 +43,14 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SPRINKLER, "调料喷撒机");
         builder.add("empty", "空");
         builder.add(keyOfCategory(MyRecipeTypes.SPRINKLING.getId()), "撒料");
-        builder.add(MyItems.LEAVES_RICE,"树叶米饭");
-        builder.add(MyItems.VANILLA,"香草");
-        builder.add(MyItems.VANILLA_SWEET_ROLL,"香草甜甜卷");
-        builder.add(MyBlocks.BAMBOO_STEAMER,"竹蒸笼");
-        builder.add(keyOfCategory(MyRecipeTypes.STEAMING.getId()),"蒸");
-        builder.add(MyItems.STEAMED_BUNS,"馒头");
-        builder.add(MyBlocks.SMART_DRAIN,"智能分液池");
-        builder.add("burn_time","燃料时间：%s");
+        builder.add(MyItems.LEAVES_RICE, "树叶米饭");
+        builder.add(MyItems.VANILLA, "香草");
+        builder.add(MyItems.VANILLA_SWEET_ROLL, "香草甜甜卷");
+        builder.add(MyBlocks.BAMBOO_STEAMER, "竹蒸笼");
+        builder.add(keyOfCategory(MyRecipeTypes.STEAMING.getId()), "蒸");
+        builder.add(MyItems.STEAMED_BUNS, "馒头");
+        builder.add(MyBlocks.SMART_DRAIN, "智能分液池");
+        builder.add("burn_time", "燃料时间：%s");
+        builder.add(MyBlocks.COPPER_TUNNEL, "铜隧道");
     }
 }

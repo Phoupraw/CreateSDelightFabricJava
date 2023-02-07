@@ -16,9 +16,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ExtractionOnlyStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.InsertionOnlyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
@@ -30,6 +28,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.ReplaceableStorageView;
 
@@ -37,7 +36,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDepot;
 import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDrain;
@@ -59,8 +58,15 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
     }
 
     public @NotNull TransportedItemStack transp = TransportedItemStack.EMPTY;
-    public final Map<Direction, SideStorage> views = new EnumMap<>(Direction.class);
+    public final Map<Direction, SideStorage> insertions = new EnumMap<>(Direction.class);
     public ItemApiLookup<Integer, RollingItemBehaviour> inputLimit = ItemApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "roll/input_limit"), Integer.class, RollingItemBehaviour.class);
+    public Event<Supplier<@Nullable Integer>> outputLimit = EventFactory.createArrayBacked(Supplier.class, providers -> () -> {
+        for (var provider : providers) {
+            var limit = provider.get();
+            if (limit != null) return limit;
+        }
+        return null;
+    });
     public Event<BooleanSupplier> continueRoll = EventFactory.createArrayBacked(BooleanSupplier.class, providers -> () -> {
         for (var provider : providers) if (!provider.getAsBoolean()) return false;
         return true;
@@ -180,10 +186,10 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
     }
 
     public @NotNull SideStorage get(@NotNull Direction side) {
-        var view = views.get(side);
+        var view = insertions.get(side);
         if (view == null) {
             view = new SideStorage(side);
-            views.put(side, view);
+            insertions.put(side, view);
         }
         return view;
     }

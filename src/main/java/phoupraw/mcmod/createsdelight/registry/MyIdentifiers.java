@@ -23,7 +23,8 @@ public final class MyIdentifiers {
     VANILLA_SWEET_ROLL=of("vanilla_sweet_roll"),
     BAMBOO_STEAMER=of("BAMBOO_STEAMER"),
     STEAMED_BUNS =of("steamed_buns"),
-    SMART_DRAIN=of("smart_drain");
+    SMART_DRAIN=of("smart_drain"),
+    COPPER_TUNNEL = of("copper_tunnel");
 
     public static Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));

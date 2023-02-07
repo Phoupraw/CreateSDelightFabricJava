@@ -15,12 +15,14 @@ public final class MyBlocks {
 	public static final SprinklerBlock SPRINKLER = new SprinklerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
 	public static final BambooSteamerBlock BAMBOO_STEAMER = new BambooSteamerBlock(FabricBlockSettings.copyOf(BlocksRegistry.BASKET.get()));
 	public static final SmartDrainBlock SMART_DRAIN = new SmartDrainBlock(FabricBlockSettings.copyOf(AllBlocks.ITEM_DRAIN.get()));
+	public static final CopperTunnelBlock COPPER_TUNNEL = new CopperTunnelBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_TUNNEL.get()));
 	static {
 		Registry.register(Registry.BLOCK, MyIdentifiers.PAN, PAN);
 		Registry.register(Registry.BLOCK, MyIdentifiers.GRILL, GRILL);
 		Registry.register(Registry.BLOCK, MyIdentifiers.SPRINKLER, SPRINKLER);
 		Registry.register(Registry.BLOCK, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
 		Registry.register(Registry.BLOCK, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
+		Registry.register(Registry.BLOCK, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
 	}
 	private MyBlocks() {}
 }
