@@ -57,27 +57,16 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
-        if (getWorld().isClient()) {
-            for (Iterator<LerpedFloat> ite = flappings.values().iterator(); ite.hasNext(); ) {
-                LerpedFloat value = ite.next();
-                if (value.getChaseTarget() - value.getValue() < 0.1) {
-                    ite.remove();
+        if (!getWorld().isClient()) {
+            if (clientPacket) {
+                if (!toFlaps.isEmpty()) {
+                    List<Integer> list = new ArrayList<>();
+                    for (var entry : toFlaps.entrySet()) {
+                        list.add(entry.getKey().ordinal() * 2 + (entry.getValue() ? 1 : 0));
+                    }
+                    tag.put("toFlaps", new NbtIntArray(list));
+                    toFlaps.clear();
                 }
-            }
-            if (!flappings.isEmpty()) {
-                List<Integer> list = new ArrayList<>();
-                for (Direction direction : flappings.keySet()) {
-                    list.add(direction.ordinal());
-                }
-                tag.put("flappings", new NbtIntArray(list));
-            }
-        } else if (clientPacket) {
-            if (!toFlaps.isEmpty()) {
-                List<Integer> list = new ArrayList<>();
-                for (var entry : toFlaps.entrySet()) {
-                    list.add(entry.getKey().ordinal() * 2 + (entry.getValue() ? 1 : 0));
-                }
-                tag.put("toFlaps", new NbtIntArray(list));
             }
         }
     }
@@ -86,12 +75,6 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     protected void read(NbtCompound tag, boolean clientPacket) {
         super.read(tag, clientPacket);
         if (getWorld().isClient()) {
-            flappings.clear();
-            if (tag.contains("flappings", NbtElement.INT_ARRAY_TYPE)) {
-                for (int ordinal : tag.getIntArray("flappings")) {
-                    flappings.put(Direction.values()[ordinal], createChasingFlap());
-                }
-            }
             if (clientPacket) {
                 if (tag.contains("toFlaps", NbtElement.INT_ARRAY_TYPE)) {
                     for (int info : tag.getIntArray("toFlaps")) {
@@ -103,13 +86,21 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     }
 
     public void flap(Direction side, boolean inward) {
-        if (getWorld().isClient()) {
-            if (flappings.containsKey(side))
-                flappings.get(side).setValue(inward ^ side.getAxis() == Direction.Axis.Z ? -1 : 1);
+        if (!getWorld().isClient()) {
+            toFlaps.put(side, inward);
+            sendData();
             return;
         }
-        toFlaps.put(side, inward);
-        sendData();
+        if (flappings.containsKey(side)) {
+            flappings.get(side).setValue(inward ^ side.getAxis() == Direction.Axis.Z ? -1 : 1);
+        } else {
+            var lf = createChasingFlap();
+            if (inward) {
+                lf.updateChaseTarget(-lf.getChaseTarget());
+            }
+            flappings.put(side, lf);
+        }
+//        System.out.println(flappings);
     }
 
     @Override

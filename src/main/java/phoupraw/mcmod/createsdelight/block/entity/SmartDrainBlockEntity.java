@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
@@ -13,11 +14,11 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -25,7 +26,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.behaviour.*;
+import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 
 import java.util.*;
@@ -38,7 +41,44 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
 
     @Override
     public void addBehaviours(List<TileEntityBehaviour> behaviours) {
-        var rb = new RollingItemBehaviour(this);
+        var rb = new RollingItemBehaviour(this) {
+            @Override
+            public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
+                if (side.getAxis().isHorizontal()) {
+                    var stateAbove = getWorld().getBlockState(getPos().up());
+                    if (stateAbove.isOf(MyBlocks.COPPER_TUNNEL) && !stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(side.getOpposite())).isOpen()) {return transp.stack;}
+                }
+                return super.apply(transp, side, simulate);
+            }
+
+            @Override
+            public void afterInsert(Direction insertedFrom) {
+                super.afterInsert(insertedFrom);
+                if (insertedFrom.getAxis().isVertical()) return;
+                var stateAbove = getWorld().getBlockState(getPos().up());
+                if (stateAbove.isOf(MyBlocks.COPPER_TUNNEL) && stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(insertedFrom.getOpposite())) == CopperTunnelBlock.Model.CURTAIN) {
+                    getWorld().getBlockEntity(getPos().up(), MyBlockEntityTypes.COPPER_TUNNEL).orElseThrow().flap(insertedFrom.getOpposite(), true);
+                }
+            }
+
+            @Override
+            public boolean output(Direction insertedFrom, boolean throwable, boolean simulate) {
+                if (insertedFrom.getAxis().isHorizontal()) {
+                    var stateAbove = getWorld().getBlockState(getPos().up());
+                    if (stateAbove.isOf(MyBlocks.COPPER_TUNNEL)) {
+                        if (!stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(insertedFrom)).isOpen()) {
+                            return false;
+                        } else if (super.output(insertedFrom, throwable, simulate)) {
+                            if (!simulate) {
+                                getWorld().getBlockEntity(getPos().up(), MyBlockEntityTypes.COPPER_TUNNEL).orElseThrow().flap(insertedFrom, false);
+                            }
+                            return true;
+                        }
+                    }
+                }
+                return super.output(insertedFrom, throwable, simulate);
+            }
+        };
         behaviours.add(rb);
         behaviours.add(new DirectBeltInputBehaviour(this).setInsertionHandler(rb).allowingBeltFunnels());
         var tb = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.TYPE, this, 1, FluidConstants.BUCKET * 2, false);

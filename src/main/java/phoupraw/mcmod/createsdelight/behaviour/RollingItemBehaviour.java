@@ -27,6 +27,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
@@ -119,7 +120,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             } else if (beltPosition < 1) {
                 transp.beltPosition += STEP;
             } else if (beltPosition >= 1) {
-                output();
+                output(insertedFrom, true, false);
             }
         }
     }
@@ -133,7 +134,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
     @Override
     public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
         if (!this.transp.stack.isEmpty()) return transp.stack;
-        int count = beforeInsert(transp.stack);
+        int count = limitInput(transp.stack);
         if (!simulate) {
             this.transp = transp.copy();
             this.transp.stack.setCount(count);
@@ -144,43 +145,20 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         return remainder;
     }
 
-    public int beforeInsert(ItemStack stack) {
+    @MustBeInvokedByOverriders
+    public int limitInput(ItemStack stack) {
         var limit = inputLimit.find(stack, this);
         return limit != null ? limit : stack.getCount();
     }
 
+    @MustBeInvokedByOverriders
     public void afterInsert(Direction insertedFrom) {
         TransportedItemStack transp = this.transp;
-        ItemStack stack = transp.stack;
         transp.insertedFrom = insertedFrom;
         if (insertedFrom.getAxis().isHorizontal()) {
             transp.prevBeltPosition = transp.beltPosition = 0;
         } else {
             transp.prevBeltPosition = transp.beltPosition = 0.5f;
-//            boolean b = false;
-//            World world = getWorld();
-//            BlockPos pos = getPos();
-//            for (Direction to : Direction.Type.HORIZONTAL.getShuffled(world.getRandom())) {
-//                DirectBeltInputBehaviour db = TileEntityBehaviour.get(world, pos.offset(to), DirectBeltInputBehaviour.TYPE);
-//                if (db == null) continue;
-//                ItemStack remainder = db.tryExportingToBeltFunnel(stack, insertedFrom, true);
-//                if (remainder == null || remainder.equals(stack)) {
-//                    remainder = db.handleInsertion(transp, to, true);
-//                }
-//                if (!remainder.equals(stack)) {
-//                    transp.insertedFrom = to;
-//                    b = true;
-//                    break;
-//                }
-//            }
-//            if (!b) {
-//                BlockPos offset = pos.offset(insertedFrom);
-//                if (!BlockHelper.hasBlockSolidSide(world.getBlockState(offset), world, offset, insertedFrom.getOpposite())) {
-//                    transp.insertedFrom = insertedFrom;
-//                } else {
-//                    transp.insertedFrom = Direction.Type.HORIZONTAL.random(world.getRandom());
-//                }
-//            }
         }
         tileEntity.sendData();
     }
@@ -196,50 +174,52 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
 
     public void turn() {
         TransportedItemStack transp = this.transp;
-        ItemStack stack = transp.stack;
-        BlockPos pos = getPos();
         World world = getWorld();
-        Direction insertedFrom = transp.insertedFrom;
         for (Direction to : Direction.Type.HORIZONTAL.getShuffled(world.getRandom())) {
-            DirectBeltInputBehaviour db = TileEntityBehaviour.get(world, pos.offset(to), DirectBeltInputBehaviour.TYPE);
-            if (db == null) continue;
-            ItemStack remainder = db.tryExportingToBeltFunnel(stack, insertedFrom, true);
-            if (remainder == null || remainder.equals(stack)) {
-                remainder = db.handleInsertion(transp, to, true);
-            }
-            if (!remainder.equals(stack)) {
+            if (output(to, false, true)) {
                 transp.insertedFrom = to;
                 break;
             }
         }
     }
 
-    public void output() {
+    public boolean output(Direction insertedFrom, boolean throwable, boolean simulate) {
         TransportedItemStack transp = this.transp;
         ItemStack stack = transp.stack;
         BlockPos pos = getPos();
         World world = getWorld();
-        Direction insertedFrom = transp.insertedFrom;
         BlockPos offset = pos.offset(insertedFrom);
-        DirectBeltInputBehaviour db = TileEntityBehaviour.get(world, offset, DirectBeltInputBehaviour.TYPE);
-        if (db != null) {
-            ItemStack remainder = db.tryExportingToBeltFunnel(stack, insertedFrom, false);
+        var db0 = tileEntity.getBehaviour(DirectBeltInputBehaviour.TYPE);
+        if (db0 != null && db0.canSupportBeltFunnels()) {
+            ItemStack remainder = db0.tryExportingToBeltFunnel(stack, insertedFrom, simulate);
             if (remainder != null) {
-                transp.stack = remainder;
-            } else {
-                transp.stack = db.handleInsertion(transp, insertedFrom, false);
+                if (!simulate) transp.stack = remainder;
+                return !stack.equals(remainder);
             }
-        } else if (!BlockHelper.hasBlockSolidSide(world.getBlockState(offset), world, offset, insertedFrom.getOpposite())) {
-            Vec3d outPos = VecHelper.getCenterOf(pos).add(Vec3d.of(insertedFrom.getVector()).multiply(.75));
-            Vec3d outMotion = Vec3d.of(insertedFrom.getVector()).multiply(STEP).add(0, STEP, 0);
-            outPos.add(outMotion.normalize());
-            ItemEntity entity = new ItemEntity(world, outPos.x, outPos.y + 6 / 16f, outPos.z, stack);
-            entity.setVelocity(outMotion);
-            entity.setToDefaultPickupDelay();
-            entity.velocityModified = true;
-            world.spawnEntity(entity);
-            transp.stack = ItemStack.EMPTY;
         }
+        DirectBeltInputBehaviour db1 = TileEntityBehaviour.get(world, offset, DirectBeltInputBehaviour.TYPE);
+        if (db1 != null) {
+            ItemStack remainder = db1.handleInsertion(transp, insertedFrom, simulate);
+            if (!simulate) transp.stack = remainder;
+            return !stack.equals(remainder);
+        }
+        if (!throwable) return false;
+        if (!BlockHelper.hasBlockSolidSide(world.getBlockState(offset), world, offset, insertedFrom.getOpposite())) {
+            if (!simulate) {
+                Vec3d outPos = VecHelper.getCenterOf(pos).add(Vec3d.of(insertedFrom.getVector()).multiply(.75));
+                Vec3d outMotion = Vec3d.of(insertedFrom.getVector()).multiply(STEP).add(0, STEP, 0);
+                outPos.add(outMotion.normalize());
+                ItemEntity entity = new ItemEntity(world, outPos.x, outPos.y + 6 / 16f, outPos.z, stack);
+                entity.setVelocity(outMotion);
+                entity.setToDefaultPickupDelay();
+                entity.velocityModified = true;
+                world.spawnEntity(entity);
+                transp.stack = ItemStack.EMPTY;
+                tileEntity.sendData();
+            }
+            return true;
+        }
+        return false;
     }
 
     @Environment(EnvType.CLIENT)
@@ -270,7 +250,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
 
         @Override
         public long insert(ItemVariant insertedVariant, long maxAmount, TransactionContext transaction) {
-            return super.insert(insertedVariant, beforeInsert(insertedVariant.toStack((int) maxAmount)), transaction);
+            return super.insert(insertedVariant, limitInput(insertedVariant.toStack((int) maxAmount)), transaction);
         }
 
         @Override
@@ -310,6 +290,12 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             updateSnapshots(transa);
             setStack(resource.toStack((int) amount));
             return true;
+        }
+
+        @Override
+        protected void onFinalCommit() {
+            super.onFinalCommit();
+            tileEntity.sendData();
         }
     }
 }
