@@ -94,7 +94,8 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
                     main = incoming;
                 } else {
                     main.stack.increment(incoming.stack.getCount());
-                    main.sideOffset = (main.sideOffset + incoming.sideOffset) / 2;
+//                    main.sideOffset = (main.sideOffset + incoming.sideOffset) / 2;
+//                    main.angle = (main.angle + incoming.angle) / 2;
                 }
                 iterator.remove();
             }

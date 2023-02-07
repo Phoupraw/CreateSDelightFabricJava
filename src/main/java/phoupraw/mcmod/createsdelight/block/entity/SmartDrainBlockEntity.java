@@ -24,10 +24,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
-import phoupraw.mcmod.createsdelight.behaviour.BurnerBehaviour;
-import phoupraw.mcmod.createsdelight.behaviour.DepotItemBehaviour;
-import phoupraw.mcmod.createsdelight.behaviour.EmptyingBehaviour;
-import phoupraw.mcmod.createsdelight.behaviour.RollingItemBehaviour;
+import phoupraw.mcmod.createsdelight.behaviour.*;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 
@@ -63,11 +60,17 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         behaviours.add(bb);
         behaviours.add(new EmptyingBehaviour(this));
         tb.whenFluidUpdates(() -> {
-            if (bb.getFuelTicks() > 0 && !tb.getPrimaryHandler().getResource().isOf(MyFluids.SUNFLOWER_OIL)) {
-                bb.setFuelTicks(0);
-                getWorld().playSound(null, getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+            if (bb.getFuelTicks() > 0) {
+                var fluid = tb.getPrimaryHandler().getResource();
+                if (!fluid.isBlank() && !fluid.isOf(MyFluids.SUNFLOWER_OIL)) {
+                    bb.setFuelTicks(0);
+                    getWorld().playSound(null, getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+                }
             }
         });
+        var gb = new GrillerBehaviour(this);
+        behaviours.add(gb);
+        rb.continueRoll.register(() -> gb.getHeat() < 1 || gb.getTicksS().get(0) < 0);
     }
 
     @NotNull
@@ -78,7 +81,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
 
     @Override
     public @Nullable Storage<ItemVariant> getItemStorage(@Nullable Direction side) {
-        if (side == Direction.UP) return getBehaviour(RollingItemBehaviour.TYPE).get(side);
+        if (side == Direction.UP) return getRolling().get(side);
         if (side == null) side = Direction.DOWN;
         return getBehaviour(DepotItemBehaviour.TYPE).get(side);
     }
@@ -93,6 +96,10 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         return IHaveGoggleInformation.super.containedFluidTooltip(tooltip, isPlayerSneaking, getTank().getCapability()) | getBurner().addToGoggleTooltip(tooltip, isPlayerSneaking);
     }
 
+    public RollingItemBehaviour getRolling() {
+        return getBehaviour(RollingItemBehaviour.TYPE);
+    }
+
     public SmartFluidTankBehaviour getTank() {
         return getBehaviour(SmartFluidTankBehaviour.TYPE);
     }
@@ -104,10 +111,10 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
     /**
      * @see HeatSources
      */
-    public double getSelfHeat(@Nullable Direction side) {
-        if (side != Direction.UP && side != null) return 0;
-        if (FluidVariantAttributes.getTemperature(getTank().getPrimaryHandler().getResource()) >= 400) return 1;
-        if (getBurner().getFuelTicks() > 0) return 1;
-        return 0;
+    public @Nullable Double getSelfHeat(@Nullable Direction side) {
+        if (side != Direction.UP && side != null) return null;
+        if (FluidVariantAttributes.getTemperature(getTank().getPrimaryHandler().getResource()) >= 400) return 1.0;
+        if (getBurner().getFuelTicks() > 0) return 1.0;
+        return null;
     }
 }

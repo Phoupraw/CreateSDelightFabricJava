@@ -26,7 +26,7 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
     public static final BehaviourType<BurnerBehaviour> TYPE = new BehaviourType<>("burner");
     public @Nullable Storage<ItemVariant> itemS;
     public @Nullable Storage<FluidVariant> fluidS;
-    private int fuelTicks;
+    private int fuelTicks = 0;
 
     public BurnerBehaviour(SmartTileEntity te) {
         super(te);
@@ -58,7 +58,7 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
     @Override
     public void read(NbtCompound nbt, boolean clientPacket) {
         super.read(nbt, clientPacket);
-        setFuelTicks(nbt.getInt("fuelTicks"));
+        this.fuelTicks = nbt.getInt("fuelTicks");
     }
 
     @Override
@@ -150,7 +150,7 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
         } else {
             formatting = Formatting.DARK_RED;
         }
-        String time = "%d:%02d:%02d".formatted(fuelTicks / 20 / 60, fuelTicks / 20 % 60, fuelTicks % 20);
+        String time = "%d:%02d".formatted(fuelTicks / 20 / 60, fuelTicks / 20 % 60);
         tooltip.add(Text.translatable("burn_time", Text.literal(time).formatted(formatting)));
         return true;
     }

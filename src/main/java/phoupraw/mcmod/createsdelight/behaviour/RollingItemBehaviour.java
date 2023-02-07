@@ -36,6 +36,7 @@ import phoupraw.mcmod.createsdelight.api.ReplaceableStorageView;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
 import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDepot;
@@ -60,8 +61,8 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
     public @NotNull TransportedItemStack transp = TransportedItemStack.EMPTY;
     public final Map<Direction, SideStorage> views = new EnumMap<>(Direction.class);
     public ItemApiLookup<Integer, RollingItemBehaviour> inputLimit = ItemApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "roll/input_limit"), Integer.class, RollingItemBehaviour.class);
-    public Event<Predicate<RollingItemBehaviour>> continueRoll = EventFactory.createArrayBacked(Predicate.class, providers -> rb -> {
-        for (Predicate<RollingItemBehaviour> provider : providers) if (!provider.test(rb)) return false;
+    public Event<BooleanSupplier> continueRoll = EventFactory.createArrayBacked(BooleanSupplier.class, providers -> () -> {
+        for (var provider : providers) if (!provider.getAsBoolean()) return false;
         return true;
     });
     public final ExtractionStorage extraction = new ExtractionStorage();
@@ -105,7 +106,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             if (beltPosition < 0.5f) {
                 transp.beltPosition += STEP;
             } else if (beltPosition < 0.5f + STEP) {
-                if (continueRoll.invoker().test(this)) {
+                if (continueRoll.invoker().getAsBoolean()) {
                     transp.beltPosition += STEP;
                     tileEntity.sendData();
                 }

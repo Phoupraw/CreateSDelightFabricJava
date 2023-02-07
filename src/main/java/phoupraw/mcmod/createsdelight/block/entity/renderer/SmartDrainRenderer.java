@@ -29,6 +29,7 @@ import phoupraw.mcmod.createsdelight.behaviour.EmptyingBehaviour;
 import phoupraw.mcmod.createsdelight.behaviour.RollingItemBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.mixin.AccessLerpedFloat;
+import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 @Environment(EnvType.CLIENT)
 public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockEntity> {
     /**
@@ -98,18 +99,10 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
     public static void renderLikeDepot(@NotNull TransportedItemStack transp, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         TransformStack msr = TransformStack.cast(ms);
         ms.push();
-        ms.translate(.5f, 15 / 16f, .5f);
+//        ms.translate(.5f, 15 / 16f, .5f);
         msr.nudge(0);
-        float offset = MathHelper.lerp(partialTicks, transp.prevBeltPosition, transp.beltPosition);
-        float sideOffset = MathHelper.lerp(partialTicks, transp.prevSideOffset, transp.sideOffset);
-        Direction insertedFrom = transp.insertedFrom;
-        if (insertedFrom.getAxis().isHorizontal()) {
-            Vec3d offsetVec = Vec3d.of(insertedFrom.getOpposite().getVector()).multiply(.5f - offset);
-            ms.translate(offsetVec.x, offsetVec.y, offsetVec.z);
-            boolean alongX = insertedFrom.rotateYClockwise().getAxis() == Direction.Axis.X;
-            if (!alongX) sideOffset *= -1;
-            ms.translate(alongX ? sideOffset : 0, 0, alongX ? 0 : sideOffset);
-        }
+        Vec3d offset = BlockingTransportedStorage.getHorizontalOffset(transp, partialTicks);
+        ms.translate(offset.getX(), 15 / 16f, offset.getZ());
         DepotRenderer.renderItem(ms, buffer, light, overlay, transp.stack, transp.angle, Random.create(0), Vec3d.ZERO);
         ms.pop();
     }
@@ -137,7 +130,7 @@ public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockE
     @Override
     protected void renderSafe(SmartDrainBlockEntity drain, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(drain, partialTicks, ms, buffer, light, overlay);
-        drain.getBehaviour(RollingItemBehaviour.TYPE).render(partialTicks, ms, buffer, light, overlay);
+        drain.getRolling().render(partialTicks, ms, buffer, light, overlay);
         render(drain.getBehaviour(SmartFluidTankBehaviour.TYPE), partialTicks, ms, buffer, light, overlay);
         drain.getBehaviour(DepotItemBehaviour.TYPE).render(partialTicks, ms, buffer, light, overlay);
         drain.getBehaviour(EmptyingBehaviour.TYPE).render(partialTicks, ms, buffer, light, overlay);

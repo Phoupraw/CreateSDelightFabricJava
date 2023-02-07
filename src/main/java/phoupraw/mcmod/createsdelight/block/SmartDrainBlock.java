@@ -1,9 +1,13 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.AllShapes;
+import com.simibubi.create.content.curiosities.girder.GirderCTBehaviour;
 import com.simibubi.create.foundation.block.ITE;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -23,14 +27,17 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.api.Lambdas;
 import phoupraw.mcmod.createsdelight.behaviour.BurnerBehaviour;
+import phoupraw.mcmod.createsdelight.behaviour.GrillerBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity> {
 
     public SmartDrainBlock(Settings settings) {
@@ -73,7 +80,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         ItemStack handStack = player.getStackInHand(hand);
         if (hit.getSide() == Direction.UP && (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE))) {
             var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
-            if (drain.getBurner().tryIgnite()>0) {
+            if (drain.getBurner().tryIgnite() > 0) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
                     handStack.damage(1, player, Lambdas.nothing());
                     world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1, 1);
@@ -87,6 +94,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
@@ -97,6 +105,15 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         }
         if (drain.getTank().getPrimaryHandler().getResource().isOf(Fluids.LAVA)) {
             ((LavaFluid) Fluids.LAVA).randomDisplayTick(world, pos, Fluids.LAVA.getDefaultState(), random);
+        }
+        var gb = drain.getBehaviour(GrillerBehaviour.TYPE);
+        if (gb.getHeat() >= 1 && gb.getTicksS().get(0) > 0) {
+            if (random.nextInt(3) == 0) {
+                var p = Vec3d.of(pos).add(BlockingTransportedStorage.getHorizontalOffset(drain.getRolling().transp, 1));
+                world.addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), pos.getY() + 13 / 16.0, p.getZ(), 0, 0.01, 0);
+                world.addParticle(ParticleTypes.SMOKE, p.getX(), pos.getY() + 10 / 16.0, p.getZ(), 0, 0, 0);
+                world.playSound(null, pos, SoundsRegistry.BLOCK_STOVE_CRACKLE.get(), SoundCategory.BLOCKS, 1, 1);
+            }
         }
 //        if (drain.grillTicks > 0 && random.nextInt(5)==0) {
 //            world.playSound(null, pos, SoundsRegistry.BLOCK_STOVE_CRACKLE.get(), SoundCategory.BLOCKS, 1, 1);

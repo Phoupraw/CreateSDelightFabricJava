@@ -39,10 +39,10 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
     @Override
     public void initialize() {
         super.initialize();
-        var rb0 = tileEntity.getBehaviour(RollingItemBehaviour.TYPE);
+        var rb0 = getRolling();
         if (rb0 != null) {
             rb0.inputLimit.registerFallback((stack, rb) -> EmptyingByBasin.canItemBeEmptied(getWorld(), stack) ? 1 : null);
-            rb0.continueRoll.register(this::isContinueRoll);
+            rb0.continueRoll.register(this::isNotEmptying);
         }
     }
 
@@ -98,10 +98,6 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
         }
     }
 
-    public boolean isContinueRoll(RollingItemBehaviour rb) {
-        return !isEmptying();
-    }
-
     public @Nullable Storage<FluidVariant> getTarget() {
         if (target == null) {
             setTarget(FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP));
@@ -138,13 +134,13 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
         return rolling;
     }
 
-    public boolean isEmptying() {
-        return ticks > 0;
+    public boolean isNotEmptying() {
+        return ticks <= 0;
     }
 
     @Environment(EnvType.CLIENT)
     public void render(float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
-        if (!isEmptying()) return;
+        if (isNotEmptying()) return;
         float radius;
         if (ticks < DURATION / 3) radius = ticks;
         else if (ticks < DURATION * 2 / 3) radius = DURATION / 3f;
