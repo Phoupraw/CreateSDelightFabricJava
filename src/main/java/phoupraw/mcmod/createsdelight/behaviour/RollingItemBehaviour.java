@@ -14,7 +14,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.ExtractionOnlyStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.InsertionOnlyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
@@ -27,8 +31,10 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.api.ReplaceableStorageView;
 
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -58,6 +64,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         for (Predicate<RollingItemBehaviour> provider : providers) if (!provider.test(rb)) return false;
         return true;
     });
+    public final ExtractionStorage extraction = new ExtractionStorage();
 
     public RollingItemBehaviour(SmartTileEntity te) {
         super(te);
@@ -179,6 +186,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         }
         return view;
     }
+
     public void turn() {
         TransportedItemStack transp = this.transp;
         ItemStack stack = transp.stack;
@@ -198,6 +206,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             }
         }
     }
+
     public void output() {
         TransportedItemStack transp = this.transp;
         ItemStack stack = transp.stack;
@@ -225,12 +234,13 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             transp.stack = ItemStack.EMPTY;
         }
     }
+
     @Environment(EnvType.CLIENT)
     public void render(float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         render(transp, getPos(), partialTicks, ms, buffer, light, overlay);
     }
 
-    public class SideStorage extends SingleStackStorage {
+    public class SideStorage extends SingleStackStorage implements ReplaceableStorageView<ItemVariant> {
         private final Direction side;
 
         public SideStorage(Direction side) {this.side = side;}
@@ -256,8 +266,43 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             return super.insert(insertedVariant, beforeInsert(insertedVariant.toStack((int) maxAmount)), transaction);
         }
 
+        @Override
+        public boolean replace(ItemVariant resource, long amount, TransactionContext transa) {
+            return extraction.replace(resource, amount, transa);
+        }
+
         public Direction getSide() {
             return side;
+        }
+
+        @Override
+        public Iterator<StorageView<ItemVariant>> iterator() {
+            return extraction.iterator();
+        }
+
+        @Override
+        public StorageView<ItemVariant> getUnderlyingView() {
+            return extraction;
+        }
+    }
+
+    public class ExtractionStorage extends SingleStackStorage implements ExtractionOnlyStorage<ItemVariant>, ReplaceableStorageView<ItemVariant> {
+
+        @Override
+        protected ItemStack getStack() {
+            return transp.stack;
+        }
+
+        @Override
+        protected void setStack(ItemStack stack) {
+            transp.stack = stack;
+        }
+
+        @Override
+        public boolean replace(ItemVariant resource, long amount, TransactionContext transa) {
+            updateSnapshots(transa);
+            setStack(resource.toStack((int) amount));
+            return true;
         }
     }
 }

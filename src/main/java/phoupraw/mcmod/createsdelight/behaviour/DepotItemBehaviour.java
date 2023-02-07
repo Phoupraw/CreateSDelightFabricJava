@@ -27,6 +27,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.createsdelight.api.ReplaceableStorageView;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 
@@ -210,10 +211,9 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         public Iterator<StorageView<ItemVariant>> iterator() {
             return extraction.iterator();
         }
-
     }
 
-    public class ExtractionStorage extends SingleStackStorage implements ExtractionOnlyStorage<ItemVariant> {
+    public class ExtractionStorage extends SingleStackStorage implements ExtractionOnlyStorage<ItemVariant>, ReplaceableStorageView<ItemVariant> {
         @Override
         protected ItemStack getStack() {
             return main.stack;
@@ -228,6 +228,14 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         protected void onFinalCommit() {
             super.onFinalCommit();
             tileEntity.sendData();
+        }
+
+        @Override
+        public boolean replace(ItemVariant resource, long amount, TransactionContext transa) {
+            if (!incomings.isEmpty()) return false;
+            updateSnapshots(transa);
+            setStack(resource.toStack((int) amount));
+            return true;
         }
     }
 }
