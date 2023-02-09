@@ -17,6 +17,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -80,7 +81,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
             }
         };
         behaviours.add(rb);
-        behaviours.add(new DirectBeltInputBehaviour(this).setInsertionHandler(rb).allowingBeltFunnels());
+        behaviours.add(new DirectBeltInputBehaviour(this).setInsertionHandler(rb).allowingBeltFunnels()/*FIXME*/);
         var tb = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.TYPE, this, 1, FluidConstants.BUCKET * 2, false);
         behaviours.add(tb);
         behaviours.add(new DepotItemBehaviour(this));
@@ -111,6 +112,19 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         var gb = new GrillerBehaviour(this);
         behaviours.add(gb);
         rb.continueRoll.register(() -> gb.getHeat() < 1 || gb.getTicksS().get(0) < 0);
+        var sb = new SteamerBehaviour(this) {
+            @Override
+            public boolean isSteamable() {//计算连通实在是太复杂了，先不弄
+//                var stateAbove = getWorld().getBlockState(getPos().up());
+//                if (!stateAbove.isOf(MyBlocks.COPPER_TUNNEL)) return false;
+//                for (EnumProperty<CopperTunnelBlock.Model> property : CopperTunnelBlock.Model.HORIZONTALS.values()) {
+//                    if(stateAbove.isof)
+//                }
+                return super.isSteamable();
+            }
+        };
+        behaviours.add(sb);
+        rb.continueRoll.register(() -> sb.getHeat() < 1 || sb.getTicksS().get(0) < 0);
     }
 
     @NotNull

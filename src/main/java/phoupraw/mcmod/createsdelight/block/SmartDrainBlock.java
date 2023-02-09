@@ -8,6 +8,12 @@ import com.simibubi.create.foundation.block.ITE;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -32,9 +38,13 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import phoupraw.mcmod.createsdelight.api.ConstantSingleFluidStorage;
+import phoupraw.mcmod.createsdelight.api.ConstantSingleItemStorage;
 import phoupraw.mcmod.createsdelight.api.Lambdas;
+import phoupraw.mcmod.createsdelight.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.behaviour.BurnerBehaviour;
 import phoupraw.mcmod.createsdelight.behaviour.GrillerBehaviour;
+import phoupraw.mcmod.createsdelight.behaviour.SteamerBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
@@ -77,9 +87,11 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
     @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (hit.getSide() != Direction.UP) return super.onUse(state, world, pos, player, hand, hit);
+        if (world.isClient()) return ActionResult.CONSUME;
         ItemStack handStack = player.getStackInHand(hand);
-        if (hit.getSide() == Direction.UP && (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE))) {
-            var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
+        var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
+        if (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE)) {
             if (drain.getBurner().tryIgnite() > 0) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
                     handStack.damage(1, player, Lambdas.nothing());
@@ -91,7 +103,31 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
                 return ActionResult.SUCCESS;
             }
         }
-        return super.onUse(state, world, pos, player, hand, hit);
+        try (var transaction = Transaction.openOuter()) {
+            var handStorage = FluidStorage.ITEM.find(player.getStackInHand(hand), ContainerItemContext.ofPlayerHand(player, hand));
+            if (handStorage != null) {
+                var panStorage = drain.getTank().getPrimaryHandler();
+                if (StorageUtil.move(handStorage, panStorage, Lambdas.always(), Long.MAX_VALUE, transaction) > 0 || StorageUtil.move(panStorage, handStorage, Lambdas.always(), Long.MAX_VALUE, transaction) > 0) {
+                    transaction.commit();
+                    return ActionResult.SUCCESS;
+                }
+            }
+        }
+        var facing = Direction.getEntityFacingOrder(player)[0];
+//        if (facing == Direction.UP) facing = Direction.DOWN;
+        var blockStorage = drain.getRolling().get(facing);
+        try (var transaction = Transaction.openOuter()) {
+            var livingStorage = PlayerInventoryStorage.of(player);
+            long capacity = blockStorage.getCapacity();
+            var tempStorage = new ConstantSingleItemStorage(capacity);
+            long toLiving = StorageUtil.move(blockStorage, tempStorage, Lambdas.always(), capacity, transaction);
+            StorageUtil.move(livingStorage.getHandSlot(hand), blockStorage, Lambdas.always(), capacity, transaction);
+            if (StorageUtil.move(tempStorage, livingStorage, Lambdas.always(), capacity, transaction) == toLiving) {
+                transaction.commit();
+                return ActionResult.SUCCESS;
+            }
+        }
+        return ActionResult.FAIL;
     }
 
     @Environment(EnvType.CLIENT)
@@ -115,8 +151,12 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
                 world.playSound(null, pos, SoundsRegistry.BLOCK_STOVE_CRACKLE.get(), SoundCategory.BLOCKS, 1, 1);
             }
         }
-//        if (drain.grillTicks > 0 && random.nextInt(5)==0) {
-//            world.playSound(null, pos, SoundsRegistry.BLOCK_STOVE_CRACKLE.get(), SoundCategory.BLOCKS, 1, 1);
-//        }
+        var sb = drain.getBehaviour(SteamerBehaviour.TYPE);
+        if (sb.getHeat() >= 1 && sb.getTicksS().get(0) > 0) {
+            if (random.nextInt(3) == 0) {
+                var p = Vec3d.of(pos).add(BlockingTransportedStorage.getHorizontalOffset(drain.getRolling().transp, 1));
+                world.addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), pos.getY() + 13 / 16.0, p.getZ(), 0, 0.01, 0);
+            }
+        }
     }
 }
