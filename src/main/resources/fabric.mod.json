@@ -24,7 +24,7 @@
     "minecraft": ">=1.19.2",
     "fabricloader": "*",
     "fabric-api": "*",
-    "create": "*",
+    "create": ">=0.5.0.g-851",
     "farmersdelight": ">=1.2.0"
   },
   "suggests": {
