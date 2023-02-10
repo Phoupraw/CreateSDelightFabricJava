@@ -3,6 +3,7 @@ package phoupraw.mcmod.createsdelight.block;
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.AllShapes;
+import com.simibubi.create.content.contraptions.wrench.IWrenchable;
 import com.simibubi.create.content.curiosities.girder.GirderCTBehaviour;
 import com.simibubi.create.foundation.block.ITE;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
@@ -48,7 +49,7 @@ import phoupraw.mcmod.createsdelight.behaviour.SteamerBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
-public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity> {
+public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>, IWrenchable {
 
     public SmartDrainBlock(Settings settings) {
         super(settings);
