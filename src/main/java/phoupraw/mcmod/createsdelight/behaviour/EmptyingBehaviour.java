@@ -84,12 +84,10 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
             tileEntity.sendData();
             return;
         }
-        if (ticks>0) ticks--;
+        if (ticks > 0) ticks--;
         long amount = fluidStack.getAmount();
-        try (var transa = Transaction.openOuter()) {
-            if (amount != fluidStorage.insert(fluidStack.getType(), amount, transa)) {
-                ticks = DURATION;
-            }
+        if (amount != fluidStorage.simulateInsert(fluidStack.getType(), amount, null)) {
+            ticks = DURATION;
         }
         if (ticks == 0) {
             try (var transa = Transaction.openOuter()) {
