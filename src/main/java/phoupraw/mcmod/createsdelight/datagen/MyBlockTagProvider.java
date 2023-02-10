@@ -4,6 +4,8 @@ import com.nhoryzon.mc.farmersdelight.registry.TagsRegistry;
 import com.simibubi.create.AllBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.tag.BlockTags;
+import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 import phoupraw.mcmod.createsdelight.registry.MyItemTags;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 public class MyBlockTagProvider extends FabricTagProvider.BlockTagProvider {
@@ -15,5 +17,9 @@ public class MyBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     protected void generateTags() {
         getOrCreateTagBuilder(TagsRegistry.HEAT_SOURCES)
           .add(AllBlocks.LIT_BLAZE_BURNER.get());
+        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+          .add(MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL);
+        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+          .add(MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER);
     }
 }

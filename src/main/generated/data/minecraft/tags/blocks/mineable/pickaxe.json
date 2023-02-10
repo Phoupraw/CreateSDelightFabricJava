@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "createsdelight:pan",
+    "createsdelight:grill",
+    "createsdelight:sprinkler",
+    "createsdelight:smart_drain",
+    "createsdelight:copper_tunnel"
+  ]
+}
