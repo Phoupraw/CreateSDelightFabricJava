@@ -12,12 +12,12 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -32,7 +32,8 @@ import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity, IHaveGoggleInformation {
     public SmartDrainBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.SMART_DRAIN, pos, state);}
 
@@ -81,10 +82,10 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
             }
         };
         behaviours.add(rb);
-        behaviours.add(new DirectBeltInputBehaviour(this).setInsertionHandler(rb).allowingBeltFunnels()/*FIXME*/);
+        behaviours.add(new DirectBeltInputBehaviour(this).setInsertionHandler(rb).allowingBeltFunnels());
         var tb = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.TYPE, this, 1, FluidConstants.BUCKET * 2, false);
         behaviours.add(tb);
-        behaviours.add(new DepotItemBehaviour(this));
+        behaviours.add(new TDepotItemBehaviour(this));
         var bb = new BurnerBehaviour(this) {
             @Override
             public void onIgnite() {
@@ -125,6 +126,18 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         };
         behaviours.add(sb);
         rb.continueRoll.register(() -> sb.getHeat() < 1 || sb.getTicksS().get(0) < 0);
+//        behaviours.add(new PanFrierBehaviour(this){
+//            @Override
+//            public Storage<ItemVariant> getItemS() {
+//                return getRolling().extraction;
+//            }
+//        });
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
     }
 
     @NotNull
@@ -170,5 +183,32 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         if (FluidVariantAttributes.getTemperature(getTank().getPrimaryHandler().getResource()) >= 400) return 1.0;
         if (getBurner().getFuelTicks() > 0) return 1.0;
         return null;
+    }
+
+    public static class TDepotItemBehaviour extends DepotItemBehaviour {
+        public TDepotItemBehaviour(SmartTileEntity te) {
+            super(te);
+        }
+
+        @Override
+        public Storage<ItemVariant> newInsertionStorage(Direction side) {
+            return new TInsertionStorage(side);
+        }
+
+        public class TInsertionStorage extends InsertionStorage {
+            public TInsertionStorage(Direction side) {
+                super(side);
+            }
+
+            @Override
+            public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+//                var recipeS = CacheCollections.top(getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.PAN_FRYING.getRecipeType()), r -> r.getIngredients().get(0).test(resource.toStack()), 1);
+//                if (!recipeS.isEmpty()) {
+////                    if (!getMain())
+//maxAmount = Math.min(maxAmount,1);
+//                }
+                return super.insert(resource, maxAmount, transaction);
+            }
+        }
     }
 }

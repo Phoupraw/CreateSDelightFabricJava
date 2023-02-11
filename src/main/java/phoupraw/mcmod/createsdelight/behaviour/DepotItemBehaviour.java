@@ -11,10 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ExtractionOnlyStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.InsertionOnlyStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -34,11 +31,11 @@ import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import java.util.*;
 public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {
     public static final BehaviourType<DepotItemBehaviour> TYPE = new BehaviourType<>("less_depot");
-    public TransportedItemStack main = TransportedItemStack.EMPTY;
-    public List<TransportedItemStack> incomings = new ArrayList<>();
-    public boolean allowMerge = true;
-    public Map<Direction, InsertionStorage> insertions = new EnumMap<>(Direction.class);
-    public Storage<ItemVariant> extraction = new ExtractionStorage();
+    private TransportedItemStack main = TransportedItemStack.EMPTY;
+    private List<TransportedItemStack> incomings = new ArrayList<>();
+    private boolean allowMerge = true;
+    private Map<Direction, Storage<ItemVariant>> insertions = new EnumMap<>(Direction.class);
+    private Storage<ItemVariant> extraction = newExtractionStorage();
 
     public DepotItemBehaviour(SmartTileEntity te) {
         super(te);
@@ -52,12 +49,12 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
     @Override
     public void write(NbtCompound nbt, boolean clientPacket) {
         super.write(nbt, clientPacket);
-        if (!main.stack.isEmpty()) {
-            nbt.put("main", main.serializeNBT());
+        if (!getMain().stack.isEmpty()) {
+            nbt.put("main", getMain().serializeNBT());
         }
-        if (!incomings.isEmpty()) {
+        if (!getIncomings().isEmpty()) {
             var list = new NbtList();
-            for (TransportedItemStack incoming : incomings) {
+            for (TransportedItemStack incoming : getIncomings()) {
                 if (!incoming.stack.isEmpty()) {
                     list.add(incoming.serializeNBT());
                 }
@@ -69,31 +66,31 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
     @Override
     public void read(NbtCompound nbt, boolean clientPacket) {
         super.read(nbt, clientPacket);
-        main = TransportedItemStack.read(nbt.getCompound("main"));
-        incomings.clear();
+        setMain(TransportedItemStack.read(nbt.getCompound("main")));
+        getIncomings().clear();
         var list = nbt.getList("incomings", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < list.size(); i++) {
-            incomings.add(TransportedItemStack.read(list.getCompound(i)));
+            getIncomings().add(TransportedItemStack.read(list.getCompound(i)));
         }
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!main.stack.isEmpty()) {
-            BlockingTransportedStorage.tickMovement(main);
+        if (!getMain().stack.isEmpty()) {
+            BlockingTransportedStorage.tickMovement(getMain());
         }
-        for (Iterator<TransportedItemStack> iterator = incomings.iterator(); iterator.hasNext(); ) {
+        for (Iterator<TransportedItemStack> iterator = getIncomings().iterator(); iterator.hasNext(); ) {
             TransportedItemStack incoming = iterator.next();
             if (incoming.stack.isEmpty()) {
                 iterator.remove();
                 continue;
             }
             if (BlockingTransportedStorage.tickMovement(incoming)) {
-                if (main.stack.isEmpty()) {
-                    main = incoming;
+                if (getMain().stack.isEmpty()) {
+                    setMain(incoming);
                 } else {
-                    main.stack.increment(incoming.stack.getCount());
+                    getMain().stack.increment(incoming.stack.getCount());
 //                    main.sideOffset = (main.sideOffset + incoming.sideOffset) / 2;
 //                    main.angle = (main.angle + incoming.angle) / 2;
                 }
@@ -110,8 +107,8 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
 
     @Override
     public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
-        if (!allowMerge && !main.stack.isEmpty()) return transp.stack;
-        int count = Math.min(transp.stack.getCount(), main.stack.getMaxCount() - main.stack.getCount());
+        if (!isAllowMerge() && !getMain().stack.isEmpty()) return transp.stack;
+        int count = Math.min(transp.stack.getCount(), getMain().stack.getMaxCount() - getMain().stack.getCount());
         if (!simulate) {
             var incoming = transp.copy();
             incoming.stack.setCount(count);
@@ -130,12 +127,12 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         } else {
             incoming.prevBeltPosition = incoming.beltPosition = 0.5f;
         }
-        incomings.add(incoming);
+        getIncomings().add(incoming);
     }
 
     public ItemStack getMerged() {
-        var merged = main.stack.copy();
-        for (TransportedItemStack incoming : incomings) {
+        var merged = getMain().stack.copy();
+        for (TransportedItemStack incoming : getIncomings()) {
             if (merged.isEmpty()) {
                 merged = incoming.stack;
             } else {
@@ -145,23 +142,31 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         return merged;
     }
 
-    public InsertionStorage get(Direction side) {
-        var s = insertions.get(side);
+    public Storage<ItemVariant> get(Direction side) {
+        var s = getInsertions().get(side);
         if (s == null) {
-            s = new InsertionStorage(side);
-            insertions.put(side, s);
+            s = newInsertionStorage(side);
+            getInsertions().put(side, s);
         }
         return s;
+    }
+
+    public Storage<ItemVariant> newInsertionStorage(Direction side) {
+        return new InsertionStorage(side);
+    }
+
+    public Storage<ItemVariant> newExtractionStorage() {
+        return new ExtractionStorage();
     }
 
     @Environment(EnvType.CLIENT)
     public void render(float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         ms.push();
         ms.translate(0, -11 / 16.0, 0);
-        if (!main.stack.isEmpty()) {
-            SmartDrainRenderer.renderLikeDepot(main, partialTicks, ms, buffer, light, overlay);
+        if (!getMain().stack.isEmpty()) {
+            SmartDrainRenderer.renderLikeDepot(getMain(), partialTicks, ms, buffer, light, overlay);
         }
-        for (TransportedItemStack incoming : incomings) {
+        for (TransportedItemStack incoming : getIncomings()) {
             if (!incoming.stack.isEmpty()) {
                 SmartDrainRenderer.renderLikeDepot(incoming, partialTicks, ms, buffer, light, overlay);
             }
@@ -169,20 +174,60 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         ms.pop();
     }
 
+    public TransportedItemStack getMain() {
+        return main;
+    }
+
+    public void setMain(TransportedItemStack main) {
+        this.main = main;
+    }
+
+    public List<TransportedItemStack> getIncomings() {
+        return incomings;
+    }
+
+    public void setIncomings(List<TransportedItemStack> incomings) {
+        this.incomings = incomings;
+    }
+
+    public boolean isAllowMerge() {
+        return allowMerge;
+    }
+
+    public void setAllowMerge(boolean allowMerge) {
+        this.allowMerge = allowMerge;
+    }
+
+    public Map<Direction, Storage<ItemVariant>> getInsertions() {
+        return insertions;
+    }
+
+    public void setInsertions(Map<Direction, Storage<ItemVariant>> insertions) {
+        this.insertions = insertions;
+    }
+
+    public Storage<ItemVariant> getExtraction() {
+        return extraction;
+    }
+
+    public void setExtraction(Storage<ItemVariant> extraction) {
+        this.extraction = extraction;
+    }
+
     public class InsertionStorage extends SnapshotParticipant<@NotNull Integer> implements Storage<ItemVariant> {
-        public final Direction side;
+        private final Direction side;
 
         public InsertionStorage(Direction side) {this.side = side;}
 
         @Override
         protected @NotNull Integer createSnapshot() {
-            return incomings.size();
+            return getIncomings().size();
         }
 
         @Override
         protected void readSnapshot(@NotNull Integer snapshot) {
-            while (incomings.size() > snapshot) {
-                incomings.remove(incomings.size() - 1);
+            while (getIncomings().size() > snapshot) {
+                getIncomings().remove(getIncomings().size() - 1);
             }
         }
 
@@ -193,36 +238,40 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         }
 
         @Override
-        public synchronized long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-            if (!getMerged().isEmpty() && allowMerge && !resource.equals(ItemVariant.of(getMerged()))) return 0;
+        public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+            if (!getMerged().isEmpty() && isAllowMerge() && !resource.equals(ItemVariant.of(getMerged()))) return 0;
             updateSnapshots(transaction);
             int count = Math.min((int) maxAmount, getMerged().getMaxCount() - getMerged().getCount());
             var incoming = new TransportedItemStack(resource.toStack(count));
-            incoming.insertedFrom = side.getOpposite();
+            incoming.insertedFrom = getSide().getOpposite();
             afterInsert(incoming);
             return count;
         }
 
         @Override
         public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-            return extraction.extract(resource, maxAmount, transaction);
+            return getExtraction().extract(resource, maxAmount, transaction);
         }
 
         @Override
         public Iterator<StorageView<ItemVariant>> iterator() {
-            return extraction.iterator();
+            return getExtraction().iterator();
+        }
+
+        public Direction getSide() {
+            return side;
         }
     }
 
     public class ExtractionStorage extends SingleStackStorage implements ExtractionOnlyStorage<ItemVariant>, ReplaceableStorageView<ItemVariant> {
         @Override
         protected ItemStack getStack() {
-            return main.stack;
+            return getMain().stack;
         }
 
         @Override
         protected void setStack(ItemStack stack) {
-            main.stack = stack;
+            getMain().stack = stack;
         }
 
         @Override
@@ -233,7 +282,7 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
 
         @Override
         public boolean replace(ItemVariant resource, long amount, TransactionContext transa) {
-            if (!incomings.isEmpty()) return false;
+            if (!getIncomings().isEmpty()) return false;
             updateSnapshots(transa);
             setStack(resource.toStack((int) amount));
             return true;
