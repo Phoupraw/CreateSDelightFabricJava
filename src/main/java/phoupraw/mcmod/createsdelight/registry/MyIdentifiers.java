@@ -20,11 +20,12 @@ public final class MyIdentifiers {
       SUNFLOWER_OIL = of("sunflower_oil"),
       LEAVES_RICE = of("LEAVES_RICE"),
       VANILLA = of("vanilla"),
-    VANILLA_SWEET_ROLL=of("vanilla_sweet_roll"),
-    BAMBOO_STEAMER=of("BAMBOO_STEAMER"),
-    STEAMED_BUNS =of("steamed_buns"),
-    SMART_DRAIN=of("smart_drain"),
-    COPPER_TUNNEL = of("copper_tunnel");
+      VANILLA_SWEET_ROLL = of("vanilla_sweet_roll"),
+      BAMBOO_STEAMER = of("BAMBOO_STEAMER"),
+      STEAMED_BUNS = of("steamed_buns"),
+      SMART_DRAIN = of("smart_drain"),
+      COPPER_TUNNEL = of("copper_tunnel"),
+      MULTIFUNC_BASIN = of("multifunc_basin");
 
     public static Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));

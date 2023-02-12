@@ -52,5 +52,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SMART_DRAIN, "智能分液池");
         builder.add("burn_time", "燃料时间：%s");
         builder.add(MyBlocks.COPPER_TUNNEL, "铜隧道");
+        builder.add(MyBlocks.MULTIFUNC_BASIN, "多功能工作盆");
     }
 }

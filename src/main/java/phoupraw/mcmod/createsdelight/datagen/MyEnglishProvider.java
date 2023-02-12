@@ -46,5 +46,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SMART_DRAIN,"Smart Item Drain");
         builder.add("burn_time","Fuel Time: %s");
         builder.add(MyBlocks.COPPER_TUNNEL, "Copper Tunnel");
+        builder.add(MyBlocks.MULTIFUNC_BASIN, "Multifunctional Basin");
     }
 }

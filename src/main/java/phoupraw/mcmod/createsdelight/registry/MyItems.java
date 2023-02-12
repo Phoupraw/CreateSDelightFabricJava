@@ -2,25 +2,15 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
 import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
-import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyItemTagProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyModelProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
-
-import java.util.List;
+import phoupraw.mcmod.createsdelight.datagen.*;
 /**
  * 物品编写流程：
  * <ol>
@@ -41,12 +31,12 @@ public final class MyItems {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
 
     public static final BlockItem PAN = new BlockItem(MyBlocks.PAN, newSettings());
-
     public static final BlockItem GRILL = new BlockItem(MyBlocks.GRILL, newSettings());
     public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(MyBlocks.SPRINKLER, newSettings());
     public static final BlockItem BAMBOO_STEAMER = new BlockItem(MyBlocks.BAMBOO_STEAMER, newSettings());
     public static final BlockItem SMART_DRAIN = new BlockItem(MyBlocks.SMART_DRAIN, newSettings());
     public static final BlockItem COPPER_TUNNEL = new BlockItem(MyBlocks.COPPER_TUNNEL, newSettings());
+    public static final BlockItem MULTIFUNC_BASIN = new BlockItem(MyBlocks.MULTIFUNC_BASIN, newSettings());
 
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
     public static final Item THICK_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
@@ -94,6 +84,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
         Registry.register(Registry.ITEM, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
         Registry.register(Registry.ITEM, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
+        Registry.register(Registry.ITEM, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
 
         Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registry.register(Registry.ITEM, MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);

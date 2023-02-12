@@ -8,7 +8,6 @@ import com.simibubi.create.content.contraptions.components.mixer.CompactingRecip
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
-
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -66,8 +65,14 @@ public class MyRecipeProvider extends FabricRecipeProvider {
             Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
             MyItems.SMART_DRAIN)
-          .criterion("",conditionsFromItem(AllBlocks.ITEM_DRAIN.get()))
-          .offerTo(exporter,MyIdentifiers.SMART_DRAIN);
+          .criterion("", conditionsFromItem(AllBlocks.ITEM_DRAIN.get()))
+          .offerTo(exporter, MyIdentifiers.SMART_DRAIN);
+        SmithingRecipeJsonBuilder.create(
+            Ingredient.ofItems(AllBlocks.BASIN.get()),
+            Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
+            MyItems.MULTIFUNC_BASIN)
+          .criterion("", conditionsFromItem(AllBlocks.BASIN.get()))
+          .offerTo(exporter, MyIdentifiers.MULTIFUNC_BASIN);
 
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THICK_PORK_SLICE, "", Ingredient.ofItems(Items.PORKCHOP), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THICK_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THIN_PORK_SLICE, "", Ingredient.ofItems(MyItems.THICK_PORK_SLICE), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THIN_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));

@@ -28,7 +28,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.GRILL);
         generator.registerSimpleState(MyBlocks.SPRINKLER);
         generator.registerSimpleState(MyBlocks.BAMBOO_STEAMER);
-//        generator.registerSimpleState(MyBlocks.SMART_DRAIN);
+        generator.registerSimpleState(MyBlocks.MULTIFUNC_BASIN);
         generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
           .with(BlockStateVariant.create()
             .put(MODEL, ModelIds.getBlockModelId(MyBlocks.SMART_DRAIN)))

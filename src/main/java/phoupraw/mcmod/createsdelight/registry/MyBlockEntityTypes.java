@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.block.ITE;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
@@ -11,7 +10,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -50,6 +48,7 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<BambooSteamerBlockEntity> BAMBOO_STEAMER = buildType(BambooSteamerBlockEntity::new, MyBlocks.BAMBOO_STEAMER);
     public static final BlockEntityType<SmartDrainBlockEntity> SMART_DRAIN = buildType(SmartDrainBlockEntity::new, MyBlocks.SMART_DRAIN);
     public static final BlockEntityType<CopperTunnelBlockEntity> COPPER_TUNNEL = buildType(CopperTunnelBlockEntity::new, MyBlocks.COPPER_TUNNEL);
+    public static final BlockEntityType<MultifuncBasinBlockEntity> MULTIFUNC_BASIN = buildType(MultifuncBasinBlockEntity::new, MyBlocks.MULTIFUNC_BASIN);
 
     static {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PAN, PAN);
@@ -58,6 +57,7 @@ public final class MyBlockEntityTypes {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
     }
     public static <T extends BlockEntity> BlockEntityType<T> buildType(FabricBlockEntityTypeBuilder.Factory<T> factory, @NotNull net.minecraft.block.Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory, blocks).build();
