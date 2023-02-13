@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.api;
+package phoupraw.mcmod.createsdelight.storage;
 
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
@@ -11,7 +11,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.Map;
 public class LivingEntityStorageImpl implements LivingEntityStorage {
     private final Map<EquipmentSlot, SingleSlotStorage<ItemVariant>> slots = new EnumMap<>(EquipmentSlot.class);
     private final CombinedStorage<ItemVariant, SingleSlotStorage<ItemVariant>> delegate = new CombinedStorage<>(new ArrayList<>(EquipmentSlot.values().length));

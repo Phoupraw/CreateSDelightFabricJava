@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.api;
+package phoupraw.mcmod.createsdelight.storage;
 
 public class BlackHoleStorageImpl<T> implements BlackHoleStorage<T> {
     public static final BlackHoleStorageImpl<Object> INSTANCE = new BlackHoleStorageImpl<>();

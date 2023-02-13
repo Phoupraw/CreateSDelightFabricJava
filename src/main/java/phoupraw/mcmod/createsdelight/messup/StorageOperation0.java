@@ -1,8 +1,8 @@
-package phoupraw.mcmod.createsdelight.api;
+package phoupraw.mcmod.createsdelight.messup;
 
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-public interface StorageOperation<T> {
+public interface StorageOperation0<T> {
     int insert(Storage<T> target, int maxRepeatings, TransactionContext transaction);
     int extract(Storage<T> target, int maxRepeatings, TransactionContext transaction);
     default int replace(Storage<T> target, int maxRepeatings, TransactionContext transaction) {

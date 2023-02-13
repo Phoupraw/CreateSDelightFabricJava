@@ -18,9 +18,9 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.api.BlackHoleStorage;
 import phoupraw.mcmod.createsdelight.api.Lambdas;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.storage.BlackHoleStorage;
 
 import java.util.function.Predicate;
 public class PanFryingRecipe extends ProcessingRecipe<Inventory> {

@@ -24,9 +24,9 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.createsdelight.api.ReplaceableStorageView;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
+import phoupraw.mcmod.createsdelight.storage.ReplaceableStorageView;
 
 import java.util.*;
 public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {

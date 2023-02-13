@@ -20,10 +20,9 @@ import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
-import phoupraw.mcmod.createsdelight.api.ReplaceableStorageView;
-import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.SteamingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.storage.ReplaceableStorageView;
 
 import java.util.ArrayList;
 import java.util.BitSet;

@@ -1,9 +1,7 @@
-package phoupraw.mcmod.createsdelight.api;
+package phoupraw.mcmod.createsdelight.storage;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.item.base.SingleItemStorage;
 public class ConstantSingleFluidStorage extends SingleFluidStorage {
     private long capacity;
 
