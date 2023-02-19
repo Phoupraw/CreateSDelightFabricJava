@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:vertical_cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:cake"
+    }
+  ],
+  "knives": 3,
+  "processingTime": 480,
+  "results": [
+    {
+      "count": 7,
+      "item": "farmersdelight:cake_slice"
+    }
+  ]
+}

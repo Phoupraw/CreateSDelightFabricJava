@@ -53,5 +53,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add("burn_time", "燃料时间：%s");
         builder.add(MyBlocks.COPPER_TUNNEL, "铜隧道");
         builder.add(MyBlocks.MULTIFUNC_BASIN, "多功能工作盆");
+        builder.add(MyBlocks.VERTICAL_CUTTER, "纵切机");
+        builder.add(keyOfCategory(MyRecipeTypes.VERTICAL_CUTTING.getId()),"纵切");
     }
 }

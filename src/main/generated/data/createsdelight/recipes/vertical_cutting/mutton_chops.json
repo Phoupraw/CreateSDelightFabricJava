@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:vertical_cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:mutton"
+    }
+  ],
+  "knives": 1,
+  "processingTime": 240,
+  "results": [
+    {
+      "count": 2,
+      "item": "farmersdelight:mutton_chops"
+    }
+  ]
+}

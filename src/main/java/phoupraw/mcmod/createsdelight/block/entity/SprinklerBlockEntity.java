@@ -30,7 +30,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
-import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
@@ -85,7 +84,6 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
         if (getSpeed() == 0 || recipes.isEmpty()) return BeltProcessingBehaviour.ProcessingResult.PASS;
         var recipe = filterRecipe(recipes, getStack());
         if (recipe != null) {
-//            working=true;
             elapsed = 0;
             sendData();
         }
@@ -97,11 +95,6 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
         if (getSpeed() == 0 || recipes.isEmpty()) return BeltProcessingBehaviour.ProcessingResult.PASS;
         var recipe = filterRecipe(recipes, getStack());
         if (recipe == null) return BeltProcessingBehaviour.ProcessingResult.HOLD;
-//        if (processingTicks == -1) {
-//            processingTicks = 0;
-//            sendData();
-//        }
-//        sendData();
         if (elapsed == -1) {
             elapsed = 0;
             sendData();

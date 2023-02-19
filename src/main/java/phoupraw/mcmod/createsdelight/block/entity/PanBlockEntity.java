@@ -1,33 +1,25 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
-import com.simibubi.create.content.contraptions.particle.RotationIndicatorParticleData;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
-
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-
 import net.minecraft.util.math.Direction;
-
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
@@ -65,7 +57,7 @@ public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInforma
             }
             if (getProcessedTicks() >= recipe.getProcessingDuration() / 2) {
                 switch (getFlippingStage()) {
-                    case NOT_DONE -> {
+                    case NOT_DOING -> {
                         setFlippingTicks(0);
                         sendData();
                     }
@@ -116,10 +108,6 @@ public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInforma
     @Override
     public @Nullable ProcessingRecipe<?> getRecipe() {
         return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.PAN_FRYING.getRecipeType()).parallelStream().filter(this).findFirst().orElse(null);
-    }
-
-    public enum Stage {
-        NOT_DONE, DOING, DONE
     }
 
     @Override

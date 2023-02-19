@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "createsdelight:sprinkler",
-    "createsdelight:bamboo_steamer"
+    "createsdelight:bamboo_steamer",
+    "createsdelight:vertical_cutter"
   ]
 }

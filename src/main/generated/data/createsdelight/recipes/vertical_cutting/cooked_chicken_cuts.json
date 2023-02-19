@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:vertical_cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:cooked_chicken"
+    }
+  ],
+  "knives": 1,
+  "processingTime": 240,
+  "results": [
+    {
+      "count": 2,
+      "item": "farmersdelight:cooked_chicken_cuts"
+    }
+  ]
+}

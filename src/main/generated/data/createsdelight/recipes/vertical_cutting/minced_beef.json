@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:vertical_cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:beef"
+    }
+  ],
+  "knives": 16,
+  "processingTime": 2040,
+  "results": [
+    {
+      "count": 2,
+      "item": "farmersdelight:minced_beef"
+    }
+  ]
+}

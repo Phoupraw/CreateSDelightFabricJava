@@ -14,10 +14,7 @@ import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
-import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.SteamingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.*;
 /**
  * 配方类型添加步骤：<br>
  * - 创建配方类，继承{@link ProcessingRecipe}，创建符合{@link ProcessingRecipeFactory}的构造器<br>
@@ -39,6 +36,15 @@ public class MyRecipeTypes {
     public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "grilling"), GrillingRecipe::new);
     public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "sprinkling"), SprinklingRecipe::new);
     public static final RecipeTypeInfo<SteamingRecipe> STEAMING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "steaming"), SteamingRecipe::new);
+    public static final RecipeTypeInfo<VerticalCuttingRecipe> VERTICAL_CUTTING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "vertical_cutting"), VerticalCuttingRecipe::new);
+    static {
+//        RecipeEvents.APPEND_1.register((recipeManager,adder) -> {
+//            var recipes = recipeManager.listAllOfType(RecipeTypesRegistry.CUTTING_RECIPE_SERIALIZER.<CuttingBoardRecipe>type()).stream().filter(Lambdas.matchingTool(ItemsRegistry.IRON_KNIFE.get().getDefaultStack())).toList();
+//            for (var recipe : recipes) {
+//                adder.accept(VerticalCuttingRecipe.of(recipe));
+//            }
+//        });
+    }
 
     /**
      * <b>不要注册！</b>已在构造器中注册。
@@ -50,19 +56,25 @@ public class MyRecipeTypes {
         private final ProcessingRecipeSerializer<R> serializer;
         private final RecipeType<R> type;
 
+        /**
+         * @param id         用于注册序列化器和配方类型
+         * @param serializer 未注册的序列化器
+         * @param type       未注册的配方类型
+         * @throws IllegalStateException 若{@code serializer}或{@code type}已注册
+         */
         public RecipeTypeInfo(Identifier id, ProcessingRecipeSerializer<R> serializer, RecipeType<R> type) {
             this.id = id;
             this.serializer = serializer;
             this.type = type;
             Registry.register(Registry.RECIPE_TYPE, id, type);
-            Registry.register(Registry.RECIPE_SERIALIZER,id,serializer);
+            Registry.register(Registry.RECIPE_SERIALIZER, id, serializer);
         }
 
         public RecipeTypeInfo(Identifier id, ProcessingRecipeFactory<R> factory) {
             this.id = id;
             this.serializer = new ProcessingRecipeSerializer<>(factory);
             this.type = RecipeType.register(id.toString());
-            Registry.register(Registry.RECIPE_SERIALIZER,id,serializer);
+            Registry.register(Registry.RECIPE_SERIALIZER, id, serializer);
         }
 
         @Override
@@ -77,7 +89,9 @@ public class MyRecipeTypes {
         }
 
         /**
-         * 用
+         * 我不知道为什么simibubi要搞个泛型方法，很不好用。
+         *
+         * @see #getRecipeType()
          */
         @SuppressWarnings("unchecked")
         @Override

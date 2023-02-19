@@ -25,6 +25,7 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
+import phoupraw.mcmod.createsdelight.api.Stage;
 import phoupraw.mcmod.createsdelight.behaviour.BlockingTransportedBehaviour;
 
 import java.util.List;
@@ -125,11 +126,11 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
     public void setFlippingTicks(int flippingTicks) {
         var previous = getFlippingStage();
         this.flippingTicks = flippingTicks;
-        if (previous != PanBlockEntity.Stage.DONE && getFlippingStage() == PanBlockEntity.Stage.DONE) playSizzleSound();
+        if (previous != Stage.DONE && getFlippingStage() == Stage.DONE) playSizzleSound();
     }
 
-    public PanBlockEntity.Stage getFlippingStage() {
-        return getFlippingTicks() < 0 ? PanBlockEntity.Stage.NOT_DONE : getFlippingTicks() < FLIPPING_DURATION ? PanBlockEntity.Stage.DOING : PanBlockEntity.Stage.DONE;
+    public Stage getFlippingStage() {
+        return getFlippingTicks() < 0 ? Stage.NOT_DOING : getFlippingTicks() < FLIPPING_DURATION ? Stage.DOING : Stage.DONE;
     }
 
     public void resetTicks() {
@@ -147,12 +148,12 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
     @Override
     public void tick() {
         super.tick();
-        if (getFlippingStage() == PanBlockEntity.Stage.DOING) {
+        if (getFlippingStage() == Stage.DOING) {
             setFlippingTicks(getFlippingTicks() + 1);
             var pos = Vec3d.ofCenter(getPos());
             var particle = new RotationIndicatorParticleData(MapColor.TERRACOTTA_YELLOW.color, 24f, 0.3f, 0.3f, 20, 'Y');
             getWorld().addParticle(particle, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
-            if (getFlippingStage() == PanBlockEntity.Stage.DONE) {
+            if (getFlippingStage() == Stage.DONE) {
 //                getItem().getStorage().getTransported().angle += 180;
             }
         }

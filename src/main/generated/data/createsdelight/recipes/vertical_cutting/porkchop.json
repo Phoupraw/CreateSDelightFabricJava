@@ -1,0 +1,19 @@
+{
+  "type": "createsdelight:vertical_cutting",
+  "ingredients": [
+    {
+      "item": "farmersdelight:ham"
+    }
+  ],
+  "knives": 2,
+  "processingTime": 360,
+  "results": [
+    {
+      "count": 2,
+      "item": "minecraft:porkchop"
+    },
+    {
+      "item": "minecraft:bone"
+    }
+  ]
+}

@@ -47,5 +47,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add("burn_time","Fuel Time: %s");
         builder.add(MyBlocks.COPPER_TUNNEL, "Copper Tunnel");
         builder.add(MyBlocks.MULTIFUNC_BASIN, "Multifunctional Basin");
+        builder.add(MyBlocks.VERTICAL_CUTTER, "Vertical Cutter");
+        builder.add(keyOfCategory(MyRecipeTypes.VERTICAL_CUTTING.getId()),"Vertical Cutting");
     }
 }

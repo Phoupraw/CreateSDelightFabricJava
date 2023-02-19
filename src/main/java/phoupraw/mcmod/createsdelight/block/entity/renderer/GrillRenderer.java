@@ -2,21 +2,21 @@ package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
 import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
-import com.simibubi.create.foundation.fluid.FluidRenderer;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
-import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 
-import static phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity.SLOTS;
 import static phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity.getHorizontalOffset;
-
+@Environment(EnvType.CLIENT)
 public class GrillRenderer extends SmartTileEntityRenderer<GrillBlockEntity> {
     public GrillRenderer(BlockEntityRendererFactory.Context context) {
         super(context);

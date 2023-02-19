@@ -11,7 +11,9 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -74,7 +76,7 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     @Override
     protected void read(NbtCompound tag, boolean clientPacket) {
         super.read(tag, clientPacket);
-        if (getWorld().isClient()) {
+        if (super.getWorld() != null && getWorld().isClient()) {
             if (clientPacket) {
                 if (tag.contains("toFlaps", NbtElement.INT_ARRAY_TYPE)) {
                     for (int info : tag.getIntArray("toFlaps")) {

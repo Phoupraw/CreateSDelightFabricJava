@@ -1,0 +1,19 @@
+{
+  "type": "createsdelight:vertical_cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:salmon"
+    }
+  ],
+  "knives": 2,
+  "processingTime": 360,
+  "results": [
+    {
+      "count": 2,
+      "item": "farmersdelight:salmon_slice"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    }
+  ]
+}

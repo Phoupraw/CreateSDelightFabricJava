@@ -5,15 +5,16 @@ import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
-import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
-
+import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
+@Environment(EnvType.CLIENT)
 public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
     public PanRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
@@ -42,7 +43,7 @@ public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
         ms.translate(offset.getX(), offset.getY(), offset.getZ());
         float progress = 0;
         switch (pan.getFlippingStage()) {
-            case NOT_DONE -> progress = 0;
+            case NOT_DOING -> progress = 0;
             case DOING -> {
                 progress = MathHelper.lerp(partialTicks, pan.getFlippingTicks(), pan.getFlippingTicks() + 1) / MyBlockEntity1.FLIPPING_DURATION;
                 ms.translate(0, 0.5 * Math.sin(Math.PI * progress), 0);

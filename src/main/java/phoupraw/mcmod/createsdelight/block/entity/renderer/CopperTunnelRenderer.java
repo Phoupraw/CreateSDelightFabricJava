@@ -1,28 +1,25 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
-import com.jozufozu.flywheel.backend.Backend;
 import com.jozufozu.flywheel.util.transform.TransformStack;
 import com.simibubi.create.AllBlockPartials;
 import com.simibubi.create.foundation.render.CachedBufferer;
 import com.simibubi.create.foundation.render.SuperByteBuffer;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
 import com.simibubi.create.foundation.utility.AngleHelper;
-import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.VecHelper;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
 import phoupraw.mcmod.createsdelight.block.entity.CopperTunnelBlockEntity;
-
-import java.util.Map;
+@Environment(EnvType.CLIENT)
 public class CopperTunnelRenderer extends SmartTileEntityRenderer<CopperTunnelBlockEntity> {
     public CopperTunnelRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
