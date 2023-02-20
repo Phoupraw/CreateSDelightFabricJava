@@ -36,27 +36,26 @@ public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingD
 
     @Override
     public int getDisplayHeight() {
-        return 26;
+        return 4 + 18 + 4;
     }
 
     @Override
     public int getDisplayWidth(VerticalCuttingDisplay display) {
-        return 138;
+        return 4 + 18 + 24 + 18 * display.getOutputEntries().size() + 4;
     }
 
     @Override
     public List<Widget> setupDisplay(VerticalCuttingDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
-        int x0 = bounds.getX() + 5, y0 = bounds.getY() + 5;
-        widgets.add(Widgets.createSlot(new Point(x0, y0)).entries(display.getInputEntries().get(0)).markInput());
-        widgets.add(Widgets.createArrow(new Point(x0 + 17, y0)));
-        widgets.add(Widgets.createLabel(new Point(x0 + 25, y0), Text.of(String.valueOf(display.knives))));
+        int x0 = bounds.getX() + 4, y = bounds.getY() + 5;
+        widgets.add(Widgets.createSlot(new Point(x0 + 1, y)).entries(display.getInputEntries().get(0)).markInput());
+        widgets.add(Widgets.createArrow(new Point(x0 + 18, y)));
+        widgets.add(Widgets.createLabel(new Point(x0 + 18 + 8, y), Text.of(String.valueOf(display.knives))));
         List<EntryIngredient> outputEntries = display.getOutputEntries();
         for (int i = 0, outputEntriesSize = outputEntries.size(); i < outputEntriesSize; i++) {
             EntryIngredient entry = outputEntries.get(i);
-            widgets.add(new DecimalCountSlot(new Point(x0 + 17 + 25 + 18 * i, y0)).withCount(display.counts[i]).entries(entry).markOutput());
-//            widgets.add(new DecimalCountSlot(new Point(x0 + 17 + 25 + 18 * i + 14, y0 + 9)).withCount(display.counts[i]));
+            widgets.add(new DecimalCountSlot(new Point(x0 + 18 + 24 + 1 + 18 * i, y)).withCount(display.counts[i]).entries(entry).markOutput());
         }
         return widgets;
     }

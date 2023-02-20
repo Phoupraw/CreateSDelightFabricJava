@@ -2,21 +2,80 @@
   "credit": "Made with Blockbench",
   "parent": "block/block",
   "textures": {
+    "8": "createsdelight:block/pressure_cooker_back",
+    "piston_side": "block/piston_side",
     "axis": "create:block/axis",
+    "piston_top": "block/piston_top",
     "axis_top": "create:block/axis_top",
-    "particle": "create:block/mechanical_press_side",
-    "mechanical_press_side": "create:block/mechanical_press_side",
     "gearbox_top": "create:block/gearbox_top",
     "gearbox": "create:block/gearbox",
-    "mechanical_press_top": "create:block/mechanical_press_top",
-    "mechanical_press_bottom": "create:block/mechanical_press_bottom",
-    "mechanical_press_pole": "create:block/mechanical_press_pole"
+    "piston_bottom": "create:block/piston_bottom",
+    "belt": "create:block/belt",
+    "particle": "createsdelight:block/pressure_cooker_back"
   },
   "elements": [
     {
+      "name": "Bottom",
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "north": {"uv": [0, 14, 16, 16], "texture": "#gearbox_top"},
+        "east": {"uv": [0, 14, 16, 16], "texture": "#gearbox_top"},
+        "south": {"uv": [0, 14, 16, 16], "texture": "#gearbox_top"},
+        "west": {"uv": [0, 14, 16, 16], "texture": "#gearbox_top"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#gearbox_top"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#piston_bottom"}
+      }
+    },
+    {
+      "name": "Inner",
+      "from": [2, 2, 1],
+      "to": [14, 12, 15],
+      "faces": {
+        "north": {"uv": [2, 4, 14, 14], "texture": "#gearbox"},
+        "south": {"uv": [2, 4, 14, 14], "texture": "#gearbox"},
+        "down": {"uv": [0, 0, 12, 14], "texture": "#missing"}
+      }
+    },
+    {
+      "name": "Side",
+      "from": [0, 2, 0],
+      "to": [2, 12, 16],
+      "faces": {
+        "north": {"uv": [14, 0, 16, 10], "texture": "#gearbox_top"},
+        "east": {"uv": [0, 0, 16, 10], "texture": "#gearbox_top"},
+        "south": {"uv": [0, 0, 2, 10], "texture": "#gearbox_top"},
+        "west": {"uv": [0, 0, 16, 10], "texture": "#gearbox_top"}
+      }
+    },
+    {
+      "name": "Side2",
+      "from": [14, 2, 0],
+      "to": [16, 12, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 10], "texture": "#gearbox_top"},
+        "east": {"uv": [0, 0, 16, 10], "texture": "#gearbox_top"},
+        "south": {"uv": [14, 0, 16, 10], "texture": "#gearbox_top"},
+        "west": {"uv": [0, 0, 16, 10], "texture": "#gearbox_top"}
+      }
+    },
+    {
+      "name": "Top",
+      "from": [0, 12, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 4], "texture": "#piston_side"},
+        "east": {"uv": [0, 0, 16, 4], "texture": "#piston_side"},
+        "south": {"uv": [0, 0, 16, 4], "texture": "#piston_side"},
+        "west": {"uv": [0, 0, 16, 4], "texture": "#piston_side"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#piston_top"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#8"}
+      }
+    },
+    {
       "name": "传动杆",
-      "from": [6, 10, 0],
-      "to": [10, 14, 16],
+      "from": [6, 6, 0],
+      "to": [10, 10, 16],
       "faces": {
         "north": {"uv": [6, 6, 10, 10], "rotation": 180, "texture": "#axis_top"},
         "east": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#axis"},
@@ -27,195 +86,52 @@
       }
     },
     {
-      "name": "Top",
-      "from": [0, 18, 0],
-      "to": [16, 20, 16],
+      "name": "密封圈北",
+      "from": [1, 16, 1],
+      "to": [13, 17, 3],
+      "rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
       "faces": {
-        "north": {"uv": [0, 0, 16, 2], "texture": "#gearbox"},
-        "east": {"uv": [0, 0, 16, 2], "texture": "#mechanical_press_side"},
-        "south": {"uv": [0, 0, 16, 2], "texture": "#gearbox"},
-        "west": {"uv": [0, 0, 16, 2], "texture": "#mechanical_press_side"},
-        "up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#mechanical_press_top"},
-        "down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#gearbox"}
+        "north": {"uv": [6, 14, 7, 2], "rotation": 270, "texture": "#belt"},
+        "south": {"uv": [5, 2, 6, 14], "rotation": 270, "texture": "#belt"},
+        "west": {"uv": [5, 2, 7, 3], "rotation": 180, "texture": "#belt"},
+        "up": {"uv": [5, 2, 7, 14], "rotation": 270, "texture": "#belt"}
       }
     },
     {
-      "name": "Core",
-      "from": [2, 8, 1],
-      "to": [14, 18, 15],
+      "name": "密封圈西",
+      "from": [1, 16, 3],
+      "to": [3, 17, 15],
+      "rotation": {"angle": 0, "axis": "x", "origin": [8, 8, 8]},
       "faces": {
-        "north": {"uv": [2, 2, 14, 12], "texture": "#gearbox"},
-        "south": {"uv": [2, 2, 14, 12], "texture": "#gearbox"},
-        "down": {"uv": [2, 1, 14, 15], "rotation": 180, "texture": "#mechanical_press_bottom"}
+        "east": {"uv": [5, 2, 6, 14], "rotation": 270, "texture": "#belt"},
+        "south": {"uv": [5, 2, 7, 3], "rotation": 180, "texture": "#belt"},
+        "west": {"uv": [6, 14, 7, 2], "rotation": 270, "texture": "#belt"},
+        "up": {"uv": [5, 2, 7, 14], "rotation": 180, "texture": "#belt"}
       }
     },
     {
-      "name": "Side",
-      "from": [14, 6, 0],
-      "to": [16, 18, 16],
+      "name": "密封圈南",
+      "from": [3, 16, 13],
+      "to": [15, 17, 15],
+      "rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
       "faces": {
-        "north": {"uv": [0, 2, 2, 14], "texture": "#gearbox_top"},
-        "east": {"uv": [0, 2, 16, 14], "texture": "#mechanical_press_side"},
-        "south": {"uv": [14, 2, 16, 14], "texture": "#gearbox_top"},
-        "west": {"uv": [0, 2, 16, 14], "texture": "#mechanical_press_side"},
-        "down": {"uv": [0, 0, 2, 16], "rotation": 180, "texture": "#gearbox_top"}
+        "north": {"uv": [5, 2, 6, 14], "rotation": 270, "texture": "#belt"},
+        "east": {"uv": [5, 2, 7, 3], "rotation": 180, "texture": "#belt"},
+        "south": {"uv": [6, 14, 7, 2], "rotation": 270, "texture": "#belt"},
+        "up": {"uv": [5, 2, 7, 14], "rotation": 90, "texture": "#belt"}
       }
     },
     {
-      "name": "Side",
-      "from": [0, 6, 0],
-      "to": [2, 18, 16],
+      "name": "密封圈东",
+      "from": [13, 16, 1],
+      "to": [15, 17, 13],
+      "rotation": {"angle": 0, "axis": "x", "origin": [8, 8, 8]},
       "faces": {
-        "north": {"uv": [14, 2, 16, 14], "texture": "#gearbox_top"},
-        "east": {"uv": [0, 2, 16, 14], "texture": "#mechanical_press_side"},
-        "south": {"uv": [0, 2, 2, 14], "texture": "#gearbox_top"},
-        "west": {"uv": [0, 2, 16, 14], "texture": "#mechanical_press_side"},
-        "down": {"uv": [14, 0, 16, 16], "rotation": 180, "texture": "#gearbox_top"}
+        "north": {"uv": [5, 2, 7, 3], "rotation": 180, "texture": "#belt"},
+        "east": {"uv": [6, 14, 7, 2], "rotation": 270, "texture": "#belt"},
+        "west": {"uv": [5, 2, 6, 14], "rotation": 270, "texture": "#belt"},
+        "up": {"uv": [5, 2, 7, 14], "texture": "#belt"}
       }
-    },
-    {
-      "name": "Pole2Core",
-      "from": [6, 14, 6],
-      "to": [10, 27, 10],
-      "faces": {
-        "east": {"uv": [6, 0, 10, 13], "texture": "#mechanical_press_pole"},
-        "west": {"uv": [6, 0, 10, 13], "texture": "#mechanical_press_pole"},
-        "up": {"uv": [11, 1, 15, 5], "rotation": 180, "texture": "#mechanical_press_pole"}
-      }
-    },
-    {
-      "name": "Pole2Side",
-      "from": [5, 14, 10],
-      "to": [11, 27, 11],
-      "faces": {
-        "north": {"uv": [0, 0, 6, 13], "texture": "#mechanical_press_pole"},
-        "east": {"uv": [0, 0, 1, 13], "texture": "#mechanical_press_pole"},
-        "south": {"uv": [0, 0, 6, 13], "texture": "#mechanical_press_pole"},
-        "west": {"uv": [5, 0, 6, 13], "texture": "#mechanical_press_pole"},
-        "up": {"uv": [10, 0, 16, 1], "rotation": 180, "texture": "#mechanical_press_pole"}
-      }
-    },
-    {
-      "name": "Pole2Side",
-      "from": [5, 14, 5],
-      "to": [11, 27, 6],
-      "faces": {
-        "north": {"uv": [0, 0, 6, 13], "texture": "#mechanical_press_pole"},
-        "east": {"uv": [0, 0, 1, 13], "texture": "#mechanical_press_pole"},
-        "south": {"uv": [0, 0, 6, 13], "texture": "#mechanical_press_pole"},
-        "west": {"uv": [5, 0, 6, 13], "texture": "#mechanical_press_pole"},
-        "up": {"uv": [10, 5, 16, 6], "rotation": 180, "texture": "#mechanical_press_pole"}
-      }
-    },
-    {
-      "name": "Pole1Core",
-      "from": [6, 4, 6],
-      "to": [10, 14, 10],
-      "faces": {
-        "east": {"uv": [6, 6, 10, 16], "texture": "#mechanical_press_pole"},
-        "west": {"uv": [6, 6, 10, 16], "texture": "#mechanical_press_pole"},
-        "down": {"uv": [11, 1, 15, 5], "texture": "#mechanical_press_pole"}
-      }
-    },
-    {
-      "name": "Pole1Side",
-      "from": [5, 4, 10],
-      "to": [11, 14, 11],
-      "faces": {
-        "north": {"uv": [0, 6, 6, 16], "texture": "#mechanical_press_pole"},
-        "east": {"uv": [0, 6, 1, 16], "texture": "#mechanical_press_pole"},
-        "south": {"uv": [0, 6, 6, 16], "texture": "#mechanical_press_pole"},
-        "west": {"uv": [5, 6, 6, 16], "texture": "#mechanical_press_pole"},
-        "down": {"uv": [0, 0, 0, 0], "texture": "#mechanical_press_pole"}
-      }
-    },
-    {
-      "name": "Pole1Side",
-      "from": [5, 4, 5],
-      "to": [11, 14, 6],
-      "faces": {
-        "north": {"uv": [0, 6, 6, 16], "texture": "#mechanical_press_pole"},
-        "east": {"uv": [0, 6, 1, 16], "texture": "#mechanical_press_pole"},
-        "south": {"uv": [0, 6, 6, 16], "texture": "#mechanical_press_pole"},
-        "west": {"uv": [5, 6, 6, 16], "texture": "#mechanical_press_pole"},
-        "down": {"uv": [10, 0, 16, 1], "texture": "#mechanical_press_pole"}
-      }
-    },
-    {
-      "name": "锅盖",
-      "from": [0, 2, 0],
-      "to": [16, 4, 16],
-      "rotation": {"angle": 0, "axis": "y", "origin": [8, 2.75, 8]},
-      "faces": {
-        "north": {"uv": [0, 0, 16, 2], "texture": "#basin_side"},
-        "east": {"uv": [0, 0, 16, 2], "texture": "#basin_side"},
-        "south": {"uv": [0, 0, 16, 2], "texture": "#basin_side"},
-        "west": {"uv": [0, 0, 16, 2], "texture": "#basin_side"},
-        "up": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#basin"},
-        "down": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#basin"}
-      }
-    },
-    {
-      "name": "外",
-      "from": [1, 1, 1],
-      "to": [15, 2, 15],
-      "faces": {
-        "north": {"uv": [0, 0, 1, 14], "rotation": 90, "texture": "#black_scroll"},
-        "east": {"uv": [0, 0, 1, 14], "rotation": 90, "texture": "#black_scroll"},
-        "south": {"uv": [0, 0, 1, 14], "rotation": 90, "texture": "#black_scroll"},
-        "west": {"uv": [0, 0, 1, 14], "rotation": 90, "texture": "#black_scroll"},
-        "down": {"uv": [1, 1, 15, 15], "texture": "#rubber_ring"}
-      }
-    },
-    {
-      "name": "内",
-      "from": [13, 2, 13],
-      "to": [3, 1, 3],
-      "faces": {
-        "north": {"uv": [0, 0, 1, 10], "rotation": 90, "texture": "#black_scroll"},
-        "east": {"uv": [0, 0, 1, 10], "rotation": 90, "texture": "#black_scroll"},
-        "south": {"uv": [0, 0, 1, 10], "rotation": 90, "texture": "#black_scroll"},
-        "west": {"uv": [0, 0, 1, 10], "rotation": 90, "texture": "#black_scroll"}
-      }
-    }
-  ],
-  "display": {
-    "gui": {
-      "rotation": [30, 225, 0],
-      "translation": [0, -2, 0],
-      "scale": [0.55, 0.55, 0.55]
-    },
-    "fixed": {
-      "translation": [0, -2.75, -0.0625],
-      "scale": [0.5, 0.5, 0.5]
-    }
-  },
-  "groups": [
-    0,
-    {
-      "name": "外壳",
-      "origin": [0, 0, 0],
-      "color": 0,
-      "children": [1, 2, 3, 4]
-    },
-    {
-      "name": "上半柱",
-      "origin": [0, 0, 0],
-      "color": 0,
-      "children": [5, 6, 7]
-    },
-    {
-      "name": "下半柱",
-      "origin": [0, 0, 0],
-      "color": 0,
-      "children": [8, 9, 10]
-    },
-    11,
-    {
-      "name": "橡胶圈",
-      "origin": [0, 0, 0],
-      "color": 0,
-      "children": [12, 13]
     }
   ]
 }

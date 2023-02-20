@@ -24,8 +24,9 @@
     "minecraft": ">=1.19.2",
     "fabricloader": "*",
     "fabric-api": "*",
-    "create": ">=0.5.0.g-851+1.19.2",
-    "farmersdelight": ">=1.2.0"
+    "create": ">=0.5.0.i",
+    "farmersdelight": ">=1.2.0",
+    "enchlevel-langpatch": "*"
   },
   "suggests": {
     "iceberg": "*",

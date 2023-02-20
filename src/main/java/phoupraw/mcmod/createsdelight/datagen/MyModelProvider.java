@@ -8,15 +8,26 @@ import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
-import phoupraw.mcmod.createsdelight.block.HorizontalAxisKineticBlock;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 
 import static net.minecraft.data.client.VariantSettings.MODEL;
+import static net.minecraft.data.client.VariantSettings.Y;
 public class MyModelProvider extends FabricModelProvider {
+    public static void horizontalAxis(BlockStateModelGenerator generator, Block block, Identifier modelId) {
+        generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+          .coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_AXIS)
+            .register(Direction.Axis.Z, BlockStateVariant.create()
+              .put(MODEL, modelId))
+            .register(Direction.Axis.X, BlockStateVariant.create()
+              .put(MODEL, modelId)
+              .put(Y, VariantSettings.Rotation.R90))));
+    }
+
     public MyModelProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }
@@ -31,9 +42,8 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.SPRINKLER);
         generator.registerSimpleState(MyBlocks.BAMBOO_STEAMER);
         generator.registerSimpleState(MyBlocks.MULTIFUNC_BASIN);
-        var press = ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block");
-        HorizontalAxisKineticBlock.addBlockStates(generator, MyBlocks.VERTICAL_CUTTER, press);
-        HorizontalAxisKineticBlock.addBlockStates(generator, MyBlocks.PRESSURE_COOKER, press);
+        horizontalAxis(generator, MyBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
+        horizontalAxis(generator, MyBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(MyBlocks.PRESSURE_COOKER));
         generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
           .with(BlockStateVariant.create()
             .put(MODEL, ModelIds.getBlockModelId(MyBlocks.SMART_DRAIN)))
@@ -57,7 +67,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.VERTICAL_CUTTER);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.PRESSURE_COOKER);
 
-        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(), MyFluids.SUNFLOWER_OIL.getBottle(), MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE}) {
+        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(), MyFluids.SUNFLOWER_OIL.getBottle(), MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW}) {
             generator.registerItemModel(item);
         }
     }

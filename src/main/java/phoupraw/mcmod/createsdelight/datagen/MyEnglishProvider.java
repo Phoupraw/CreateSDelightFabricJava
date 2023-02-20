@@ -52,5 +52,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.PRESSURE_COOKER, "Pressure Cooker Controller");
         builder.add(keyOfCategory(MyRecipeTypes.PRESSURE_COOKING.getId()), "Pressure Cooking");
         builder.add(MyItems.COOKED_RICE, "Cooked Rice");
+        builder.add(MyItems.VEGETABLE_BIG_STEW, "Vegetable Big Stew");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.VEGETABLE_BIG_STEW), "Vegetable Big Stew");
     }
 }

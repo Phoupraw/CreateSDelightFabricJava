@@ -28,7 +28,7 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.addWorkstations(CategoryIdentifier.of("create", "draining"), EntryStacks.of(MyItems.SMART_DRAIN));
         registry.addWorkstations(VerticalCuttingCategory.ID, EntryStacks.of(MyItems.VERTICAL_CUTTER), depot, belt);
         registry.add(VerticalCuttingCategory.INSTANCE);
-        registry.addWorkstations(PressureCookingCategory.ID, EntryStacks.of(MyItems.VERTICAL_CUTTER), basin);
+        registry.addWorkstations(PressureCookingCategory.ID, EntryStacks.of(MyItems.PRESSURE_COOKER), basin);
         registry.add(PressureCookingCategory.INSTANCE);
     }
 

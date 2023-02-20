@@ -18,6 +18,8 @@
   "effect.createsdelight.satiation": "饱食",
   "empty": "空",
   "fluid.createsdelight.sunflower_oil": "葵花籽油",
+  "fluid.createsdelight.vegetable_big_stew": "蔬菜大乱炖",
+  "item.createsdelight.cooked_rice": "大米饭",
   "item.createsdelight.grilled_pork_slice": "烤猪肉片",
   "item.createsdelight.leaves_rice": "树叶米饭",
   "item.createsdelight.pan_fried_beef_patty": "香煎牛肉饼",
@@ -30,7 +32,7 @@
   "item.createsdelight.thin_pork_slice": "薄猪肉片",
   "item.createsdelight.vanilla": "香草",
   "item.createsdelight.vanilla_sweet_roll": "香草甜甜卷",
-  "item.minecraft.air": "大米饭",
+  "item.createsdelight.vegetable_big_stew": "蔬菜大乱炖",
   "itemGroup.createsdelight.item_group": "机械动力乐事",
   "modmenu.descriptionTranslation.createsdelight": "机械动力乐事\n主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。\n"
 }

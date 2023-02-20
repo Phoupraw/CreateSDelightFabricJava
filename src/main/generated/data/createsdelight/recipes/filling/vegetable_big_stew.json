@@ -1,0 +1,18 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "amount": 20250,
+      "fluid": "createsdelight:vegetable_big_stew",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "createsdelight:vegetable_big_stew"
+    }
+  ]
+}

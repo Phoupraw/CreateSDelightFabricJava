@@ -28,7 +28,8 @@ public final class MyIdentifiers {
       MULTIFUNC_BASIN = of("multifunc_basin"),
       VERTICAL_CUTTER = of("vertical_cutter"),
       PRESSURE_COOKER = of("pressure_cooker"),
-      COOKED_RICE = of("cooked_rice");
+      COOKED_RICE = of("cooked_rice"),
+      VEGETABLE_BIG_STEW = of("vegetable_big_stew");
 
     public static Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));

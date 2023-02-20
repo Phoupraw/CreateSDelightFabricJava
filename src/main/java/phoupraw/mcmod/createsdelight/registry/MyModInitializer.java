@@ -2,6 +2,10 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import com.simibubi.create.foundation.block.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage;
+import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
 public class MyModInitializer implements ModInitializer {
     @ApiStatus.Internal
@@ -9,6 +13,8 @@ public class MyModInitializer implements ModInitializer {
         loadClasses();
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SPRINKLER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
+        BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
+        FluidStorage.combinedItemApiProvider(Items.BOWL).register(context -> new EmptyItemFluidStorage(context, MyItems.VEGETABLE_BIG_STEW, MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

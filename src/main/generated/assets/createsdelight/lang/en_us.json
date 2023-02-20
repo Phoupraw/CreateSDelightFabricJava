@@ -18,6 +18,8 @@
   "effect.createsdelight.satiation": "Satiation",
   "empty": "Empty",
   "fluid.createsdelight.sunflower_oil": "Sunflower Seed Oil",
+  "fluid.createsdelight.vegetable_big_stew": "Vegetable Big Stew",
+  "item.createsdelight.cooked_rice": "Cooked Rice",
   "item.createsdelight.grilled_pork_slice": "Grilled Pork Slice",
   "item.createsdelight.leaves_rice": "Leaves Rice",
   "item.createsdelight.pan_fried_beef_patty": "Pan Fried Beef Patty",
@@ -30,7 +32,7 @@
   "item.createsdelight.thin_pork_slice": "Thin Pork Slice",
   "item.createsdelight.vanilla": "Vanilla",
   "item.createsdelight.vanilla_sweet_roll": "Vanilla Sweet Roll",
-  "item.minecraft.air": "Cooked Rice",
+  "item.createsdelight.vegetable_big_stew": "Vegetable Big Stew",
   "itemGroup.createsdelight.item_group": "Create'S Delight",
   "modmenu.descriptionTranslation.createsdelight": "Create'S Delight\nMainly add interaction between create and farmer's delight and unique food processing.\n"
 }

@@ -15,12 +15,12 @@ import net.minecraft.world.WorldView;
 
 import static net.minecraft.data.client.VariantSettings.MODEL;
 import static net.minecraft.data.client.VariantSettings.Y;
-public abstract class HorizontalAxisKineticBlock extends KineticBlock {
+public abstract class MyHorizontalAxisKineticBlock extends KineticBlock {
     public static final BooleanProperty X = BooleanProperty.of("x");
 
     public static void addBlockStates(BlockStateModelGenerator generator, Block block, Identifier modelId) {
         generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-          .coordinate(BlockStateVariantMap.create(VerticalCutterBlock.X)
+          .coordinate(BlockStateVariantMap.create(X)
             .register(false, BlockStateVariant.create()
               .put(MODEL, modelId))
             .register(true, BlockStateVariant.create()
@@ -28,7 +28,7 @@ public abstract class HorizontalAxisKineticBlock extends KineticBlock {
               .put(Y, VariantSettings.Rotation.R90))));
     }
 
-    public HorizontalAxisKineticBlock(Settings properties) {
+    public MyHorizontalAxisKineticBlock(Settings properties) {
         super(properties);
         setDefaultState(getDefaultState().with(X, false));
     }

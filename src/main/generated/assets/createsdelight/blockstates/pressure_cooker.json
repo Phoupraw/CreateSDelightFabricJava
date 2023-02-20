@@ -1,11 +1,11 @@
 {
   "variants": {
-    "x=false": {
-      "model": "create:block/mechanical_press/block"
-    },
-    "x=true": {
-      "model": "create:block/mechanical_press/block",
+    "axis=x": {
+      "model": "createsdelight:block/pressure_cooker",
       "y": 90
+    },
+    "axis=z": {
+      "model": "createsdelight:block/pressure_cooker"
     }
   }
 }

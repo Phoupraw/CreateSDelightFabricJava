@@ -7,6 +7,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
+import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -14,6 +15,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.tag.ItemTags;
@@ -43,21 +45,21 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('A', AllBlocks.SHAFT.get())
           .input('B', AllBlocks.ANDESITE_CASING.get())
           .input('C', Items.IRON_BARS)
-          .criterion("stupidMojang", conditionsFromItem(AllBlocks.SHAFT.get()))
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         ShapedRecipeJsonBuilder.create(MyItems.BAMBOO_STEAMER)
           .pattern("A")
           .pattern("B")
           .input('A', ItemsRegistry.BASKET.get())
           .input('B', Items.SCAFFOLDING)
-          .criterion("stupidMojang", conditionsFromItem(Items.BAMBOO))
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         ShapedRecipeJsonBuilder.create(MyItems.COPPER_TUNNEL)
           .pattern("AA")
           .pattern("BB")
           .input('A', AllItems.COPPER_SHEET.get())
           .input('B', Items.DRIED_KELP)
-          .criterion("stupidMojang", conditionsFromItem(Items.DRIED_KELP))
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         ShapedRecipeJsonBuilder.create(MyItems.VERTICAL_CUTTER)
           .pattern("A")
@@ -66,29 +68,26 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('A', AllBlocks.SHAFT.get())
           .input('B', AllBlocks.ANDESITE_CASING.get())
           .input('C', AllItems.IRON_SHEET.get())
-          .criterion("stupidMojang", conditionsFromItem(AllBlocks.SHAFT.get()))
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         ShapedRecipeJsonBuilder.create(MyItems.PRESSURE_COOKER)
-          .pattern(" A ")
-          .pattern(" B ")
-          .pattern("DCD")
-          .input('A', AllBlocks.SHAFT.get())
-          .input('B', AllBlocks.ANDESITE_CASING.get())
-          .input('C', AllItems.IRON_SHEET.get())
-          .input('D', Items.DRIED_KELP)
-          .criterion("stupidMojang", conditionsFromItem(AllBlocks.SHAFT.get()))
+          .pattern("A")
+          .pattern("B")
+          .input('A', Items.DRIED_KELP)
+          .input('B', AllBlocks.MECHANICAL_PISTON.get())
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
             Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
             MyItems.SMART_DRAIN)
-          .criterion("", conditionsFromItem(AllBlocks.ITEM_DRAIN.get()))
+          .criterion("", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter, MyIdentifiers.SMART_DRAIN);
         SmithingRecipeJsonBuilder.create(
             Ingredient.ofItems(AllBlocks.BASIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
             MyItems.MULTIFUNC_BASIN)
-          .criterion("", conditionsFromItem(AllBlocks.BASIN.get()))
+          .criterion("", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter, MyIdentifiers.MULTIFUNC_BASIN);
 
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THICK_PORK_SLICE, "", Ingredient.ofItems(Items.PORKCHOP), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THICK_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
@@ -161,83 +160,83 @@ public class MyRecipeProvider extends FabricRecipeProvider {
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.CAKE_SLICE.get()))
           .withKnives(3)
           .require(Items.CAKE)
-          .output(ItemsRegistry.CAKE_SLICE.get(),7)
+          .output(ItemsRegistry.CAKE_SLICE.get(), 7)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.SWEET_BERRY_CHEESECAKE_SLICE.get()))
           .withKnives(2)
           .require(ItemsRegistry.SWEET_BERRY_CHEESECAKE.get())
-          .output(ItemsRegistry.SWEET_BERRY_CHEESECAKE_SLICE.get(),4)
+          .output(ItemsRegistry.SWEET_BERRY_CHEESECAKE_SLICE.get(), 4)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.CHOCOLATE_PIE_SLICE.get()))
           .withKnives(2)
           .require(ItemsRegistry.CHOCOLATE_PIE.get())
-          .output(ItemsRegistry.CHOCOLATE_PIE_SLICE.get(),4)
+          .output(ItemsRegistry.CHOCOLATE_PIE_SLICE.get(), 4)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.APPLE_PIE_SLICE.get()))
           .withKnives(2)
           .require(ItemsRegistry.APPLE_PIE.get())
-          .output(ItemsRegistry.APPLE_PIE_SLICE.get(),4)
+          .output(ItemsRegistry.APPLE_PIE_SLICE.get(), 4)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(Items.PORKCHOP))
           .withKnives(2)
           .require(ItemsRegistry.HAM.get())
-          .output(Items.PORKCHOP,2)
+          .output(Items.PORKCHOP, 2)
           .output(Items.BONE)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(Items.COOKED_PORKCHOP))
           .withKnives(2)
           .require(ItemsRegistry.SMOKED_HAM.get())
-          .output(Items.COOKED_PORKCHOP,2)
+          .output(Items.COOKED_PORKCHOP, 2)
           .output(Items.BONE)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.SALMON_SLICE.get()))
           .withKnives(2)
           .require(Items.SALMON)
-          .output(ItemsRegistry.SALMON_SLICE.get(),2)
+          .output(ItemsRegistry.SALMON_SLICE.get(), 2)
           .output(Items.BONE_MEAL)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_SALMON_SLICE.get()))
           .withKnives(2)
           .require(Items.COOKED_SALMON)
-          .output(ItemsRegistry.COOKED_SALMON_SLICE.get(),2)
+          .output(ItemsRegistry.COOKED_SALMON_SLICE.get(), 2)
           .output(Items.BONE_MEAL)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COD_SLICE.get()))
           .withKnives(2)
           .require(Items.COOKED_COD)
-          .output(ItemsRegistry.COD_SLICE.get(),2)
+          .output(ItemsRegistry.COD_SLICE.get(), 2)
           .output(Items.BONE_MEAL)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_COD_SLICE.get()))
           .withKnives(2)
           .require(Items.COD)
-          .output(ItemsRegistry.COOKED_COD_SLICE.get(),2)
+          .output(ItemsRegistry.COOKED_COD_SLICE.get(), 2)
           .output(Items.BONE_MEAL)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.BACON.get()))
           .withKnives(1)
           .require(Items.PORKCHOP)
-          .output(ItemsRegistry.BACON.get(),2)
+          .output(ItemsRegistry.BACON.get(), 2)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.MUTTON_CHOPS.get()))
           .withKnives(1)
           .require(Items.MUTTON)
-          .output(ItemsRegistry.MUTTON_CHOPS.get(),2)
+          .output(ItemsRegistry.MUTTON_CHOPS.get(), 2)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_MUTTON_CHOPS.get()))
           .withKnives(1)
           .require(Items.COOKED_MUTTON)
-          .output(ItemsRegistry.COOKED_MUTTON_CHOPS.get(),2)
+          .output(ItemsRegistry.COOKED_MUTTON_CHOPS.get(), 2)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.CHICKEN_CUTS.get()))
           .withKnives(1)
           .require(Items.CHICKEN)
-          .output(ItemsRegistry.CHICKEN_CUTS.get(),2)
+          .output(ItemsRegistry.CHICKEN_CUTS.get(), 2)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_CHICKEN_CUTS.get()))
           .withKnives(1)
           .require(Items.COOKED_CHICKEN)
-          .output(ItemsRegistry.COOKED_CHICKEN_CUTS.get(),2)
+          .output(ItemsRegistry.COOKED_CHICKEN_CUTS.get(), 2)
           .build(exporter);
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
           .withKnives(16)
@@ -247,7 +246,28 @@ public class MyRecipeProvider extends FabricRecipeProvider {
         new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.COOKED_RICE)
           .require(ItemsRegistry.RICE.get())
           .output(MyItems.COOKED_RICE)
+          .require(Fluids.WATER, FluidConstants.BUCKET / 9)
           .averageProcessingDuration()
+          .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.VEGETABLE_BIG_STEW)
+          .require(Items.CARROT)
+          .require(Items.POTATO)
+          .require(Items.BEETROOT)
+          .require(ItemsRegistry.TOMATO.get())
+          .require(ItemsRegistry.CABBAGE_LEAF.get())
+          .require(ItemsRegistry.ONION.get())
+          .require(ItemsRegistry.PUMPKIN_SLICE.get())
+//          .require(Items.SUGAR)
+          .require(Fluids.WATER, FluidConstants.BUCKET / 2)
+          .output(MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 2)
+          .duration(20 * 15)
+          .requiresHeat(HeatCondition.HEATED)
+          .build(exporter);
+//        new ProcessingRecipeBuilder<>(FillingRecipe::new, MyIdentifiers.VEGETABLE_BIG_STEW)
+//          .require(Items.BOWL)
+//          .require(MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4)
+//          .output(MyItems.VEGETABLE_BIG_STEW)
+//          .build(exporter);
     }
 }

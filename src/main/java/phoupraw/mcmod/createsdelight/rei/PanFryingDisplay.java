@@ -8,25 +8,19 @@ import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import net.minecraft.client.MinecraftClient;
 import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 public class PanFryingDisplay extends BasicDisplay implements SimpleGridMenuDisplay {
-    public static List<EntryIngredient> inputsOf(PanFryingRecipe recipe) {
-        var list = new ArrayList<>(EntryIngredients.ofIngredients(recipe.getIngredients()));
-        for (FluidIngredient i : recipe.getFluidIngredients()) {
-            EntryIngredient of = EntryIngredients.of(VanillaEntryTypes.FLUID, CreateRecipeCategory.convertToREIFluids(i.getMatchingFluidStacks()));
-            list.add(of);
-        }
-        return list;
+    public static EntryIngredient of(FluidIngredient fluidIngredient) {
+        return EntryIngredients.of(VanillaEntryTypes.FLUID, CreateRecipeCategory.convertToREIFluids(fluidIngredient.getMatchingFluidStacks()));
     }
+
     private int duration = 100;
+
     public PanFryingDisplay(PanFryingRecipe recipe) {
-        super(inputsOf(recipe), Collections.singletonList(EntryIngredients.of(recipe.getOutput())), Optional.of(recipe.getId()));
+        super(PressureCookingDisplay.ofAllIngredients(recipe), Collections.singletonList(EntryIngredients.of(recipe.getOutput())), Optional.of(recipe.getId()));
         setDuration(recipe.getProcessingDuration());
     }
 

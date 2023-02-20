@@ -178,12 +178,18 @@ public class VirtualFluid extends AbstractVirtualFluid {
             return this;
         }
 
+        /**
+         * 传入{@link Items#AIR}以禁用桶装物品
+         */
         @SuppressWarnings("ConstantConditions")
         public Builder withBucket(@Nullable Item bucket) {
             this.bucket = bucket;
             return this;
         }
 
+        /**
+         * 传入{@link Items#AIR}以禁用瓶装物品
+         */
         @SuppressWarnings("ConstantConditions")
         public Builder withBottle(@Nullable Item bottle) {
             this.bottle = bottle;
@@ -212,7 +218,6 @@ public class VirtualFluid extends AbstractVirtualFluid {
         }
 
         /**
-         * @return
          * @throws NullPointerException 当{@link #id}为{@code null}时
          */
         public VirtualFluid buildAndRegister() {

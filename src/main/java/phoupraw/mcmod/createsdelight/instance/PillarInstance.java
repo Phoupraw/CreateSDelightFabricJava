@@ -10,13 +10,13 @@ import com.simibubi.create.content.contraptions.relays.encased.ShaftInstance;
 import com.simibubi.create.foundation.utility.AngleHelper;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import net.minecraft.block.BlockState;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
-import phoupraw.mcmod.createsdelight.block.VerticalCutterBlock;
 import phoupraw.mcmod.createsdelight.block.entity.InstanceOffset;
 public abstract class PillarInstance<T extends KineticTileEntity & InstanceOffset> extends ShaftInstance implements DynamicInstance {
     public static void setRotationOfX(OrientedData part, BlockState blockState) {
-        part.setRotation(Vec3f.POSITIVE_Y.getDegreesQuaternion(AngleHelper.horizontalAngle(blockState.get(VerticalCutterBlock.X) ? Direction.EAST : Direction.SOUTH)));
+        part.setRotation(Vec3f.POSITIVE_Y.getDegreesQuaternion(AngleHelper.horizontalAngle(blockState.get(Properties.HORIZONTAL_AXIS) == Direction.Axis.X ? Direction.EAST : Direction.SOUTH)));
     }
 
     public final OrientedData part;

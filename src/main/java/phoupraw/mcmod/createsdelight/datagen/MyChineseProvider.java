@@ -58,5 +58,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.PRESSURE_COOKER, "压力锅控制器");
         builder.add(keyOfCategory(MyRecipeTypes.PRESSURE_COOKING.getId()), "压煮");
         builder.add(MyItems.COOKED_RICE, "大米饭");
+        builder.add(MyItems.VEGETABLE_BIG_STEW, "蔬菜大乱炖");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.VEGETABLE_BIG_STEW), "蔬菜大乱炖");
     }
 }

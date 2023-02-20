@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.simibubi.create.AllShapes;
+import com.simibubi.create.content.contraptions.base.HorizontalAxisKineticBlock;
 import com.simibubi.create.foundation.block.ITE;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -29,7 +30,7 @@ public class PressureCookerBlock extends HorizontalAxisKineticBlock implements I
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return AllShapes.CASING_14PX.get(Direction.DOWN);
+        return AllShapes.CASING_12PX.get(Direction.DOWN);
     }
 
 }

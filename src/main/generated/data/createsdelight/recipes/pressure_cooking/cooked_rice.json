@@ -1,14 +1,20 @@
 {
   "type": "createsdelight:pressure_cooking",
+  "heatRequirement": "heated",
   "ingredients": [
     {
       "item": "farmersdelight:rice"
+    },
+    {
+      "amount": 9000,
+      "fluid": "minecraft:water",
+      "nbt": {}
     }
   ],
   "processingTime": 100,
   "results": [
     {
-      "item": "minecraft:air"
+      "item": "createsdelight:cooked_rice"
     }
   ]
 }

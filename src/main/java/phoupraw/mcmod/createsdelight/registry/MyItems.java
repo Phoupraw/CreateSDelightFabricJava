@@ -99,6 +99,21 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1)
         .build()
       ), true);
+    public static final Item VEGETABLE_BIG_STEW = new ConsumableItem(newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(6)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 20), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 120, 0), 1)
+        .build()
+      ), true) {
+        @Override
+        public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+            super.appendTooltip(stack, world, tooltip, context);
+            tooltip.add(Text.literal("texture wanted"));
+            tooltip.add(Text.literal("征稿纹理"));
+        }
+    };
 
     static {
         Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
@@ -121,6 +136,8 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
         Registry.register(Registry.ITEM, MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
         Registry.register(Registry.ITEM, MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
+        Registry.register(Registry.ITEM, MyIdentifiers.COOKED_RICE, COOKED_RICE);
+        Registry.register(Registry.ITEM, MyIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
