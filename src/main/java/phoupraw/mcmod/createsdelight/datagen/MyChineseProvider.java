@@ -54,6 +54,9 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.COPPER_TUNNEL, "铜隧道");
         builder.add(MyBlocks.MULTIFUNC_BASIN, "多功能工作盆");
         builder.add(MyBlocks.VERTICAL_CUTTER, "纵切机");
-        builder.add(keyOfCategory(MyRecipeTypes.VERTICAL_CUTTING.getId()),"纵切");
+        builder.add(keyOfCategory(MyRecipeTypes.VERTICAL_CUTTING.getId()), "纵切");
+        builder.add(MyBlocks.PRESSURE_COOKER, "压力锅控制器");
+        builder.add(keyOfCategory(MyRecipeTypes.PRESSURE_COOKING.getId()), "压煮");
+        builder.add(MyItems.COOKED_RICE, "大米饭");
     }
 }

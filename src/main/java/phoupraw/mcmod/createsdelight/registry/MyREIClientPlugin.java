@@ -16,7 +16,7 @@ import phoupraw.mcmod.createsdelight.rei.*;
 public final class MyREIClientPlugin implements REIClientPlugin {
     @Override
     public void registerCategories(CategoryRegistry registry) {
-        EntryStack<ItemStack> depot = EntryStacks.of(AllBlocks.DEPOT.get()), belt = EntryStacks.of(AllBlocks.BELT.get());
+        EntryStack<ItemStack> depot = EntryStacks.of(AllBlocks.DEPOT.get()), belt = EntryStacks.of(AllBlocks.BELT.get()), basin = EntryStacks.of(AllBlocks.BASIN.get());
         registry.add(PanFryingCategory.INSTANCE);
         registry.addWorkstations(PanFryingCategory.ID, EntryStacks.of(MyItems.PAN));
         registry.add(GrillingCategory.INSTANCE);
@@ -24,10 +24,12 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.add(SprinklingCategory.INSTANCE);
         registry.addWorkstations(SprinklingCategory.ID, EntryStacks.of(MyItems.SPRINKLER), depot, belt);
         registry.add(SteamingCategory.INSTANCE);
-        registry.addWorkstations(SteamingCategory.ID, EntryStacks.of(MyItems.BAMBOO_STEAMER), EntryStacks.of(AllBlocks.BASIN.get()));
+        registry.addWorkstations(SteamingCategory.ID, EntryStacks.of(MyItems.BAMBOO_STEAMER));
         registry.addWorkstations(CategoryIdentifier.of("create", "draining"), EntryStacks.of(MyItems.SMART_DRAIN));
         registry.addWorkstations(VerticalCuttingCategory.ID, EntryStacks.of(MyItems.VERTICAL_CUTTER), depot, belt);
         registry.add(VerticalCuttingCategory.INSTANCE);
+        registry.addWorkstations(PressureCookingCategory.ID, EntryStacks.of(MyItems.VERTICAL_CUTTER), basin);
+        registry.add(PressureCookingCategory.INSTANCE);
     }
 
     @Override
@@ -37,5 +39,6 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.registerRecipeFiller(SprinklingRecipe.class, MyRecipeTypes.SPRINKLING.getRecipeType(), SprinklingDisplay::new);
         registry.registerRecipeFiller(SteamingRecipe.class, MyRecipeTypes.STEAMING.getRecipeType(), SteamingDisplay::new);
         registry.registerRecipeFiller(VerticalCuttingRecipe.class, MyRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
+        registry.registerRecipeFiller(PressureCookingRecipe.class, MyRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
     }
 }

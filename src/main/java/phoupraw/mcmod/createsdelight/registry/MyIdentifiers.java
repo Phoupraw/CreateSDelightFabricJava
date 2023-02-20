@@ -26,7 +26,9 @@ public final class MyIdentifiers {
       SMART_DRAIN = of("smart_drain"),
       COPPER_TUNNEL = of("copper_tunnel"),
       MULTIFUNC_BASIN = of("multifunc_basin"),
-      VERTICAL_CUTTER =of("vertical_cutter");
+      VERTICAL_CUTTER = of("vertical_cutter"),
+      PRESSURE_COOKER = of("pressure_cooker"),
+      COOKED_RICE = of("cooked_rice");
 
     public static Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));

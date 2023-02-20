@@ -39,15 +39,18 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(keyOfCategory(MyRecipeTypes.SPRINKLING.getId()), "Sprinkling Flavour");
         builder.add(MyItems.LEAVES_RICE, "Leaves Rice");
         builder.add(MyItems.VANILLA, "Vanilla");
-        builder.add(MyItems.VANILLA_SWEET_ROLL,"Vanilla Sweet Roll");
-        builder.add(MyBlocks.BAMBOO_STEAMER,"Bamboo Steamer");
-        builder.add(keyOfCategory(MyRecipeTypes.STEAMING.getId()),"Steaming");
-        builder.add(MyItems.STEAMED_BUNS,"Steamed Buns");
-        builder.add(MyBlocks.SMART_DRAIN,"Smart Item Drain");
-        builder.add("burn_time","Fuel Time: %s");
+        builder.add(MyItems.VANILLA_SWEET_ROLL, "Vanilla Sweet Roll");
+        builder.add(MyBlocks.BAMBOO_STEAMER, "Bamboo Steamer");
+        builder.add(keyOfCategory(MyRecipeTypes.STEAMING.getId()), "Steaming");
+        builder.add(MyItems.STEAMED_BUNS, "Steamed Buns");
+        builder.add(MyBlocks.SMART_DRAIN, "Smart Item Drain");
+        builder.add("burn_time", "Fuel Time: %s");
         builder.add(MyBlocks.COPPER_TUNNEL, "Copper Tunnel");
         builder.add(MyBlocks.MULTIFUNC_BASIN, "Multifunctional Basin");
         builder.add(MyBlocks.VERTICAL_CUTTER, "Vertical Cutter");
-        builder.add(keyOfCategory(MyRecipeTypes.VERTICAL_CUTTING.getId()),"Vertical Cutting");
+        builder.add(keyOfCategory(MyRecipeTypes.VERTICAL_CUTTING.getId()), "Vertical Cutting");
+        builder.add(MyBlocks.PRESSURE_COOKER, "Pressure Cooker Controller");
+        builder.add(keyOfCategory(MyRecipeTypes.PRESSURE_COOKING.getId()), "Pressure Cooking");
+        builder.add(MyItems.COOKED_RICE, "Cooked Rice");
     }
 }

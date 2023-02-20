@@ -68,6 +68,16 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('C', AllItems.IRON_SHEET.get())
           .criterion("stupidMojang", conditionsFromItem(AllBlocks.SHAFT.get()))
           .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.PRESSURE_COOKER)
+          .pattern(" A ")
+          .pattern(" B ")
+          .pattern("DCD")
+          .input('A', AllBlocks.SHAFT.get())
+          .input('B', AllBlocks.ANDESITE_CASING.get())
+          .input('C', AllItems.IRON_SHEET.get())
+          .input('D', Items.DRIED_KELP)
+          .criterion("stupidMojang", conditionsFromItem(AllBlocks.SHAFT.get()))
+          .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
             Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
@@ -232,8 +242,12 @@ public class MyRecipeProvider extends FabricRecipeProvider {
         new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
           .withKnives(16)
           .require(Items.BEEF)
-          .output(ItemsRegistry.MINCED_BEEF.get(),2)
+          .output(ItemsRegistry.MINCED_BEEF.get(), 2)
           .build(exporter);
-
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.COOKED_RICE)
+          .require(ItemsRegistry.RICE.get())
+          .output(MyItems.COOKED_RICE)
+          .averageProcessingDuration()
+          .build(exporter);
     }
 }

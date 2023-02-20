@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import phoupraw.mcmod.createsdelight.inject.InjectTileEntityBehaviour;
-@Mixin(TileEntityBehaviour.class)
+@Mixin(value = TileEntityBehaviour.class, remap = false)
 public abstract class MixinTileEntityBehaviour {
-    @Inject(method = "get(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;get(Lnet/minecraft/block/entity/BlockEntity;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "get(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;get(Lnet/minecraft/block/entity/BlockEntity;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;", remap = false), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD, remap = false)
     private static void onGet1(BlockView reader, BlockPos pos, BehaviourType<TileEntityBehaviour> type, CallbackInfoReturnable<TileEntityBehaviour> cir, BlockEntity te) {
         InjectTileEntityBehaviour.onGet1(reader, pos, type, cir, te);
     }
 
-    @Inject(method = "get(Lnet/minecraft/block/entity/BlockEntity;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "get(Lnet/minecraft/block/entity/BlockEntity;Lcom/simibubi/create/foundation/tileEntity/behaviour/BehaviourType;)Lcom/simibubi/create/foundation/tileEntity/TileEntityBehaviour;", at = @At(value = "HEAD"), cancellable = true, remap = false)
     private static void onGet2(BlockEntity te, BehaviourType<TileEntityBehaviour> type, CallbackInfoReturnable<TileEntityBehaviour> cir) {
         InjectTileEntityBehaviour.onGet2(te, type, cir);
     }

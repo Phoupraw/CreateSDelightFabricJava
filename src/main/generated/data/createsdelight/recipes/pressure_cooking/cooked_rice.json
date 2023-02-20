@@ -1,0 +1,14 @@
+{
+  "type": "createsdelight:pressure_cooking",
+  "ingredients": [
+    {
+      "item": "farmersdelight:rice"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "minecraft:air"
+    }
+  ]
+}

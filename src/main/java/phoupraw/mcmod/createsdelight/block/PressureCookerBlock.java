@@ -9,22 +9,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import phoupraw.mcmod.createsdelight.block.entity.VerticalCutterBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.PressureCookerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-public class VerticalCutterBlock extends HorizontalAxisKineticBlock implements ITE<VerticalCutterBlockEntity> {
-
-    public VerticalCutterBlock(Settings properties) {
+public class PressureCookerBlock extends HorizontalAxisKineticBlock implements ITE<PressureCookerBlockEntity> {
+    public PressureCookerBlock(Settings properties) {
         super(properties);
     }
 
     @Override
-    public Class<VerticalCutterBlockEntity> getTileEntityClass() {
-        return VerticalCutterBlockEntity.class;
+    public Class<PressureCookerBlockEntity> getTileEntityClass() {
+        return PressureCookerBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends VerticalCutterBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.VERTICAL_CUTTER;
+    public BlockEntityType<? extends PressureCookerBlockEntity> getTileEntityType() {
+        return MyBlockEntityTypes.PRESSURE_COOKER;
     }
 
     @SuppressWarnings("deprecation")

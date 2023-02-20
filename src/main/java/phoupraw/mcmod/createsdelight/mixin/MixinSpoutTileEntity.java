@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import phoupraw.mcmod.createsdelight.registry.MySpoutingBehaviours;
-@Mixin(SpoutTileEntity.class)
+@Mixin(value = SpoutTileEntity.class, remap = false)
 public abstract class MixinSpoutTileEntity extends SmartTileEntity implements MySpoutingBehaviours.SpoutExtra {
     private double bottomY = 13 / 16.0;
 
@@ -32,14 +32,14 @@ public abstract class MixinSpoutTileEntity extends SmartTileEntity implements My
         }
     }
 
-    @Inject(method = "write", at = @At("RETURN"))
+    @Inject(method = "write", at = @At("RETURN"), remap = false)
     private void write(NbtCompound root, boolean clientPacket, CallbackInfo ci) {
         if (clientPacket) {
             root.putDouble("bottomY", getBottomY());
         }
     }
 
-    @Inject(method = "read", at = @At("RETURN"))
+    @Inject(method = "read", at = @At("RETURN"), remap = false)
     private void read(NbtCompound root, boolean clientPacket, CallbackInfo ci) {
         if (clientPacket) {
             setBottomY(root.getDouble("bottomY"));

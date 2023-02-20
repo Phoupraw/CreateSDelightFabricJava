@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "x=false": {
+      "model": "create:block/mechanical_press/block"
+    },
+    "x=true": {
+      "model": "create:block/mechanical_press/block",
+      "y": 90
+    }
+  }
+}

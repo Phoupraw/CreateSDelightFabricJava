@@ -17,6 +17,7 @@ public final class MyBlocks {
 	public static final CopperTunnelBlock COPPER_TUNNEL = new CopperTunnelBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_TUNNEL.get()));
 	public static final MultifuncBasinBlock MULTIFUNC_BASIN = new MultifuncBasinBlock(FabricBlockSettings.copyOf(AllBlocks.BASIN.get()));
 	public static final VerticalCutterBlock VERTICAL_CUTTER = new VerticalCutterBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
+    public static final PressureCookerBlock PRESSURE_COOKER = new PressureCookerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
 	static {
 		Registry.register(Registry.BLOCK, MyIdentifiers.PAN, PAN);
 		Registry.register(Registry.BLOCK, MyIdentifiers.GRILL, GRILL);
@@ -25,7 +26,8 @@ public final class MyBlocks {
 		Registry.register(Registry.BLOCK, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
 		Registry.register(Registry.BLOCK, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
 		Registry.register(Registry.BLOCK, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
-		Registry.register(Registry.BLOCK, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+        Registry.register(Registry.BLOCK, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+        Registry.register(Registry.BLOCK, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
 	}
 	private MyBlocks() {}
 }

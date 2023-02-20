@@ -50,6 +50,7 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<CopperTunnelBlockEntity> COPPER_TUNNEL = buildType(CopperTunnelBlockEntity::new, MyBlocks.COPPER_TUNNEL);
     public static final BlockEntityType<MultifuncBasinBlockEntity> MULTIFUNC_BASIN = buildType(MultifuncBasinBlockEntity::new, MyBlocks.MULTIFUNC_BASIN);
     public static final BlockEntityType<VerticalCutterBlockEntity> VERTICAL_CUTTER = buildType(VerticalCutterBlockEntity::new, MyBlocks.VERTICAL_CUTTER);
+    public static final BlockEntityType<PressureCookerBlockEntity> PRESSURE_COOKER = buildType(PressureCookerBlockEntity::new, MyBlocks.PRESSURE_COOKER);
 
     static {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PAN, PAN);
@@ -60,6 +61,7 @@ public final class MyBlockEntityTypes {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
     }
     public static <T extends BlockEntity> BlockEntityType<T> buildType(FabricBlockEntityTypeBuilder.Factory<T> factory, @NotNull net.minecraft.block.Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory, blocks).build();

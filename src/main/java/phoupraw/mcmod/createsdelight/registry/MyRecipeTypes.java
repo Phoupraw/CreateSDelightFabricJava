@@ -37,6 +37,7 @@ public class MyRecipeTypes {
     public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "sprinkling"), SprinklingRecipe::new);
     public static final RecipeTypeInfo<SteamingRecipe> STEAMING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "steaming"), SteamingRecipe::new);
     public static final RecipeTypeInfo<VerticalCuttingRecipe> VERTICAL_CUTTING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "vertical_cutting"), VerticalCuttingRecipe::new);
+    public static final RecipeTypeInfo<PressureCookingRecipe> PRESSURE_COOKING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "pressure_cooking"), PressureCookingRecipe::new);
     static {
 //        RecipeEvents.APPEND_1.register((recipeManager,adder) -> {
 //            var recipes = recipeManager.listAllOfType(RecipeTypesRegistry.CUTTING_RECIPE_SERIALIZER.<CuttingBoardRecipe>type()).stream().filter(Lambdas.matchingTool(ItemsRegistry.IRON_KNIFE.get().getDefaultStack())).toList();

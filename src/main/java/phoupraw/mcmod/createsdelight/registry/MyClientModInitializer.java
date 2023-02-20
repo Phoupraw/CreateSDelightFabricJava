@@ -13,7 +13,7 @@ import phoupraw.mcmod.createsdelight.block.entity.renderer.*;
 @Environment(EnvType.CLIENT)
 public final class MyClientModInitializer implements ClientModInitializer {
     @SuppressWarnings("unchecked")
-    public static <T extends KineticTileEntity> BlockEntityRendererFactory<T> getKineticRendererFactory() {
+    public static <T extends KineticTileEntity> BlockEntityRendererFactory<T> castKineticRendererFactory() {
         return (BlockEntityRendererFactory<T>) (BlockEntityRendererFactory<KineticTileEntity>) KineticTileEntityRenderer::new;
     }
 
@@ -34,7 +34,8 @@ public final class MyClientModInitializer implements ClientModInitializer {
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.SMART_DRAIN, SmartDrainRenderer::new);
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.COPPER_TUNNEL, CopperTunnelRenderer::new);
         BlockEntityRendererRegistry.register(MyBlockEntityTypes.MULTIFUNC_BASIN, MultifuncBasinRenderer::new);
-        BlockEntityRendererRegistry.register(MyBlockEntityTypes.VERTICAL_CUTTER, getKineticRendererFactory());
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN);
+        BlockEntityRendererRegistry.register(MyBlockEntityTypes.VERTICAL_CUTTER, castKineticRendererFactory());
+        BlockEntityRendererRegistry.register(MyBlockEntityTypes.PRESSURE_COOKER, castKineticRendererFactory());
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.PRESSURE_COOKER);
     }
 }

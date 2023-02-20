@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static phoupraw.mcmod.createsdelight.instance.VerticalCutterInstance.ALTITUDE;
-public class VerticalCutterBlockEntity extends KineticTileEntity {
+public class VerticalCutterBlockEntity extends KineticTileEntity implements InstanceOffset {
     /**
      * 当{@link #extending}为{@code false}时，{@link #extension}至少减小到此值，才允许将{@link #extending}设为{@code true}。
      */
@@ -153,7 +153,8 @@ public class VerticalCutterBlockEntity extends KineticTileEntity {
         }
     }
 
-    public double getKnifeOffset(float partialTicks) {
+    @Override
+    public double getOffset(float partialTicks) {
         return -0.0001 - ALTITUDE * MathHelper.lerp(partialTicks, getPrevExtention(), getExtension());
     }
 

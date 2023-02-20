@@ -11,7 +11,7 @@
     "MixinSpoutTileEntity",
     "MixinTileEntityBehaviour"
   ],
-  "client": ["MixinAnimatedKineticsWidget", "MixinSpoutRenderer", "MixinWidgetUtil_1"],
+  "client": ["MixinSpoutRenderer"],
   "injectors": {
     "defaultRequire": 1
   }
