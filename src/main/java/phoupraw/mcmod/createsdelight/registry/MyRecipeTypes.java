@@ -11,7 +11,6 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
 import phoupraw.mcmod.createsdelight.recipe.*;
@@ -32,12 +31,13 @@ import phoupraw.mcmod.createsdelight.recipe.*;
  */
 @SuppressWarnings("OverrideOnly")
 public class MyRecipeTypes {
-    public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "pan_frying"), PanFryingRecipe::new);
-    public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "grilling"), GrillingRecipe::new);
-    public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "sprinkling"), SprinklingRecipe::new);
-    public static final RecipeTypeInfo<SteamingRecipe> STEAMING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "steaming"), SteamingRecipe::new);
-    public static final RecipeTypeInfo<VerticalCuttingRecipe> VERTICAL_CUTTING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "vertical_cutting"), VerticalCuttingRecipe::new);
-    public static final RecipeTypeInfo<PressureCookingRecipe> PRESSURE_COOKING = new RecipeTypeInfo<>(new Identifier(CreateSDelight.MOD_ID, "pressure_cooking"), PressureCookingRecipe::new);
+    public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(MyIdentifiers.of("pan_frying"), PanFryingRecipe::new);
+    public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(MyIdentifiers.of("grilling"), GrillingRecipe::new);
+    public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(MyIdentifiers.of("sprinkling"), SprinklingRecipe::new);
+    public static final RecipeTypeInfo<SteamingRecipe> STEAMING = new RecipeTypeInfo<>(MyIdentifiers.of("steaming"), SteamingRecipe::new);
+    public static final RecipeTypeInfo<VerticalCuttingRecipe> VERTICAL_CUTTING = new RecipeTypeInfo<>(MyIdentifiers.of("vertical_cutting"), VerticalCuttingRecipe::new);
+    public static final RecipeTypeInfo<PressureCookingRecipe> PRESSURE_COOKING = new RecipeTypeInfo<>(MyIdentifiers.of("pressure_cooking"), PressureCookingRecipe::new);
+    public static final RecipeTypeInfo<MincingRecipe> MINCING = new RecipeTypeInfo<>(MyIdentifiers.of("mincing"), MincingRecipe::new);
     static {
 //        RecipeEvents.APPEND_1.register((recipeManager,adder) -> {
 //            var recipes = recipeManager.listAllOfType(RecipeTypesRegistry.CUTTING_RECIPE_SERIALIZER.<CuttingBoardRecipe>type()).stream().filter(Lambdas.matchingTool(ItemsRegistry.IRON_KNIFE.get().getDefaultStack())).toList();

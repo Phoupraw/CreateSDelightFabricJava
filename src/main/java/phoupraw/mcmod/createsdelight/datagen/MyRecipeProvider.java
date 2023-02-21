@@ -77,6 +77,15 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('B', AllBlocks.MECHANICAL_PISTON.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.MINCER)
+          .pattern("A")
+          .pattern("B")
+          .pattern("C")
+          .input('A', AllBlocks.COGWHEEL.get())
+          .input('B', AllBlocks.ANDESITE_CASING.get())
+          .input('C', AllItems.WHISK.get())
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
+          .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
             Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
@@ -264,10 +273,10 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .duration(20 * 15)
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-//        new ProcessingRecipeBuilder<>(FillingRecipe::new, MyIdentifiers.VEGETABLE_BIG_STEW)
-//          .require(Items.BOWL)
-//          .require(MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4)
-//          .output(MyItems.VEGETABLE_BIG_STEW)
-//          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
+          .require(Items.BEEF)
+          .output(ItemsRegistry.MINCED_BEEF.get(), 2)
+          .averageProcessingDuration()
+          .build(exporter);
     }
 }

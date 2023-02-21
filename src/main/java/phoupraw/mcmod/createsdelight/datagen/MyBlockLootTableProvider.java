@@ -19,5 +19,6 @@ public class MyBlockLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(MyBlocks.MULTIFUNC_BASIN);
         addDrop(MyBlocks.VERTICAL_CUTTER);
         addDrop(MyBlocks.PRESSURE_COOKER);
+        addDrop(MyBlocks.MINCER);
     }
 }

@@ -4,12 +4,12 @@ import com.simibubi.create.foundation.block.ITE;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.Factory;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -35,7 +35,7 @@ import phoupraw.mcmod.createsdelight.datagen.*;
  * <li>在{@link MyBlockTagProvider}添加标签<br>
  * <li>运行数据生成器<br>
  * <li>在{@code src/main/resources/assets/createsdelight/models/block}创建方块模型<br>
- * <li>在{@link MyClientModInitializer}添加{@link BlockEntityRendererRegistry}和{@link BlockRenderLayerMap}
+ * <li>在{@link MyClientModInitializer}添加{@link BlockEntityRendererFactories}和{@link BlockRenderLayerMap}
  * <li>运行客户端，检查方块效果是否如预期<br>
  * <li>在{@code ChangeLog.md}添加更新日志<br>
  * <li>提交git
@@ -51,6 +51,7 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<MultifuncBasinBlockEntity> MULTIFUNC_BASIN = buildType(MultifuncBasinBlockEntity::new, MyBlocks.MULTIFUNC_BASIN);
     public static final BlockEntityType<VerticalCutterBlockEntity> VERTICAL_CUTTER = buildType(VerticalCutterBlockEntity::new, MyBlocks.VERTICAL_CUTTER);
     public static final BlockEntityType<PressureCookerBlockEntity> PRESSURE_COOKER = buildType(PressureCookerBlockEntity::new, MyBlocks.PRESSURE_COOKER);
+    public static final BlockEntityType<MincerBlockEntity> MINCER = buildType(MincerBlockEntity::new, MyBlocks.MINCER);
 
     static {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PAN, PAN);
@@ -62,6 +63,7 @@ public final class MyBlockEntityTypes {
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.MINCER, MINCER);
     }
     public static <T extends BlockEntity> BlockEntityType<T> buildType(FabricBlockEntityTypeBuilder.Factory<T> factory, @NotNull net.minecraft.block.Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory, blocks).build();

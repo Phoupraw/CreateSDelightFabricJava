@@ -51,6 +51,7 @@ public final class MyItems {
     };
     public static final BlockItem VERTICAL_CUTTER = new AssemblyOperatorBlockItem(MyBlocks.VERTICAL_CUTTER, newSettings());
     public static final BlockItem PRESSURE_COOKER = new AssemblyOperatorBlockItem(MyBlocks.PRESSURE_COOKER, newSettings());
+    public static final BlockItem MINCER = new AssemblyOperatorBlockItem(MyBlocks.MINCER, newSettings());
 
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
     public static final Item THICK_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
@@ -125,6 +126,7 @@ public final class MyItems {
         Registry.register(Registry.ITEM, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
         Registry.register(Registry.ITEM, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
         Registry.register(Registry.ITEM, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+        Registry.register(Registry.ITEM, MyIdentifiers.MINCER, MINCER);
 
         Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registry.register(Registry.ITEM, MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);

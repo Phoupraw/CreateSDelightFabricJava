@@ -3,6 +3,7 @@ package phoupraw.mcmod.createsdelight.registry;
 import com.nhoryzon.mc.farmersdelight.registry.BlocksRegistry;
 import com.simibubi.create.AllBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.block.*;
 /**
@@ -17,7 +18,8 @@ public final class MyBlocks {
 	public static final CopperTunnelBlock COPPER_TUNNEL = new CopperTunnelBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_TUNNEL.get()));
 	public static final MultifuncBasinBlock MULTIFUNC_BASIN = new MultifuncBasinBlock(FabricBlockSettings.copyOf(AllBlocks.BASIN.get()));
 	public static final VerticalCutterBlock VERTICAL_CUTTER = new VerticalCutterBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
-    public static final PressureCookerBlock PRESSURE_COOKER = new PressureCookerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
+	public static final PressureCookerBlock PRESSURE_COOKER = new PressureCookerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
+	public static final Block MINCER = new MincerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_MIXER.get()));
 	static {
 		Registry.register(Registry.BLOCK, MyIdentifiers.PAN, PAN);
 		Registry.register(Registry.BLOCK, MyIdentifiers.GRILL, GRILL);
@@ -27,7 +29,8 @@ public final class MyBlocks {
 		Registry.register(Registry.BLOCK, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
 		Registry.register(Registry.BLOCK, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
         Registry.register(Registry.BLOCK, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
-        Registry.register(Registry.BLOCK, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+		Registry.register(Registry.BLOCK, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+		Registry.register(Registry.BLOCK, MyIdentifiers.MINCER, MINCER);
 	}
 	private MyBlocks() {}
 }

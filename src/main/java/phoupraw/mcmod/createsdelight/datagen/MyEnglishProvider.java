@@ -54,5 +54,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.COOKED_RICE, "Cooked Rice");
         builder.add(MyItems.VEGETABLE_BIG_STEW, "Vegetable Big Stew");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.VEGETABLE_BIG_STEW), "Vegetable Big Stew");
+        builder.add(MyBlocks.MINCER, "Mincer");
+        builder.add(keyOfCategory(MyRecipeTypes.MINCING.getId()), "Mincing");
     }
 }

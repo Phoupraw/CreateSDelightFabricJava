@@ -29,7 +29,8 @@ public final class MyIdentifiers {
       VERTICAL_CUTTER = of("vertical_cutter"),
       PRESSURE_COOKER = of("pressure_cooker"),
       COOKED_RICE = of("cooked_rice"),
-      VEGETABLE_BIG_STEW = of("vegetable_big_stew");
+      VEGETABLE_BIG_STEW = of("vegetable_big_stew"),
+      MINCER = of("mincer");
 
     public static Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));

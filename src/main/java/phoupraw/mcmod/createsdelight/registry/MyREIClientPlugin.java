@@ -30,6 +30,8 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.add(VerticalCuttingCategory.INSTANCE);
         registry.addWorkstations(PressureCookingCategory.ID, EntryStacks.of(MyItems.PRESSURE_COOKER), basin);
         registry.add(PressureCookingCategory.INSTANCE);
+        registry.addWorkstations(MincingCategory.ID, EntryStacks.of(MyItems.MINCER), basin);
+        registry.add(MincingCategory.INSTANCE);
     }
 
     @Override
@@ -40,5 +42,6 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.registerRecipeFiller(SteamingRecipe.class, MyRecipeTypes.STEAMING.getRecipeType(), SteamingDisplay::new);
         registry.registerRecipeFiller(VerticalCuttingRecipe.class, MyRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
         registry.registerRecipeFiller(PressureCookingRecipe.class, MyRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
+        registry.registerRecipeFiller(MincingRecipe.class, MyRecipeTypes.MINCING.getRecipeType(), MincingDisplay::new);
     }
 }

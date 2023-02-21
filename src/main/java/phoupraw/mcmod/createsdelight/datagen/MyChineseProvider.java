@@ -60,5 +60,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.COOKED_RICE, "大米饭");
         builder.add(MyItems.VEGETABLE_BIG_STEW, "蔬菜大乱炖");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.VEGETABLE_BIG_STEW), "蔬菜大乱炖");
+        builder.add(MyBlocks.MINCER, "绞肉机");
+        builder.add(keyOfCategory(MyRecipeTypes.MINCING.getId()), "绞肉");
     }
 }
