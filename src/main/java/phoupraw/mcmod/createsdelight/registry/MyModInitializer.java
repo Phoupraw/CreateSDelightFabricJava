@@ -4,9 +4,15 @@ import com.simibubi.create.foundation.block.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
+
+import java.util.regex.Pattern;
 public class MyModInitializer implements ModInitializer {
     @ApiStatus.Internal
     public static void initializeAfterCreate() {
@@ -14,7 +20,9 @@ public class MyModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SPRINKLER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
+        BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
         FluidStorage.combinedItemApiProvider(Items.BOWL).register(context -> new EmptyItemFluidStorage(context, MyItems.VEGETABLE_BIG_STEW, MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4));
+        FluidStorage.combinedItemApiProvider(MyItems.VEGETABLE_BIG_STEW).register(context -> new FullItemFluidStorage(context, Items.BOWL, FluidVariant.of(MyFluids.VEGETABLE_BIG_STEW), FluidConstants.BUCKET / 4));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -32,10 +40,18 @@ public class MyModInitializer implements ModInitializer {
 
     @Override
     public void onInitialize() {
-//RegistryEntryAddedCallback.event(Registry.BLOCK).register((rawId, id, object) -> {
-//    if (id.equals(AllBlocks.ITEM_DRAIN.getId())) {
-//        MyBlocks.SMART_DRAIN = new SmartDrainBlock(FabricBlockSettings.copyOf(AllBlocks.ITEM_DRAIN.get()));
-//    }
-//});
+        String version = FabricLoader.getInstance().getModContainer("create").orElseThrow().getMetadata().getVersion().toString();
+        var matcher = Pattern.compile("0\\.5\\.0\\.([a-z])-([0-9]+)\\+1\\.19\\.2").matcher(version);
+        if (!matcher.matches()) {
+            CreateSDelight.LOGGER.warn("can't read create version");
+        }
+        char letter = matcher.group(1).charAt(0);
+        int build = Integer.parseInt(matcher.group(2));
+        System.out.println("letter = " + letter);
+        System.out.println("build = " + build);
+        if (letter < 'g' || letter == 'g' && build < 851) {
+            throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-851+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-851+1.19.2`，但是实际为`" + version + "`！");
+        }
+//        throw new RuntimeException("stop");
     }
 }
