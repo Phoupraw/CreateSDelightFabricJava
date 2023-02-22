@@ -6,6 +6,9 @@ import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Contract;
+/**
+ * 可以显示小数的格子，用{@link #withCount}来设置要显示的小数，如果为1，则不显示，否则像物品数量那样显示在右下角，最多显示两位小数。。<b>如果物品本身数量不为1，那么仍然会显示物品的数量！所以请把传入的物品数量设为1。</b>
+ */
 public class DecimalCountSlot extends EntryWidget {
     @Contract(pure = true)
     public static boolean approx(double a, double b) {

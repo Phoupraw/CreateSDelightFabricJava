@@ -7,7 +7,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
@@ -37,12 +36,12 @@ public class GrillingCategory implements DisplayCategory<GrillingDisplay> {
 
     @Override
     public int getDisplayHeight() {
-        return 34;
+        return BasinCategory.calcHeight(0, 1);
     }
 
     @Override
     public int getDisplayWidth(GrillingDisplay display) {
-        return 76;
+        return BasinCategory.calcWidth(1, 1, 1);
     }
 
     @Override

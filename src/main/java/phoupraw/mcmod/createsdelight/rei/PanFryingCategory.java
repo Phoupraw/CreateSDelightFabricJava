@@ -1,8 +1,5 @@
 package phoupraw.mcmod.createsdelight.rei;
 
-import com.simibubi.create.compat.rei.category.CreateRecipeCategory;
-import com.simibubi.create.compat.rei.display.CreateDisplay;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -12,10 +9,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.Registry;
-import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
@@ -43,12 +37,12 @@ public class PanFryingCategory implements DisplayCategory<PanFryingDisplay> {
 
     @Override
     public int getDisplayHeight() {
-        return 34;
+        return BasinCategory.calcHeight(0, 1);
     }
 
     @Override
     public int getDisplayWidth(PanFryingDisplay display) {
-        return 95;
+        return BasinCategory.calcWidth(2, 1, 1);
     }
 
     @Override

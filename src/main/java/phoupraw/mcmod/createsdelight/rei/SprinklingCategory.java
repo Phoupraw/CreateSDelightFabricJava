@@ -13,7 +13,6 @@ import net.minecraft.text.Text;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 public class SprinklingCategory implements DisplayCategory<SprinklingDisplay> {
@@ -37,12 +36,12 @@ public class SprinklingCategory implements DisplayCategory<SprinklingDisplay> {
 
     @Override
     public int getDisplayHeight() {
-        return 45;
+        return BasinCategory.calcHeight(2, 0);
     }
 
     @Override
     public int getDisplayWidth(SprinklingDisplay display) {
-        return 76;
+        return BasinCategory.calcWidth(1, 1, 1);
     }
 
     @Override

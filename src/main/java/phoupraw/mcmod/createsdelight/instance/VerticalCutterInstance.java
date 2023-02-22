@@ -8,5 +8,6 @@ public class VerticalCutterInstance extends PillarInstance<VerticalCutterBlockEn
 
     public VerticalCutterInstance(MaterialManager dispatcher, VerticalCutterBlockEntity tile) {
         super(dispatcher, tile, MyPartialModels.VERTICAL_CUTTER_KNIFE);
+        setRotationOfX(vertical, blockState);
     }
 }

@@ -19,25 +19,24 @@ public abstract class PillarInstance<T extends KineticTileEntity & InstanceOffse
         part.setRotation(Vec3f.POSITIVE_Y.getDegreesQuaternion(AngleHelper.horizontalAngle(blockState.get(Properties.HORIZONTAL_AXIS) == Direction.Axis.X ? Direction.EAST : Direction.SOUTH)));
     }
 
-    public final OrientedData part;
+    public final OrientedData vertical;
 
-    public PillarInstance(MaterialManager dispatcher, T tile, PartialModel partialModel) {
+    public PillarInstance(MaterialManager dispatcher, T tile, PartialModel vertical) {
         super(dispatcher, tile);
-        part = dispatcher.defaultSolid()
+        this.vertical = dispatcher.defaultSolid()
           .material(Materials.ORIENTED)
-          .getModel(partialModel, blockState)
+          .getModel(vertical, blockState)
           .createInstance();
-        setRotationOfX(part, blockState);
-        transformModels();
+        transformVertical();
     }
 
     @Override
     public void beginFrame() {
-        transformModels();
+        transformVertical();
     }
 
-    protected void transformModels() {
-        part.setPosition(getInstancePosition()).nudge(0, (float) getBlockEntity().getOffset(AnimationTickHolder.getPartialTicks()), 0);
+    public void transformVertical() {
+        vertical.setPosition(getInstancePosition()).nudge(0, (float) getBlockEntity().getOffset(AnimationTickHolder.getPartialTicks()), 0);
     }
 
     @SuppressWarnings("unchecked")
@@ -48,12 +47,12 @@ public abstract class PillarInstance<T extends KineticTileEntity & InstanceOffse
     @Override
     public void updateLight() {
         super.updateLight();
-        relight(pos, part);
+        relight(pos, vertical);
     }
 
     @Override
     public void remove() {
         super.remove();
-        part.delete();
+        vertical.delete();
     }
 }

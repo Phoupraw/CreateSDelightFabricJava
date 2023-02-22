@@ -15,6 +15,8 @@ import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static phoupraw.mcmod.createsdelight.rei.BasinCategory.*;
 public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingDisplay> {
     public static final CategoryIdentifier<VerticalCuttingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.VERTICAL_CUTTING.getId());
     public static final VerticalCuttingCategory INSTANCE = new VerticalCuttingCategory();
@@ -36,26 +38,26 @@ public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingD
 
     @Override
     public int getDisplayHeight() {
-        return 4 + 18 + 4;
+        return BasinCategory.calcHeight(1, 0);
     }
 
     @Override
     public int getDisplayWidth(VerticalCuttingDisplay display) {
-        return 4 + 18 + 24 + 18 * display.getOutputEntries().size() + 4;
+        return BasinCategory.calcWidth(1 + display.getOutputEntries().size(), 0, 1);
     }
 
     @Override
     public List<Widget> setupDisplay(VerticalCuttingDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
-        int x0 = bounds.getX() + 4, y = bounds.getY() + 5;
+        int x0 = bounds.getX() + BACKGROUND_BORDER_BREADTH, y = bounds.getY() + BACKGROUND_BORDER_BREADTH;
         widgets.add(Widgets.createSlot(new Point(x0 + 1, y)).entries(display.getInputEntries().get(0)).markInput());
-        widgets.add(Widgets.createArrow(new Point(x0 + 18, y)));
-        widgets.add(Widgets.createLabel(new Point(x0 + 18 + 8, y), Text.of(String.valueOf(display.knives))));
+        widgets.add(Widgets.createArrow(new Point(x0 + SLOT_LENGTH, y)));
+        widgets.add(Widgets.createLabel(new Point(x0 + SLOT_LENGTH + 8, y), Text.of(String.valueOf(display.knives))));
         List<EntryIngredient> outputEntries = display.getOutputEntries();
         for (int i = 0, outputEntriesSize = outputEntries.size(); i < outputEntriesSize; i++) {
             EntryIngredient entry = outputEntries.get(i);
-            widgets.add(new DecimalCountSlot(new Point(x0 + 18 + 24 + 1 + 18 * i, y)).withCount(display.counts[i]).entries(entry).markOutput());
+            widgets.add(new DecimalCountSlot(new Point(x0 + SLOT_LENGTH + ARROW_WIDTH + 1 + SLOT_LENGTH * i, y)).withCount(display.counts[i]).entries(entry).markOutput());
         }
         return widgets;
     }

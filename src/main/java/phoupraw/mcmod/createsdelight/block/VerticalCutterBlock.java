@@ -12,6 +12,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import phoupraw.mcmod.createsdelight.block.entity.VerticalCutterBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+/**
+ * 纵切机
+ */
 public class VerticalCutterBlock extends HorizontalAxisKineticBlock implements ITE<VerticalCutterBlockEntity> {
 
     public VerticalCutterBlock(Settings properties) {

@@ -26,4 +26,10 @@ public class MincerBlock extends KineticBlock implements ITE<MincerBlockEntity> 
     public BlockEntityType<? extends MincerBlockEntity> getTileEntityType() {
         return MyBlockEntityTypes.MINCER;
     }
+
+    @Override
+    public SpeedLevel getMinimumRequiredSpeedLevel() {
+        return SpeedLevel.FAST;
+    }
+
 }
