@@ -44,14 +44,12 @@ public class MyModInitializer implements ModInitializer {
         var matcher = Pattern.compile("0\\.5\\.0\\.([a-z])-([0-9]+)\\+1\\.19\\.2").matcher(version);
         if (!matcher.matches()) {
             CreateSDelight.LOGGER.warn("can't read create version");
+        } else {
+            char letter = matcher.group(1).charAt(0);
+            int build = Integer.parseInt(matcher.group(2));
+            if (letter < 'g' || letter == 'g' && build < 851) {
+                throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-851+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-851+1.19.2`，但是实际为`" + version + "`！");
+            }
         }
-        char letter = matcher.group(1).charAt(0);
-        int build = Integer.parseInt(matcher.group(2));
-        System.out.println("letter = " + letter);
-        System.out.println("build = " + build);
-        if (letter < 'g' || letter == 'g' && build < 851) {
-            throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-851+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-851+1.19.2`，但是实际为`" + version + "`！");
-        }
-//        throw new RuntimeException("stop");
     }
 }

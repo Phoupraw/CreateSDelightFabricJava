@@ -52,7 +52,7 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
      */
     @Contract(pure = true)
     public static int calcWidth(int slots, int bigSlots, int arrows) {
-        return BACKGROUND_BORDER_BREADTH + 18 * SLOT_LENGTH + 24 * BIG_SLOT_LENGTH + 24 * ARROW_WIDTH + BACKGROUND_BORDER_BREADTH;
+        return BACKGROUND_BORDER_BREADTH + SLOT_LENGTH * slots + BIG_SLOT_LENGTH * bigSlots + ARROW_WIDTH * arrows + BACKGROUND_BORDER_BREADTH;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.SPRINKLER);
         generator.registerSimpleState(MyBlocks.BAMBOO_STEAMER);
         generator.registerSimpleState(MyBlocks.MULTIFUNC_BASIN);
-        generator.registerSimpleState(MyBlocks.MINCER);
+        generator.registerStateWithModelReference(MyBlocks.MINCER, AllBlocks.MECHANICAL_MIXER.get());
         horizontalAxis(generator, MyBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
         horizontalAxis(generator, MyBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(MyBlocks.PRESSURE_COOKER));
         generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
@@ -67,6 +67,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.COPPER_TUNNEL);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.VERTICAL_CUTTER);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.PRESSURE_COOKER);
+        generator.excludeFromSimpleItemModelGeneration(MyBlocks.MINCER);
 
         for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(), MyFluids.SUNFLOWER_OIL.getBottle(), MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW}) {
             generator.registerItemModel(item);

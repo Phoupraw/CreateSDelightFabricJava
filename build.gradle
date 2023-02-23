@@ -58,10 +58,15 @@ dependencies {
 
     // dependencies
 //    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
-    modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}") /*{
+
+    // 真是不知道ForgeConfigAPIPort出了什么鸟问题。
+    modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}") {
         exclude(Map.of("module", "forge-config-api-port-fabric-547434"))
-    }*/
-//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
+    }
+    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
+    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\core-3.6.5.jar"))
+    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\toml-3.6.5.jar"))
+
 //    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:${forgeconfigapiport}"
 //    modCompileOnly("maven.modrinth:lazydfu:${lazydfu_version}")
 //    modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
@@ -74,6 +79,7 @@ dependencies {
         case "emi": modCompileOnly("dev.emi:emi:${emi_version}"); break
             // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
     }
+    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\enchlevel-langpatch-1.2.3.jar"))
 //    modImplementation(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
 //    modImplementation(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
 }

@@ -24,9 +24,6 @@
       "item": "farmersdelight:pumpkin_slice"
     },
     {
-      "item": "minecraft:sugar"
-    },
-    {
       "amount": 40500,
       "fluid": "minecraft:water",
       "nbt": {}
