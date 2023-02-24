@@ -145,7 +145,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
                 spillParticles(basin, getSpeed());
             }
             if (countdown > 0) {
-                countdown -= Math.abs(getSpeed()) / 40;
+                countdown -= Math.abs(getSpeed()) / 20;
                 if (countdown < 0) countdown = 0;
             } else if (countdown == 0) {
                 applyBasinRecipe();
