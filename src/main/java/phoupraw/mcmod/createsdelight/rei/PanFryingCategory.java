@@ -10,6 +10,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
+import phoupraw.mcmod.common.rei.REILayouts;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
@@ -37,12 +38,12 @@ public class PanFryingCategory implements DisplayCategory<PanFryingDisplay> {
 
     @Override
     public int getDisplayHeight() {
-        return BasinCategory.calcHeight(0, 1);
+        return REILayouts.calcHeight(0, 1);
     }
 
     @Override
     public int getDisplayWidth(PanFryingDisplay display) {
-        return BasinCategory.calcWidth(2, 1, 1);
+        return REILayouts.calcWidth(2, 1, 1);
     }
 
     @Override

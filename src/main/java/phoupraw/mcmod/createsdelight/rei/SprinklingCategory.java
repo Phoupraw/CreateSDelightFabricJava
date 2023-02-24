@@ -10,6 +10,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
+import phoupraw.mcmod.common.rei.REILayouts;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
@@ -36,30 +37,32 @@ public class SprinklingCategory implements DisplayCategory<SprinklingDisplay> {
 
     @Override
     public int getDisplayHeight() {
-        return BasinCategory.calcHeight(2, 0);
+        return REILayouts.calcHeight(2, 0);
     }
 
     @Override
     public int getDisplayWidth(SprinklingDisplay display) {
-        return BasinCategory.calcWidth(1, 1, 1);
+        return REILayouts.calcWidth(1, 1, 1);
     }
 
     @Override
     public List<Widget> setupDisplay(SprinklingDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
-        Point origin = new Point(bounds.getX() + 5, bounds.getY() + 5);
+        var slot0 = REILayouts.slotAlignBackground(bounds);
         List<EntryIngredient> inputEntries = display.getInputEntries();
-        widgets.add(Widgets.createSlot(origin)
+        widgets.add(Widgets.createSlot(slot0)
           .entries(inputEntries.get(1))
           .markInput());
-        widgets.add(Widgets.createSlot(new Point(origin.getX(), origin.getY() + 19))
+        var slot1 = REILayouts.slotAlignSlot(slot0, 0, 1);
+        widgets.add(Widgets.createSlot(slot1)
           .entries(inputEntries.get(0))
           .markInput());
-        widgets.add(Widgets.createArrow(new Point(origin.getX() + 17, origin.getY() + 18)));
-        Point resultPos = new Point(origin.getX() + 17 + 29, origin.getY() + 15);
-        widgets.add(Widgets.createResultSlotBackground(resultPos));
-        widgets.add(Widgets.createSlot(resultPos)
+        var arrow = REILayouts.arrowAlignSlot(slot0.getX(), slot0.getY(), slot1.getY());
+        widgets.add(Widgets.createArrow(arrow));
+        Point result = REILayouts.bigSlotAlignArrow(arrow);
+        widgets.add(Widgets.createResultSlotBackground(result));
+        widgets.add(Widgets.createSlot(result)
           .entries(display.getOutputEntries().get(0))
           .disableBackground()
           .markOutput());

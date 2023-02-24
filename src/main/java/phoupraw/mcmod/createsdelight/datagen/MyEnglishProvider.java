@@ -16,7 +16,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
     @Override
     public void generateTranslations(TranslationBuilder builder) {
         builder.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
-          Create'S Delight
           Mainly add interaction between create and farmer's delight and unique food processing.
           """);
         builder.add(keyOfItemGroup(MyIdentifiers.ITEM_GROUP), "Create'S Delight");
@@ -56,5 +55,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(VirtualFluid.getTranslationKey(MyFluids.VEGETABLE_BIG_STEW), "Vegetable Big Stew");
         builder.add(MyBlocks.MINCER, "Mincer");
         builder.add(keyOfCategory(MyRecipeTypes.MINCING.getId()), "Mincing");
+        builder.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "Create's Delight");
     }
 }

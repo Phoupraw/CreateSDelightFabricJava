@@ -10,13 +10,12 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
+import phoupraw.mcmod.common.rei.REILayouts;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static phoupraw.mcmod.createsdelight.rei.BasinCategory.*;
 public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingDisplay> {
     public static final CategoryIdentifier<VerticalCuttingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.VERTICAL_CUTTING.getId());
     public static final VerticalCuttingCategory INSTANCE = new VerticalCuttingCategory();
@@ -38,26 +37,28 @@ public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingD
 
     @Override
     public int getDisplayHeight() {
-        return BasinCategory.calcHeight(1, 0);
+        return REILayouts.calcHeight(1, 0);
     }
 
     @Override
     public int getDisplayWidth(VerticalCuttingDisplay display) {
-        return BasinCategory.calcWidth(1 + display.getOutputEntries().size(), 0, 1);
+        return REILayouts.calcWidth(1 + display.getOutputEntries().size(), 0, 1);
     }
 
     @Override
     public List<Widget> setupDisplay(VerticalCuttingDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
-        int x0 = bounds.getX() + BACKGROUND_BORDER_BREADTH, y = bounds.getY() + BACKGROUND_BORDER_BREADTH;
-        widgets.add(Widgets.createSlot(new Point(x0 + 1, y)).entries(display.getInputEntries().get(0)).markInput());
-        widgets.add(Widgets.createArrow(new Point(x0 + SLOT_LENGTH, y)));
-        widgets.add(Widgets.createLabel(new Point(x0 + SLOT_LENGTH + 8, y), Text.of(String.valueOf(display.knives))));
+        var slot0 = REILayouts.slotAlignBackground(bounds);
+        widgets.add(Widgets.createSlot(slot0).entries(display.getInputEntries().get(0)).markInput());
+        var arrow = REILayouts.arrowAlignSlot(slot0);
+        widgets.add(Widgets.createArrow(arrow));
+        widgets.add(Widgets.createLabel(new Point(arrow.getX() + 8, arrow.getY()), Text.of(String.valueOf(display.knives))));
+        var slot1 = REILayouts.slotAlignArrow(arrow);
         List<EntryIngredient> outputEntries = display.getOutputEntries();
         for (int i = 0, outputEntriesSize = outputEntries.size(); i < outputEntriesSize; i++) {
             EntryIngredient entry = outputEntries.get(i);
-            widgets.add(new DecimalCountSlot(new Point(x0 + SLOT_LENGTH + ARROW_WIDTH + 1 + SLOT_LENGTH * i, y)).withCount(display.counts[i]).entries(entry).markOutput());
+            widgets.add(new DecimalCountSlot(REILayouts.slotAlignSlot(slot1, i, 0)).withCount(display.counts[i]).entries(entry).markOutput());
         }
         return widgets;
     }

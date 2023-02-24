@@ -16,7 +16,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
     @Override
     public void generateTranslations(TranslationBuilder builder) {
         builder.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
-          机械动力乐事
           主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
           """);
         builder.add(keyOfItemGroup(MyIdentifiers.ITEM_GROUP), "机械动力乐事");
@@ -56,5 +55,6 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(VirtualFluid.getTranslationKey(MyFluids.VEGETABLE_BIG_STEW), "蔬菜大乱炖");
         builder.add(MyBlocks.MINCER, "绞肉机");
         builder.add(keyOfCategory(MyRecipeTypes.MINCING.getId()), "绞肉");
+        builder.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "机械动力乐事");
     }
 }
