@@ -1,3 +1,31 @@
+# New
+
+## Vertical Cutter
+
+- Work above depot or belt.
+- Execute vertical cutting recipe.
+- Need power.
+
+## Pressure Cooker Controller
+
+- Work above basin.
+- Execute pressure cooking recipe.
+- Need power.
+
+## Mincer
+
+- Work above basin.
+- Execute mincing recipe.
+- Need medium speed (default 100 RPM) power.
+
+# Change
+
+- Need [Enchantment Level Language Patch](https://modrinth.com/mod/enchlevel-langpatch) as lib.
+
+# Fix
+
+- Can't launch game even if installed new version Create.
+
 # 新增
 
 ## 纵切机
@@ -16,7 +44,7 @@
 
 - 在工作盆上方工作。
 - 执行绞肉配方。
-- 需要快速动力（默认为100RPM）。
+- 需要快速动力（默认为100 RPM）。
 
 # 更改
 

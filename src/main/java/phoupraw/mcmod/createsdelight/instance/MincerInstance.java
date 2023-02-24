@@ -90,6 +90,7 @@ public class MincerInstance extends EncasedCogInstance implements DynamicInstanc
     @Override
     public void update() {
         super.update();
-        updateRotation(propeller, blockEntity.getSpeed() * 3);
+        float speed = getBlockEntity().getSpeed();
+        updateRotation(propeller, getBlockEntity().isFullyExtended() ? speed * 3 : speed / 2);
     }
 }
