@@ -1,0 +1,15 @@
+{
+  "type": "createsdelight:mincing",
+  "ingredients": [
+    {
+      "item": "farmersdelight:tomato"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 10125,
+      "fluid": "createsdelight:tomato_sauce"
+    }
+  ]
+}

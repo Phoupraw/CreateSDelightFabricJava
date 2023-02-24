@@ -123,6 +123,26 @@ public final class MyItems {
       ), true);
     public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
     public static final Item BOTTLED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
+    public static final Item CORAL_COLORFULS = new ConsumableItem(newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(6)
+        .saturationModifier(0.5f)
+        .snack()
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 2), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 0), 1)
+        .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 200), 1)
+        .build()
+      ), true);
+    public static final Item POPPY_RUSSIAN_SOUP = new ConsumableItem(newSettings()
+      .maxCount(16)
+      .recipeRemainder(Items.BOWL)
+      .food(new FoodComponent.Builder()
+        .hunger(6)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 20), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 180, 0), 1)
+        .build()
+      ), true);
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -151,6 +171,8 @@ public final class MyItems {
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.ROSE_MILK_TEA, ROSE_MILK_TEA);
+        Registries.register(MyIdentifiers.CORAL_COLORFULS, CORAL_COLORFULS);
+        Registries.register(MyIdentifiers.POPPY_RUSSIAN_SOUP, POPPY_RUSSIAN_SOUP);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

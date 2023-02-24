@@ -1,12 +1,12 @@
 package phoupraw.mcmod.createsdelight.registry;
 
+import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.foundation.block.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
+import net.fabricmc.fabric.api.transfer.v1.fluid.*;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.common.fluid.VirtualFluid;
@@ -17,6 +17,27 @@ import java.util.regex.Pattern;
 import static phoupraw.mcmod.common.misc.Lambdas.emptyProviderOf;
 import static phoupraw.mcmod.common.misc.Lambdas.fullProviderOf;
 public class MyModInitializer implements ModInitializer {
+    public static void register(FluidVariantAttributeHandler attributeHandler, Fluid... fluids) {
+        for (Fluid fluid : fluids) FluidVariantAttributes.register(fluid, attributeHandler);
+    }
+
+    public static void registerBucket(Fluid fluid, Item fullItem) {
+        registerStorage(Items.BUCKET, fullItem, fluid, FluidConstants.BUCKET);
+    }
+
+    public static void registerBottle(Fluid fluid, Item fullItem) {
+        registerStorage(Items.GLASS_BOTTLE, fullItem, fluid, FluidConstants.BOTTLE);
+    }
+
+    public static void registerBowl(Fluid fluid, Item fullItem) {
+        registerStorage(Items.BOWL, fullItem, fluid, FluidConstants.BUCKET / 4);
+    }
+
+    public static void registerStorage(Item emptyItem, Item fullItem, Fluid fluid, long amount) {
+        FluidStorage.combinedItemApiProvider(emptyItem).register(emptyProviderOf(fullItem, fluid, amount));
+        FluidStorage.combinedItemApiProvider(fullItem).register(fullProviderOf(emptyItem, FluidVariant.of(fluid), amount));
+    }
+
     @ApiStatus.Internal
     public static void initializeAfterCreate() {
         loadClasses();
@@ -35,7 +56,14 @@ public class MyModInitializer implements ModInitializer {
         FluidStorage.combinedItemApiProvider(Items.GLASS_BOTTLE).register(emptyProviderOf(MyItems.ROSE_MILK_TEA, MyFluids.ROSE_MILK_TEA, FluidConstants.BOTTLE));
         FluidStorage.combinedItemApiProvider(MyItems.ROSE_MILK_TEA).register(fullProviderOf(Items.GLASS_BOTTLE, FluidVariant.of(MyFluids.ROSE_MILK_TEA), FluidConstants.BOTTLE));
         FluidVariantAttributes.register(MyFluids.ROSE_MILK_TEA, VirtualFluid.ATTRIBUTE_HANDLER);
-
+        FluidStorage.combinedItemApiProvider(Items.BOWL).register(emptyProviderOf(Items.BEETROOT_SOUP, MyFluids.BEETROOT_SOUP, FluidConstants.BUCKET / 4));
+        FluidStorage.combinedItemApiProvider(Items.BEETROOT_SOUP).register(fullProviderOf(Items.BOWL, FluidVariant.of(MyFluids.BEETROOT_SOUP), FluidConstants.BUCKET / 4));
+        FluidVariantAttributes.register(MyFluids.BEETROOT_SOUP, VirtualFluid.ATTRIBUTE_HANDLER);
+        FluidStorage.combinedItemApiProvider(Items.BOWL).register(emptyProviderOf(ItemsRegistry.TOMATO_SAUCE.get(), MyFluids.TOMATO_SAUCE, FluidConstants.BUCKET / 4));
+        FluidStorage.combinedItemApiProvider(ItemsRegistry.TOMATO_SAUCE.get()).register(fullProviderOf(Items.BOWL, FluidVariant.of(MyFluids.TOMATO_SAUCE), FluidConstants.BUCKET / 4));
+        FluidVariantAttributes.register(MyFluids.TOMATO_SAUCE, VirtualFluid.ATTRIBUTE_HANDLER);
+        registerBowl(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
+        register(VirtualFluid.ATTRIBUTE_HANDLER, MyFluids.POPPY_RUSSIAN_SOUP);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

@@ -44,6 +44,9 @@ public final class MyClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.VEGETABLE_BIG_STEW, SimpleFluidRenderHandler.coloredWater(MapColor.LICHEN_GREEN.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.ROSE_MILK_TEA, SimpleFluidRenderHandler.coloredWater(MapColor.DULL_RED.color));
-        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA);
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.BEETROOT_SOUP, SimpleFluidRenderHandler.coloredWater(MapColor.RED.color));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.TOMATO_SAUCE, SimpleFluidRenderHandler.coloredWater(MapColor.DARK_RED.color));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.POPPY_RUSSIAN_SOUP, SimpleFluidRenderHandler.coloredWater(MapColor.RED.color));
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP);
     }
 }

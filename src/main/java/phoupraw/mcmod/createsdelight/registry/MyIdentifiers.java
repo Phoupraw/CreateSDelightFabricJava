@@ -34,7 +34,11 @@ public final class MyIdentifiers {
       SATIATION = of("satiation"),
       ROSE_MILK_TEA = of("rose_milk_tea"),
       BUCKETED_SUNFLOWER_OIL = of("bucketed_" + SUNFLOWER_OIL.getPath()),
-      BOTTLED_SUNFLOWER_OIL = of("bottled_" + SUNFLOWER_OIL.getPath());
+      BOTTLED_SUNFLOWER_OIL = of("bottled_" + SUNFLOWER_OIL.getPath()),
+      CORAL_COLORFULS = of("coral_colorfuls"),
+      BEETROOT_SOUP = of("beetroot_soup"),
+      TOMATO_SAUCE = of("tomato_sauce"),
+      POPPY_RUSSIAN_SOUP = of("poppy_russian_soup");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

@@ -1,0 +1,32 @@
+{
+  "type": "createsdelight:pressure_cooking",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "minecraft:tube_coral_fan"
+    },
+    {
+      "item": "minecraft:fire_coral_fan"
+    },
+    {
+      "item": "minecraft:horn_coral_fan"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:white_dye"
+    },
+    {
+      "amount": 27000,
+      "fluid": "create:tea",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "createsdelight:coral_colorfuls"
+    }
+  ]
+}

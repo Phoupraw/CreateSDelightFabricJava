@@ -288,5 +288,36 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.CORAL_COLORFULS)
+          .require(Items.TUBE_CORAL_FAN)
+          .require(Items.FIRE_CORAL_FAN)
+          .require(Items.HORN_CORAL_FAN)
+          .require(Items.SUGAR)
+          .require(Items.WHITE_DYE)
+          .require(AllFluids.TEA.get(), FluidConstants.BOTTLE)
+          .output(MyItems.CORAL_COLORFULS)
+          .averageProcessingDuration()
+          .requiresHeat(HeatCondition.HEATED)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, MyIdentifiers.TOMATO_SAUCE)
+          .require(ItemsRegistry.TOMATO.get())
+          .output(MyFluids.TOMATO_SAUCE, FluidConstants.BUCKET / 8)
+          .averageProcessingDuration()
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, MyIdentifiers.POPPY_RUSSIAN_SOUP)
+          .require(Items.POPPY)
+          .require(Items.POPPY)
+          .require(Items.POPPY)
+          .require(Items.CARROT)
+          .require(Items.BAKED_POTATO)
+          .require(ItemsRegistry.MINCED_BEEF.get())
+          .require(ItemsRegistry.CABBAGE_LEAF.get())
+          .require(MyFluids.TOMATO_SAUCE, FluidConstants.BOTTLE)
+          .require(Milk.STILL_MILK, FluidConstants.BOTTLE / 3)
+          .require(MyFluids.BEETROOT_SOUP, FluidConstants.BOTTLE * 2 / 3)
+          .output(MyFluids.POPPY_RUSSIAN_SOUP, FluidConstants.BOTTLE * 2)
+          .duration(20 * 15)
+          .requiresHeat(HeatCondition.HEATED)
+          .build(exporter);
     }
 }

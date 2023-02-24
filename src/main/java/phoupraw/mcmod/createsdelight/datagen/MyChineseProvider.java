@@ -58,5 +58,10 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "机械动力乐事");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.ROSE_MILK_TEA), "玫瑰奶茶");
         builder.add(MyItems.ROSE_MILK_TEA, "玫瑰奶茶");
+        builder.add(MyItems.CORAL_COLORFULS, "珊彩");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.BEETROOT_SOUP), "甜菜汤");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.TOMATO_SAUCE), "番茄酱");
+        builder.add(MyItems.POPPY_RUSSIAN_SOUP, "虞美人红菜汤");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.POPPY_RUSSIAN_SOUP), "虞美人红菜汤");
     }
 }

@@ -58,5 +58,11 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "Create's Delight");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.ROSE_MILK_TEA), "Rose Milk Tea");
         builder.add(MyItems.ROSE_MILK_TEA, "Rose Milk Tea");
+        builder.add(MyItems.CORAL_COLORFULS, "Coral Colorfuls");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.BEETROOT_SOUP), "Beetroot Soup");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.TOMATO_SAUCE), "Tomato Sauce");
+        builder.add(MyItems.POPPY_RUSSIAN_SOUP, "Poppy Russian Soup");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.POPPY_RUSSIAN_SOUP), "Poppy Russian Soup");
+
     }
 }

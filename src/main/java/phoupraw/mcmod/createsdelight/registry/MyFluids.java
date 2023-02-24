@@ -40,10 +40,16 @@ public final class MyFluids {
     public static final VirtualFluid SUNFLOWER_OIL = new SunFlowerOilFluid();
     public static final VirtualFluid VEGETABLE_BIG_STEW = new VirtualFluid();
     public static final VirtualFluid ROSE_MILK_TEA = new VirtualFluid();
+    public static final VirtualFluid BEETROOT_SOUP = new VirtualFluid();
+    public static final VirtualFluid TOMATO_SAUCE = new VirtualFluid();
+    public static final VirtualFluid POPPY_RUSSIAN_SOUP = new VirtualFluid();
     static {
         Registries.register(MyIdentifiers.SUNFLOWER_OIL, SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
         Registries.register(MyIdentifiers.ROSE_MILK_TEA, ROSE_MILK_TEA);
+        Registries.register(MyIdentifiers.BEETROOT_SOUP, BEETROOT_SOUP);
+        Registries.register(MyIdentifiers.TOMATO_SAUCE, TOMATO_SAUCE);
+        Registries.register(MyIdentifiers.POPPY_RUSSIAN_SOUP, POPPY_RUSSIAN_SOUP);
     }
     private MyFluids() {}
 }
