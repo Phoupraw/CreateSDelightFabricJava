@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 
 import static net.minecraft.data.client.VariantSettings.MODEL;
@@ -69,7 +68,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.PRESSURE_COOKER);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.MINCER);
 
-        for (Item item : new Item[]{MyFluids.SUNFLOWER_OIL.getBucketItem(), MyFluids.SUNFLOWER_OIL.getBottle(), MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW}) {
+        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA}) {
             generator.registerItemModel(item);
         }
     }

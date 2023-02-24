@@ -21,8 +21,8 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(keyOfItemGroup(MyIdentifiers.ITEM_GROUP), "机械动力乐事");
         builder.add(MyBlocks.PAN, "平底锅");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.SUNFLOWER_OIL), "葵花籽油");
-        builder.add(MyFluids.SUNFLOWER_OIL.getBucketItem(), "桶装葵花籽油");
-        builder.add(MyFluids.SUNFLOWER_OIL.getBottle(), "瓶装葵花籽油");
+        builder.add(MyItems.BUCKETED_SUNFLOWER_OIL, "桶装葵花籽油");
+        builder.add(MyItems.BOTTLED_SUNFLOWER_OIL, "瓶装葵花籽油");
         builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "香煎牛肉饼");
         builder.add(keyOfCategory(MyRecipeTypes.PAN_FRYING.getId()), "煎");
         builder.add(MyStatusEffects.SATIATION, "饱食");
@@ -56,5 +56,7 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.MINCER, "绞肉机");
         builder.add(keyOfCategory(MyRecipeTypes.MINCING.getId()), "绞肉");
         builder.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "机械动力乐事");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.ROSE_MILK_TEA), "玫瑰奶茶");
+        builder.add(MyItems.ROSE_MILK_TEA, "玫瑰奶茶");
     }
 }

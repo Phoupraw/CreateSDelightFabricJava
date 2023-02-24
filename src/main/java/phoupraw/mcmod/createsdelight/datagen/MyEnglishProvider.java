@@ -21,8 +21,8 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(keyOfItemGroup(MyIdentifiers.ITEM_GROUP), "Create'S Delight");
         builder.add(MyBlocks.PAN, "Pan");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.SUNFLOWER_OIL), "Sunflower Seed Oil");
-        builder.add(MyFluids.SUNFLOWER_OIL.getBucketItem(), "Bucketed Sunflower Seed Oil");
-        builder.add(MyFluids.SUNFLOWER_OIL.getBottle(), "Bottled Sunflower Seed Oil");
+        builder.add(MyItems.BUCKETED_SUNFLOWER_OIL, "Bucketed Sunflower Seed Oil");
+        builder.add(MyItems.BOTTLED_SUNFLOWER_OIL, "Bottled Sunflower Seed Oil");
         builder.add(MyItems.PAN_FRIED_BEEF_PATTY, "Pan Fried Beef Patty");
         builder.add(keyOfCategory(MyRecipeTypes.PAN_FRYING.getId()), "Pan Frying");
         builder.add(MyStatusEffects.SATIATION, "Satiation");
@@ -56,5 +56,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.MINCER, "Mincer");
         builder.add(keyOfCategory(MyRecipeTypes.MINCING.getId()), "Mincing");
         builder.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "Create's Delight");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.ROSE_MILK_TEA), "Rose Milk Tea");
+        builder.add(MyItems.ROSE_MILK_TEA, "Rose Milk Tea");
     }
 }

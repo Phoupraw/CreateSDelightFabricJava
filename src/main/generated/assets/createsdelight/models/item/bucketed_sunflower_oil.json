@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "createsdelight:item/sunflower_oil_bottle"
+    "layer0": "createsdelight:item/bucketed_sunflower_oil"
   }
 }

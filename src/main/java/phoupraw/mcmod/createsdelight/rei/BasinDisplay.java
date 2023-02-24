@@ -1,7 +1,5 @@
 package phoupraw.mcmod.createsdelight.rei;
 
-import com.simibubi.create.compat.rei.category.animations.AnimatedBlazeBurner;
-import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
@@ -9,7 +7,6 @@ import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import net.minecraft.util.Identifier;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,24 +31,11 @@ public abstract class BasinDisplay extends BasicDisplay {
         return list;
     }
 
-    private int duration = 100;
-    public HeatCondition heat = HeatCondition.NONE;
-    public AnimatedBlazeBurner burner = null;
-
-    public BasinDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Identifier> location) {super(inputs, outputs, location);}
+    public final ProcessingRecipe<?> recipe;
 
     public BasinDisplay(ProcessingRecipe<?> recipe) {
-        this(ofAllIngredients(recipe), ofAllResults(recipe), Optional.of(recipe.getId()));
-        setDuration(recipe.getProcessingDuration());
-        heat = recipe.getRequiredHeat();
-        if (heat != HeatCondition.NONE) burner = heat == HeatCondition.HEATED ? new AnimatedBlazeBurner().withHeat(HeatCondition.HEATED.visualizeAsBlazeBurner()) : new AnimatedBlazeBurner().withHeat(HeatCondition.SUPERHEATED.visualizeAsBlazeBurner());
+        super(ofAllIngredients(recipe), ofAllResults(recipe), Optional.of(recipe.getId()));
+        this.recipe = recipe;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 }

@@ -9,6 +9,7 @@ import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
+import io.github.tropheusj.milk.Milk;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -254,8 +255,8 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.COOKED_RICE)
           .require(ItemsRegistry.RICE.get())
-          .output(MyItems.COOKED_RICE)
           .require(Fluids.WATER, FluidConstants.BUCKET / 9)
+          .output(MyItems.COOKED_RICE)
           .averageProcessingDuration()
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
@@ -277,6 +278,15 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.BEEF)
           .output(ItemsRegistry.MINCED_BEEF.get(), 2)
           .averageProcessingDuration()
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.ROSE_MILK_TEA)
+          .require(Items.ROSE_BUSH)
+          .require(Items.SUGAR)
+          .require(ItemTags.LEAVES)
+          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+          .output(MyFluids.ROSE_MILK_TEA, FluidConstants.BOTTLE)
+          .averageProcessingDuration()
+          .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
     }
 }

@@ -1,22 +1,36 @@
 package phoupraw.mcmod.createsdelight.rei;
 
+import com.simibubi.create.compat.rei.category.CreateRecipeCategory;
 import com.simibubi.create.compat.rei.category.animations.AnimatedBlazeBurner;
 import com.simibubi.create.content.contraptions.processing.HeatCondition;
+import dev.architectury.fluid.FluidStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
+import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.common.rei.REILayouts;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCategory<T> {
     public static final AnimatedBlazeBurner HEATED = new AnimatedBlazeBurner().withHeat(HeatCondition.HEATED.visualizeAsBlazeBurner());
     public static final AnimatedBlazeBurner SUPERHEATED = new AnimatedBlazeBurner().withHeat(HeatCondition.SUPERHEATED.visualizeAsBlazeBurner());
+
+    public static Slot slotOf(Point pos, Collection<EntryStack<?>> entries) {
+        var slot = Widgets.createSlot(pos).entries(entries);
+        if (entries.iterator().next().getValue() instanceof FluidStack) {
+            CreateRecipeCategory.setFluidRenderRatio(slot);
+            CreateRecipeCategory.setFluidTooltip(slot);
+        }
+        return slot;
+    }
 
     @Override
     public Text getTitle() {
@@ -29,7 +43,7 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
     }
 
     /**
-     * 根据配方的原料和产出数量动态计算格子列数。
+     根据配方的原料和产出数量动态计算格子列数。
      */
     @Override
     public int getDisplayWidth(T display) {
@@ -43,28 +57,29 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
         var slot0 = REILayouts.slotAlignBackground(bounds);
         List<EntryIngredient> inputs = display.getInputEntries();
         for (int i = 0; i < inputs.size(); i++) {
-            widgets.add(Widgets.createSlot(REILayouts.slotAlignSlot(slot0, i / 3, (i + 1) % 3)).entries(inputs.get(i)).markInput());
+            widgets.add(slotOf(REILayouts.slotAlignSlot(slot0, i / 3, (i + 1) % 3), inputs.get(i)).markInput());
         }
         var arrow = REILayouts.arrowAlignSlot(REILayouts.slotAlignSlot(slot0, (inputs.size() - 1) / 3, 1));
-        int duration = display.getDuration();
+        int duration = display.recipe.getProcessingDuration();
         widgets.add(Widgets.createArrow(arrow).animationDurationTicks(duration));
         widgets.add(Widgets.createLabel(new Point(arrow.getX(), arrow.getY() - 6), Text.translatable("category.rei.campfire.time", new DecimalFormat("###.##").format(duration / 20.0))).leftAligned());
-        HeatCondition heat = display.heat;
+        HeatCondition heat = display.recipe.getRequiredHeat();
         if (heat != HeatCondition.NONE) {
             widgets.add(Widgets.createDrawableWidget((helper, matrices, mouseX, mouseY, partialTick) -> {
                 matrices.push();
                 matrices.translate(arrow.getX(), arrow.getY() + 2, 0);
                 float scale = 0.8f;
                 matrices.scale(scale, scale, 1);
-                display.burner.draw(matrices, 0, 0);
+                (heat == HeatCondition.HEATED ? HEATED : SUPERHEATED).draw(matrices, 0, 0);
                 matrices.pop();
             }));
         }
         var slot1 = REILayouts.slotAlignSlot(REILayouts.slotAlignArrow(arrow), 0, -1);
         List<EntryIngredient> outputs = display.getOutputEntries();
         for (int i = 0; i < outputs.size(); i++) {
-            widgets.add(Widgets.createSlot(REILayouts.slotAlignSlot(slot1, i / 3, (i + 1) % 3)).entries(outputs.get(i)).markOutput());
+            widgets.add(slotOf(REILayouts.slotAlignSlot(slot1, i / 3, (i + 1) % 3), outputs.get(i)).markOutput());
         }
+//        CreateRecipeCategory.addFluidTooltip(widgets, display.recipe.getFluidIngredients(), display.recipe.getFluidResults());
         return widgets;
     }
 

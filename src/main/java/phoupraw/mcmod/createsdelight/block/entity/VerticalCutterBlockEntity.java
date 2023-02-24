@@ -155,7 +155,7 @@ public class VerticalCutterBlockEntity extends KineticTileEntity implements Inst
 
     @Override
     public double getOffset(float partialTicks) {
-        return -ALTITUDE * MathHelper.lerp(partialTicks, getPrevExtention(), getExtension());
+        return -0.001/*防止完全收回时深度冲突*/ - ALTITUDE * MathHelper.lerp(partialTicks, getPrevExtention(), getExtension());
     }
 
     /**
