@@ -4,7 +4,7 @@ import com.nhoryzon.mc.farmersdelight.registry.BlocksRegistry;
 import com.simibubi.create.AllBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.util.registry.Registry;
+import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.block.*;
 /**
  * @see MyBlockEntityTypes
@@ -21,16 +21,17 @@ public final class MyBlocks {
 	public static final PressureCookerBlock PRESSURE_COOKER = new PressureCookerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
 	public static final Block MINCER = new MincerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_MIXER.get()));
 	static {
-		Registry.register(Registry.BLOCK, MyIdentifiers.PAN, PAN);
-		Registry.register(Registry.BLOCK, MyIdentifiers.GRILL, GRILL);
-		Registry.register(Registry.BLOCK, MyIdentifiers.SPRINKLER, SPRINKLER);
-		Registry.register(Registry.BLOCK, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
-		Registry.register(Registry.BLOCK, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
-		Registry.register(Registry.BLOCK, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
-		Registry.register(Registry.BLOCK, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
-        Registry.register(Registry.BLOCK, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
-		Registry.register(Registry.BLOCK, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
-		Registry.register(Registry.BLOCK, MyIdentifiers.MINCER, MINCER);
+
+		Registries.register(MyIdentifiers.PAN, PAN);
+		Registries.register(MyIdentifiers.GRILL, GRILL);
+		Registries.register(MyIdentifiers.SPRINKLER, SPRINKLER);
+		Registries.register(MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
+		Registries.register(MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
+		Registries.register(MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
+		Registries.register(MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
+		Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+		Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+		Registries.register(MyIdentifiers.MINCER, MINCER);
 	}
 	private MyBlocks() {}
 }

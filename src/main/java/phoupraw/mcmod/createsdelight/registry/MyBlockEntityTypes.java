@@ -12,8 +12,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.block.entity.*;
 import phoupraw.mcmod.createsdelight.datagen.*;
 /**
@@ -54,16 +54,16 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<MincerBlockEntity> MINCER = buildType(MincerBlockEntity::new, MyBlocks.MINCER);
 
     static {
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PAN, PAN);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.GRILL, GRILL);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.SPRINKLER, SPRINKLER);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MyIdentifiers.MINCER, MINCER);
+        Registries.register(MyIdentifiers.PAN, PAN);
+        Registries.register(MyIdentifiers.GRILL, GRILL);
+        Registries.register(MyIdentifiers.SPRINKLER, SPRINKLER);
+        Registries.register(MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
+        Registries.register(MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
+        Registries.register(MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
+        Registries.register(MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
+        Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+        Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+        Registries.register(MyIdentifiers.MINCER, MINCER);
     }
     public static <T extends BlockEntity> BlockEntityType<T> buildType(FabricBlockEntityTypeBuilder.Factory<T> factory, @NotNull net.minecraft.block.Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory, blocks).build();

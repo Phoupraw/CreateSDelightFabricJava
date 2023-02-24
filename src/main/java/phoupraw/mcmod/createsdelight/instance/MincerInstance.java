@@ -13,23 +13,22 @@ import com.simibubi.create.foundation.render.AllMaterialSpecs;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
 import phoupraw.mcmod.createsdelight.block.entity.MincerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyPartialModels;
 /**
  * 从{@link MixerInstance}和{@link PillarInstance}抄的。
  */
 public class MincerInstance extends EncasedCogInstance implements DynamicInstance {
-    public final OrientedData whisk;
+    public final RotatingData propeller;
     public final OrientedData vertical;
 
     public MincerInstance(MaterialManager dispatcher, MincerBlockEntity tile) {
         super(dispatcher, tile, false);
-        whisk = dispatcher.defaultSolid()
-          .material(Materials.ORIENTED)
-          .getModel(MyPartialModels.MINCER_WHISK, blockState)
+        propeller = dispatcher.defaultCutout()
+          .material(AllMaterialSpecs.ROTATING)
+          .getModel(MyPartialModels.MINCER_PROPELLER, blockState, Direction.NORTH)
           .createInstance();
-        this.vertical = dispatcher.defaultSolid()
+        this.vertical = dispatcher.defaultCutout()
           .material(Materials.ORIENTED)
           .getModel(MyPartialModels.MINCER_LID, blockState)
           .createInstance();
@@ -44,10 +43,9 @@ public class MincerInstance extends EncasedCogInstance implements DynamicInstanc
         float lerped = MathHelper.lerp(partialTicks, time, time + 1);
         float angle = lerped % 360 * speed;
         float offset = (float) blockEntity.getOffset(partialTicks);
-        whisk
+        propeller
           .setPosition(getInstancePosition())
-          .nudge(0, offset, 0)
-          .setRotation(new Quaternion(Direction.UP.getUnitVector(), angle, true));
+          .nudge(0, offset, 0);
         vertical
           .setPosition(getInstancePosition())
           .nudge(0, offset, 0);
@@ -66,24 +64,32 @@ public class MincerInstance extends EncasedCogInstance implements DynamicInstanc
     @Override
     public void updateLight() {
         super.updateLight();
-        relight(pos, vertical);
+        relight(pos, vertical, propeller);
     }
 
     @Override
     public void remove() {
         super.remove();
         vertical.delete();
+        propeller.delete();
     }
 
     @Override
     public void init() {
         super.init();
+        update();
     }
 
     @Override
     protected Instancer<RotatingData> getCogModel() {
         return materialManager.defaultSolid()
           .material(AllMaterialSpecs.ROTATING)
-          .getModel(AllBlockPartials.SHAFTLESS_COGWHEEL, blockEntity.getCachedState());
+          .getModel(AllBlockPartials.SHAFTLESS_COGWHEEL, blockState);
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        updateRotation(propeller, blockEntity.getSpeed() * 3);
     }
 }

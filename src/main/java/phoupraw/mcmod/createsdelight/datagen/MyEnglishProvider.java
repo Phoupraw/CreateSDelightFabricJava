@@ -2,12 +2,12 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import phoupraw.mcmod.common.fluid.VirtualFluid;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.api.VirtualFluid;
 import phoupraw.mcmod.createsdelight.registry.*;
 
-import static phoupraw.mcmod.createsdelight.datagen.MyChineseProvider.keyOfCategory;
-import static phoupraw.mcmod.createsdelight.datagen.MyChineseProvider.keyOfItemGroup;
+import static phoupraw.mcmod.common.Internationals.keyOfCategory;
+import static phoupraw.mcmod.common.Internationals.keyOfItemGroup;
 public class MyEnglishProvider extends FabricLanguageProvider {
     public MyEnglishProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);

@@ -11,9 +11,10 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
 
 import java.util.List;
@@ -117,29 +118,29 @@ public final class MyItems {
     };
 
     static {
-        Registry.register(Registry.ITEM, MyIdentifiers.PAN, PAN);
-        Registry.register(Registry.ITEM, MyIdentifiers.GRILL, GRILL);
-        Registry.register(Registry.ITEM, MyIdentifiers.SPRINKLER, SPRINKLER);
-        Registry.register(Registry.ITEM, MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
-        Registry.register(Registry.ITEM, MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
-        Registry.register(Registry.ITEM, MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
-        Registry.register(Registry.ITEM, MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
-        Registry.register(Registry.ITEM, MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
-        Registry.register(Registry.ITEM, MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
-        Registry.register(Registry.ITEM, MyIdentifiers.MINCER, MINCER);
+        Registries.register(MyIdentifiers.PAN, PAN);
+        Registries.register(MyIdentifiers.GRILL, GRILL);
+        Registries.register(MyIdentifiers.SPRINKLER, SPRINKLER);
+        Registries.register(MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
+        Registries.register(MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
+        Registries.register(MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
+        Registries.register(MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
+        Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+        Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+        Registries.register(MyIdentifiers.MINCER, MINCER);
 
-        Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
-        Registry.register(Registry.ITEM, MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
-        Registry.register(Registry.ITEM, MyIdentifiers.PAN_FRIED_PORK_SLICE, PAN_FRIED_PORK_SLICE);
-        Registry.register(Registry.ITEM, MyIdentifiers.THIN_PORK_SLICE, THIN_PORK_SLICE);
-        Registry.register(Registry.ITEM, MyIdentifiers.GRILLED_PORK_SLICE, GRILLED_PORK_SLICE);
-        Registry.register(Registry.ITEM, MyIdentifiers.SUGAR_PORK, SUGAR_PORK);
-        Registry.register(Registry.ITEM, MyIdentifiers.LEAVES_RICE, LEAVES_RICE);
-        Registry.register(Registry.ITEM, MyIdentifiers.VANILLA, VANILLA);
-        Registry.register(Registry.ITEM, MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
-        Registry.register(Registry.ITEM, MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
-        Registry.register(Registry.ITEM, MyIdentifiers.COOKED_RICE, COOKED_RICE);
-        Registry.register(Registry.ITEM, MyIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
+        Registries.register(MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
+        Registries.register(MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
+        Registries.register(MyIdentifiers.PAN_FRIED_PORK_SLICE, PAN_FRIED_PORK_SLICE);
+        Registries.register(MyIdentifiers.THIN_PORK_SLICE, THIN_PORK_SLICE);
+        Registries.register(MyIdentifiers.GRILLED_PORK_SLICE, GRILLED_PORK_SLICE);
+        Registries.register(MyIdentifiers.SUGAR_PORK, SUGAR_PORK);
+        Registries.register(MyIdentifiers.LEAVES_RICE, LEAVES_RICE);
+        Registries.register(MyIdentifiers.VANILLA, VANILLA);
+        Registries.register(MyIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
+        Registries.register(MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
+        Registries.register(MyIdentifiers.COOKED_RICE, COOKED_RICE);
+        Registries.register(MyIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
@@ -149,6 +150,7 @@ public final class MyItems {
         return new ConsumableItem(newSettings().food(foodComponent), true);
     }
 
+    @Contract(pure = true, value = "->new")
     private static FabricItemSettings newSettings() {
         return new FabricItemSettings().group(ITEM_GROUP);
     }

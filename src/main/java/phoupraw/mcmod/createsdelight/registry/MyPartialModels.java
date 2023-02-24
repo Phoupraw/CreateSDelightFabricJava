@@ -8,7 +8,7 @@ public final class MyPartialModels {
     public static final PartialModel VERTICAL_CUTTER_KNIFE = new PartialModel(ModelIds.getBlockSubModelId(MyBlocks.VERTICAL_CUTTER, "_knife"));
     public static final PartialModel PRESSURE_COOKER_LID = new PartialModel(ModelIds.getBlockSubModelId(MyBlocks.PRESSURE_COOKER, "_lid"));
     public static final PartialModel MINCER_LID = new PartialModel(ModelIds.getBlockSubModelId(MyBlocks.MINCER, "_lid"));
-    public static final PartialModel MINCER_WHISK = new PartialModel(ModelIds.getBlockSubModelId(MyBlocks.MINCER, "_whisk"));
+    public static final PartialModel MINCER_PROPELLER = new PartialModel(ModelIds.getBlockSubModelId(MyBlocks.MINCER, "_propeller"));
 
     private MyPartialModels() {}
 }

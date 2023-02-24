@@ -30,7 +30,8 @@ public final class MyIdentifiers {
       PRESSURE_COOKER = of("pressure_cooker"),
       COOKED_RICE = of("cooked_rice"),
       VEGETABLE_BIG_STEW = of("vegetable_big_stew"),
-      MINCER = of("mincer");
+      MINCER = of("mincer"),
+      SATIATION = of("satiation");
 
     public static Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path.toLowerCase(Locale.ROOT));

@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.rei;
 
+import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
@@ -33,12 +34,14 @@ public abstract class BasinDisplay extends BasicDisplay {
     }
 
     private int duration = 100;
+    public HeatCondition heat = HeatCondition.NONE;
 
     public BasinDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Identifier> location) {super(inputs, outputs, location);}
 
     public BasinDisplay(ProcessingRecipe<?> recipe) {
         this(ofAllIngredients(recipe), ofAllResults(recipe), Optional.of(recipe.getId()));
         setDuration(recipe.getProcessingDuration());
+        heat = recipe.getRequiredHeat();
     }
 
     public int getDuration() {

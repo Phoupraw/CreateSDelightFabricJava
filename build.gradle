@@ -80,6 +80,7 @@ dependencies {
             // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
     }
     modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\enchlevel-langpatch-1.2.3.jar"))
+    include(modImplementation("phoupraw.mcmod:PhouprawSCommon:${common_version}"))
 //    modImplementation(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
 //    modImplementation(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
 }
@@ -119,6 +120,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+//            artifactId archivesBaseName
         }
     }
 

@@ -2,19 +2,13 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.util.Identifier;
+import phoupraw.mcmod.common.fluid.VirtualFluid;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.api.VirtualFluid;
 import phoupraw.mcmod.createsdelight.registry.*;
+
+import static phoupraw.mcmod.common.Internationals.keyOfCategory;
+import static phoupraw.mcmod.common.Internationals.keyOfItemGroup;
 public class MyChineseProvider extends FabricLanguageProvider {
-    public static String keyOfItemGroup(Identifier id) {
-        return "itemGroup." + id.getNamespace() + "." + id.getPath();
-    }
-
-    public static String keyOfCategory(Identifier recipeTypeId) {
-        return "category." + recipeTypeId.getNamespace() + "." + recipeTypeId.getPath();
-    }
-
     public MyChineseProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator, "zh_cn");
     }

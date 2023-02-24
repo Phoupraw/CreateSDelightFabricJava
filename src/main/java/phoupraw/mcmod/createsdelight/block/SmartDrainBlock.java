@@ -36,13 +36,15 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import phoupraw.mcmod.createsdelight.api.Lambdas;
 import phoupraw.mcmod.createsdelight.behaviour.GrillerBehaviour;
 import phoupraw.mcmod.createsdelight.behaviour.SteamerBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
+
+import static phoupraw.mcmod.common.misc.Lambdas.always;
+import static phoupraw.mcmod.common.misc.Lambdas.nothing;
 public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>, IWrenchable {
 
     public SmartDrainBlock(Settings settings) {
@@ -89,7 +91,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         if (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE)) {
             if (drain.getBurner().tryIgnite() > 0) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
-                    handStack.damage(1, player, Lambdas.nothing());
+                    handStack.damage(1, player, nothing());
                     world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1, 1);
                 } else if (handStack.isOf(Items.FIRE_CHARGE)) {
                     handStack.decrement(1);
@@ -102,7 +104,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
             var handStorage = FluidStorage.ITEM.find(player.getStackInHand(hand), ContainerItemContext.ofPlayerHand(player, hand));
             if (handStorage != null) {
                 var panStorage = drain.getTank().getPrimaryHandler();
-                if (StorageUtil.move(handStorage, panStorage, Lambdas.always(), Long.MAX_VALUE, transaction) > 0 || StorageUtil.move(panStorage, handStorage, Lambdas.always(), Long.MAX_VALUE, transaction) > 0) {
+                if (StorageUtil.move(handStorage, panStorage, always(), Long.MAX_VALUE, transaction) > 0 || StorageUtil.move(panStorage, handStorage, always(), Long.MAX_VALUE, transaction) > 0) {
                     transaction.commit();
                     return ActionResult.SUCCESS;
                 }
@@ -115,9 +117,9 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
             var livingStorage = PlayerInventoryStorage.of(player);
             long capacity = blockStorage.getCapacity();
             var tempStorage = new ConstantSingleItemStorage(capacity);
-            long toLiving = StorageUtil.move(blockStorage, tempStorage, Lambdas.always(), capacity, transaction);
-            StorageUtil.move(livingStorage.getHandSlot(hand), blockStorage, Lambdas.always(), capacity, transaction);
-            if (StorageUtil.move(tempStorage, livingStorage, Lambdas.always(), capacity, transaction) == toLiving) {
+            long toLiving = StorageUtil.move(blockStorage, tempStorage, always(), capacity, transaction);
+            StorageUtil.move(livingStorage.getHandSlot(hand), blockStorage, always(), capacity, transaction);
+            if (StorageUtil.move(tempStorage, livingStorage, always(), capacity, transaction) == toLiving) {
                 transaction.commit();
                 return ActionResult.SUCCESS;
             }

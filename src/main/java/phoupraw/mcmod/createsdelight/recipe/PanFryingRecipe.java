@@ -15,11 +15,13 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.api.Lambdas;
+import phoupraw.mcmod.common.storage.BlackHoleStorage;
+import phoupraw.mcmod.createsdelight.api.LambdasC;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
-import phoupraw.mcmod.createsdelight.storage.BlackHoleStorage;
 
 import java.util.function.Predicate;
+
+import static phoupraw.mcmod.common.misc.Lambdas.matching;
 public class PanFryingRecipe extends DeprecatedMatchesRecipe{
     public static Predicate<PanFryingRecipe> testing(Storage<ItemVariant> itemS, Storage<FluidVariant> fluidS) {
         return recipe -> {
@@ -59,7 +61,7 @@ public class PanFryingRecipe extends DeprecatedMatchesRecipe{
         try (var transa2 = Transaction.openNested(transa)) {
             DefaultedList<Ingredient> ingredients = getIngredients();
             if (!ingredients.isEmpty()) {
-                if (StorageUtil.move(itemS, BlackHoleStorage.of(), Lambdas.matching(ingredients.get(0)), 1, transa2) == 0) {
+                if (StorageUtil.move(itemS, BlackHoleStorage.of(), matching(ingredients.get(0)), 1, transa2) == 0) {
                     return false;
                 }
             }
@@ -67,7 +69,7 @@ public class PanFryingRecipe extends DeprecatedMatchesRecipe{
             if (!fluidIngredients.isEmpty()) {
                 FluidIngredient fluidIngredient = fluidIngredients.get(0);
                 long requiredAmount = fluidIngredient.getRequiredAmount();
-                if (StorageUtil.move(fluidS, BlackHoleStorage.of(), Lambdas.matching(fluidIngredient), requiredAmount, transa2) != requiredAmount) {
+                if (StorageUtil.move(fluidS, BlackHoleStorage.of(), LambdasC.matching(fluidIngredient), requiredAmount, transa2) != requiredAmount) {
                     return false;
                 }
             }

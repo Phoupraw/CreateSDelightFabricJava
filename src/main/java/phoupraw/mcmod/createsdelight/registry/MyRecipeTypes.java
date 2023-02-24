@@ -11,6 +11,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import phoupraw.mcmod.common.Internationals;
 import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
 import phoupraw.mcmod.createsdelight.recipe.*;
@@ -23,14 +24,14 @@ import phoupraw.mcmod.createsdelight.recipe.*;
  * - 创建类别类，继承{@link DisplayCategory}，重写{@link DisplayCategory#getIcon()}<br>
  * - 补齐显示类的{@link Display#getCategoryIdentifier()}<br>
  * - 在{@link MyREIClientPlugin}注册<br>
- * - 在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link MyChineseProvider#keyOfCategory}添加翻译<br>
+ * - 在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link Internationals#keyOfCategory}添加翻译<br>
  * - 运行数据生成器<br>
  * - 重写类别类的{@link DisplayCategory#setupDisplay(Display, Rectangle)}<br>
  * - 在{@code ChangeLog.md}添加更新日志<br>
  * - 提交git<br>
  */
 @SuppressWarnings("OverrideOnly")
-public class MyRecipeTypes {
+public final class MyRecipeTypes {
     public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(MyIdentifiers.of("pan_frying"), PanFryingRecipe::new);
     public static final RecipeTypeInfo<GrillingRecipe> GRILLING = new RecipeTypeInfo<>(MyIdentifiers.of("grilling"), GrillingRecipe::new);
     public static final RecipeTypeInfo<SprinklingRecipe> SPRINKLING = new RecipeTypeInfo<>(MyIdentifiers.of("sprinkling"), SprinklingRecipe::new);
@@ -46,7 +47,7 @@ public class MyRecipeTypes {
 //            }
 //        });
     }
-
+    private MyRecipeTypes() {}
     /**
      * <b>不要注册！</b>已在构造器中注册。
      *

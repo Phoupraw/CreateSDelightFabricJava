@@ -5,14 +5,15 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 
 import java.util.regex.Pattern;
+
+import static phoupraw.mcmod.common.misc.Lambdas.emptyProviderOf;
+import static phoupraw.mcmod.common.misc.Lambdas.fullProviderOf;
 public class MyModInitializer implements ModInitializer {
     @ApiStatus.Internal
     public static void initializeAfterCreate() {
@@ -21,8 +22,8 @@ public class MyModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
-        FluidStorage.combinedItemApiProvider(Items.BOWL).register(context -> new EmptyItemFluidStorage(context, MyItems.VEGETABLE_BIG_STEW, MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4));
-        FluidStorage.combinedItemApiProvider(MyItems.VEGETABLE_BIG_STEW).register(context -> new FullItemFluidStorage(context, Items.BOWL, FluidVariant.of(MyFluids.VEGETABLE_BIG_STEW), FluidConstants.BUCKET / 4));
+        FluidStorage.combinedItemApiProvider(Items.BOWL).register(emptyProviderOf(MyItems.VEGETABLE_BIG_STEW, MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4));
+        FluidStorage.combinedItemApiProvider(MyItems.VEGETABLE_BIG_STEW).register(fullProviderOf(Items.BOWL, FluidVariant.of(MyFluids.VEGETABLE_BIG_STEW), FluidConstants.BUCKET / 4));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

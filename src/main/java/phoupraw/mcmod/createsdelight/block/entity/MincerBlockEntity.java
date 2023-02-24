@@ -1,12 +1,21 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
-import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
+import com.simibubi.create.content.contraptions.components.mixer.MechanicalMixerTileEntity;
+import com.simibubi.create.content.contraptions.fluids.FluidFX;
 import com.simibubi.create.content.contraptions.processing.BasinOperatingTileEntity;
+import com.simibubi.create.content.contraptions.processing.BasinTileEntity;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
+import com.simibubi.create.foundation.item.SmartInventory;
+import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +42,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
      * {@link #extension}的渲染配套。无论有无动力，都与{@link #extension}在1游戏刻前的值保持一致。
      */
     private double prevExtention;
-    public double countdown;
+    public double countdown = -1;
 
     public MincerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.MINCER, pos, state);}
 
@@ -102,6 +111,9 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
      * @see #extension
      */
     public void setExtension(double extension) {
+        if ((extension >= 1) ^ isFullyExtended()) {
+            getWorld().setBlockState(getPos(), getCachedState().with(Properties.EXTENDED, extension >= 1));
+        }
         this.extension = MathHelper.clamp(extension, 0, 1);
     }
 
@@ -123,24 +135,26 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     public void tick() {
         super.tick();
         setPrevExtention(getExtension());
-        double step = getSpeed() / 1000;
+        double step = (countdown >= -2 ? 1 : -1) * Math.abs(getSpeed()) / 2000;
         setExtension(getExtension() + step);
+        if (countdown < 0) countdown--;
         if (isFullyExtended()) {
+            var basin = getBasin().orElse(null);
+            if (basin != null) {
+                basin.setAreFluidsMoving(true);
+                spillParticles(basin, getSpeed());
+            }
             if (countdown > 0) {
-                countdown -= getSpeed() / 64;
+                countdown -= Math.abs(getSpeed()) / 40;
                 if (countdown < 0) countdown = 0;
-                if (getWorld().getTime() % 3 == 0) {
-                    Vec3d p = Vec3d.ofCenter(getPos());
-                    if (getCachedState().get(Properties.HORIZONTAL_AXIS) == Direction.Axis.Z) {
-                        p = p.add(-3 / 16.0, -20 / 16.0, -3 / 16.0);
-                    } else {
-                        p = p.add(-3 / 16.0, -20 / 16.0, 3 / 16.0);
-                    }
-                    getWorld().addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), p.getY(), p.getZ(), 0, 0.01 + getWorld().getRandom().nextDouble() * 0.02, 0);
-                }
-            } else if (countdown > -1) {
+            } else if (countdown == 0) {
                 applyBasinRecipe();
                 countdown = -1;
+            }
+        } else {
+            var basin = getBasin().orElse(null);
+            if (basin != null) {
+                basin.setAreFluidsMoving(false);
             }
         }
     }
@@ -164,4 +178,44 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
         return -MathHelper.lerp(partialTicks, getPrevExtention(), getExtension());
     }
 
+    /**
+     * copy of {@link MechanicalMixerTileEntity#spillParticle}
+     */
+    public static void spillParticle(World world, BlockPos pos, float speed, ParticleEffect data) {
+        float angle = world.random.nextFloat() * 360;
+        Vec3d offset = new Vec3d(0, 0, 0.25f);
+        offset = VecHelper.rotate(offset, angle, Direction.Axis.Y);
+        Vec3d target = VecHelper.rotate(offset, speed > 0 ? 25 : -25, Direction.Axis.Y)
+          .add(0, .25f, 0);
+        Vec3d center = offset.add(VecHelper.getCenterOf(pos));
+        target = VecHelper.offsetRandomly(target.subtract(offset), world.random, 1 / 128f);
+        world.addParticle(data, center.x, center.y + 0.25, center.z, target.x, target.y, target.z);
+    }
+
+    /**
+     * copy of {@link MechanicalMixerTileEntity#renderParticles()}
+     */
+    public static void spillParticles(BasinTileEntity basin, float speed) {
+        World world = Objects.requireNonNull(basin.getWorld());
+        for (SmartInventory inv : basin.getInvs()) {
+            for (int slot = 0; slot < inv.getSlots(); slot++) {
+                ItemStack stackInSlot = inv.getStack(slot);
+                if (stackInSlot.isEmpty())
+                    continue;
+                ItemStackParticleEffect data = new ItemStackParticleEffect(ParticleTypes.ITEM, stackInSlot);
+
+                spillParticle(world, basin.getPos(), speed, data);
+            }
+        }
+
+        for (SmartFluidTankBehaviour behaviour : basin.getTanks()) {
+            if (behaviour == null)
+                continue;
+            for (SmartFluidTankBehaviour.TankSegment tankSegment : behaviour.getTanks()) {
+                if (tankSegment.isEmpty(0))
+                    continue;
+                spillParticle(world, basin.getPos(), speed, FluidFX.getFluidParticle(tankSegment.getRenderedFluid()));
+            }
+        }
+    }
 }

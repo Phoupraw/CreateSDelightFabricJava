@@ -25,13 +25,14 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
+import phoupraw.mcmod.common.storage.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
-import phoupraw.mcmod.createsdelight.storage.LivingEntityStorage;
 
-import static phoupraw.mcmod.createsdelight.api.Lambdas.always;
+import static phoupraw.mcmod.common.misc.Lambdas.always;
+
 public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
     public static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
 

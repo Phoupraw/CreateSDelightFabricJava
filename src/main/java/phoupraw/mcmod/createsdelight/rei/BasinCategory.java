@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.rei;
 
+import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
@@ -86,7 +87,9 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
         int duration = display.getDuration();
         widgets.add(Widgets.createArrow(new Point(x0, y0 + SLOT_LENGTH + 1)).animationDurationTicks(duration));
         widgets.add(Widgets.createLabel(new Point(x0, y0 + SLOT_LENGTH - 5), Text.translatable("category.rei.campfire.time", new DecimalFormat("###.##").format(duration / 20.0))).leftAligned());
-        widgets.add(Widgets.createBurningFire(new Point(x0 + 5, y0 + SLOT_LENGTH * 2 - 1)).animationDurationTicks(100));
+        if (display.heat != HeatCondition.NONE) {
+            widgets.add(Widgets.createBurningFire(new Point(x0 + 5, y0 + SLOT_LENGTH * 2 - 1)).animationDurationTicks(100));
+        }
         x0 += ARROW_WIDTH;
         List<EntryIngredient> outputs = display.getOutputEntries();
         for (int i = 0; i < outputs.size(); i++) {

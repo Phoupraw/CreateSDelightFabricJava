@@ -83,7 +83,7 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .pattern("C")
           .input('A', AllBlocks.COGWHEEL.get())
           .input('B', AllBlocks.ANDESITE_CASING.get())
-          .input('C', AllItems.WHISK.get())
+          .input('C', AllItems.PROPELLER.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
