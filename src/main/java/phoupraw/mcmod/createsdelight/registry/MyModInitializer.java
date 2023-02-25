@@ -88,8 +88,8 @@ public class MyModInitializer implements ModInitializer {
         } else {
             char letter = matcher.group(1).charAt(0);
             int build = Integer.parseInt(matcher.group(2));
-            if (letter < 'g' || letter == 'g' && build < 851) {
-                throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-851+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-851+1.19.2`，但是实际为`" + version + "`！");
+            if (letter < 'g' || letter == 'g' && build < 817) {
+                throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-817+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-817+1.19.2`，但是实际为`" + version + "`！");
             }
         }
     }
