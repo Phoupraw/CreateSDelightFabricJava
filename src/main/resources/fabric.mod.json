@@ -22,11 +22,11 @@
   "mixins": ["createsdelight.mixins.json"],
   "accessWidener": "createsdelight.accessWidener",
   "depends": {
-    "minecraft": ">=1.19.2",
+    "minecraft": "*",
     "fabricloader": "*",
     "fabric-api": "*",
     "create": "*",
-    "farmersdelight": ">=1.2.0",
+    "farmersdelight": "*",
     "enchlevel-langpatch": "*"
   },
   "suggests": {
