@@ -22,7 +22,7 @@
   "mixins": ["createsdelight.mixins.json"],
   "accessWidener": "createsdelight.accessWidener",
   "depends": {
-    "minecraft": "*",
+    "minecraft": ">=1.19",
     "fabricloader": "*",
     "fabric-api": "*",
     "create": "*",
