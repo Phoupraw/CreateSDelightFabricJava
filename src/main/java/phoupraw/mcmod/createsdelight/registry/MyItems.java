@@ -36,6 +36,7 @@ import java.util.List;
 public final class MyItems {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
 
+    //方块
     public static final BlockItem PAN = new BlockItem(MyBlocks.PAN, newSettings());
     public static final BlockItem GRILL = new BlockItem(MyBlocks.GRILL, newSettings());
     public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(MyBlocks.SPRINKLER, newSettings());
@@ -53,6 +54,14 @@ public final class MyItems {
     public static final BlockItem PRESSURE_COOKER = new AssemblyOperatorBlockItem(MyBlocks.PRESSURE_COOKER, newSettings());
     public static final BlockItem MINCER = new AssemblyOperatorBlockItem(MyBlocks.MINCER, newSettings());
 
+    //不可食用物品
+    public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
+    public static final Item BOTTLED_SUNFLOWER_OIL = new Item(newSettings().maxCount(16));
+    public static final Item EGG_SHELL = new Item(newSettings());
+    public static final Item EGG_DOUGH = new Item(newSettings());
+    public static final Item CRUSHED_ICE = new Item(newSettings());
+
+    //食物
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
     public static final Item THICK_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
     public static final Item PAN_FRIED_PORK_SLICE = satiationMeat(4, 0.6f, 0);
@@ -121,8 +130,6 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
       ), true);
-    public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
-    public static final Item BOTTLED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
     public static final Item CORAL_COLORFULS = new ConsumableItem(newSettings()
       .food(new FoodComponent.Builder()
         .hunger(6)
@@ -143,6 +150,39 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 180, 0), 1)
         .build()
       ), true);
+    public static final Item WHEAT_BLACK_TEA = new ConsumableItem(newSettings()
+      .maxCount(16)
+      .recipeRemainder(Items.GLASS_BOTTLE)
+      .food(new FoodComponent.Builder()
+        .hunger(2)
+        .saturationModifier(0.3f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 1), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
+        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
+        .build()
+      ), true);
+    public static final Item ICED_MELON_JUICE = new ConsumableItem(newSettings()
+      .maxCount(16)
+      .recipeRemainder(Items.GLASS_BOTTLE)
+      .food(new FoodComponent.Builder()
+        .hunger(2)
+        .saturationModifier(0.3f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 1), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
+        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
+        .build()
+      ), true);
+    public static final Item THICK_HOT_COCOA = new ConsumableItem(newSettings()
+      .maxCount(16)
+      .recipeRemainder(Items.GLASS_BOTTLE)
+      .food(new FoodComponent.Builder()
+        .hunger(2)
+        .saturationModifier(0.3f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 1), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
+        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
+        .build()
+      ), true);
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -156,6 +196,12 @@ public final class MyItems {
         Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
         Registries.register(MyIdentifiers.MINCER, MINCER);
 
+        Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
+        Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
+        Registries.register(MyIdentifiers.EGG_SHELL, EGG_SHELL);
+        Registries.register(MyIdentifiers.EGG_DOUGH, EGG_DOUGH);
+        Registries.register(MyIdentifiers.CRUSHED_ICE, CRUSHED_ICE);
+
         Registries.register(MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registries.register(MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
         Registries.register(MyIdentifiers.PAN_FRIED_PORK_SLICE, PAN_FRIED_PORK_SLICE);
@@ -168,11 +214,12 @@ public final class MyItems {
         Registries.register(MyIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
         Registries.register(MyIdentifiers.COOKED_RICE, COOKED_RICE);
         Registries.register(MyIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
-        Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
-        Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.ROSE_MILK_TEA, ROSE_MILK_TEA);
         Registries.register(MyIdentifiers.CORAL_COLORFULS, CORAL_COLORFULS);
         Registries.register(MyIdentifiers.POPPY_RUSSIAN_SOUP, POPPY_RUSSIAN_SOUP);
+        Registries.register(MyIdentifiers.WHEAT_BLACK_TEA, WHEAT_BLACK_TEA);
+        Registries.register(MyIdentifiers.ICED_MELON_JUICE, ICED_MELON_JUICE);
+        Registries.register(MyIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
     }
     public static Item satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

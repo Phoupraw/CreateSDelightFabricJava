@@ -12,6 +12,7 @@ import net.minecraft.block.MapColor;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import phoupraw.mcmod.common.fluid.VirtualFluid;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.*;
 @Environment(EnvType.CLIENT)
 public final class MyClientModInitializer implements ClientModInitializer {
@@ -42,11 +43,8 @@ public final class MyClientModInitializer implements ClientModInitializer {
         BlockEntityRendererFactories.register(MyBlockEntityTypes.MINCER, castKineticRendererFactory());
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER);
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.VEGETABLE_BIG_STEW, SimpleFluidRenderHandler.coloredWater(MapColor.LICHEN_GREEN.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.ROSE_MILK_TEA, SimpleFluidRenderHandler.coloredWater(MapColor.DULL_RED.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.BEETROOT_SOUP, SimpleFluidRenderHandler.coloredWater(MapColor.RED.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.TOMATO_SAUCE, SimpleFluidRenderHandler.coloredWater(MapColor.DARK_RED.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.POPPY_RUSSIAN_SOUP, SimpleFluidRenderHandler.coloredWater(MapColor.RED.color));
-        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP);
+        VirtualFluid.registerTexture(MyFluids.EGG_LIQUID, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE/*TODO 看看中央厨房的西瓜汁纹理*/, MyFluids.THICK_HOT_COCOA/*TODO 机械动力的巧克力纹理*/, MyFluids.WHEAT_BLACK_TEA, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.TOMATO_SAUCE/*TODO 中央厨房的番茄酱*/, MyFluids.BEETROOT_SOUP, MyFluids.ROSE_MILK_TEA, MyFluids.VEGETABLE_BIG_STEW);
+
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.WHEAT_BLACK_TEA);
     }
 }

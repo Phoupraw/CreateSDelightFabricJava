@@ -5,6 +5,7 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
+import com.simibubi.create.content.contraptions.components.mixer.MixingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.processing.HeatCondition;
@@ -318,6 +319,63 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyFluids.POPPY_RUSSIAN_SOUP, FluidConstants.BOTTLE * 2)
           .duration(20 * 15)
           .requiresHeat(HeatCondition.HEATED)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MixingRecipe::new, MyIdentifiers.EGG_DOUGH)
+          .require(AllItems.DOUGH.get())
+          .require(Items.SUGAR)
+          .require(MyFluids.EGG_LIQUID, FluidConstants.BOTTLE)
+          .require(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2)
+          .output(MyItems.EGG_DOUGH)
+          .averageProcessingDuration()
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, MyIdentifiers.CRUSHED_ICE)
+          .require(Items.ICE)
+          .require(Items.PACKED_ICE)
+          .require(Items.BLUE_ICE)
+          .require(Items.SNOWBALL)
+          .require(AllFluids.HONEY.get(), FluidConstants.BOTTLE)
+          .output(MyItems.CRUSHED_ICE, 3)
+          .averageProcessingDuration()
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.WHEAT_BLACK_TEA)
+          .require(Items.WHEAT_SEEDS)
+          .require(Items.WHEAT_SEEDS)
+          .require(Items.WHEAT_SEEDS)
+          .require(Items.WHEAT_SEEDS)
+          .require(Items.WHEAT_SEEDS)
+          .require(Items.WHEAT_SEEDS)
+          .require(Items.BLACK_DYE)
+          .require(MyItems.VANILLA)
+          .require(Fluids.WATER, FluidConstants.BOTTLE)
+          .output(MyItems.WHEAT_BLACK_TEA)
+          .averageProcessingDuration()
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, MyIdentifiers.MELON_JUICE)
+          .require(Items.MELON_SLICE)
+          .require(Items.MELON_SLICE)
+          .require(Items.MELON_SLICE)
+          .require(Items.MELON_SLICE)
+          .require(Items.SUGAR)
+          .averageProcessingDuration()
+          .output(MyFluids.MELON_JUICE, FluidConstants.BOTTLE)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, MyIdentifiers.ICED_MELON_JUICE)
+          .require(MyFluids.MELON_JUICE, FluidConstants.BOTTLE)
+          .require(ItemsRegistry.MELON_POPSICLE.get())
+          .require(MyItems.CRUSHED_ICE)
+          .require(Items.NETHER_WART)
+          .averageProcessingDuration()
+          .output(MyFluids.ICED_MELON_JUICE, FluidConstants.BUCKET / 2)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MincingRecipe::new, MyIdentifiers.THICK_HOT_COCOA)
+          .require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE)
+          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+          .require(MyItems.VANILLA)
+          .require(AllItems.CHOCOLATE_BERRIES.get())
+          .require(AllItems.BAR_OF_CHOCOLATE.get())
+          .requiresHeat(HeatCondition.HEATED)
+          .averageProcessingDuration()
+          .output(MyFluids.THICK_HOT_COCOA, FluidConstants.BOTTLE * 2)
           .build(exporter);
     }
 }

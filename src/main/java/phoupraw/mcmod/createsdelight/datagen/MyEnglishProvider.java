@@ -63,6 +63,16 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(VirtualFluid.getTranslationKey(MyFluids.TOMATO_SAUCE), "Tomato Sauce");
         builder.add(MyItems.POPPY_RUSSIAN_SOUP, "Poppy Russian Soup");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.POPPY_RUSSIAN_SOUP), "Poppy Russian Soup");
-
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.EGG_LIQUID), "Egg Liquid");
+        builder.add(MyItems.EGG_SHELL, "Egg Shell");
+        builder.add(MyItems.EGG_DOUGH, "Egg Dough");
+        builder.add(MyItems.CRUSHED_ICE, "Crushed Ice");
+        builder.add(MyItems.WHEAT_BLACK_TEA, "Wheat Seeds Black Tea");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.WHEAT_BLACK_TEA), "Wheat Seeds Black Tea");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.ICED_MELON_JUICE), "Iced Melon Juice");
+        builder.add(MyItems.ICED_MELON_JUICE, "Iced Melon Juice");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.MELON_JUICE), "Melon Juice");
+        builder.add(MyItems.THICK_HOT_COCOA, "Thick Hot Cocoa");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.THICK_HOT_COCOA), "Thick Hot Cocoa");
     }
 }

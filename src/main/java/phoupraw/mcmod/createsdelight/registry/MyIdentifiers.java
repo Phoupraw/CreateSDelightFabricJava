@@ -38,7 +38,15 @@ public final class MyIdentifiers {
       CORAL_COLORFULS = of("coral_colorfuls"),
       BEETROOT_SOUP = of("beetroot_soup"),
       TOMATO_SAUCE = of("tomato_sauce"),
-      POPPY_RUSSIAN_SOUP = of("poppy_russian_soup");
+      POPPY_RUSSIAN_SOUP = of("poppy_russian_soup"),
+      EGG_LIQUID = of("egg_liquid"),
+      EGG_SHELL = of("egg_shell"),
+      EGG_DOUGH = of("egg_dough"),
+      CRUSHED_ICE = of("crushed_ice"),
+      WHEAT_BLACK_TEA = of("wheat_black_tea"),
+      ICED_MELON_JUICE = of("iced_melon_juice"),
+      MELON_JUICE = of("melon_juice"),
+      THICK_HOT_COCOA = of("thick_hot_cocoa");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

@@ -3,10 +3,10 @@ package phoupraw.mcmod.createsdelight.registry;
 import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.foundation.block.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.transfer.v1.fluid.*;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.common.fluid.VirtualFluid;
@@ -14,30 +14,9 @@ import phoupraw.mcmod.createsdelight.CreateSDelight;
 
 import java.util.regex.Pattern;
 
-import static phoupraw.mcmod.common.misc.Lambdas.emptyProviderOf;
+import static phoupraw.mcmod.common.fluid.VirtualFluid.*;
 import static phoupraw.mcmod.common.misc.Lambdas.fullProviderOf;
 public class MyModInitializer implements ModInitializer {
-    public static void register(FluidVariantAttributeHandler attributeHandler, Fluid... fluids) {
-        for (Fluid fluid : fluids) FluidVariantAttributes.register(fluid, attributeHandler);
-    }
-
-    public static void registerBucket(Fluid fluid, Item fullItem) {
-        registerStorage(Items.BUCKET, fullItem, fluid, FluidConstants.BUCKET);
-    }
-
-    public static void registerBottle(Fluid fluid, Item fullItem) {
-        registerStorage(Items.GLASS_BOTTLE, fullItem, fluid, FluidConstants.BOTTLE);
-    }
-
-    public static void registerBowl(Fluid fluid, Item fullItem) {
-        registerStorage(Items.BOWL, fullItem, fluid, FluidConstants.BUCKET / 4);
-    }
-
-    public static void registerStorage(Item emptyItem, Item fullItem, Fluid fluid, long amount) {
-        FluidStorage.combinedItemApiProvider(emptyItem).register(emptyProviderOf(fullItem, fluid, amount));
-        FluidStorage.combinedItemApiProvider(fullItem).register(fullProviderOf(emptyItem, FluidVariant.of(fluid), amount));
-    }
-
     @ApiStatus.Internal
     public static void initializeAfterCreate() {
         loadClasses();
@@ -45,25 +24,20 @@ public class MyModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
-        FluidStorage.combinedItemApiProvider(Items.BOWL).register(emptyProviderOf(MyItems.VEGETABLE_BIG_STEW, MyFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 4));
-        FluidStorage.combinedItemApiProvider(MyItems.VEGETABLE_BIG_STEW).register(fullProviderOf(Items.BOWL, FluidVariant.of(MyFluids.VEGETABLE_BIG_STEW), FluidConstants.BUCKET / 4));
-        FluidStorage.combinedItemApiProvider(Items.BUCKET).register(emptyProviderOf(MyItems.BUCKETED_SUNFLOWER_OIL, MyFluids.SUNFLOWER_OIL, FluidConstants.BUCKET));
-        FluidStorage.combinedItemApiProvider(MyItems.BUCKETED_SUNFLOWER_OIL).register(fullProviderOf(Items.BUCKET, FluidVariant.of(MyFluids.SUNFLOWER_OIL), FluidConstants.BUCKET));
-        FluidStorage.combinedItemApiProvider(Items.GLASS_BOTTLE).register(emptyProviderOf(MyItems.BOTTLED_SUNFLOWER_OIL, MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE));
-        FluidStorage.combinedItemApiProvider(MyItems.BOTTLED_SUNFLOWER_OIL).register(fullProviderOf(Items.GLASS_BOTTLE, FluidVariant.of(MyFluids.SUNFLOWER_OIL), FluidConstants.BOTTLE));
-        FluidVariantAttributes.register(MyFluids.SUNFLOWER_OIL, VirtualFluid.ATTRIBUTE_HANDLER);
-        FluidVariantAttributes.register(MyFluids.VEGETABLE_BIG_STEW, VirtualFluid.ATTRIBUTE_HANDLER);
-        FluidStorage.combinedItemApiProvider(Items.GLASS_BOTTLE).register(emptyProviderOf(MyItems.ROSE_MILK_TEA, MyFluids.ROSE_MILK_TEA, FluidConstants.BOTTLE));
-        FluidStorage.combinedItemApiProvider(MyItems.ROSE_MILK_TEA).register(fullProviderOf(Items.GLASS_BOTTLE, FluidVariant.of(MyFluids.ROSE_MILK_TEA), FluidConstants.BOTTLE));
-        FluidVariantAttributes.register(MyFluids.ROSE_MILK_TEA, VirtualFluid.ATTRIBUTE_HANDLER);
-        FluidStorage.combinedItemApiProvider(Items.BOWL).register(emptyProviderOf(Items.BEETROOT_SOUP, MyFluids.BEETROOT_SOUP, FluidConstants.BUCKET / 4));
-        FluidStorage.combinedItemApiProvider(Items.BEETROOT_SOUP).register(fullProviderOf(Items.BOWL, FluidVariant.of(MyFluids.BEETROOT_SOUP), FluidConstants.BUCKET / 4));
-        FluidVariantAttributes.register(MyFluids.BEETROOT_SOUP, VirtualFluid.ATTRIBUTE_HANDLER);
-        FluidStorage.combinedItemApiProvider(Items.BOWL).register(emptyProviderOf(ItemsRegistry.TOMATO_SAUCE.get(), MyFluids.TOMATO_SAUCE, FluidConstants.BUCKET / 4));
-        FluidStorage.combinedItemApiProvider(ItemsRegistry.TOMATO_SAUCE.get()).register(fullProviderOf(Items.BOWL, FluidVariant.of(MyFluids.TOMATO_SAUCE), FluidConstants.BUCKET / 4));
-        FluidVariantAttributes.register(MyFluids.TOMATO_SAUCE, VirtualFluid.ATTRIBUTE_HANDLER);
-        registerBowl(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
-        register(VirtualFluid.ATTRIBUTE_HANDLER, MyFluids.POPPY_RUSSIAN_SOUP);
+        register(VirtualFluid.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA);
+        registerBowlStorage(MyFluids.VEGETABLE_BIG_STEW, MyItems.VEGETABLE_BIG_STEW);
+        registerBucketStorage(MyFluids.SUNFLOWER_OIL, MyItems.BUCKETED_SUNFLOWER_OIL);
+        registerBottleStorage(MyFluids.SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL);
+        registerBottleStorage(MyFluids.ROSE_MILK_TEA, MyItems.ROSE_MILK_TEA);
+        registerBowlStorage(MyFluids.BEETROOT_SOUP, Items.BEETROOT_SOUP);
+        registerBowlStorage(MyFluids.TOMATO_SAUCE, ItemsRegistry.TOMATO_SAUCE.get());
+        registerBowlStorage(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
+        FluidStorage.combinedItemApiProvider(Items.EGG).register(fullProviderOf(MyItems.EGG_SHELL, FluidVariant.of(MyFluids.EGG_LIQUID), FluidConstants.BOTTLE));
+        registerBowlStorage(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
+        registerBottleStorage(MyFluids.WHEAT_BLACK_TEA, MyItems.WHEAT_BLACK_TEA);
+        registerBottleStorage(MyFluids.ICED_MELON_JUICE, MyItems.ICED_MELON_JUICE);
+        registerBottleStorage(MyFluids.MELON_JUICE, ItemsRegistry.MELON_JUICE.get());
+        registerBottleStorage(MyFluids.THICK_HOT_COCOA, MyItems.THICK_HOT_COCOA);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
