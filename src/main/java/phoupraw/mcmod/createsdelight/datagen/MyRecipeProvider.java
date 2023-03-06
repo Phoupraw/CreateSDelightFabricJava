@@ -40,6 +40,7 @@ public class MyRecipeProvider extends FabricRecipeProvider {
     protected void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
         offerStonecuttingRecipe(exporter, MyItems.THICK_PORK_SLICE, Items.PORKCHOP, 2);
         offerStonecuttingRecipe(exporter, MyItems.THIN_PORK_SLICE, MyItems.THICK_PORK_SLICE, 2);
+        offerStonecuttingRecipe(exporter, MyItems.SKEWER, AllBlocks.SHAFT.get(), 1);
         ShapedRecipeJsonBuilder.create(MyItems.SPRINKLER)
           .pattern("A")
           .pattern("B")

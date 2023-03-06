@@ -74,5 +74,6 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(VirtualFluid.getTranslationKey(MyFluids.MELON_JUICE), "Melon Juice");
         builder.add(MyItems.THICK_HOT_COCOA, "Thick Hot Cocoa");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.THICK_HOT_COCOA), "Thick Hot Cocoa");
+        builder.add(MyBlocks.SKEWER, "Skewer");
     }
 }

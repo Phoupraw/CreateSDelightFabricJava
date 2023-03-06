@@ -24,6 +24,7 @@ public class MyModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
+        BlockStressDefaults.setDefaultImpact(MyIdentifiers.SKEWER, 1);
         register(VirtualFluid.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA);
         registerBowlStorage(MyFluids.VEGETABLE_BIG_STEW, MyItems.VEGETABLE_BIG_STEW);
         registerBucketStorage(MyFluids.SUNFLOWER_OIL, MyItems.BUCKETED_SUNFLOWER_OIL);

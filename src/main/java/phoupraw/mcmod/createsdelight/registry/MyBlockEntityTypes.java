@@ -49,6 +49,7 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<VerticalCutterBlockEntity> VERTICAL_CUTTER = Registries.of(VerticalCutterBlockEntity::new, MyBlocks.VERTICAL_CUTTER);
     public static final BlockEntityType<PressureCookerBlockEntity> PRESSURE_COOKER = Registries.of(PressureCookerBlockEntity::new, MyBlocks.PRESSURE_COOKER);
     public static final BlockEntityType<MincerBlockEntity> MINCER = Registries.of(MincerBlockEntity::new, MyBlocks.MINCER);
+    public static final BlockEntityType<SkewerBlockEntity> SKEWER = Registries.of(SkewerBlockEntity::new, MyBlocks.SKEWER);
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -61,6 +62,7 @@ public final class MyBlockEntityTypes {
         Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
         Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
         Registries.register(MyIdentifiers.MINCER, MINCER);
+        Registries.register(MyIdentifiers.SKEWER, SKEWER);
     }
 
     private MyBlockEntityTypes() {}

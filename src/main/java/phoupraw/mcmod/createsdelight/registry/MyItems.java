@@ -53,6 +53,7 @@ public final class MyItems {
     public static final BlockItem VERTICAL_CUTTER = new AssemblyOperatorBlockItem(MyBlocks.VERTICAL_CUTTER, newSettings());
     public static final BlockItem PRESSURE_COOKER = new AssemblyOperatorBlockItem(MyBlocks.PRESSURE_COOKER, newSettings());
     public static final BlockItem MINCER = new AssemblyOperatorBlockItem(MyBlocks.MINCER, newSettings());
+    public static final BlockItem SKEWER = new AssemblyOperatorBlockItem(MyBlocks.SKEWER, newSettings());
 
     //不可食用物品
     public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
@@ -195,6 +196,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
         Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
         Registries.register(MyIdentifiers.MINCER, MINCER);
+        Registries.register(MyIdentifiers.SKEWER, SKEWER);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
