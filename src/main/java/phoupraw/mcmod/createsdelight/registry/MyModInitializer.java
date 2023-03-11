@@ -67,5 +67,15 @@ public class MyModInitializer implements ModInitializer {
                 throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-817+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-817+1.19.2`，但是实际为`" + version + "`！");
             }
         }
+//
+//        ServerLifecycleEvents.SERVER_STOPPED.register(new ServerLifecycleEvents.ServerStopped() {
+//            @Override
+//            public void onServerStopped(MinecraftServer server) {
+//                var path = server.getSavePath(WorldSavePath.ROOT);
+//                for (ServerWorld world : server.getWorlds()) {
+//                    world.save();
+//                }
+//            }
+//        });
     }
 }

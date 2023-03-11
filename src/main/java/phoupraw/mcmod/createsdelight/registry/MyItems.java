@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
 import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -16,6 +15,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.item.StatusEffectsItem;
 
 import java.util.List;
 /**
@@ -64,12 +64,12 @@ public final class MyItems {
 
     //食物
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
-    public static final Item THICK_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
+    public static final Item THICK_PORK_SLICE = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
     public static final Item PAN_FRIED_PORK_SLICE = satiationMeat(4, 0.6f, 0);
-    public static final Item THIN_PORK_SLICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()), true);
+    public static final Item THIN_PORK_SLICE = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
     public static final Item GRILLED_PORK_SLICE = satiationMeat(2, 0.6f, 0);
     public static final Item SUGAR_PORK = satiationMeat(4, 0.8f, 2);
-    public static final Item LEAVES_RICE = new ConsumableItem(newSettings()
+    public static final Item LEAVES_RICE = new StatusEffectsItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.BOWL)
       .food(new FoodComponent.Builder()
@@ -79,48 +79,41 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
         .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1)
         .build()
-      ), true);
-    public static final Item VANILLA = new ConsumableItem(newSettings().food(new FoodComponent.Builder()
+      ));
+    public static final Item VANILLA = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
       .hunger(1)
       .saturationModifier(0.5f)
       .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
       .build()
-    ), true);
-    public static final Item VANILLA_SWEET_ROLL = new ConsumableItem(newSettings().food(new FoodComponent.Builder()
+    ));
+    public static final Item VANILLA_SWEET_ROLL = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
       .hunger(6)
       .saturationModifier(0.8f)
       .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1f)
       .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 300, 0), 1)
       .build()
-    ), true);
-    public static final Item STEAMED_BUNS = new ConsumableItem(newSettings().food(new FoodComponent.Builder()
+    ));
+    public static final Item STEAMED_BUNS = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
       .hunger(3)
       .saturationModifier(0.5f)
       .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 4), 1f)
       .build()
-    ), true);
-    public static final Item COOKED_RICE = new ConsumableItem(newSettings().food(new FoodComponent.Builder()
+    ));
+    public static final Item COOKED_RICE = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
       .hunger(4)
       .saturationModifier(0.6f)
       .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 1), 1f)
       .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1)
       .build()
-    ), true);
-    public static final Item VEGETABLE_BIG_STEW = new ConsumableItem(newSettings().food(new FoodComponent.Builder()
+    ));
+    public static final Item VEGETABLE_BIG_STEW = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
       .hunger(6)
       .saturationModifier(0.5f)
       .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 20), 1f)
       .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 120, 0), 1)
       .build()
-    ), true) {
-        @Override
-        public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-            super.appendTooltip(stack, world, tooltip, context);
-            tooltip.add(Text.literal("texture wanted"));
-            tooltip.add(Text.literal("征稿纹理"));
-        }
-    };
-    public static final Item ROSE_MILK_TEA = new ConsumableItem(newSettings()
+    ));
+    public static final Item ROSE_MILK_TEA = new StatusEffectsItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -130,8 +123,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
-      ), true);
-    public static final Item CORAL_COLORFULS = new ConsumableItem(newSettings()
+      ));
+    public static final Item CORAL_COLORFULS = new StatusEffectsItem(newSettings()
       .food(new FoodComponent.Builder()
         .hunger(6)
         .saturationModifier(0.5f)
@@ -140,8 +133,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 0), 1)
         .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 200), 1)
         .build()
-      ), true);
-    public static final Item POPPY_RUSSIAN_SOUP = new ConsumableItem(newSettings()
+      ));
+    public static final Item POPPY_RUSSIAN_SOUP = new StatusEffectsItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.BOWL)
       .food(new FoodComponent.Builder()
@@ -150,8 +143,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 20), 1f)
         .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 180, 0), 1)
         .build()
-      ), true);
-    public static final Item WHEAT_BLACK_TEA = new ConsumableItem(newSettings()
+      ));
+    public static final Item WHEAT_BLACK_TEA = new StatusEffectsItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -161,8 +154,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
-      ), true);
-    public static final Item ICED_MELON_JUICE = new ConsumableItem(newSettings()
+      ));
+    public static final Item ICED_MELON_JUICE = new StatusEffectsItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -172,8 +165,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
-      ), true);
-    public static final Item THICK_HOT_COCOA = new ConsumableItem(newSettings()
+      ));
+    public static final Item THICK_HOT_COCOA = new StatusEffectsItem(newSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -183,7 +176,7 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
-      ), true);
+      ));
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -228,7 +221,7 @@ public final class MyItems {
     }
 
     public static Item food(FoodComponent foodComponent) {
-        return new ConsumableItem(newSettings().food(foodComponent), true);
+        return new StatusEffectsItem(newSettings().food(foodComponent));
     }
 
     @Contract(pure = true, value = "->new")

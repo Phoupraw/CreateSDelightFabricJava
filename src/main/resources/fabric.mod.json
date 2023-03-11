@@ -17,7 +17,8 @@
     "main": ["phoupraw.mcmod.createsdelight.registry.MyModInitializer"],
     "fabric-datagen": ["phoupraw.mcmod.createsdelight.registry.MyDataGeneratorEntrypoint"],
     "client": ["phoupraw.mcmod.createsdelight.registry.MyClientModInitializer"],
-    "rei_client": ["phoupraw.mcmod.createsdelight.registry.MyREIClientPlugin"]
+    "rei_client": ["phoupraw.mcmod.createsdelight.registry.MyREIClientPlugin"],
+    "rei_server": ["phoupraw.mcmod.createsdelight.registry.MyREIServerPlugin"]
   },
   "mixins": ["createsdelight.mixins.json"],
   "accessWidener": "createsdelight.accessWidener",

@@ -4,14 +4,23 @@ import com.simibubi.create.AllBlocks;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.client.registry.display.DynamicDisplayGenerator;
+import me.shedaniel.rei.api.client.view.ViewSearchBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
+import phoupraw.mcmod.createsdelight.exp.LootTableCategory;
+import phoupraw.mcmod.createsdelight.exp.LootTableDisplay;
 import phoupraw.mcmod.createsdelight.recipe.*;
 import phoupraw.mcmod.createsdelight.rei.*;
+
+import java.util.List;
+import java.util.Optional;
+@ApiStatus.Internal
 @Environment(EnvType.CLIENT)
 public final class MyREIClientPlugin implements REIClientPlugin {
     @Override
@@ -32,6 +41,7 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.add(PressureCookingCategory.INSTANCE);
         registry.addWorkstations(MincingCategory.ID, EntryStacks.of(MyItems.MINCER), basin);
         registry.add(MincingCategory.INSTANCE);
+        registry.add(new LootTableCategory());
     }
 
     @Override
@@ -43,5 +53,22 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.registerRecipeFiller(VerticalCuttingRecipe.class, MyRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
         registry.registerRecipeFiller(PressureCookingRecipe.class, MyRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
         registry.registerRecipeFiller(MincingRecipe.class, MyRecipeTypes.MINCING.getRecipeType(), MincingDisplay::new);
+        registry.registerDisplayGenerator(LootTableCategory.ID, new DynamicDisplayGenerator<>() {
+            @Override
+            public Optional<List<LootTableDisplay>> getRecipeFor(EntryStack<?> entry) {
+                return DynamicDisplayGenerator.super.getRecipeFor(entry);
+            }
+
+            @Override
+            public Optional<List<LootTableDisplay>> getUsageFor(EntryStack<?> entry) {
+                return DynamicDisplayGenerator.super.getUsageFor(entry);
+            }
+
+            @Override
+            public Optional<List<LootTableDisplay>> generate(ViewSearchBuilder builder) {
+
+                return DynamicDisplayGenerator.super.generate(builder);
+            }
+        });
     }
 }
