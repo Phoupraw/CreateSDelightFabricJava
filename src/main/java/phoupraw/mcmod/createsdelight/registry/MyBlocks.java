@@ -20,18 +20,19 @@ public final class MyBlocks {
 	public static final VerticalCutterBlock VERTICAL_CUTTER = new VerticalCutterBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
 	public static final PressureCookerBlock PRESSURE_COOKER = new PressureCookerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_PRESS.get()));
 	public static final Block MINCER = new MincerBlock(FabricBlockSettings.copyOf(AllBlocks.MECHANICAL_MIXER.get()));
+    public static final Block SKEWER = new SkewerBlock();
 	static {
-
-		Registries.register(MyIdentifiers.PAN, PAN);
-		Registries.register(MyIdentifiers.GRILL, GRILL);
-		Registries.register(MyIdentifiers.SPRINKLER, SPRINKLER);
-		Registries.register(MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
-		Registries.register(MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
-		Registries.register(MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
-		Registries.register(MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
-		Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
-		Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
-		Registries.register(MyIdentifiers.MINCER, MINCER);
-	}
+        Registries.register(MyIdentifiers.PAN, PAN);
+        Registries.register(MyIdentifiers.GRILL, GRILL);
+        Registries.register(MyIdentifiers.SPRINKLER, SPRINKLER);
+        Registries.register(MyIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
+        Registries.register(MyIdentifiers.SMART_DRAIN, SMART_DRAIN);
+        Registries.register(MyIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
+        Registries.register(MyIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
+        Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
+        Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
+        Registries.register(MyIdentifiers.MINCER, MINCER);
+        Registries.register(MyIdentifiers.SKEWER, SKEWER);
+    }
 	private MyBlocks() {}
 }

@@ -43,34 +43,10 @@ public final class DirectBeltInput {
             if (storage == null) return null;
             return InsertionHandler.of(storage);
         }, BlockEntityTypesRegistry.COOKING_POT.get());
-//        LOOKUP.registerForBlockEntity((stove, v) -> (stack, side, simulate) -> {
-//            Optional<CampfireCookingRecipe> optional = stove.findMatchingRecipe(stack.stack);
-//            if (optional.isEmpty()) return stack.stack;
-//            int count = 0;
-//            for (ItemStack itemStack : stove.getInventory()) {
-//                if (!itemStack.isEmpty()) count++;
-//            }
-//            if (count >= stove.getInventory().size()) return stack.stack;
-//            var remainder = stack.stack.copy();
-//            if (!simulate) stove.addItem(remainder, optional.get().getCookTime());
-//            else remainder.decrement(1);
-//            return remainder;
-//        }, BlockEntityTypesRegistry.STOVE.<StoveBlockEntity>get());
         LOOKUP.registerForBlockEntity((stove, v) -> InsertionHandler.of(FarmersDelightWrappers.storageOf(stove)), BlockEntityTypesRegistry.STOVE.<StoveBlockEntity>get());
-//        LOOKUP.registerForBlockEntity((skillet, v) -> (stack, side, simulate) -> {
-//            var previous = skillet.getStoredStack();
-//            var remainder = skillet.addItemToCook(stack.stack, null);
-//            if (simulate) skillet.setSkilletItem(previous);
-//            return remainder;
-//        }, BlockEntityTypesRegistry.SKILLET.<SkilletBlockEntity>get());
-        LOOKUP.registerForBlockEntity((skillet, v) -> InsertionHandler.of(FarmersDelightWrappers.storageOf(skillet)), BlockEntityTypesRegistry.SKILLET.<SkilletBlockEntity>get());
-//        LOOKUP.registerForBlockEntity((skillet, v) -> (stack, side, simulate) -> {
-//            var previous = skillet.getStoredItem();
-//            var remainder = stack.stack.copy();
-//            skillet.addItem(remainder);
-//            if (simulate) skillet.getInventory().setStack(0, previous);
-//            return remainder;
-//        }, BlockEntityTypesRegistry.CUTTING_BOARD.<CuttingBoardBlockEntity>get());
+        if (FarmersDelightWrappers.SKILLET) {
+            LOOKUP.registerForBlockEntity((skillet, v) -> InsertionHandler.of(FarmersDelightWrappers.storageOf(skillet)), BlockEntityTypesRegistry.SKILLET.<SkilletBlockEntity>get());
+        }
         LOOKUP.registerForBlockEntity((board, v) -> InsertionHandler.of(FarmersDelightWrappers.storageOf(board)), BlockEntityTypesRegistry.CUTTING_BOARD.<CuttingBoardBlockEntity>get());
         LOOKUP.registerForBlockEntity((basket, v) -> {
             var facing = basket.getCachedState().get(BasketBlock.FACING);

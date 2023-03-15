@@ -63,5 +63,17 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(VirtualFluid.getTranslationKey(MyFluids.TOMATO_SAUCE), "番茄酱");
         builder.add(MyItems.POPPY_RUSSIAN_SOUP, "虞美人红菜汤");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.POPPY_RUSSIAN_SOUP), "虞美人红菜汤");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.EGG_LIQUID), "鸡蛋液");
+        builder.add(MyItems.EGG_SHELL, "鸡蛋壳");
+        builder.add(MyItems.EGG_DOUGH, "鸡蛋面团");
+        builder.add(MyItems.CRUSHED_ICE, "碎冰");
+        builder.add(MyItems.WHEAT_BLACK_TEA, "麦籽黑茶");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.WHEAT_BLACK_TEA), "麦籽黑茶");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.ICED_MELON_JUICE), "冰镇西瓜汁");
+        builder.add(MyItems.ICED_MELON_JUICE, "冰镇西瓜汁");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.MELON_JUICE), "西瓜汁");
+        builder.add(MyItems.THICK_HOT_COCOA, "厚热可可");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.THICK_HOT_COCOA), "厚热可可");
+        builder.add(MyBlocks.SKEWER, "炙烤扦");
     }
 }

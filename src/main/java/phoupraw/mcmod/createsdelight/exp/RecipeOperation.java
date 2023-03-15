@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.messup;
+package phoupraw.mcmod.createsdelight.exp;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;

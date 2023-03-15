@@ -47,19 +47,10 @@ public final class MyArmPointTypes {
             };
         }
     };
-    public static final ArmInteractionPointType SKILLET = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "skillet"), BlocksRegistry.SKILLET.get()) {
-        @Override
-        public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
-            return new ArmInteractionPoint(this, level, pos, state) {
-                private final Storage<ItemVariant> handler = FarmersDelightWrappers.storageOf((SkilletBlockEntity) Objects.requireNonNull(level.getBlockEntity(pos)));
-
-                @Override
-                public @NotNull Storage<ItemVariant> getHandler() {
-                    return handler;
-                }
-            };
-        }
-    };
+    /**
+     @see FarmersDelightWrappers#SKILLET
+     */
+    public static final ArmInteractionPointType SKILLET;
 
     public static final ArmInteractionPointType PAN = new DefaultPointType(MyIdentifiers.PAN, MyBlocks.PAN);
     public static final ArmInteractionPointType GRILL = new DefaultPointType(MyIdentifiers.GRILL, MyBlocks.GRILL) /*{
@@ -87,23 +78,40 @@ public final class MyArmPointTypes {
         }
     }*/;
     static {
-        for (ArmInteractionPointType type : new ArmInteractionPointType[]{STOVE, COOKING_POT, BASKET, CUTTING_BOARD, SKILLET, PAN, GRILL}) {
+        if (FarmersDelightWrappers.SKILLET) {
+            SKILLET = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "skillet"), BlocksRegistry.SKILLET.get()) {
+                @Override
+                public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
+                    return new ArmInteractionPoint(this, level, pos, state) {
+                        private final Storage<ItemVariant> handler = FarmersDelightWrappers.storageOf((SkilletBlockEntity) Objects.requireNonNull(level.getBlockEntity(pos)));
+
+                        @Override
+                        public @NotNull Storage<ItemVariant> getHandler() {
+                            return handler;
+                        }
+                    };
+                }
+            };
+            ArmInteractionPointType.register(SKILLET);
+        } else {
+            SKILLET = null;
+        }
+        for (ArmInteractionPointType type : new ArmInteractionPointType[]{STOVE, COOKING_POT, BASKET, CUTTING_BOARD, PAN, GRILL}) {
             ArmInteractionPointType.register(type);
         }
     }
     private MyArmPointTypes() {}
 
     /**
-     * 只要{@link #canCreatePoint(World, BlockPos, BlockState)}的{@code state}符合{@link #getBlock()}，就可以创建，创建的是{@link ArmInteractionPoint}
-     *
-     * @see MyArmPointTypes
+     只要{@link #canCreatePoint(World, BlockPos, BlockState)}的{@code state}符合{@link #getBlock()}，就可以创建，创建的是{@link ArmInteractionPoint}
+     @see MyArmPointTypes
      */
     public static class DefaultPointType extends ArmInteractionPointType {
         private final Block block;
 
         /**
-         * @param id {@link ArmInteractionPointType#ArmInteractionPointType(Identifier)}
-         * @param block {@link #getBlock()}
+         @param id {@link ArmInteractionPointType#ArmInteractionPointType(Identifier)}
+         @param block {@link #getBlock()}
          */
         public DefaultPointType(Identifier id, Block block) {
             super(id);

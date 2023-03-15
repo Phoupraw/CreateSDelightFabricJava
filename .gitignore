@@ -32,3 +32,4 @@ bin/
 
 run/
 src/main/generated/.cache/
+/logs/

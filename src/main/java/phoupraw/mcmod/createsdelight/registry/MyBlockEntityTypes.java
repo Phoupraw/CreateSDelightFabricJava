@@ -4,15 +4,12 @@ import com.simibubi.create.foundation.block.ITE;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.Factory;
 import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.block.entity.*;
 import phoupraw.mcmod.createsdelight.datagen.*;
@@ -42,16 +39,17 @@ import phoupraw.mcmod.createsdelight.datagen.*;
  * </ol>
  */
 public final class MyBlockEntityTypes {
-    public static final BlockEntityType<PanBlockEntity> PAN = buildType(PanBlockEntity::new, MyBlocks.PAN);
-    public static final BlockEntityType<GrillBlockEntity> GRILL = buildType(GrillBlockEntity::new, MyBlocks.GRILL);
-    public static final BlockEntityType<SprinklerBlockEntity> SPRINKLER = buildType(SprinklerBlockEntity::new, MyBlocks.SPRINKLER);
-    public static final BlockEntityType<BambooSteamerBlockEntity> BAMBOO_STEAMER = buildType(BambooSteamerBlockEntity::new, MyBlocks.BAMBOO_STEAMER);
-    public static final BlockEntityType<SmartDrainBlockEntity> SMART_DRAIN = buildType(SmartDrainBlockEntity::new, MyBlocks.SMART_DRAIN);
-    public static final BlockEntityType<CopperTunnelBlockEntity> COPPER_TUNNEL = buildType(CopperTunnelBlockEntity::new, MyBlocks.COPPER_TUNNEL);
-    public static final BlockEntityType<MultifuncBasinBlockEntity> MULTIFUNC_BASIN = buildType(MultifuncBasinBlockEntity::new, MyBlocks.MULTIFUNC_BASIN);
-    public static final BlockEntityType<VerticalCutterBlockEntity> VERTICAL_CUTTER = buildType(VerticalCutterBlockEntity::new, MyBlocks.VERTICAL_CUTTER);
-    public static final BlockEntityType<PressureCookerBlockEntity> PRESSURE_COOKER = buildType(PressureCookerBlockEntity::new, MyBlocks.PRESSURE_COOKER);
-    public static final BlockEntityType<MincerBlockEntity> MINCER = buildType(MincerBlockEntity::new, MyBlocks.MINCER);
+    public static final BlockEntityType<PanBlockEntity> PAN = Registries.of(PanBlockEntity::new, MyBlocks.PAN);
+    public static final BlockEntityType<GrillBlockEntity> GRILL = Registries.of(GrillBlockEntity::new, MyBlocks.GRILL);
+    public static final BlockEntityType<SprinklerBlockEntity> SPRINKLER = Registries.of(SprinklerBlockEntity::new, MyBlocks.SPRINKLER);
+    public static final BlockEntityType<BambooSteamerBlockEntity> BAMBOO_STEAMER = Registries.of(BambooSteamerBlockEntity::new, MyBlocks.BAMBOO_STEAMER);
+    public static final BlockEntityType<SmartDrainBlockEntity> SMART_DRAIN = Registries.of(SmartDrainBlockEntity::new, MyBlocks.SMART_DRAIN);
+    public static final BlockEntityType<CopperTunnelBlockEntity> COPPER_TUNNEL = Registries.of(CopperTunnelBlockEntity::new, MyBlocks.COPPER_TUNNEL);
+    public static final BlockEntityType<MultifuncBasinBlockEntity> MULTIFUNC_BASIN = Registries.of(MultifuncBasinBlockEntity::new, MyBlocks.MULTIFUNC_BASIN);
+    public static final BlockEntityType<VerticalCutterBlockEntity> VERTICAL_CUTTER = Registries.of(VerticalCutterBlockEntity::new, MyBlocks.VERTICAL_CUTTER);
+    public static final BlockEntityType<PressureCookerBlockEntity> PRESSURE_COOKER = Registries.of(PressureCookerBlockEntity::new, MyBlocks.PRESSURE_COOKER);
+    public static final BlockEntityType<MincerBlockEntity> MINCER = Registries.of(MincerBlockEntity::new, MyBlocks.MINCER);
+    public static final BlockEntityType<SkewerBlockEntity> SKEWER = Registries.of(SkewerBlockEntity::new, MyBlocks.SKEWER);
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -64,9 +62,7 @@ public final class MyBlockEntityTypes {
         Registries.register(MyIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
         Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
         Registries.register(MyIdentifiers.MINCER, MINCER);
-    }
-    public static <T extends BlockEntity> BlockEntityType<T> buildType(FabricBlockEntityTypeBuilder.Factory<T> factory, @NotNull net.minecraft.block.Block... blocks) {
-        return FabricBlockEntityTypeBuilder.create(factory, blocks).build();
+        Registries.register(MyIdentifiers.SKEWER, SKEWER);
     }
 
     private MyBlockEntityTypes() {}

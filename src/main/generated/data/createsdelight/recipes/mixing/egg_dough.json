@@ -1,0 +1,27 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "create:dough"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:egg_liquid",
+      "nbt": {}
+    },
+    {
+      "amount": 13500,
+      "fluid": "createsdelight:sunflower_oil",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "createsdelight:egg_dough"
+    }
+  ]
+}
