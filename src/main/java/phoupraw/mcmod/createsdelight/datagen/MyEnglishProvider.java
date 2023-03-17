@@ -75,5 +75,11 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.THICK_HOT_COCOA, "Thick Hot Cocoa");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.THICK_HOT_COCOA), "Thick Hot Cocoa");
         builder.add(MyBlocks.SKEWER, "Skewer");
+        builder.add(MyBlocks.BASIN, "Basin");
+        builder.add(MyBlocks.SKEWER_PLATE, "Skewer Plate");
+        builder.add(MyItems.SALT, "Salt");
+        builder.add(MyItems.KELP_ASH, "Kelp Ash");
+        builder.add(MyBlocks.JELLY_BEANS, "Jelly Beans");
+        builder.add(MyBlocks.JELLY_BEANS_CAKE, "Jelly Beans Cake");
     }
 }

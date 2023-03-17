@@ -47,7 +47,13 @@ public final class MyIdentifiers {
       ICED_MELON_JUICE = of("iced_melon_juice"),
       MELON_JUICE = of("melon_juice"),
       THICK_HOT_COCOA = of("thick_hot_cocoa"),
-      SKEWER = of("skewer");
+      SKEWER = of("skewer"),
+      BASIN = of("basin"),
+      SKEWER_PLATE = of("skewer_plate"),
+      SALT = of("salt"),
+      KELP_ASH = of("kelp_ash"),
+      JELLY_BEANS = of("jelly_beans"),
+      JELLY_BEANS_CAKE = of("jelly_beans_cake");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

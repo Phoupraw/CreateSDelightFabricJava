@@ -1,0 +1,32 @@
+{
+  "type": "createsdelight:mincing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "createsdelight:vanilla"
+    },
+    {
+      "item": "create:chocolate_glazed_berries"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "amount": 27000,
+      "fluid": "create:chocolate",
+      "nbt": {}
+    },
+    {
+      "amount": 27000,
+      "fluid": "milk:still_milk",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 54000,
+      "fluid": "createsdelight:thick_hot_cocoa"
+    }
+  ]
+}

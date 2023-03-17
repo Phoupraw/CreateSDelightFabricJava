@@ -1,4 +1,8 @@
 accessWidener v2 named
+accessible field net/minecraft/loot/entry/ItemEntry item Lnet/minecraft/item/Item;
+accessible field net/minecraft/loot/entry/TagEntry name Lnet/minecraft/tag/TagKey;
+accessible field net/minecraft/loot/entry/CombinedEntry children [Lnet/minecraft/loot/entry/LootPoolEntry;
+accessible field net/minecraft/loot/LootManager GSON Lcom/google/gson/Gson;
 #accessible field com/simibubi/create/content/logistics/block/depot/DepotBehaviour heldItem Lcom/simibubi/create/content/contraptions/relays/belt/transport/TransportedItemStack;
 #accessible method net/minecraft/item/BucketItem playEmptyingSound (Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;)V
 #accessible	method	net/minecraft/block/Blocks	never	(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityType;)Ljava/lang/Boolean;

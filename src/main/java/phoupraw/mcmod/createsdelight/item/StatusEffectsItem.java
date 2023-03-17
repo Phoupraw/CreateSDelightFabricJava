@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -12,14 +13,20 @@ import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -28,15 +35,55 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 public class StatusEffectsItem extends ConsumableItem {
+    public static ItemStack finishUsing(Item self, ItemStack stack, World world, LivingEntity user) {
+//        if (!world.isClient()) {
+//            self.affectConsumer(stack, world, user);
+//        }
+
+        ItemStack container = new ItemStack(stack.getItem().getRecipeRemainder());
+        PlayerEntity player;
+        if (stack.isFood()) {
+            user.eatFood(world, stack);
+        } else if (user instanceof PlayerEntity) {
+            player = (PlayerEntity) user;
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                Criteria.CONSUME_ITEM.trigger(serverPlayer, stack);
+            }
+
+            player.incrementStat(Stats.USED.getOrCreateStat(self));
+            if (!player.getAbilities().creativeMode) {
+                stack.decrement(1);
+            }
+        }
+
+        if (stack.isEmpty()) {
+            return container;
+        } else {
+            if (user instanceof PlayerEntity) {
+                player = (PlayerEntity) user;
+                if (!player.getAbilities().creativeMode && !player.getInventory().insertStack(container)) {
+                    player.dropItem(container, false);
+                }
+            }
+
+            return stack;
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static Optional<net.minecraft.client.item.TooltipData> getTooltipData(Item self, ItemStack stack) {
+        FoodComponent foodComponent = self.getFoodComponent();
+        return foodComponent != null && !foodComponent.getStatusEffects().isEmpty() ? Optional.of(new TooltipData(foodComponent.getStatusEffects())) : Optional.empty();
+    }
+
     public StatusEffectsItem(Settings settings) {
-        super(settings, false/*自定义工具提示*/, false);
+        super(settings, false/*不用农夫乐事的模仿药水的工具提示，而是用我们自己的工具提示*/, false);
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     public Optional<net.minecraft.client.item.TooltipData> getTooltipData(ItemStack stack) {
-        FoodComponent foodComponent = getFoodComponent();
-        return foodComponent != null && !foodComponent.getStatusEffects().isEmpty() ? Optional.of(new TooltipData(foodComponent.getStatusEffects())) : Optional.empty();
+        return getTooltipData(this, stack);
     }
 
     @Environment(EnvType.CLIENT)
@@ -54,9 +101,9 @@ public class StatusEffectsItem extends ConsumableItem {
         public TooltipComponent(List<Pair<StatusEffectInstance, Float>> statusEffects) {
             this.statusEffects = statusEffects;
             for (Pair<StatusEffectInstance, Float> pair : statusEffects) {
-                var effect = pair.getFirst();
+                StatusEffectInstance effect = pair.getFirst();
                 StatusEffect type = effect.getEffectType();
-                var text = Text.empty()
+                MutableText text = Text.empty()
                   .append(type.getName())
                   .append(Text.translatable("potion.potency." + effect.getAmplifier()))
                   .formatted(type.getCategory().getFormatting());

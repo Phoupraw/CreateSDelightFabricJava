@@ -32,7 +32,7 @@ public class MyModelProvider extends FabricModelProvider {
     }
 
     /**
-     * {@link BlockStateModelGenerator#registerSimpleState(Block)}会自动生成物品模型。
+     {@link BlockStateModelGenerator#registerSimpleState(Block)}会自动生成物品模型。
      */
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
@@ -41,35 +41,53 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.SPRINKLER);
         generator.registerSimpleState(MyBlocks.BAMBOO_STEAMER);
         generator.registerSimpleState(MyBlocks.MULTIFUNC_BASIN);
+        generator.registerSimpleState(MyBlocks.BASIN);
+        generator.registerSimpleState(MyBlocks.SKEWER_PLATE);
+        generator.registerSimpleState(MyBlocks.JELLY_BEANS);
         horizontalAxis(generator, MyBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
         horizontalAxis(generator, MyBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(MyBlocks.PRESSURE_COOKER));
         generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(MyBlocks.MINCER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_MIXER.get(), "/block")));
         generator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(MyBlocks.SKEWER, ModelIds.getBlockModelId(MyBlocks.SKEWER)));
+        {
+            var map = BlockStateVariantMap.create(Properties.AGE_3)
+              .register(0, BlockStateVariant.create()
+                .put(MODEL, ModelIds.getBlockModelId(MyBlocks.JELLY_BEANS_CAKE)));
+            for (int i = 1; i <= 3; i++) {
+                map.register(i, BlockStateVariant.create()
+                  .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.JELLY_BEANS_CAKE, "_" + i)));
+            }
+            generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(MyBlocks.JELLY_BEANS_CAKE)
+              .coordinate(map));
+        }
         generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
           .with(BlockStateVariant.create()
             .put(MODEL, ModelIds.getBlockModelId(MyBlocks.SMART_DRAIN)))
           .with(When.create().set(Properties.LIT, true), BlockStateVariant.create()
             .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.SMART_DRAIN, "_fire"))));
-        var sup = MultipartBlockStateSupplier.create(MyBlocks.COPPER_TUNNEL)
-          .with(BlockStateVariant.create()
-            .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_frame")));
-        for (Direction side : Direction.Type.HORIZONTAL) {
-            EnumProperty<CopperTunnelBlock.Model> property = CopperTunnelBlock.Model.HORIZONTALS.get(side);
-            VariantSettings.Rotation rotation = VariantSettings.Rotation.values()[side.getHorizontal()];
-            sup.with(When.create().set(property, CopperTunnelBlock.Model.GLASS), BlockStateVariant.create()
-                .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_glass"))
-                .put(VariantSettings.Y, rotation))
-              .with(When.create().set(property, CopperTunnelBlock.Model.COPPER), BlockStateVariant.create()
-                .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_copper"))
-                .put(VariantSettings.Y, rotation));
+        {
+            var sup = MultipartBlockStateSupplier.create(MyBlocks.COPPER_TUNNEL)
+              .with(BlockStateVariant.create()
+                .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_frame")));
+            for (Direction side : Direction.Type.HORIZONTAL) {
+                EnumProperty<CopperTunnelBlock.Model> property = CopperTunnelBlock.Model.HORIZONTALS.get(side);
+                VariantSettings.Rotation rotation = VariantSettings.Rotation.values()[side.getHorizontal()];
+                sup.with(When.create().set(property, CopperTunnelBlock.Model.GLASS), BlockStateVariant.create()
+                    .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_glass"))
+                    .put(VariantSettings.Y, rotation))
+                  .with(When.create().set(property, CopperTunnelBlock.Model.COPPER), BlockStateVariant.create()
+                    .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_copper"))
+                    .put(VariantSettings.Y, rotation));
+            }
+            generator.blockStateCollector.accept(sup);
         }
-        generator.blockStateCollector.accept(sup);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.COPPER_TUNNEL);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.VERTICAL_CUTTER);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.PRESSURE_COOKER);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.MINCER);
+        generator.excludeFromSimpleItemModelGeneration(MyBlocks.JELLY_BEANS);
+        generator.excludeFromSimpleItemModelGeneration(MyBlocks.JELLY_BEANS_CAKE);
 
-        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA}) {
+        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA, MyItems.SALT, MyItems.KELP_ASH, MyItems.JELLY_BEANS, MyItems.JELLY_BEANS_CAKE}) {
             generator.registerItemModel(item);
         }
     }

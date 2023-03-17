@@ -20,6 +20,7 @@ import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -41,6 +42,9 @@ public class MyRecipeProvider extends FabricRecipeProvider {
         offerStonecuttingRecipe(exporter, MyItems.THICK_PORK_SLICE, Items.PORKCHOP, 2);
         offerStonecuttingRecipe(exporter, MyItems.THIN_PORK_SLICE, MyItems.THICK_PORK_SLICE, 2);
         offerStonecuttingRecipe(exporter, MyItems.SKEWER, AllBlocks.SHAFT.get(), 1);
+        offerStonecuttingRecipe(exporter, MyItems.BASIN, AllBlocks.BASIN.get(), 1);
+        offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 20, Items.WATER_BUCKET, MyItems.SALT, 0.4f);
+        offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 10, Items.DRIED_KELP, MyItems.KELP_ASH, 0.2f);
         ShapedRecipeJsonBuilder.create(MyItems.SPRINKLER)
           .pattern("A")
           .pattern("B")
@@ -87,6 +91,13 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .input('A', AllBlocks.COGWHEEL.get())
           .input('B', AllBlocks.ANDESITE_CASING.get())
           .input('C', AllItems.PROPELLER.get())
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
+          .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.SKEWER_PLATE)
+          .pattern("A")
+          .pattern("B")
+          .input('A', MyItems.SKEWER)
+          .input('B', AllBlocks.TURNTABLE.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
@@ -377,6 +388,19 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .requiresHeat(HeatCondition.HEATED)
           .averageProcessingDuration()
           .output(MyFluids.THICK_HOT_COCOA, FluidConstants.BOTTLE * 2)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.SALT)
+          .require(Fluids.WATER, FluidConstants.BUCKET)
+          .duration(20 * 15)
+          .output(MyItems.SALT)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(CompactingRecipe::new, MyIdentifiers.JELLY_BEANS)
+          .require(Items.SUGAR)
+          .require(Items.LIGHT_BLUE_DYE)
+          .require(Items.PINK_DYE)
+          .require(Items.YELLOW_DYE)
+          .averageProcessingDuration()
+          .output(MyItems.JELLY_BEANS)
           .build(exporter);
     }
 }

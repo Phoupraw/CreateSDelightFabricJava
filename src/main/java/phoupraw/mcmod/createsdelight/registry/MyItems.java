@@ -11,27 +11,30 @@ import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.item.JellyBeansItem;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsItem;
 
 import java.util.List;
 /**
  物品编写流程：
  <ol>
- <li>在{@link MyIdentifiers}创建{@link Identifier}<br>
- <li>在{@link MyItems}创建物品<b>并注册</b><br>
- <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译<br>
- <li>在{@link MyModelProvider}添加模型<br>
- <li>在{@link MyRecipeProvider}添加配方<br>
- <li>在{@link MyItemTagProvider}添加标签<br>
- <li>运行数据生成器<br>
- <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理<br>
- <li>运行客户端，检查物品效果是否如预期<br>
- <li>在{@code ChangeLog.md}添加更新日志<br>
- <li>提交git
+ <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br>
+ <li>在{@link MyIdentifiers}创建{@link Identifier}。<br>
+ <li>在{@link MyItems}创建物品<b>并注册</b>。<br>
+ <li>若不为{@link BlockItem}，则在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译。<br>
+ <li>若不为{@link BlockItem}，则在{@link MyModelProvider}添加模型。<br>
+ <li>在{@link MyRecipeProvider}添加配方。<br>
+ <li>在{@link MyItemTagProvider}添加标签。<br>
+ <li>运行数据生成器。<br>
+ <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br>
+ <li>运行客户端，检查物品效果是否如预期。<br>
+ <li>在{@code ChangeLog.md}添加更新日志。<br>
+ <li>提交git。
  </ol> */
 public final class MyItems {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
@@ -54,6 +57,11 @@ public final class MyItems {
     public static final BlockItem PRESSURE_COOKER = new AssemblyOperatorBlockItem(MyBlocks.PRESSURE_COOKER, newSettings());
     public static final BlockItem MINCER = new AssemblyOperatorBlockItem(MyBlocks.MINCER, newSettings());
     public static final BlockItem SKEWER = new AssemblyOperatorBlockItem(MyBlocks.SKEWER, newSettings());
+    public static final BlockItem BASIN = new BlockItem(MyBlocks.BASIN, newSettings());
+    public static final BlockItem SKEWER_PLATE = new BlockItem(MyBlocks.SKEWER_PLATE, newSettings());
+
+    public static final JellyBeansItem JELLY_BEANS = new JellyBeansItem();
+    public static final BlockItem JELLY_BEANS_CAKE = new BlockItem(MyBlocks.JELLY_BEANS_CAKE, newSettings());
 
     //不可食用物品
     public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
@@ -61,6 +69,8 @@ public final class MyItems {
     public static final Item EGG_SHELL = new Item(newSettings());
     public static final Item EGG_DOUGH = new Item(newSettings());
     public static final Item CRUSHED_ICE = new Item(newSettings());
+    public static final Item SALT = new Item(newSettings());
+    public static final Item KELP_ASH = new Item(newSettings());
 
     //食物
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
@@ -190,12 +200,19 @@ public final class MyItems {
         Registries.register(MyIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
         Registries.register(MyIdentifiers.MINCER, MINCER);
         Registries.register(MyIdentifiers.SKEWER, SKEWER);
+        Registries.register(MyIdentifiers.BASIN, BASIN);
+        Registries.register(MyIdentifiers.SKEWER_PLATE, SKEWER_PLATE);
+        Registries.register(MyIdentifiers.KELP_ASH, KELP_ASH);
+
+        Registries.register(MyIdentifiers.JELLY_BEANS, JELLY_BEANS);
+        Registries.register(MyIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.EGG_SHELL, EGG_SHELL);
         Registries.register(MyIdentifiers.EGG_DOUGH, EGG_DOUGH);
         Registries.register(MyIdentifiers.CRUSHED_ICE, CRUSHED_ICE);
+        Registries.register(MyIdentifiers.SALT, SALT);
 
         Registries.register(MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registries.register(MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
@@ -225,7 +242,8 @@ public final class MyItems {
     }
 
     @Contract(pure = true, value = "->new")
-    private static FabricItemSettings newSettings() {
+    @ApiStatus.Internal
+    public static FabricItemSettings newSettings() {
         return new FabricItemSettings().group(ITEM_GROUP);
     }
 

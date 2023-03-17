@@ -6,16 +6,23 @@ import com.nhoryzon.mc.farmersdelight.entity.block.StoveBlockEntity;
 import com.nhoryzon.mc.farmersdelight.registry.BlocksRegistry;
 import com.simibubi.create.content.logistics.block.mechanicalArm.ArmInteractionPoint;
 import com.simibubi.create.content.logistics.block.mechanicalArm.ArmInteractionPointType;
+import com.simibubi.create.foundation.item.ItemHelper;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.FarmersDelightWrappers;
+import phoupraw.mcmod.createsdelight.block.entity.SkewerPlateBlockEntity;
 
 import java.util.Objects;
 public final class MyArmPointTypes {
@@ -77,6 +84,38 @@ public final class MyArmPointTypes {
             };
         }
     }*/;
+    public static final ArmInteractionPointType SKEWER_PLATE = new DefaultPointType(MyIdentifiers.SKEWER_PLATE, MyBlocks.SKEWER_PLATE) {
+        @Override
+        public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
+            return new ArmInteractionPoint(this, level, pos, state) {
+                private SkewerPlateBlockEntity skewerPlate;
+
+                @Override
+                public ItemStack insert(ItemStack stack, TransactionContext ctx) {
+                    long inserted = getSkewerPlate().skewerInventory.insert(ItemVariant.of(stack), stack.getCount(), ctx);
+                    return ItemHandlerHelper.copyStackWithSize(stack, ItemHelper.truncateLong(stack.getCount() - inserted));
+                }
+
+                @Override
+                public ItemStack extract(int amount, TransactionContext ctx) {
+                    return TransferUtil.extractAnyItem(getSkewerPlate().plateInventory, amount);
+                }
+
+                @Contract(mutates = "this")
+                public @NotNull SkewerPlateBlockEntity getSkewerPlate() {
+                    if (skewerPlate == null) {
+                        setSkewerPlate((SkewerPlateBlockEntity) Objects.requireNonNull(getLevel().getBlockEntity(getPos())));
+                    }
+                    return skewerPlate;
+                }
+
+                @Contract(mutates = "this")
+                public void setSkewerPlate(@NotNull SkewerPlateBlockEntity skewerPlate) {
+                    this.skewerPlate = skewerPlate;
+                }
+            };
+        }
+    };
     static {
         if (FarmersDelightWrappers.SKILLET) {
             SKILLET = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "skillet"), BlocksRegistry.SKILLET.get()) {
@@ -96,7 +135,7 @@ public final class MyArmPointTypes {
         } else {
             SKILLET = null;
         }
-        for (ArmInteractionPointType type : new ArmInteractionPointType[]{STOVE, COOKING_POT, BASKET, CUTTING_BOARD, PAN, GRILL}) {
+        for (ArmInteractionPointType type : new ArmInteractionPointType[]{STOVE, COOKING_POT, BASKET, CUTTING_BOARD, PAN, GRILL, SKEWER_PLATE}) {
             ArmInteractionPointType.register(type);
         }
     }

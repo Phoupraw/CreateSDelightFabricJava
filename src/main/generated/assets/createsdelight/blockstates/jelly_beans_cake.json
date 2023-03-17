@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "createsdelight:block/jelly_beans_cake"
+    },
+    "age=1": {
+      "model": "createsdelight:block/jelly_beans_cake_1"
+    },
+    "age=2": {
+      "model": "createsdelight:block/jelly_beans_cake_2"
+    },
+    "age=3": {
+      "model": "createsdelight:block/jelly_beans_cake_3"
+    }
+  }
+}

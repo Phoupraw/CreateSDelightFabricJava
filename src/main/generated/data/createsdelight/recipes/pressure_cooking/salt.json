@@ -1,0 +1,16 @@
+{
+  "type": "createsdelight:pressure_cooking",
+  "ingredients": [
+    {
+      "amount": 81000,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 300,
+  "results": [
+    {
+      "item": "createsdelight:salt"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "textures": {
+    "2": "createsdelight:block/jelly_beans_cake_bottom",
+    "3": "createsdelight:block/jelly_beans_cake_inner",
+    "4": "createsdelight:block/jelly_beans_cake_side",
+    "5": "createsdelight:block/jelly_beans_cake_top",
+    "particle": "createsdelight:block/jelly_beans_cake_top"
+  },
+  "elements": [
+    {
+      "from": [8, 0, 2],
+      "to": [14, 10, 8],
+      "faces": {
+        "north": {"uv": [2, 6, 8, 16], "texture": "#4"},
+        "east": {"uv": [8, 6, 14, 16], "texture": "#4"},
+        "south": {"uv": [8, 6, 14, 16], "texture": "#3"},
+        "west": {"uv": [2, 6, 8, 16], "texture": "#3"},
+        "up": {"uv": [14, 8, 8, 2], "texture": "#5"},
+        "down": {"uv": [8, 8, 2, 14], "texture": "#2"}
+      }
+    }
+  ]
+}

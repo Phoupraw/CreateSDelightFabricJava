@@ -1,0 +1,27 @@
+{
+  "type": "createsdelight:mincing",
+  "ingredients": [
+    {
+      "item": "minecraft:melon_slice"
+    },
+    {
+      "item": "minecraft:melon_slice"
+    },
+    {
+      "item": "minecraft:melon_slice"
+    },
+    {
+      "item": "minecraft:melon_slice"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:melon_juice"
+    }
+  ]
+}

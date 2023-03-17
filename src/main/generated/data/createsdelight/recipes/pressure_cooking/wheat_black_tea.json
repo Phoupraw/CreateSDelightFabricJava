@@ -1,0 +1,40 @@
+{
+  "type": "createsdelight:pressure_cooking",
+  "ingredients": [
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:black_dye"
+    },
+    {
+      "item": "createsdelight:vanilla"
+    },
+    {
+      "amount": 27000,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "createsdelight:wheat_black_tea"
+    }
+  ]
+}

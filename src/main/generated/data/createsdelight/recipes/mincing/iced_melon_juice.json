@@ -1,0 +1,26 @@
+{
+  "type": "createsdelight:mincing",
+  "ingredients": [
+    {
+      "item": "farmersdelight:melon_popsicle"
+    },
+    {
+      "item": "createsdelight:crushed_ice"
+    },
+    {
+      "item": "minecraft:nether_wart"
+    },
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:melon_juice",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 40500,
+      "fluid": "createsdelight:iced_melon_juice"
+    }
+  ]
+}

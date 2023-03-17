@@ -1,0 +1,68 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "textures": {
+    "0": "create:block/axis",
+    "1": "create:block/axis_top",
+    "particle": "create:block/axis"
+  },
+  "elements": [
+    {
+      "name": "下端",
+      "from": [6, 0, 6],
+      "to": [10, 3, 10],
+      "faces": {
+        "north": {"uv": [6, 13, 10, 16], "texture": "#0"},
+        "east": {"uv": [6, 13, 10, 16], "texture": "#0"},
+        "south": {"uv": [6, 13, 10, 16], "texture": "#0"},
+        "west": {"uv": [6, 13, 10, 16], "texture": "#0"},
+        "up": {"uv": [6, 6, 10, 10], "texture": "#1"},
+        "down": {"uv": [6, 6, 10, 10], "texture": "#1", "cullface": "down"}
+      }
+    },
+    {
+      "name": "上端",
+      "from": [6, 13, 6],
+      "to": [10, 16, 10],
+      "faces": {
+        "north": {"uv": [6, 0, 10, 3], "texture": "#0"},
+        "east": {"uv": [6, 0, 10, 3], "texture": "#0"},
+        "south": {"uv": [6, 0, 10, 3], "texture": "#0"},
+        "west": {"uv": [6, 0, 10, 3], "texture": "#0"},
+        "up": {"uv": [6, 6, 10, 10], "texture": "#1", "cullface": "up"},
+        "down": {"uv": [6, 6, 10, 10], "texture": "#1"}
+      }
+    },
+    {
+      "name": "东边",
+      "from": [9, 3, 7],
+      "to": [10, 13, 9],
+      "faces": {
+        "north": {"uv": [6, 3, 7, 13], "texture": "#0"},
+        "east": {"uv": [7, 3, 9, 13], "texture": "#0"},
+        "south": {"uv": [9, 3, 10, 13], "texture": "#0"},
+        "west": {"uv": [7, 3, 9, 13], "texture": "#0"}
+      }
+    },
+    {
+      "name": "西边",
+      "from": [6, 3, 7],
+      "to": [7, 13, 9],
+      "faces": {
+        "north": {"uv": [9, 3, 10, 13], "texture": "#0"},
+        "east": {"uv": [7, 3, 9, 13], "texture": "#0"},
+        "south": {"uv": [6, 3, 7, 13], "texture": "#0"},
+        "west": {"uv": [7, 3, 9, 13], "texture": "#0"}
+      }
+    },
+    {
+      "name": "中凹槽",
+      "from": [7, 3, 7.5],
+      "to": [9, 13, 8.5],
+      "faces": {
+        "north": {"uv": [7, 3, 9, 13], "texture": "#0"},
+        "south": {"uv": [7, 3, 9, 13], "texture": "#0"}
+      }
+    }
+  ]
+}

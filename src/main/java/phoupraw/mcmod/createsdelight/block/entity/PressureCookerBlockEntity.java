@@ -15,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.recipe.PressureCookingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
@@ -22,11 +23,11 @@ import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 import java.util.Objects;
 public class PressureCookerBlockEntity extends BasinOperatingTileEntity implements InstanceOffset {
     /**
-     * 刀片伸出的程度，范围为[0,1]。当动力正转时增加，反转时减小。
+     刀片伸出的程度，范围为[0,1]。当动力正转时增加，反转时减小。
      */
     private double extension;
     /**
-     * {@link #extension}的渲染配套。无论有无动力，都与{@link #extension}在1游戏刻前的值保持一致。
+     {@link #extension}的渲染配套。无论有无动力，都与{@link #extension}在1游戏刻前的值保持一致。
      */
     private double prevExtention;
     public int countdown;
@@ -93,28 +94,28 @@ public class PressureCookerBlockEntity extends BasinOperatingTileEntity implemen
     }
 
     /**
-     * @see #extension
+     @see #extension
      */
     public double getExtension() {
         return extension;
     }
 
     /**
-     * @see #extension
+     @see #extension
      */
     public void setExtension(double extension) {
         this.extension = MathHelper.clamp(extension, 0, 1);
     }
 
     /**
-     * @see #prevExtention
+     @see #prevExtention
      */
     public double getPrevExtention() {
         return prevExtention;
     }
 
     /**
-     * @see #prevExtention
+     @see #prevExtention
      */
     public void setPrevExtention(double prevExtention) {
         this.prevExtention = prevExtention;
@@ -136,7 +137,10 @@ public class PressureCookerBlockEntity extends BasinOperatingTileEntity implemen
                     } else {
                         p = p.add(-3 / 16.0, -20 / 16.0, 3 / 16.0);
                     }
-                    getWorld().addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), p.getY(), p.getZ(), 0, 0.01 + getWorld().getRandom().nextDouble() * 0.02, 0);
+                    var heat = HeatSources.SIDED.find(getWorld(), getPos().down(3), Direction.UP);
+                    if (heat != null && heat >= 1) {
+                        getWorld().addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), p.getY(), p.getZ(), 0, 0.01 + getWorld().getRandom().nextDouble() * 0.02, 0);
+                    }
                 }
             } else if (countdown == 0) {
                 applyBasinRecipe();

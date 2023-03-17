@@ -1,0 +1,29 @@
+{
+  "type": "createsdelight:mincing",
+  "ingredients": [
+    {
+      "item": "minecraft:ice"
+    },
+    {
+      "item": "minecraft:packed_ice"
+    },
+    {
+      "item": "minecraft:blue_ice"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "amount": 27000,
+      "fluid": "create:honey",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "count": 3,
+      "item": "createsdelight:crushed_ice"
+    }
+  ]
+}

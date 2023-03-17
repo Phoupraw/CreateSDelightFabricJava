@@ -130,7 +130,7 @@ publishing {
     }
 }
 loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+    accessWidenerPath = file("src/main/resources/${mod_id}.accessWidener")
     runs {
         // This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
         datagenClient {

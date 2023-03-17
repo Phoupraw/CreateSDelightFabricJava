@@ -75,5 +75,11 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.THICK_HOT_COCOA, "厚热可可");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.THICK_HOT_COCOA), "厚热可可");
         builder.add(MyBlocks.SKEWER, "炙烤扦");
+        builder.add(MyBlocks.BASIN, "工作盆");
+        builder.add(MyBlocks.SKEWER_PLATE, "炙烤盘");
+        builder.add(MyItems.SALT, "盐");
+        builder.add(MyItems.KELP_ASH, "海带灰烬");
+        builder.add(MyBlocks.JELLY_BEANS, "糖豆");
+        builder.add(MyBlocks.JELLY_BEANS_CAKE, "糖豆蛋糕");
     }
 }

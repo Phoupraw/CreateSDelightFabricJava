@@ -9,6 +9,9 @@
     "createsdelight:multifunc_basin",
     "createsdelight:vertical_cutter",
     "createsdelight:pressure_cooker",
-    "createsdelight:mincer"
+    "createsdelight:mincer",
+    "createsdelight:skewer",
+    "createsdelight:basin",
+    "createsdelight:skewer_plate"
   ]
 }

@@ -13,8 +13,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
-import phoupraw.mcmod.createsdelight.exp.LootTableCategory;
-import phoupraw.mcmod.createsdelight.exp.LootTableDisplay;
 import phoupraw.mcmod.createsdelight.recipe.*;
 import phoupraw.mcmod.createsdelight.rei.*;
 
@@ -53,6 +51,7 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.registerRecipeFiller(VerticalCuttingRecipe.class, MyRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
         registry.registerRecipeFiller(PressureCookingRecipe.class, MyRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
         registry.registerRecipeFiller(MincingRecipe.class, MyRecipeTypes.MINCING.getRecipeType(), MincingDisplay::new);
+//        registry.registerFiller(LootTable);
         registry.registerDisplayGenerator(LootTableCategory.ID, new DynamicDisplayGenerator<>() {
             @Override
             public Optional<List<LootTableDisplay>> getRecipeFor(EntryStack<?> entry) {
