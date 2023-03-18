@@ -1,0 +1,83 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "createsdelight:cake_slice"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": "createsdelight:jelly_beans_cake"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:cake_slice"
+        },
+        {
+          "item": "create:bar_of_chocolate"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:cake_slice"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:cake_slice"
+        },
+        {
+          "item": "createsdelight:jelly_beans"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:cake_slice"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "createsdelight:cake_slice"
+        },
+        {
+          "amount": 27000,
+          "fluid": "milk:still_milk",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:cake_slice"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:cake_slice"
+        },
+        {
+          "item": "createsdelight:cake_slice"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:cake_slice"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "createsdelight:cake_slice"
+  }
+}

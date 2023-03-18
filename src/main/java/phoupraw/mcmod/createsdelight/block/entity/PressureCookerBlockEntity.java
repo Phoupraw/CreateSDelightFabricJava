@@ -2,8 +2,11 @@ package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.simibubi.create.content.contraptions.processing.BasinOperatingTileEntity;
+import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Recipe;
@@ -138,8 +141,14 @@ public class PressureCookerBlockEntity extends BasinOperatingTileEntity implemen
                         p = p.add(-3 / 16.0, -20 / 16.0, 3 / 16.0);
                     }
                     var heat = HeatSources.SIDED.find(getWorld(), getPos().down(3), Direction.UP);
-                    if (heat != null && heat >= 1) {
-                        getWorld().addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), p.getY(), p.getZ(), 0, 0.01 + getWorld().getRandom().nextDouble() * 0.02, 0);
+                    var basin = getBasin().orElse(null);
+                    if (heat != null && heat >= 1 && basin != null) {
+                        for (SmartFluidTankBehaviour tank : basin.getTanks()) {
+                            if (tank.getCapability().simulateExtract(FluidVariant.of(Fluids.WATER), 1, null) == 1) {
+                                getWorld().addParticle(ParticleTypesRegistry.STEAM.get(), p.getX(), p.getY(), p.getZ(), 0, 0.01 + getWorld().getRandom().nextDouble() * 0.02, 0);
+                                break;
+                            }
+                        }
                     }
                 }
             } else if (countdown == 0) {

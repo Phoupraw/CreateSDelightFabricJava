@@ -2,7 +2,9 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.datagen.*;
+@ApiStatus.Internal
 public class MyDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {

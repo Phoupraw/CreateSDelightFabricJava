@@ -1,0 +1,51 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "createsdelight:kelp_ash"
+    },
+    {
+      "item": "create:wheat_flour"
+    },
+    {
+      "item": "create:wheat_flour"
+    },
+    {
+      "item": "create:wheat_flour"
+    },
+    {
+      "item": "create:wheat_flour"
+    },
+    {
+      "item": "create:wheat_flour"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:sunflower_oil",
+      "nbt": {}
+    },
+    {
+      "amount": 27000,
+      "fluid": "milk:still_milk",
+      "nbt": {}
+    },
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:egg_liquid",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 81000,
+      "fluid": "createsdelight:paste"
+    }
+  ]
+}

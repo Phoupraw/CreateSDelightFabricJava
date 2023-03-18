@@ -3,15 +3,28 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "createsdelight:jelly_beans_cake"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "createsdelight:jelly_beans_cake",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "age": "0"
+                  }
+                }
+              ],
+              "name": "createsdelight:jelly_beans_cake"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "createsdelight:jelly_beans"
+            }
+          ]
         }
       ],
       "rolls": 1.0

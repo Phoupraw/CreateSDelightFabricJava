@@ -20,7 +20,7 @@ public class PanFryingDisplay extends BasicDisplay implements SimpleGridMenuDisp
     private int duration = 100;
 
     public PanFryingDisplay(PanFryingRecipe recipe) {
-        super(PressureCookingDisplay.ofAllIngredients(recipe), Collections.singletonList(EntryIngredients.of(recipe.getOutput())), Optional.of(recipe.getId()));
+        super(PressureCookingDisplay.ingredientsOf(recipe), Collections.singletonList(EntryIngredients.of(recipe.getOutput())), Optional.of(recipe.getId()));
         setDuration(recipe.getProcessingDuration());
     }
 

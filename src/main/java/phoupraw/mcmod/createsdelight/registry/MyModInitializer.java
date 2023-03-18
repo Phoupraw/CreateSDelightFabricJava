@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 
 import static phoupraw.mcmod.common.fluid.VirtualFluid.*;
 import static phoupraw.mcmod.common.misc.Lambdas.fullProviderOf;
+@ApiStatus.Internal
 public class MyModInitializer implements ModInitializer {
-    @ApiStatus.Internal
     public static void initializeAfterCreate() {
         loadClasses();
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SPRINKLER, 1);
@@ -25,7 +25,7 @@ public class MyModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SKEWER, 1);
-        register(VirtualFluid.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA);
+        register(VirtualFluid.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA, MyFluids.PASTE);
         registerBowlStorage(MyFluids.VEGETABLE_BIG_STEW, MyItems.VEGETABLE_BIG_STEW);
         registerBucketStorage(MyFluids.SUNFLOWER_OIL, MyItems.BUCKETED_SUNFLOWER_OIL);
         registerBottleStorage(MyFluids.SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL);

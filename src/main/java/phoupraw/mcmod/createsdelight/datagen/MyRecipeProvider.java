@@ -4,10 +4,12 @@ import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.content.contraptions.components.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
 import com.simibubi.create.content.contraptions.components.mixer.MixingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
+import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipeBuilder;
 import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import io.github.tropheusj.milk.Milk;
@@ -391,6 +393,7 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.SALT)
           .require(Fluids.WATER, FluidConstants.BUCKET)
+          .requiresHeat(HeatCondition.HEATED)
           .duration(20 * 15)
           .output(MyItems.SALT)
           .build(exporter);
@@ -401,6 +404,49 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.YELLOW_DYE)
           .averageProcessingDuration()
           .output(MyItems.JELLY_BEANS)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.YEAST)
+          .require(Items.SUGAR)
+          .require(AllItems.DOUGH.get())
+          .require(MyItems.KELP_ASH)
+          .duration(20 * 60)
+          .output(MyItems.YEAST, 5)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MixingRecipe::new, MyIdentifiers.PASTE)
+          .require(MyItems.KELP_ASH)
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(Items.SUGAR)
+          .require(Items.SUGAR)
+          .require(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE)
+          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+          .require(MyFluids.EGG_LIQUID, FluidConstants.BOTTLE)
+          .averageProcessingDuration()
+          .output(MyFluids.PASTE, FluidConstants.BUCKET)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.CAKE)
+          .require(MyFluids.PASTE, FluidConstants.BUCKET / 2)
+          .requiresHeat(HeatCondition.HEATED)
+          .duration(20 * 10)
+          .output(MyItems.CAKE)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(CuttingRecipe::new, MyIdentifiers.CAKE_SLICE)
+          .require(MyItems.CAKE)
+          .duration(20)
+          .output(MyItems.CAKE_SLICE, 3)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
+          .require(MyItems.CAKE_SLICE)
+          .transitionTo(MyItems.CAKE_SLICE)
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.JELLY_BEANS))
+          .addStep(FillingRecipe::new, r -> r.require(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.CAKE_SLICE))
+          .loops(3)
+          .addOutput(MyItems.JELLY_BEANS_CAKE, 1)
           .build(exporter);
     }
 }

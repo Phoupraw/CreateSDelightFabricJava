@@ -81,5 +81,9 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.KELP_ASH, "海带灰烬");
         builder.add(MyBlocks.JELLY_BEANS, "糖豆");
         builder.add(MyBlocks.JELLY_BEANS_CAKE, "糖豆蛋糕");
+        builder.add(MyItems.YEAST, "酵母");
+        builder.add(VirtualFluid.getTranslationKey(MyFluids.PASTE), "面糊");
+        builder.add(MyItems.CAKE, "原始蛋糕");
+        builder.add(MyItems.CAKE_SLICE, "原始蛋糕片");
     }
 }

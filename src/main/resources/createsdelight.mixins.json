@@ -4,11 +4,15 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AccessLerpedFloat",
+    "MixinBasinRecipe",
+    "MixinBasinTileEntity",
     "MixinCreate",
+    "MixinCreateDisplay",
     "MixinDirectBeltInputBehaviour",
     "MixinLivingEntity",
     "MixinRecipeManager",
     "MixinSectionedEntityCache",
+    "MixinSequencedAssemblyRecipe",
     "MixinSpoutTileEntity",
     "MixinTileEntityBehaviour"
   ],

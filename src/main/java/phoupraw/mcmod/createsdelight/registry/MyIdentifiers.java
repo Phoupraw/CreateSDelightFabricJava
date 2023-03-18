@@ -53,7 +53,11 @@ public final class MyIdentifiers {
       SALT = of("salt"),
       KELP_ASH = of("kelp_ash"),
       JELLY_BEANS = of("jelly_beans"),
-      JELLY_BEANS_CAKE = of("jelly_beans_cake");
+      JELLY_BEANS_CAKE = of("jelly_beans_cake"),
+      YEAST = of("yeast"),
+      PASTE = of("paste"),
+      CAKE = of("cake"),
+      CAKE_SLICE = of("cake_slice");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

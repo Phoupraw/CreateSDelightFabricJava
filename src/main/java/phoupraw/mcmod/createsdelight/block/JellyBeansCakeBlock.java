@@ -34,10 +34,10 @@ public class JellyBeansCakeBlock extends Block {
       VoxelShapes.union(
         createCuboidShape(4, 0, 4, 8, 1, 8),
         createCuboidShape(8, 0, 2, 14, 10, 8),
-        createCuboidShape(2, 0, 14, 8, 10, 14)),
+        createCuboidShape(2, 0, 8, 14, 10, 14)),
       VoxelShapes.union(
         createCuboidShape(4, 0, 4, 12, 1, 8),
-        createCuboidShape(2, 0, 14, 8, 10, 14)),
+        createCuboidShape(2, 0, 8, 14, 10, 14)),
       VoxelShapes.union(
         createCuboidShape(4, 0, 4, 12, 1, 8),
         createCuboidShape(4, 0, 8, 8, 1, 12),
@@ -47,14 +47,13 @@ public class JellyBeansCakeBlock extends Block {
       createCuboidShape(2, 0, 2, 14, 10, 14),
       VoxelShapes.union(
         createCuboidShape(8, 0, 2, 14, 10, 8),
-        createCuboidShape(2, 0, 14, 8, 10, 14)),
-      createCuboidShape(2, 0, 14, 8, 10, 14),
+        createCuboidShape(2, 0, 8, 14, 10, 14)),
+      createCuboidShape(2, 0, 8, 14, 10, 14),
       createCuboidShape(8, 0, 8, 14, 10, 14)
     );
 
-    //    public static void eat(PlayerEntity player, )
     public JellyBeansCakeBlock() {
-        this(FabricBlockSettings.copyOf(Blocks.CAKE));
+        this(FabricBlockSettings.copyOf(Blocks.CAKE).breakInstantly());
     }
 
     public JellyBeansCakeBlock(Settings settings) {
@@ -71,12 +70,12 @@ public class JellyBeansCakeBlock extends Block {
     @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        player.getHungerManager().add(2, 1f);
-        player.addStatusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 2), player);
+        player.getHungerManager().add(2, 0.5f);
+        player.addStatusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 4), player);
         player.incrementStat(Stats.BROKEN.getOrCreateStat(asItem()));
         player.emitGameEvent(GameEvent.EAT);
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
+//        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
         if (player instanceof ServerPlayerEntity serverPlayer) {
             Criteria.CONSUME_ITEM.trigger(serverPlayer, asItem().getDefaultStack());
         }

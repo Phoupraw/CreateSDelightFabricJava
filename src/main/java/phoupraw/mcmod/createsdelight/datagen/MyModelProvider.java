@@ -87,7 +87,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.JELLY_BEANS);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.JELLY_BEANS_CAKE);
 
-        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA, MyItems.SALT, MyItems.KELP_ASH, MyItems.JELLY_BEANS, MyItems.JELLY_BEANS_CAKE}) {
+        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA, MyItems.SALT, MyItems.KELP_ASH, MyItems.JELLY_BEANS, MyItems.JELLY_BEANS_CAKE, MyItems.YEAST, MyItems.CAKE, MyItems.CAKE_SLICE}) {
             generator.registerItemModel(item);
         }
     }

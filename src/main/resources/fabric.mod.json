@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "Create's Delight",
   "description": "\\u673a\\u68b0\\u52a8\\u529b\\u4e50\\u4e8b\\n\\u4e3b\\u8981\\u4e3a\\u673a\\u68b0\\u52a8\\u529b\\u548c\\u519c\\u592b\\u4e50\\u4e8b\\u6dfb\\u52a0\\u8054\\u52a8\\uff0c\\u4ee5\\u53ca\\u72ec\\u7279\\u7684\\u6c89\\u6d78\\u5f0f\\u98df\\u6750\\u52a0\\u5de5\\u3002",
-  "authors": ["Phoupraw"],
+  "authors": ["Phoupraw", "Feeshmang"],
   "contact": {
     "homepage": "https://modrinth.com/mod/creates-delight",
     "issues": "https://github.com/Phoupraw/CreateSDelightFabricJava/issues",

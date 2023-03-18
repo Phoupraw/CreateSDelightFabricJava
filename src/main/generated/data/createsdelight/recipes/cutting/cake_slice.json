@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "createsdelight:cake"
+    }
+  ],
+  "processingTime": 20,
+  "results": [
+    {
+      "count": 3,
+      "item": "createsdelight:cake_slice"
+    }
+  ]
+}

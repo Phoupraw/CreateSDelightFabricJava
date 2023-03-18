@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.common.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
-import phoupraw.mcmod.createsdelight.item.JellyBeansItem;
+import phoupraw.mcmod.createsdelight.item.StatusEffectsBlockItem;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsItem;
 
 import java.util.List;
@@ -60,8 +60,20 @@ public final class MyItems {
     public static final BlockItem BASIN = new BlockItem(MyBlocks.BASIN, newSettings());
     public static final BlockItem SKEWER_PLATE = new BlockItem(MyBlocks.SKEWER_PLATE, newSettings());
 
-    public static final JellyBeansItem JELLY_BEANS = new JellyBeansItem();
-    public static final BlockItem JELLY_BEANS_CAKE = new BlockItem(MyBlocks.JELLY_BEANS_CAKE, newSettings());
+    public static final StatusEffectsBlockItem JELLY_BEANS = new StatusEffectsBlockItem(MyBlocks.JELLY_BEANS, MyItems.newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(1)
+        .saturationModifier(0.5f)
+        .snack()
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1f)
+        .build()
+      ));
+    public static final StatusEffectsBlockItem JELLY_BEANS_CAKE = new StatusEffectsBlockItem(MyBlocks.JELLY_BEANS_CAKE, newSettings().food(new FoodComponent.Builder()
+      .hunger(9)
+      .saturationModifier(0.5f)
+      .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+      .build()
+    ));
 
     //不可食用物品
     public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
@@ -71,6 +83,9 @@ public final class MyItems {
     public static final Item CRUSHED_ICE = new Item(newSettings());
     public static final Item SALT = new Item(newSettings());
     public static final Item KELP_ASH = new Item(newSettings());
+    public static final Item YEAST = new Item(newSettings());
+    public static final Item CAKE = new Item(newSettings());
+    public static final Item CAKE_SLICE = new Item(newSettings());
 
     //食物
     public static final Item PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
@@ -203,6 +218,9 @@ public final class MyItems {
         Registries.register(MyIdentifiers.BASIN, BASIN);
         Registries.register(MyIdentifiers.SKEWER_PLATE, SKEWER_PLATE);
         Registries.register(MyIdentifiers.KELP_ASH, KELP_ASH);
+        Registries.register(MyIdentifiers.YEAST, YEAST);
+        Registries.register(MyIdentifiers.CAKE, CAKE);
+        Registries.register(MyIdentifiers.CAKE_SLICE, CAKE_SLICE);
 
         Registries.register(MyIdentifiers.JELLY_BEANS, JELLY_BEANS);
         Registries.register(MyIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);

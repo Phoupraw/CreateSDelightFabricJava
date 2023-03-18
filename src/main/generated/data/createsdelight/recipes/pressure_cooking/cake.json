@@ -3,15 +3,15 @@
   "heatRequirement": "heated",
   "ingredients": [
     {
-      "amount": 81000,
-      "fluid": "minecraft:water",
+      "amount": 40500,
+      "fluid": "createsdelight:paste",
       "nbt": {}
     }
   ],
-  "processingTime": 300,
+  "processingTime": 200,
   "results": [
     {
-      "item": "createsdelight:salt"
+      "item": "createsdelight:cake"
     }
   ]
 }
