@@ -1,21 +1,27 @@
 package phoupraw.mcmod.createsdelight.datagen;
 
 import com.simibubi.create.AllBlocks;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 
 import static net.minecraft.data.client.VariantSettings.MODEL;
 import static net.minecraft.data.client.VariantSettings.Y;
+@ApiStatus.Internal
+@Environment(EnvType.CLIENT)
 public class MyModelProvider extends FabricModelProvider {
     public static void horizontalAxis(BlockStateModelGenerator generator, Block block, Identifier modelId) {
         generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
@@ -25,6 +31,18 @@ public class MyModelProvider extends FabricModelProvider {
             .register(Direction.Axis.X, BlockStateVariant.create()
               .put(MODEL, modelId)
               .put(Y, VariantSettings.Rotation.R90))));
+    }
+
+    public static void intProperty(BlockStateModelGenerator generator, Block block, IntProperty property) {
+        int max = property.getValues().size() - 1;
+        var map = BlockStateVariantMap.create(property)
+          .register(0, BlockStateVariant.create()
+            .put(MODEL, ModelIds.getBlockModelId(block)));
+        for (int i = 1; i <= max; i++) {
+            map.register(i, BlockStateVariant.create()
+              .put(MODEL, ModelIds.getBlockSubModelId(block, "_" + i)));
+        }
+        generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(map));
     }
 
     public MyModelProvider(FabricDataGenerator dataGenerator) {
@@ -46,19 +64,11 @@ public class MyModelProvider extends FabricModelProvider {
         generator.registerSimpleState(MyBlocks.JELLY_BEANS);
         horizontalAxis(generator, MyBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
         horizontalAxis(generator, MyBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(MyBlocks.PRESSURE_COOKER));
+        intProperty(generator, MyBlocks.JELLY_BEANS_CAKE, Properties.AGE_3);
+        intProperty(generator, MyBlocks.SWEET_BERRIES_CAKE, Properties.AGE_3);
+        intProperty(generator, MyBlocks.BASQUE_CAKE, Properties.AGE_3);
         generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(MyBlocks.MINCER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_MIXER.get(), "/block")));
         generator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(MyBlocks.SKEWER, ModelIds.getBlockModelId(MyBlocks.SKEWER)));
-        {
-            var map = BlockStateVariantMap.create(Properties.AGE_3)
-              .register(0, BlockStateVariant.create()
-                .put(MODEL, ModelIds.getBlockModelId(MyBlocks.JELLY_BEANS_CAKE)));
-            for (int i = 1; i <= 3; i++) {
-                map.register(i, BlockStateVariant.create()
-                  .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.JELLY_BEANS_CAKE, "_" + i)));
-            }
-            generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(MyBlocks.JELLY_BEANS_CAKE)
-              .coordinate(map));
-        }
         generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
           .with(BlockStateVariant.create()
             .put(MODEL, ModelIds.getBlockModelId(MyBlocks.SMART_DRAIN)))
@@ -87,7 +97,7 @@ public class MyModelProvider extends FabricModelProvider {
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.JELLY_BEANS);
         generator.excludeFromSimpleItemModelGeneration(MyBlocks.JELLY_BEANS_CAKE);
 
-        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA, MyItems.SALT, MyItems.KELP_ASH, MyItems.JELLY_BEANS, MyItems.JELLY_BEANS_CAKE, MyItems.YEAST, MyItems.CAKE, MyItems.CAKE_SLICE}) {
+        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA, MyItems.SALT, MyItems.KELP_ASH, MyItems.JELLY_BEANS, MyItems.JELLY_BEANS_CAKE, MyItems.YEAST, MyItems.CAKE_BASE, MyItems.CAKE_BASE_SLICE}) {
             generator.registerItemModel(item);
         }
     }

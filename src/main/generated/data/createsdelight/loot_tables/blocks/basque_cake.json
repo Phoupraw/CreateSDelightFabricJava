@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "createsdelight:basque_cake",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "age": "0"
+              }
+            }
+          ],
+          "name": "createsdelight:basque_cake"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "textures": {
+    "0": "createsdelight:block/basque_cake_bottom",
+    "1": "createsdelight:block/basque_cake_side",
+    "2": "createsdelight:block/basque_cake_top",
+    "3": "createsdelight:block/basque_cake_inner",
+    "particle": "createsdelight:block/basque_cake_side"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 8],
+      "to": [16, 6, 16],
+      "faces": {
+        "north": {"uv": [0, 10, 16, 16], "texture": "#3"},
+        "east": {"uv": [0, 10, 8, 16], "texture": "#1"},
+        "south": {"uv": [0, 10, 16, 16], "texture": "#1"},
+        "west": {"uv": [8, 10, 16, 16], "texture": "#1"},
+        "up": {"uv": [0, 8, 16, 16], "texture": "#2"},
+        "down": {"uv": [0, 0, 16, 8], "texture": "#0", "cullface": "down"}
+      }
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 {
   "type": "create:sequenced_assembly",
   "ingredient": {
-    "item": "createsdelight:jelly_beans"
+    "item": "createsdelight:cake_base"
   },
   "loops": 3,
   "results": [
     {
-      "item": "createsdelight:jelly_beans_cake"
+      "item": "createsdelight:raw_basque_cake"
     }
   ],
   "sequence": [
@@ -14,15 +14,15 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         },
         {
-          "item": "createsdelight:cake_base_slice"
+          "item": "minecraft:sweet_berries"
         }
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         }
       ]
     },
@@ -30,15 +30,15 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         },
         {
-          "item": "create:bar_of_chocolate"
+          "item": "minecraft:sugar"
         }
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         }
       ]
     },
@@ -46,38 +46,40 @@
       "type": "create:filling",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         },
         {
           "amount": 27000,
-          "fluid": "milk:still_milk",
+          "fluid": "create:chocolate",
           "nbt": {}
         }
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         }
       ]
     },
     {
-      "type": "create:deploying",
+      "type": "create:filling",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         },
         {
-          "item": "createsdelight:jelly_beans"
+          "amount": 27000,
+          "fluid": "create:tea",
+          "nbt": {}
         }
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:cake_base"
         }
       ]
     }
   ],
   "transitionalItem": {
-    "item": "createsdelight:jelly_beans"
+    "item": "createsdelight:cake_base"
   }
 }

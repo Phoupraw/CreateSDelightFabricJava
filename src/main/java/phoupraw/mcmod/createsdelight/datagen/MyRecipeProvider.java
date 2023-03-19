@@ -26,6 +26,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.recipe.*;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
@@ -34,6 +35,7 @@ import phoupraw.mcmod.createsdelight.registry.MyItemTags;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 
 import java.util.function.Consumer;
+@ApiStatus.Internal
 public class MyRecipeProvider extends FabricRecipeProvider {
     public MyRecipeProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
@@ -47,6 +49,7 @@ public class MyRecipeProvider extends FabricRecipeProvider {
         offerStonecuttingRecipe(exporter, MyItems.BASIN, AllBlocks.BASIN.get(), 1);
         offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 20, Items.WATER_BUCKET, MyItems.SALT, 0.4f);
         offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 10, Items.DRIED_KELP, MyItems.KELP_ASH, 0.2f);
+        offerCookingRecipe(exporter, "smoking", RecipeSerializer.SMOKING, 20 * 10, MyItems.RAW_BASQUE_CAKE, MyItems.BASQUE_CAKE, 2f);
         ShapedRecipeJsonBuilder.create(MyItems.SPRINKLER)
           .pattern("A")
           .pattern("B")
@@ -100,6 +103,15 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .pattern("B")
           .input('A', MyItems.SKEWER)
           .input('B', AllBlocks.TURNTABLE.get())
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
+          .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.SWEET_BERRIES_CAKE)
+          .pattern("A")
+          .pattern("B")
+          .pattern("C")
+          .input('A', ItemsRegistry.MILK_BOTTLE.get())
+          .input('B', MyItems.CAKE_BASE_SLICE)
+          .input('C', Items.SWEET_BERRIES)
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
@@ -427,26 +439,45 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyFluids.PASTE, FluidConstants.BUCKET)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.CAKE)
+        new ProcessingRecipeBuilder<>(PressureCookingRecipe::new, MyIdentifiers.CAKE_BASE)
           .require(MyFluids.PASTE, FluidConstants.BUCKET / 2)
           .requiresHeat(HeatCondition.HEATED)
           .duration(20 * 10)
-          .output(MyItems.CAKE)
+          .output(MyItems.CAKE_BASE)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(CuttingRecipe::new, MyIdentifiers.CAKE_SLICE)
-          .require(MyItems.CAKE)
+        new ProcessingRecipeBuilder<>(CuttingRecipe::new, MyIdentifiers.CAKE_BASE_SLICE)
+          .require(MyItems.CAKE_BASE)
           .duration(20)
-          .output(MyItems.CAKE_SLICE, 3)
+          .output(MyItems.CAKE_BASE_SLICE, 3)
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
-          .require(MyItems.CAKE_SLICE)
-          .transitionTo(MyItems.CAKE_SLICE)
+          .require(MyItems.JELLY_BEANS)
+          .transitionTo(MyItems.JELLY_BEANS)
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.CAKE_BASE_SLICE))
           .addStep(DeployerApplicationRecipe::new, r -> r.require(AllItems.BAR_OF_CHOCOLATE.get()))
-          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.JELLY_BEANS))
           .addStep(FillingRecipe::new, r -> r.require(Milk.STILL_MILK, FluidConstants.BOTTLE))
-          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.CAKE_SLICE))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.JELLY_BEANS))
           .loops(3)
           .addOutput(MyItems.JELLY_BEANS_CAKE, 1)
           .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.SWEET_BERRIES_CAKE)
+          .require(MyItems.CAKE_BASE_SLICE)
+          .transitionTo(MyItems.CAKE_BASE_SLICE)
+          .addStep(FillingRecipe::new, r -> r.require(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(Items.SWEET_BERRIES))
+          .loops(1)
+          .addOutput(MyItems.SWEET_BERRIES_CAKE, 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.RAW_BASQUE_CAKE)
+          .require(MyItems.CAKE_BASE)
+          .transitionTo(MyItems.CAKE_BASE)
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(Items.SWEET_BERRIES))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(Items.SUGAR))
+          .addStep(FillingRecipe::new, r -> r.require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
+          .addStep(FillingRecipe::new, r -> r.require(AllFluids.TEA.get(), FluidConstants.BOTTLE))
+          .loops(3)
+          .addOutput(MyItems.RAW_BASQUE_CAKE, 1)
+          .build(exporter);
+
     }
 }

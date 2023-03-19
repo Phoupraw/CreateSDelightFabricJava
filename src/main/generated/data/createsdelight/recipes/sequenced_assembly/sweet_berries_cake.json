@@ -1,0 +1,51 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "createsdelight:cake_base_slice"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "createsdelight:sweet_berries_cake"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "createsdelight:cake_base_slice"
+        },
+        {
+          "amount": 27000,
+          "fluid": "milk:still_milk",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:cake_base_slice"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:cake_base_slice"
+        },
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:cake_base_slice"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "createsdelight:cake_base_slice"
+  }
+}

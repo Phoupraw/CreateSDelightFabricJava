@@ -1,0 +1,26 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "2": "block/cake_bottom",
+    "4": "block/cake_top",
+    "5": "block/cake_side",
+    "particle": "block/cake_top"
+  },
+  "elements": [
+    {
+      "name": "底",
+      "from": [1, 0, 1],
+      "to": [15, 4, 15],
+      "faces": {
+        "north": {"uv": [1, 8, 15, 12], "texture": "#5"},
+        "east": {"uv": [1, 8, 15, 12], "texture": "#5"},
+        "south": {"uv": [1, 8, 15, 12], "texture": "#5"},
+        "west": {"uv": [1, 8, 15, 12], "texture": "#5"},
+        "up": {"uv": [15, 15, 1, 1], "texture": "#4"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#2", "cullface": "down"}
+      }
+    }
+  ]
+}

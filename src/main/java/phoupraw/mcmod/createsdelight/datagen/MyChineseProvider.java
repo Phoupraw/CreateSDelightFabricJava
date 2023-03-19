@@ -83,7 +83,10 @@ public class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.JELLY_BEANS_CAKE, "糖豆蛋糕");
         builder.add(MyItems.YEAST, "酵母");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.PASTE), "面糊");
-        builder.add(MyItems.CAKE, "原始蛋糕");
-        builder.add(MyItems.CAKE_SLICE, "原始蛋糕片");
+        builder.add(MyItems.CAKE_BASE, "蛋糕胚");
+        builder.add(MyItems.CAKE_BASE_SLICE, "蛋糕胚片");
+        builder.add(MyBlocks.SWEET_BERRIES_CAKE, "甜浆果蛋糕");
+        builder.add(MyBlocks.BASQUE_CAKE, "巴斯克蛋糕");
+        builder.add(MyItems.RAW_BASQUE_CAKE, "生巴斯克蛋糕");
     }
 }

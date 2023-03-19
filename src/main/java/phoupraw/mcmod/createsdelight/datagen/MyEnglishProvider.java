@@ -83,7 +83,10 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.JELLY_BEANS_CAKE, "Jelly Beans Cake");
         builder.add(MyItems.YEAST, "Yeast");
         builder.add(VirtualFluid.getTranslationKey(MyFluids.PASTE), "Paste");
-        builder.add(MyItems.CAKE, "Original Cake");
-        builder.add(MyItems.CAKE_SLICE, "Original Cake Slice");
+        builder.add(MyItems.CAKE_BASE, "Cake Base");
+        builder.add(MyItems.CAKE_BASE_SLICE, "Cake Base Slice");
+        builder.add(MyBlocks.SWEET_BERRIES_CAKE, "Sweet Berries Cake");
+        builder.add(MyBlocks.BASQUE_CAKE, "Gateau Basque");
+        builder.add(MyItems.RAW_BASQUE_CAKE, "Raw Gateau Basque");
     }
 }

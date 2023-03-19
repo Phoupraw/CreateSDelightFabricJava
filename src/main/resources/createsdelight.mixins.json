@@ -16,7 +16,7 @@
     "MixinSpoutTileEntity",
     "MixinTileEntityBehaviour"
   ],
-  "client": ["MixinMinecraftClient", "MixinSpoutRenderer"],
+  "client": ["MixinAssemblySpouting", "MixinMinecraftClient", "MixinSpoutRenderer"],
   "injectors": {
     "defaultRequire": 1
   }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "farmersdelight:milk_bottle"
+    },
+    "B": {
+      "item": "createsdelight:cake_base_slice"
+    },
+    "C": {
+      "item": "minecraft:sweet_berries"
+    }
+  },
+  "pattern": [
+    "A",
+    "B",
+    "C"
+  ],
+  "result": {
+    "item": "createsdelight:sweet_berries_cake"
+  }
+}

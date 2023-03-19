@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "createsdelight:item/cake"
+    "layer0": "createsdelight:item/cake_base_slice"
   }
 }

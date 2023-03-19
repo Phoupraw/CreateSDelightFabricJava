@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.Create;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
@@ -40,6 +41,8 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.addWorkstations(MincingCategory.ID, EntryStacks.of(MyItems.MINCER), basin);
         registry.add(MincingCategory.INSTANCE);
         registry.add(new LootTableCategory());
+
+        registry.addWorkstations(CategoryIdentifier.of(Create.asResource("sequenced_assembly")), depot, belt, EntryStacks.of(AllBlocks.DEPLOYER.get()), EntryStacks.of(AllBlocks.MECHANICAL_PRESS.get()), EntryStacks.of(AllBlocks.MECHANICAL_SAW.get()), EntryStacks.of(AllBlocks.SPOUT.get()));//给序列组装加上工作站
     }
 
     @Override
