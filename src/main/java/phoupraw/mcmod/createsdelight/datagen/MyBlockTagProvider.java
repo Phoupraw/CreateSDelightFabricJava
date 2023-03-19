@@ -6,7 +6,8 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.tag.BlockTags;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-public class MyBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+
+public final class MyBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     public MyBlockTagProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }

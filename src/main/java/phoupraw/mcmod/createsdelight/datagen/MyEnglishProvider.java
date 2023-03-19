@@ -1,5 +1,7 @@
 package phoupraw.mcmod.createsdelight.datagen;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.common.fluid.VirtualFluid;
@@ -8,7 +10,8 @@ import phoupraw.mcmod.createsdelight.registry.*;
 
 import static phoupraw.mcmod.common.Internationals.keyOfCategory;
 import static phoupraw.mcmod.common.Internationals.keyOfItemGroup;
-public class MyEnglishProvider extends FabricLanguageProvider {
+@Environment(EnvType.CLIENT)
+public final class MyEnglishProvider extends FabricLanguageProvider {
     public MyEnglishProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }
@@ -88,5 +91,7 @@ public class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SWEET_BERRIES_CAKE, "Sweet Berries Cake");
         builder.add(MyBlocks.BASQUE_CAKE, "Gateau Basque");
         builder.add(MyItems.RAW_BASQUE_CAKE, "Raw Gateau Basque");
+        builder.add(MyBlocks.SWEET_BERRIES_CAKE_S, "Multi-layers Sweet Berries Cake");
+        builder.add(MyBlocks.BROWNIE, "Brownie");
     }
 }

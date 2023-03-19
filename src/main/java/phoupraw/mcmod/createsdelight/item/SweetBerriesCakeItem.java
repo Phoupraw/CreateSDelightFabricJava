@@ -14,12 +14,14 @@ import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyStatusEffects;
 public class SweetBerriesCakeItem extends StatusEffectsBlockItem {
     public SweetBerriesCakeItem() {
-        this(MyBlocks.SWEET_BERRIES_CAKE, MyItems.newSettings().food(new FoodComponent.Builder()
-          .hunger(9)
-          .saturationModifier(0.5f)
-          .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
-          .build()
-        ));
+        this(MyBlocks.SWEET_BERRIES_CAKE, MyItems.newSettings()
+          .maxCount(16)
+          .food(new FoodComponent.Builder()
+            .hunger(9)
+            .saturationModifier(0.5f)
+            .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+            .build()
+          ));
     }
 
     public SweetBerriesCakeItem(Block block, Settings settings) {

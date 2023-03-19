@@ -1,0 +1,83 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:sweet_berries"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": "createsdelight:sweet_berries_cakes"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "minecraft:sweet_berries"
+        },
+        {
+          "item": "createsdelight:sweet_berries_cake"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "minecraft:sweet_berries"
+        },
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "minecraft:sweet_berries"
+        },
+        {
+          "amount": 40500,
+          "fluid": "milk:still_milk",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "minecraft:sweet_berries"
+        },
+        {
+          "item": "minecraft:red_dye"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "minecraft:sweet_berries"
+  }
+}

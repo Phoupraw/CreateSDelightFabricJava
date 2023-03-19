@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "createsdelight:sweet_berries_cakes",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "age": "0"
+                  }
+                }
+              ],
+              "name": "createsdelight:sweet_berries_cakes"
+            },
+            {
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "add": false,
+                  "count": 3.0,
+                  "function": "minecraft:set_count"
+                }
+              ],
+              "name": "createsdelight:sweet_berries_cake"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
