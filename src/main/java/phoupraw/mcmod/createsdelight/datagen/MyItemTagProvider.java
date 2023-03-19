@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import phoupraw.mcmod.createsdelight.registry.MyItemTags;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
-public class MyItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public final class MyItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public MyItemTagProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }

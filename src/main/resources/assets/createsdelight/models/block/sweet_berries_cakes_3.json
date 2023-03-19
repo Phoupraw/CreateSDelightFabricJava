@@ -1,0 +1,25 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "2": "createsdelight:block/cake_base_bottom",
+    "5": "createsdelight:block/milk",
+    "particle": "createsdelight:block/milk"
+  },
+  "elements": [
+    {
+      "name": "基",
+      "from": [0, 0, 0],
+      "to": [16, 12, 16],
+      "faces": {
+        "north": {"uv": [0, 4, 16, 16], "texture": "#5"},
+        "east": {"uv": [0, 4, 16, 16], "texture": "#5"},
+        "south": {"uv": [0, 4, 16, 16], "texture": "#5"},
+        "west": {"uv": [0, 4, 16, 16], "texture": "#5"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#5"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "down"}
+      }
+    }
+  ]
+}

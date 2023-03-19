@@ -7,6 +7,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
 import com.simibubi.create.content.contraptions.components.mixer.MixingRecipe;
+import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipeBuilder;
@@ -20,13 +21,13 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.recipe.*;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
@@ -35,8 +36,8 @@ import phoupraw.mcmod.createsdelight.registry.MyItemTags;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 
 import java.util.function.Consumer;
-@ApiStatus.Internal
-public class MyRecipeProvider extends FabricRecipeProvider {
+import java.util.function.UnaryOperator;
+public final class MyRecipeProvider extends FabricRecipeProvider {
     public MyRecipeProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }
@@ -109,9 +110,9 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .pattern("A")
           .pattern("B")
           .pattern("C")
-          .input('A', ItemsRegistry.MILK_BOTTLE.get())
-          .input('B', MyItems.CAKE_BASE_SLICE)
-          .input('C', Items.SWEET_BERRIES)
+          .input('A', Items.SWEET_BERRIES)
+          .input('B', ItemsRegistry.MILK_BOTTLE.get())
+          .input('C', MyItems.CAKE_BASE_SLICE)
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
@@ -478,6 +479,27 @@ public class MyRecipeProvider extends FabricRecipeProvider {
           .loops(3)
           .addOutput(MyItems.RAW_BASQUE_CAKE, 1)
           .build(exporter);
-
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.SWEET_BERRIES_CAKE_S)
+          .require(Items.SWEET_BERRIES)
+          .transitionTo(Items.SWEET_BERRIES)
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.SWEET_BERRIES_CAKE))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(Items.SWEET_BERRIES))
+          .addStep(FillingRecipe::new, r -> r.require(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(Items.RED_DYE))
+          .loops(3)
+          .addOutput(MyItems.SWEET_BERRIES_CAKE_S, 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.BROWNIE)
+          .require(AllItems.BAR_OF_CHOCOLATE.get())
+          .transitionTo(AllItems.BAR_OF_CHOCOLATE.get())
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(MyItems.CAKE_BASE_SLICE))
+          .addStep(FillingRecipe::new, r -> r.require(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(FillingRecipe::new, r -> r.require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
+          .addStep(PressingRecipe::new, UnaryOperator.identity())
+          .addStep(DeployerApplicationRecipe::new, r -> r.require(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(CuttingRecipe::new, UnaryOperator.identity())
+          .loops(3)
+          .addOutput(new ItemStack(MyItems.BROWNIE, 4), 1)
+          .build(exporter);
     }
 }
