@@ -1,36 +1,23 @@
 package phoupraw.mcmod.createsdelight.rei;
 
-import com.simibubi.create.compat.rei.category.CreateRecipeCategory;
 import com.simibubi.create.compat.rei.category.animations.AnimatedBlazeBurner;
 import com.simibubi.create.content.contraptions.processing.HeatCondition;
-import dev.architectury.fluid.FluidStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
-import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.text.Text;
+import phoupraw.mcmod.common.api.REICreates;
 import phoupraw.mcmod.common.api.REILayouts;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCategory<T> {
     public static final AnimatedBlazeBurner HEATED = new AnimatedBlazeBurner().withHeat(HeatCondition.HEATED.visualizeAsBlazeBurner());
     public static final AnimatedBlazeBurner SUPERHEATED = new AnimatedBlazeBurner().withHeat(HeatCondition.SUPERHEATED.visualizeAsBlazeBurner());
-
-    public static Slot slotOf(Point pos, Collection<EntryStack<?>> entries) {
-        var slot = Widgets.createSlot(pos).entries(entries);
-        if (entries.iterator().next().getValue() instanceof FluidStack) {
-            CreateRecipeCategory.setFluidRenderRatio(slot);
-            CreateRecipeCategory.setFluidTooltip(slot);
-        }
-        return slot;
-    }
 
     @Override
     public Text getTitle() {
@@ -57,7 +44,7 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
         var slot0 = REILayouts.slotAlignBackground(bounds);
         List<EntryIngredient> inputs = display.getInputEntries();
         for (int i = 0; i < inputs.size(); i++) {
-            widgets.add(slotOf(REILayouts.slotAlignSlot(slot0, i / 3, (i + 1) % 3), inputs.get(i)).markInput());
+            widgets.add(REICreates.slotOf(REILayouts.slotAlignSlot(slot0, i / 3, (i + 1) % 3), inputs.get(i)).markInput());
         }
         var arrow = REILayouts.arrowAlignSlot(REILayouts.slotAlignSlot(slot0, (inputs.size() - 1) / 3, 1));
         int duration = display.recipe.getProcessingDuration();
@@ -77,7 +64,7 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
         var slot1 = REILayouts.slotAlignSlot(REILayouts.slotAlignArrow(arrow), 0, -1);
         List<EntryIngredient> outputs = display.getOutputEntries();
         for (int i = 0; i < outputs.size(); i++) {
-            widgets.add(slotOf(REILayouts.slotAlignSlot(slot1, i / 3, (i + 1) % 3), outputs.get(i)).markOutput());
+            widgets.add(REICreates.slotOf(REILayouts.slotAlignSlot(slot1, i / 3, (i + 1) % 3), outputs.get(i)).markOutput());
         }
 //        CreateRecipeCategory.addFluidTooltip(widgets, display.recipe.getFluidIngredients(), display.recipe.getFluidResults());
         return widgets;

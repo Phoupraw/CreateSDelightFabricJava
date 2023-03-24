@@ -59,6 +59,19 @@
           "item": "minecraft:apple"
         }
       ]
+    },
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "minecraft:apple"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:apple"
+        }
+      ]
     }
   ],
   "transitionalItem": {

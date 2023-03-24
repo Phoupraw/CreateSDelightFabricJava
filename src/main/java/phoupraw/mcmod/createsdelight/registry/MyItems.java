@@ -240,6 +240,15 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
       ));
+    public static final StatusEffectsItem SUNFLOWER_KERNELS = new StatusEffectsItem(newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(2)
+        .saturationModifier(0.3f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 1), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
+        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
+        .build()
+      ));
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -294,6 +303,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.WHEAT_BLACK_TEA, WHEAT_BLACK_TEA);
         Registries.register(MyIdentifiers.ICED_MELON_JUICE, ICED_MELON_JUICE);
         Registries.register(MyIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
+        Registries.register(MyIdentifiers.SUNFLOWER_KERNELS, SUNFLOWER_KERNELS);
     }
     public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
