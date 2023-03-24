@@ -1,0 +1,15 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "createsdelight:sunflower_kernels"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 13500,
+      "fluid": "createsdelight:sunflower_oil"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:sunflower"
+  },
+  "loops": 6,
+  "results": [
+    {
+      "count": 8,
+      "item": "createsdelight:sunflower_kernels"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "minecraft:sunflower"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:sunflower"
+        },
+        {
+          "chance": 0.3,
+          "item": "minecraft:stick"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "minecraft:sunflower"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:sunflower"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "minecraft:sunflower"
+  }
+}

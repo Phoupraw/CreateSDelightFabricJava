@@ -92,5 +92,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SWEET_BERRIES_CAKE_S, "Multi-layers Sweet Berries Cake");
         builder.add(MyBlocks.BROWNIE, "Brownie");
         builder.add(MyBlocks.APPLE_CREAM_CAKE, "Apple Craem Cake");
+        builder.add(MyItems.SUNFLOWER_KERNELS, "Sunflower Kernels");
     }
 }

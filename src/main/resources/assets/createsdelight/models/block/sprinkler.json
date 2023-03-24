@@ -1,17 +1,18 @@
 {
-	"credit": "Made with Blockbench",
-	"parent": "block/block",
-	"ambientocclusion": false,
-	"textures": {
-		"0": "create:block/andesite_casing",
-		"1": "create:block/gearbox",
-		"2": "createsdelight:block/sprinkler_side",
-		"3": "createsdelight:block/sprinkler_top",
-		"particle": "create:block/andesite_casing"
-	},
-	"elements": [
-		{
-			"name": "out",
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "create:block/andesite_casing",
+    "1": "create:block/gearbox",
+    "2": "createsdelight:block/sprinkler_side",
+    "3": "createsdelight:block/sprinkler_top",
+    "particle": "create:block/andesite_casing"
+  },
+  "elements": [
+    {
+      "name": "out",
 			"from": [0, 2, 0],
 			"to": [16, 16, 16],
 			"faces": {
@@ -32,8 +33,7 @@
 				"east": {"uv": [2, 0, 14, 1], "texture": "#0"},
 				"south": {"uv": [2, 0, 14, 1], "texture": "#0"},
 				"west": {"uv": [2, 0, 14, 1], "texture": "#0"},
-				"up": {"uv": [2, 2, 14, 14], "texture": "#1"},
-				"down": {"uv": [0, 0, 0, 0], "texture": "#missing"}
+        "up": {"uv": [2, 2, 14, 14], "texture": "#1"}
 			}
 		}
 	]

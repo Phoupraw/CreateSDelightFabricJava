@@ -92,5 +92,6 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.SWEET_BERRIES_CAKE_S, "多层甜浆果蛋糕");
         builder.add(MyBlocks.BROWNIE, "布朗尼");
         builder.add(MyBlocks.APPLE_CREAM_CAKE, "苹果奶油蛋糕");
+        builder.add(MyItems.SUNFLOWER_KERNELS, "葵花籽仁");
     }
 }

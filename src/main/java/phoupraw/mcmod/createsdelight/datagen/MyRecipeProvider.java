@@ -4,12 +4,6 @@ import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.content.contraptions.components.deployer.DeployerApplicationRecipe;
-import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
-import com.simibubi.create.content.contraptions.components.mixer.MixingRecipe;
-import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
-import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
-import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipeBuilder;
 import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
@@ -30,7 +24,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.LambdasC;
-import phoupraw.mcmod.createsdelight.recipe.*;
+import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.SteamingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.VerticalCuttingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.MyItemTags;
@@ -132,44 +128,35 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THICK_PORK_SLICE, "", Ingredient.ofItems(Items.PORKCHOP), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THICK_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 //        exporter.accept(new CuttingBoardRecipeJsonProvider(new CuttingBoardRecipe(MyIdentifiers.THIN_PORK_SLICE, "", Ingredient.ofItems(MyItems.THICK_PORK_SLICE), Ingredient.fromTag(TagsRegistry.STRAW_HARVESTERS), DefaultedList.copyOf(ChanceResult.EMPTY, new ChanceResult(new ItemStack(MyItems.THIN_PORK_SLICE, 2), 1)), SoundsRegistry.BLOCK_CUTTING_BOARD_KNIFE.name())));
 
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<FillingRecipe> newingFilling = FillingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<DeployerApplicationRecipe> newingDeploying = DeployerApplicationRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<CuttingRecipe> newingCutting = CuttingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<PanFryingRecipe> newingPanFrying = PanFryingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<CompactingRecipe> newingCompacting = CompactingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<SprinklingRecipe> newingSprinkling = SprinklingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<PressureCookingRecipe> newingPressureCooking = PressureCookingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<MincingRecipe> newingMincingRecipe = MincingRecipe::new;
-        ProcessingRecipeBuilder.ProcessingRecipeFactory<MixingRecipe> newingMixing = MixingRecipe::new;
-        new ProcessingRecipeBuilder<>(newingFilling, new Identifier(CreateSDelight.MOD_ID, "chocolate_pie"))
+        new ProcessingRecipeBuilder<>(LambdasC.newingfilling(), new Identifier(CreateSDelight.MOD_ID, "chocolate_pie"))
           .require(ItemsRegistry.PIE_CRUST.get())
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET / 2)
           .output(ItemsRegistry.CHOCOLATE_PIE.get())
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingCutting, MyIdentifiers.PAN)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCutting(), MyIdentifiers.PAN)
           .require(ItemsRegistry.SKILLET.get())
           .output(MyItems.PAN)
           .output(Items.BRICK)
           .duration(40)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPanFrying, MyIdentifiers.PAN_FRIED_BEEF_PATTY)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPanFrying(), MyIdentifiers.PAN_FRIED_BEEF_PATTY)
           .require(ItemsRegistry.MINCED_BEEF.get())
           .require(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 10)
           .output(MyItems.PAN_FRIED_BEEF_PATTY)
           .duration(100)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingCompacting, MyIdentifiers.SUNFLOWER_OIL)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), MyIdentifiers.SUNFLOWER_OIL)
           .require(Items.SUNFLOWER)
           .output(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingCutting, MyIdentifiers.GRILL)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCutting(), MyIdentifiers.GRILL)
           .require(ItemsRegistry.STOVE.get())
           .output(MyItems.GRILL)
           .output(Items.BRICKS, 4)
           .output(Items.CAMPFIRE)
           .duration(40)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPanFrying, MyIdentifiers.PAN_FRIED_PORK_SLICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPanFrying(), MyIdentifiers.PAN_FRIED_PORK_SLICE)
           .require(MyItems.THICK_PORK_SLICE)
           .output(MyItems.PAN_FRIED_PORK_SLICE)
           .duration(140)
@@ -179,23 +166,23 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.GRILLED_PORK_SLICE)
           .duration(60)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingSprinkling, MyIdentifiers.SUGAR_PORK)
+        new ProcessingRecipeBuilder<>(LambdasC.newingSprinkling(), MyIdentifiers.SUGAR_PORK)
           .require(MyItemTags.COOKED_PORK)
           .require(Items.SUGAR)
           .output(MyItems.SUGAR_PORK)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingSprinkling, MyIdentifiers.LEAVES_RICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingSprinkling(), MyIdentifiers.LEAVES_RICE)
           .require(ItemsRegistry.COOKED_RICE.get())
           .require(ItemTags.LEAVES)
           .output(MyItems.LEAVES_RICE)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPanFrying, MyIdentifiers.VANILLA)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPanFrying(), MyIdentifiers.VANILLA)
           .require(Items.GRASS)
           .require(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 10)
           .output(MyItems.VANILLA)
           .duration(60)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingSprinkling, MyIdentifiers.VANILLA_SWEET_ROLL)
+        new ProcessingRecipeBuilder<>(LambdasC.newingSprinkling(), MyIdentifiers.VANILLA_SWEET_ROLL)
           .require(AllItems.SWEET_ROLL.get())
           .require(MyItems.VANILLA)
           .output(MyItems.VANILLA_SWEET_ROLL)
@@ -291,14 +278,14 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.BEEF)
           .output(ItemsRegistry.MINCED_BEEF.get(), 2)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.COOKED_RICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.COOKED_RICE)
           .require(ItemsRegistry.RICE.get())
           .require(Fluids.WATER, FluidConstants.BUCKET / 9)
           .output(MyItems.COOKED_RICE)
           .averageProcessingDuration()
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.VEGETABLE_BIG_STEW)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.VEGETABLE_BIG_STEW)
           .require(Items.CARROT)
           .require(Items.POTATO)
           .require(Items.BEETROOT)
@@ -312,12 +299,12 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .duration(20 * 15)
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
           .require(Items.BEEF)
           .output(ItemsRegistry.MINCED_BEEF.get(), 2)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.ROSE_MILK_TEA)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.ROSE_MILK_TEA)
           .require(Items.ROSE_BUSH)
           .require(Items.SUGAR)
           .require(ItemTags.LEAVES)
@@ -326,7 +313,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.CORAL_COLORFULS)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.CORAL_COLORFULS)
           .require(Items.TUBE_CORAL_FAN)
           .require(Items.FIRE_CORAL_FAN)
           .require(Items.HORN_CORAL_FAN)
@@ -337,12 +324,12 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, MyIdentifiers.TOMATO_SAUCE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), MyIdentifiers.TOMATO_SAUCE)
           .require(ItemsRegistry.TOMATO.get())
           .output(MyFluids.TOMATO_SAUCE, FluidConstants.BUCKET / 8)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, MyIdentifiers.POPPY_RUSSIAN_SOUP)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), MyIdentifiers.POPPY_RUSSIAN_SOUP)
           .require(Items.POPPY)
           .require(Items.POPPY)
           .require(Items.POPPY)
@@ -357,7 +344,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .duration(20 * 15)
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMixing, MyIdentifiers.EGG_DOUGH)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.EGG_DOUGH)
           .require(AllItems.DOUGH.get())
           .require(Items.SUGAR)
           .require(MyFluids.EGG_LIQUID, FluidConstants.BOTTLE)
@@ -365,7 +352,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.EGG_DOUGH)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, MyIdentifiers.CRUSHED_ICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), MyIdentifiers.CRUSHED_ICE)
           .require(Items.ICE)
           .require(Items.PACKED_ICE)
           .require(Items.BLUE_ICE)
@@ -374,7 +361,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.CRUSHED_ICE, 3)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.WHEAT_BLACK_TEA)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.WHEAT_BLACK_TEA)
           .require(Items.WHEAT_SEEDS)
           .require(Items.WHEAT_SEEDS)
           .require(Items.WHEAT_SEEDS)
@@ -387,7 +374,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.WHEAT_BLACK_TEA)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, MyIdentifiers.MELON_JUICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), MyIdentifiers.MELON_JUICE)
           .require(Items.MELON_SLICE)
           .require(Items.MELON_SLICE)
           .require(Items.MELON_SLICE)
@@ -396,7 +383,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyFluids.MELON_JUICE, FluidConstants.BOTTLE)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, MyIdentifiers.ICED_MELON_JUICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), MyIdentifiers.ICED_MELON_JUICE)
           .require(MyFluids.MELON_JUICE, FluidConstants.BOTTLE)
           .require(ItemsRegistry.MELON_POPSICLE.get())
           .require(MyItems.CRUSHED_ICE)
@@ -404,7 +391,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyFluids.ICED_MELON_JUICE, FluidConstants.BUCKET / 2)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMincingRecipe, MyIdentifiers.THICK_HOT_COCOA)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), MyIdentifiers.THICK_HOT_COCOA)
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE)
           .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
           .require(MyItems.VANILLA)
@@ -414,13 +401,13 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyFluids.THICK_HOT_COCOA, FluidConstants.BOTTLE * 2)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.SALT)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.SALT)
           .require(Fluids.WATER, FluidConstants.BUCKET)
           .requiresHeat(HeatCondition.HEATED)
           .duration(20 * 15)
           .output(MyItems.SALT)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingCompacting, MyIdentifiers.JELLY_BEANS)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), MyIdentifiers.JELLY_BEANS)
           .require(Items.SUGAR)
           .require(Items.LIGHT_BLUE_DYE)
           .require(Items.PINK_DYE)
@@ -428,14 +415,14 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyItems.JELLY_BEANS)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.YEAST)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.YEAST)
           .require(Items.SUGAR)
           .require(AllItems.DOUGH.get())
           .require(MyItems.KELP_ASH)
           .duration(20 * 60)
           .output(MyItems.YEAST, 5)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingMixing, MyIdentifiers.PASTE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.PASTE)
           .require(MyItems.KELP_ASH)
           .require(AllItems.WHEAT_FLOUR.get())
           .require(AllItems.WHEAT_FLOUR.get())
@@ -450,76 +437,90 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyFluids.PASTE, FluidConstants.BUCKET)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingPressureCooking, MyIdentifiers.CAKE_BASE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.CAKE_BASE)
           .require(MyFluids.PASTE, FluidConstants.BUCKET / 2)
           .requiresHeat(HeatCondition.HEATED)
           .duration(20 * 10)
           .output(MyItems.CAKE_BASE)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(newingCutting, MyIdentifiers.CAKE_BASE_SLICE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCutting(), MyIdentifiers.CAKE_BASE_SLICE)
           .require(MyItems.CAKE_BASE)
           .duration(20)
           .output(MyItems.CAKE_BASE_SLICE, 3)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingMilling(), MyIdentifiers.SUNFLOWER_OIL)
+          .require(MyItems.SUNFLOWER_KERNELS)
+          .duration(20)
+          .output(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 8)
+          .build(exporter);
+
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
           .require(MyItems.JELLY_BEANS)
           .transitionTo(MyItems.JELLY_BEANS)
-          .addStep(newingDeploying, LambdasC.addingStep(MyItems.CAKE_BASE_SLICE))
-          .addStep(newingDeploying, LambdasC.addingStep(AllItems.BAR_OF_CHOCOLATE.get()))
-          .addStep(newingFilling, LambdasC.addingStep(Milk.STILL_MILK, FluidConstants.BOTTLE))
-          .addStep(newingDeploying, LambdasC.addingStep(MyItems.JELLY_BEANS))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.JELLY_BEANS))
           .loops(3)
           .addOutput(MyItems.JELLY_BEANS_CAKE, 1)
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.SWEET_BERRIES_CAKE)
           .require(MyItems.CAKE_BASE_SLICE)
           .transitionTo(MyItems.CAKE_BASE_SLICE)
-          .addStep(newingFilling, LambdasC.addingStep(Milk.STILL_MILK, FluidConstants.BOTTLE))
-          .addStep(newingDeploying, LambdasC.addingStep(Items.SWEET_BERRIES))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
           .loops(1)
           .addOutput(MyItems.SWEET_BERRIES_CAKE, 1)
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.RAW_BASQUE_CAKE)
           .require(MyItems.CAKE_BASE)
           .transitionTo(MyItems.CAKE_BASE)
-          .addStep(newingDeploying, LambdasC.addingStep(Items.SWEET_BERRIES))
-          .addStep(newingDeploying, LambdasC.addingStep(Items.SUGAR))
-          .addStep(newingFilling, LambdasC.addingStep(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
-          .addStep(newingFilling, LambdasC.addingStep(AllFluids.TEA.get(), FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SUGAR))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.TEA.get(), FluidConstants.BOTTLE))
           .loops(3)
           .addOutput(MyItems.RAW_BASQUE_CAKE, 1)
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.SWEET_BERRIES_CAKE_S)
           .require(Items.SWEET_BERRIES)
           .transitionTo(Items.SWEET_BERRIES)
-          .addStep(newingDeploying, LambdasC.addingStep(MyItems.SWEET_BERRIES_CAKE))
-          .addStep(newingDeploying, LambdasC.addingStep(Items.SWEET_BERRIES))
-          .addStep(newingFilling, LambdasC.addingStep(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
-          .addStep(newingDeploying, LambdasC.addingStep(Items.RED_DYE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.SWEET_BERRIES_CAKE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.RED_DYE))
           .loops(3)
           .addOutput(MyItems.SWEET_BERRIES_CAKE_S, 1)
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.BROWNIE)
           .require(AllItems.BAR_OF_CHOCOLATE.get())
           .transitionTo(AllItems.BAR_OF_CHOCOLATE.get())
-          .addStep(newingDeploying, LambdasC.addingStep(MyItems.CAKE_BASE_SLICE))
-          .addStep(newingFilling, LambdasC.addingStep(Milk.STILL_MILK, FluidConstants.BOTTLE))
-          .addStep(newingFilling, LambdasC.addingStep(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
-          .addStep(PressingRecipe::new, UnaryOperator.identity())
-          .addStep(newingDeploying, LambdasC.addingStep(AllItems.BAR_OF_CHOCOLATE.get()))
-          .addStep(newingCutting, UnaryOperator.identity())
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingPressing(), UnaryOperator.identity())
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(LambdasC.newingCutting(), UnaryOperator.identity())
           .loops(3)
           .addOutput(new ItemStack(MyItems.BROWNIE, 4), 1)
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.APPLE_CREAM_CAKE)
           .require(Items.APPLE)
           .transitionTo(Items.APPLE)
-          .addStep(newingDeploying, LambdasC.addingStep(MyItems.CAKE_BASE_SLICE))
-          .addStep(newingFilling, LambdasC.addingStep(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
-          .addStep(newingDeploying, LambdasC.addingStep(Items.APPLE))
-          .addStep(newingCutting, UnaryOperator.identity())
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.APPLE))
+          .addStep(LambdasC.newingCutting(), UnaryOperator.identity())
           .loops(3)
           .addOutput(new ItemStack(MyItems.APPLE_CREAM_CAKE, 1), 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.SUNFLOWER_KERNELS)
+          .require(Items.SUNFLOWER)
+          .transitionTo(Items.SUNFLOWER)
+          .addStep(LambdasC.newingCutting(), LambdasC.outputing(0.3f, Items.STICK))
+          .addStep(LambdasC.newingPressing(), UnaryOperator.identity())
+          .loops(6)
+          .addOutput(new ItemStack(MyItems.SUNFLOWER_KERNELS, 8), 1)
           .build(exporter);
     }
 }

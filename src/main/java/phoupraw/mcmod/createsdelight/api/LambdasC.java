@@ -1,7 +1,13 @@
 package phoupraw.mcmod.createsdelight.api;
 
 import com.nhoryzon.mc.farmersdelight.recipe.CuttingBoardRecipe;
+import com.simibubi.create.content.contraptions.components.deployer.DeployerApplicationRecipe;
+import com.simibubi.create.content.contraptions.components.millstone.MillingRecipe;
+import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
+import com.simibubi.create.content.contraptions.components.mixer.MixingRecipe;
+import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
 import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
+import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
@@ -16,6 +22,10 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.tag.TagKey;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.createsdelight.recipe.MincingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.PressureCookingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
 
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -40,28 +50,98 @@ public final class LambdasC {
     }
 
     @Contract(pure = true)
-    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> addingStep(Ingredient ingredient) {
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> requiring(Ingredient ingredient) {
         return r -> r.require(ingredient);
     }
 
     @Contract(pure = true)
-    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> addingStep(ItemConvertible item) {
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> requiring(ItemConvertible item) {
         return r -> r.require(item);
     }
 
     @Contract(pure = true)
-    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> addingStep(TagKey<Item> tag) {
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> requiring(TagKey<Item> tag) {
         return r -> r.require(tag);
     }
 
     @Contract(pure = true)
-    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> addingStep(FluidIngredient fluidIngredient) {
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> requiring(FluidIngredient fluidIngredient) {
         return r -> r.require(fluidIngredient);
     }
 
     @Contract(pure = true)
-    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> addingStep(Fluid fluid, long amount) {
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> requiring(Fluid fluid, long amount) {
         return r -> r.require(fluid, amount);
+    }
+
+    @Contract(pure = true)
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> outputing(float chance, ItemConvertible item) {
+        return r -> r.output(chance, item);
+    }
+
+    @Contract(pure = true)
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> outputing(float chance, ItemConvertible item, int amount) {
+        return r -> r.output(chance, item, amount);
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<FillingRecipe> newingfilling() {
+        return FillingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<DeployerApplicationRecipe> newingDeploying() {
+        return DeployerApplicationRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<CuttingRecipe> newingCutting() {
+        return CuttingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<PanFryingRecipe> newingPanFrying() {
+        return PanFryingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<CompactingRecipe> newingCompacting() {
+        return CompactingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<SprinklingRecipe> newingSprinkling() {
+        return SprinklingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<PressureCookingRecipe> newingPressureCooking() {
+        return PressureCookingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<MincingRecipe> newingMincingRecipe() {
+        return MincingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<MixingRecipe> newingMixing() {
+        return MixingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<PressingRecipe> newingPressing() {
+        return PressingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<MillingRecipe> newingMilling() {
+        return MillingRecipe::new;
+    }
+
+    @Contract(pure = true)
+    public static <T> @NotNull UnaryOperator<T> andThen(@NotNull UnaryOperator<T> first, @NotNull UnaryOperator<T> second) {
+        return (UnaryOperator<T>) first.andThen(second);
     }
 
     private LambdasC() {}
