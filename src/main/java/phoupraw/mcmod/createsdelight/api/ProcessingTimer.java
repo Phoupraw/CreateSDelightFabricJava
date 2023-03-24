@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.api;
 
-import phoupraw.mcmod.common.misc.Stage;
+import phoupraw.mcmod.common.api.Stage;
 public class ProcessingTimer {
     public int elapsed;
     public int target;

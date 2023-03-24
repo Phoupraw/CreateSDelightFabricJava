@@ -9,7 +9,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
-import phoupraw.mcmod.common.rei.REILayouts;
+import phoupraw.mcmod.common.api.REILayouts;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 

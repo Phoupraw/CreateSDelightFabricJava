@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.google.common.base.Predicates;
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.foundation.block.ITE;
@@ -25,13 +26,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
-import phoupraw.mcmod.common.storage.LivingEntityStorage;
+import phoupraw.mcmod.common.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
-
-import static phoupraw.mcmod.common.misc.Lambdas.always;
 
 public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
     public static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
@@ -105,9 +104,9 @@ public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
             var livingStorage = LivingEntityStorage.of(player);
             long capacity = 4;
             var tempStorage = new ConstantSingleItemStorage(capacity);
-            long toLiving = StorageUtil.move(blockStorage, tempStorage, always(), capacity, transaction);
-            toBlock = StorageUtil.move(livingStorage.get(hand), blockStorage, always(), capacity, transaction);
-            if (StorageUtil.move(tempStorage, livingStorage, always(), capacity, transaction) == toLiving && (toLiving > 0 || toBlock > 0)) {
+            long toLiving = StorageUtil.move(blockStorage, tempStorage, Predicates.alwaysTrue(), capacity, transaction);
+            toBlock = StorageUtil.move(livingStorage.get(hand), blockStorage, Predicates.alwaysTrue(), capacity, transaction);
+            if (StorageUtil.move(tempStorage, livingStorage, Predicates.alwaysTrue(), capacity, transaction) == toLiving && (toLiving > 0 || toBlock > 0)) {
                 transaction.commit();
                 return ActionResult.SUCCESS;
             }

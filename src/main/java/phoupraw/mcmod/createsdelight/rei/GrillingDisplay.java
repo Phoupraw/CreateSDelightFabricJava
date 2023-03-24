@@ -1,19 +1,12 @@
 package phoupraw.mcmod.createsdelight.rei;
 
-import com.simibubi.create.compat.rei.category.CreateRecipeCategory;
-import com.simibubi.create.foundation.fluid.FluidIngredient;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.SimpleGridMenuDisplay;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
-import me.shedaniel.rei.api.common.entry.EntryIngredient;
-import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 public class GrillingDisplay extends BasicDisplay implements SimpleGridMenuDisplay {
     private int duration = 100;

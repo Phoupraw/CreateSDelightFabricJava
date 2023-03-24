@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.common.Registries;
+import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsBlockItem;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsItem;
@@ -97,6 +97,14 @@ public final class MyItems {
       ));
     public static final StatusEffectsBlockItem BROWNIE = new StatusEffectsBlockItem(MyBlocks.BROWNIE, newSettings()
       .maxCount(64)
+      .food(new FoodComponent.Builder()
+        .hunger(9)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+        .build()
+      ));
+    public static final StatusEffectsBlockItem APPLE_CREAM_CAKE = new StatusEffectsBlockItem(MyBlocks.APPLE_CREAM_CAKE, newSettings()
+      .maxCount(16)
       .food(new FoodComponent.Builder()
         .hunger(9)
         .saturationModifier(0.5f)
@@ -258,6 +266,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.BASQUE_CAKE, BASQUE_CAKE);
         Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
         Registries.register(MyIdentifiers.BROWNIE, BROWNIE);
+        Registries.register(MyIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);

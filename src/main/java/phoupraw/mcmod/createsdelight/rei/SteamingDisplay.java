@@ -4,7 +4,6 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.SimpleGridMenuDisplay;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
 import phoupraw.mcmod.createsdelight.recipe.SteamingRecipe;
 
 import java.util.Collections;

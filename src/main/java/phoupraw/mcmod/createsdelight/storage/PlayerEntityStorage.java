@@ -9,7 +9,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.common.storage.LivingEntityStorage;
+import phoupraw.mcmod.common.api.LivingEntityStorage;
 
 import java.util.EnumMap;
 import java.util.Iterator;

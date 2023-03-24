@@ -28,14 +28,21 @@ import java.util.List;
 
 import static net.minecraft.state.property.Properties.AGE_3;
 public class SweetBerriesCakeSBlock extends Block {
-    public static final List<VoxelShape> OUTLINE_SHAPES = List.of(
-      VoxelShapes.fullCube(),
-      VoxelShapes.fullCube(),
-      VoxelShapes.union(
-        createCuboidShape(4, 12, 4, 12, 16, 12),
-        createCuboidShape(0, 0, 0, 16, 12, 16)
-      ),
-      createCuboidShape(0, 0, 0, 16, 12, 16)
+    public static final VoxelShape BASE = createCuboidShape(0, 0, 0, 16, 12, 16);
+    public static final VoxelShape CENTER = VoxelShapes.union(
+      createCuboidShape(4, 12, 4, 12, 15, 12),
+      createCuboidShape(8 - 1.5, 15, 8 - 1.5, 8 + 1.5, 18, 8 + 1.5));
+    public static final VoxelShape CREAM = createCuboidShape(1, 12, 1, 15, 14, 15);
+    public static final VoxelShape CORNERS = VoxelShapes.union(
+      createCuboidShape(0, 12, 0, 3, 15, 3),
+      createCuboidShape(0, 12, 13, 3, 15, 16),
+      createCuboidShape(13, 12, 0, 16, 15, 3),
+      createCuboidShape(13, 12, 13, 16, 15, 16));
+    public static final List<VoxelShape> SHAPES = List.of(
+      VoxelShapes.union(BASE, CENTER, CREAM, CORNERS),
+      VoxelShapes.union(BASE, CENTER, CREAM),
+      VoxelShapes.union(BASE, CENTER),
+      BASE
     );
 
     public SweetBerriesCakeSBlock() {
@@ -90,7 +97,7 @@ public class SweetBerriesCakeSBlock extends Block {
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return OUTLINE_SHAPES.get(state.get(AGE_3));
+        return SHAPES.get(state.get(AGE_3));
     }
 
     @SuppressWarnings("deprecation")

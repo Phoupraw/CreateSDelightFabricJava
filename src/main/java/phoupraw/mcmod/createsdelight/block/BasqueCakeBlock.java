@@ -27,7 +27,7 @@ import java.util.List;
 
 import static net.minecraft.state.property.Properties.AGE_3;
 public class BasqueCakeBlock extends Block {
-    public static final List<VoxelShape> OUTLINE_SHAPES = List.of(
+    public static final List<VoxelShape> SHAPES = List.of(
       createCuboidShape(0, 0, 0, 16, 6, 16),
       VoxelShapes.union(
         createCuboidShape(8, 0, 0, 16, 6, 8),
@@ -67,7 +67,7 @@ public class BasqueCakeBlock extends Block {
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return OUTLINE_SHAPES.get(state.get(AGE_3));
+        return SHAPES.get(state.get(AGE_3));
     }
 
     @SuppressWarnings("deprecation")

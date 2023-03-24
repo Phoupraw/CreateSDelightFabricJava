@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.api;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;

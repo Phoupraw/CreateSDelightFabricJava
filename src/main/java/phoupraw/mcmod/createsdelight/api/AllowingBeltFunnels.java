@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.api;
 
-import com.simibubi.create.AllTileEntities;
 import com.simibubi.create.content.logistics.block.funnel.BeltFunnelBlock;
 import com.simibubi.create.content.logistics.block.funnel.FunnelBlock;
 import com.simibubi.create.content.logistics.block.funnel.FunnelTileEntity;
@@ -37,12 +36,6 @@ public final class AllowingBeltFunnels {
     private AllowingBeltFunnels() {}
 
     /**
-     * @param world
-     * @param blockPos
-     * @param stack
-     * @param side
-     * @param simulate
-     * @return
      * @see DirectBeltInputBehaviour#tryExportingToBeltFunnel(ItemStack, Direction, boolean)
      */
     @Nullable
