@@ -4,10 +4,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AccessLerpedFloat",
+    "MixinAllTileEntities",
     "MixinBasinRecipe",
     "MixinBasinTileEntity",
     "MixinCreate",
     "MixinCreateDisplay",
+    "MixinCrushingWheelControllerTileEntity",
     "MixinDirectBeltInputBehaviour",
     "MixinLivingEntity",
     "MixinMillingRecipe",
@@ -18,7 +20,14 @@
     "MixinSpoutTileEntity",
     "MixinTileEntityBehaviour"
   ],
-  "client": ["MixinAssemblySpouting", "MixinMillingCategory", "MixinMillstoneRenderer", "MixinMinecraftClient", "MixinSpoutRenderer"],
+  "client": [
+    "MixinAssemblySpouting",
+    "MixinCrushingCategory",
+    "MixinMillingCategory",
+    "MixinMillstoneRenderer",
+    "MixinMinecraftClient",
+    "MixinSpoutRenderer"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

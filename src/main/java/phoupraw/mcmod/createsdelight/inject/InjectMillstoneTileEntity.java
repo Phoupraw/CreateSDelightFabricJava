@@ -8,6 +8,7 @@ import com.simibubi.create.content.contraptions.components.millstone.MillingReci
 import com.simibubi.create.content.contraptions.components.millstone.MillstoneTileEntity;
 import com.simibubi.create.content.contraptions.processing.BasinTileEntity;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
+import com.simibubi.create.foundation.fluid.SmartFluidTank;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.utility.BlockHelper;
@@ -39,12 +40,6 @@ public interface InjectMillstoneTileEntity {
         var tank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.OUTPUT, millstone, 1, FluidConstants.BUCKET, false);
         behaviours.add(tank);
         millstone.setTank(tank);
-//        tank.whenFluidUpdates(() -> {
-//            if (tank.isEmpty()) {
-//                tank.forbidInsertion();
-//                millstone.setOutputStart(0);
-//            }
-//        });
     }
     static void fluidResult(MillstoneTileEntity millstone, SmartFluidTankBehaviour tank, MillingRecipe lastRecipe, CallbackInfo ci) {
         try (var transa = TransferUtil.getTransaction()) {
@@ -104,13 +99,10 @@ public interface InjectMillstoneTileEntity {
     }
     static void checkTankFull(MillstoneTileEntity millstone0, CallbackInfo ci) {
         var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) millstone0;
-//        boolean flag = false;
-//        for (StorageView<FluidVariant> view : millstone.getTank().getCapability()) {
-//
-//        }
-//        for (SmartFluidTankBehaviour.TankSegment tank : millstone.getTank().getTanks()) {
-//
-//        }
+        SmartFluidTank primaryHandler = millstone.getTank().getPrimaryHandler();
+        if (primaryHandler.getAmount() == primaryHandler.getCapacity()) {
+            ci.cancel();
+        }
     }
     static void renderFluidBox(FluidStack fluidStack, Box box, VertexConsumerProvider buffer, MatrixStack ms, int light, boolean renderBottom) {
         FluidRenderer.renderFluidBox(fluidStack, (float) box.minX, (float) box.minY, (float) box.minZ, (float) box.maxX, (float) box.maxY, (float) box.maxZ, buffer, ms, light, true);
@@ -121,15 +113,17 @@ public interface InjectMillstoneTileEntity {
         var outputSide = millstone.getOutputSide();
         if (outputSide == null) return;
         SmartFluidTankBehaviour tank = millstone.getTank();
+        float value = tank.getPrimaryTank().getFluidLevel().getValue(partialTicks);
+        if (value <= 0.001) return;
         var fluidStack = tank.getPrimaryTank().getRenderedFluid();
         float angle = outputSide.asRotation();
         TransformStack ts = TransformStack.cast(ms)
           .pushPose()
           .translate(0.5, 0, 0.5)
           .rotateY(angle);
-        float fluidLevel = tank.getPrimaryTank().getFluidLevel().getValue(partialTicks);
+        float fluidLevel = Math.min(value * 5, 1);
         double p = 1 / 16.0;
-        double halfWidth = 2 * p * fluidLevel;
+        double halfWidth = 1.5 * p * fluidLevel;
         double breadth = p * fluidLevel;
         double height = 6 * p;
         double depth = 14 * p;

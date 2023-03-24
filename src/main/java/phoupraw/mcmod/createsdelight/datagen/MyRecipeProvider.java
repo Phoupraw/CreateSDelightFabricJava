@@ -145,10 +145,6 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .output(MyItems.PAN_FRIED_BEEF_PATTY)
           .duration(100)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), MyIdentifiers.SUNFLOWER_OIL)
-          .require(Items.SUNFLOWER)
-          .output(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2)
-          .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingCutting(), MyIdentifiers.GRILL)
           .require(ItemsRegistry.STOVE.get())
           .output(MyItems.GRILL)
@@ -452,6 +448,11 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(MyItems.SUNFLOWER_KERNELS)
           .duration(20)
           .output(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 8)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingMilling(), MyIdentifiers.PUMPKIN_OIL)
+          .require(Items.PUMPKIN_SEEDS)
+          .averageProcessingDuration()
+          .output(MyFluids.PUMPKIN_OIL, FluidConstants.BOTTLE / 2)
           .build(exporter);
 
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)

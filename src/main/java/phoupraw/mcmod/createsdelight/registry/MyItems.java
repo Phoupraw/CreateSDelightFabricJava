@@ -124,6 +124,7 @@ public final class MyItems {
     public static final Item CAKE_BASE = new Item(newSettings());
     public static final Item CAKE_BASE_SLICE = new Item(newSettings());
     public static final Item RAW_BASQUE_CAKE = new Item(newSettings());
+    public static final Item BUCKETED_PUMPKIN_OIL = new Item(newSettings().maxCount(1));
 
     //食物
     public static final StatusEffectsItem PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
@@ -284,6 +285,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.CRUSHED_ICE, CRUSHED_ICE);
         Registries.register(MyIdentifiers.SALT, SALT);
         Registries.register(MyIdentifiers.RAW_BASQUE_CAKE, RAW_BASQUE_CAKE);
+        Registries.register(MyIdentifiers.BUCKETED_PUMPKIN_OIL, BUCKETED_PUMPKIN_OIL);
 
         Registries.register(MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registries.register(MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
