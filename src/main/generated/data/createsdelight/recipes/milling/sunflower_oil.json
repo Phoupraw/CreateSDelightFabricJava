@@ -5,10 +5,10 @@
       "item": "createsdelight:sunflower_kernels"
     }
   ],
-  "processingTime": 100,
+  "processingTime": 20,
   "results": [
     {
-      "amount": 13500,
+      "amount": 3375,
       "fluid": "createsdelight:sunflower_oil"
     }
   ]
