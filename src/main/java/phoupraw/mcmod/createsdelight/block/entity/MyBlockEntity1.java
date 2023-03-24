@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.common.misc.Stage;
+import phoupraw.mcmod.common.api.Stage;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.behaviour.BlockingTransportedBehaviour;
 

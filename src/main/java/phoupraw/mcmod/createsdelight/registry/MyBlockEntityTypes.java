@@ -9,7 +9,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.common.Registries;
+import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.createsdelight.block.entity.*;
 import phoupraw.mcmod.createsdelight.datagen.*;
 /**

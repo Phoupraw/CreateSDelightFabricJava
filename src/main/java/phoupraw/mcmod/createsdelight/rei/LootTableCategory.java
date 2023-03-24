@@ -12,7 +12,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
-import phoupraw.mcmod.common.rei.REILayouts;
+import phoupraw.mcmod.common.api.REILayouts;
 import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 
 import java.util.LinkedList;

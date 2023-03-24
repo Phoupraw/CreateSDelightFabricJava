@@ -1,0 +1,67 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:apple"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": "createsdelight:apple_cream_cake"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "minecraft:apple"
+        },
+        {
+          "item": "createsdelight:cake_base_slice"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:apple"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "minecraft:apple"
+        },
+        {
+          "amount": 40500,
+          "fluid": "milk:still_milk",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:apple"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "minecraft:apple"
+        },
+        {
+          "item": "minecraft:apple"
+        }
+      ],
+      "results": [
+        {
+          "item": "minecraft:apple"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "minecraft:apple"
+  }
+}

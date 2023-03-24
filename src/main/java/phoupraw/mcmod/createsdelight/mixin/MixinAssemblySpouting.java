@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import phoupraw.mcmod.createsdelight.rei.PanFryingDisplay;
+import phoupraw.mcmod.common.api.REICreates;
 
 import java.util.List;
 @Mixin(ReiSequencedAssemblySubCategory.AssemblySpouting.class)
@@ -29,6 +29,6 @@ public class MixinAssemblySpouting {
 
     @ModifyArgs(method = "addFluidIngredients", at = @At(value = "INVOKE", target = "Lme/shedaniel/rei/api/client/gui/widgets/Slot;entries(Ljava/util/Collection;)Lme/shedaniel/rei/api/client/gui/widgets/Slot;"))
     private void fluidIngredientToREI(Args args, SequencedRecipe<?> recipe, List<Widget> widgets, int x, int index, Point origin) {
-        args.set(0, PanFryingDisplay.of(recipe.getRecipe().getFluidIngredients().get(0)));
+        args.set(0, REICreates.ingredientOf(recipe.getRecipe().getFluidIngredients().get(0)));
     }
 }

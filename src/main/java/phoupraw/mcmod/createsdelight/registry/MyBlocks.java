@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.common.Registries;
+import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.createsdelight.block.*;
 import phoupraw.mcmod.createsdelight.datagen.*;
 /**
@@ -50,6 +50,7 @@ public final class MyBlocks {
     public static final Block BASQUE_CAKE = new BasqueCakeBlock();
     public static final Block SWEET_BERRIES_CAKE_S = new SweetBerriesCakeSBlock();
     public static final Block BROWNIE = new BrownieBlock();
+    public static final Block APPLE_CREAM_CAKE = new AppleCreamCakeBlock();
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
         Registries.register(MyIdentifiers.GRILL, GRILL);
@@ -71,6 +72,7 @@ public final class MyBlocks {
         Registries.register(MyIdentifiers.BASQUE_CAKE, BASQUE_CAKE);
         Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
         Registries.register(MyIdentifiers.BROWNIE, BROWNIE);
+        Registries.register(MyIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
     }
     private MyBlocks() {}
 }

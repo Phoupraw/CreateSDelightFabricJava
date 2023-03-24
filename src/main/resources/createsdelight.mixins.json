@@ -10,13 +10,15 @@
     "MixinCreateDisplay",
     "MixinDirectBeltInputBehaviour",
     "MixinLivingEntity",
+    "MixinMillingRecipe",
+    "MixinMillstoneTileEntity",
     "MixinRecipeManager",
     "MixinSectionedEntityCache",
     "MixinSequencedAssemblyRecipe",
     "MixinSpoutTileEntity",
     "MixinTileEntityBehaviour"
   ],
-  "client": ["MixinAssemblySpouting", "MixinMinecraftClient", "MixinSpoutRenderer"],
+  "client": ["MixinAssemblySpouting", "MixinMillstoneRenderer", "MixinMinecraftClient", "MixinSpoutRenderer"],
   "injectors": {
     "defaultRequire": 1
   }

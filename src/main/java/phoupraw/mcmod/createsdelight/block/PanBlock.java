@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.google.common.base.Predicates;
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.foundation.block.ITE;
@@ -27,15 +28,13 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import phoupraw.mcmod.common.storage.LivingEntityStorage;
+import phoupraw.mcmod.common.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleFluidStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
-
-import static phoupraw.mcmod.common.misc.Lambdas.always;
 
 public class PanBlock extends Block implements ITE<PanBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.combine(Block.createCuboidShape(1, 0, 1, 15, 4, 15), Block.createCuboidShape(2, 1, 2, 14, 4, 14), BooleanBiFunction.ONLY_FIRST);
@@ -47,9 +46,9 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
             var livingStorage = LivingEntityStorage.of(living);
             long capacity = blockStorage.getCapacity();
             var tempStorage = new ConstantSingleItemStorage(capacity);
-            long toLiving = StorageUtil.move(blockStorage, tempStorage, always(), capacity, transaction);
-            toBlock = StorageUtil.move(livingStorage.get(hand), blockStorage, always(), capacity, transaction);
-            if (StorageUtil.move(tempStorage, livingStorage, always(), capacity, transaction) == toLiving) {
+            long toLiving = StorageUtil.move(blockStorage, tempStorage, Predicates.alwaysTrue(), capacity, transaction);
+            toBlock = StorageUtil.move(livingStorage.get(hand), blockStorage, Predicates.alwaysTrue(), capacity, transaction);
+            if (StorageUtil.move(tempStorage, livingStorage, Predicates.alwaysTrue(), capacity, transaction) == toLiving) {
                 transaction.commit();
                 success = toLiving > 0 || toBlock > 0;
             }
@@ -87,9 +86,9 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
             if (handStorage != null) {
                 var panStorage = pan.getTank().getCapability();
                 var tempStorage = new ConstantSingleFluidStorage(FluidConstants.BOTTLE);
-                var amount = StorageUtil.move(panStorage, tempStorage, always(), Long.MAX_VALUE, transaction);
-                StorageUtil.move(handStorage, panStorage, always(), Long.MAX_VALUE, transaction);
-                if (StorageUtil.move(tempStorage, handStorage, always(), Long.MAX_VALUE, transaction) == amount) {
+                var amount = StorageUtil.move(panStorage, tempStorage, Predicates.alwaysTrue(), Long.MAX_VALUE, transaction);
+                StorageUtil.move(handStorage, panStorage, Predicates.alwaysTrue(), Long.MAX_VALUE, transaction);
+                if (StorageUtil.move(tempStorage, handStorage, Predicates.alwaysTrue(), Long.MAX_VALUE, transaction) == amount) {
                     transaction.commit();
                     return ActionResult.SUCCESS;
                 }

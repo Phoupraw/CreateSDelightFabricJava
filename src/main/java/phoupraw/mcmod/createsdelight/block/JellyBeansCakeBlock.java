@@ -42,15 +42,14 @@ public class JellyBeansCakeBlock extends Block {
     public static final List<VoxelShape> OUTLINE_SHAPES = List.of(
       createCuboidShape(2, 0, 2, 14, 10, 14),
       VoxelShapes.union(
-        createCuboidShape(4, 0, 4, 8, 1, 8),
+        JellyBeansBlock.SHAPE,
         createCuboidShape(8, 0, 2, 14, 10, 8),
         createCuboidShape(2, 0, 8, 14, 10, 14)),
       VoxelShapes.union(
-        createCuboidShape(4, 0, 4, 12, 1, 8),
+        JellyBeansBlock.SHAPE,
         createCuboidShape(2, 0, 8, 14, 10, 14)),
       VoxelShapes.union(
-        createCuboidShape(4, 0, 4, 12, 1, 8),
-        createCuboidShape(4, 0, 8, 8, 1, 12),
+        JellyBeansBlock.SHAPE,
         createCuboidShape(8, 0, 8, 14, 10, 14))
     );
     public static final List<VoxelShape> COLLISION_SHAPES = List.of(

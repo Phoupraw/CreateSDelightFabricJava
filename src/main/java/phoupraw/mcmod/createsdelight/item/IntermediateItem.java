@@ -1,18 +1,12 @@
 package phoupraw.mcmod.createsdelight.item;
 
-import io.github.tropheusj.serialization_hooks.ingredient.BaseCustomIngredient;
-import io.github.tropheusj.serialization_hooks.ingredient.IngredientDeserializer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.stream.Stream;
 //有序合成、无序合成、烧炼、高炉、烟熏、营火、切石、锻造
 //砧板、厨锅
 //转化、粉碎、切割、碾磨、工作盆、混合搅拌、压块、冲压、砂纸、水洗、缠魂、装配、注液、分液、手动装配、动力合成、序列装配、工具盒染色

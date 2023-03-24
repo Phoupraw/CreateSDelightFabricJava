@@ -13,7 +13,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.text.Text;
-import phoupraw.mcmod.common.rei.REILayouts;
+import phoupraw.mcmod.common.api.REILayouts;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

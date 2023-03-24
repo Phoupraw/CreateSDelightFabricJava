@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import phoupraw.mcmod.createsdelight.api.DirectBeltInput;
-import phoupraw.mcmod.createsdelight.block.entity.FakeSmartTileEntity;
 import phoupraw.mcmod.createsdelight.behaviour.WrappedBeltInputBehaviour;
+import phoupraw.mcmod.createsdelight.block.entity.FakeSmartTileEntity;
 
 import java.util.Objects;
 @ApiStatus.Internal

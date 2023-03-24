@@ -14,8 +14,8 @@ import net.minecraft.recipe.Ingredient;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.common.misc.Lambdas;
-import phoupraw.mcmod.common.storage.BlackHoleStorage;
+import phoupraw.mcmod.common.api.BlackHoleStorage;
+import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.createsdelight.api.LambdasC;
 public final class RecipeOperations {
     /**

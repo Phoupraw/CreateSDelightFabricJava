@@ -62,7 +62,8 @@ public final class MyIdentifiers {
       BASQUE_CAKE = of("basque_cake"),
       RAW_BASQUE_CAKE = of("raw_basque_cake"),
       SWEET_BERRIES_CAKE_S = of("sweet_berries_cakes"),
-      BROWNIE = of("brownie");
+      BROWNIE = of("brownie"),
+      APPLE_CREAM_CAKE = of("apple_cream_cake");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

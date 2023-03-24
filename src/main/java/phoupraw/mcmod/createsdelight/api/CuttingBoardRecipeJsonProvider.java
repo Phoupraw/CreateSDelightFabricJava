@@ -4,11 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.nhoryzon.mc.farmersdelight.recipe.CuttingBoardRecipe;
 import com.nhoryzon.mc.farmersdelight.recipe.ingredient.ChanceResult;
-import com.nhoryzon.mc.farmersdelight.registry.RecipeTypesRegistry;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 public class CuttingBoardRecipeJsonProvider implements RecipeJsonProvider {
     private final CuttingBoardRecipe recipe;

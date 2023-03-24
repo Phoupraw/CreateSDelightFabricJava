@@ -12,7 +12,7 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.recipe.Recipe;
 import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import phoupraw.mcmod.createsdelight.rei.BasinDisplay;
+import phoupraw.mcmod.common.api.REICreates;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,14 +26,14 @@ public final class InjectCreateDisplay {
      */
     public static void improveStupidDisplay(Args args, Recipe<?> recipe0, CategoryIdentifier<CreateDisplay<Recipe<?>>> id) {
         if (recipe0 instanceof ProcessingRecipe<?> recipe) {
-            args.set(2, BasinDisplay.ingredientsOf(recipe));
-            args.set(3, BasinDisplay.resultsOf(recipe));
+            args.set(2, REICreates.ingredientsOf(recipe));
+            args.set(3, REICreates.resultsOf(recipe));
         } else if (recipe0 instanceof SequencedAssemblyRecipe recipe) {
             List<EntryIngredient> inputs = new LinkedList<>(EntryIngredients.ofIngredients(recipe.getIngredients()));
             List<EntryIngredient> outputs = new LinkedList<>();
             for (SequencedRecipe<?> sequencedRecipe : recipe.getSequence()) {
-                inputs.addAll(BasinDisplay.ingredientsOf(sequencedRecipe));
-                outputs.addAll(BasinDisplay.resultsOf(sequencedRecipe));
+                inputs.addAll(REICreates.ingredientsOf(sequencedRecipe));
+                outputs.addAll(REICreates.resultsOf(sequencedRecipe));
             }
             for (ProcessingOutput output : InjectSequencedAssemblyRecipe.Interface.getResultPool(recipe)) {
                 outputs.add(EntryIngredients.of(output.getStack()));

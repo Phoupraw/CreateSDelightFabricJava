@@ -11,7 +11,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import phoupraw.mcmod.common.Internationals;
+import phoupraw.mcmod.common.api.Internationals;
 import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
 import phoupraw.mcmod.createsdelight.recipe.*;

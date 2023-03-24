@@ -14,11 +14,8 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.appender.rolling.OnStartupTriggeringPolicy;
 import phoupraw.mcmod.createsdelight.block.entity.BambooSteamerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-
-import java.net.FileNameMap;
 public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.union(
       createCuboidShape(0, 1, 0, 16, 16, 16),
