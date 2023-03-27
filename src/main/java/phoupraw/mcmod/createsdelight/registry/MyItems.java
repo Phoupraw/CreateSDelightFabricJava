@@ -126,6 +126,16 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
+    public static final StatusEffectsBlockItem APPLE_CAKE = new StatusEffectsBlockItem(MyBlocks.APPLE_CAKE, newSettings()
+      .maxCount(16)
+      .food(new FoodComponent.Builder()
+        .hunger(20)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+        .build()
+      ));
 
     //不可食用物品
     public static final Item EGG_SHELL = new Item(newSettings());
@@ -329,6 +339,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
         Registries.register(MyIdentifiers.BROWNIE, BROWNIE);
         Registries.register(MyIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
+        Registries.register(MyIdentifiers.APPLE_CAKE, APPLE_CAKE);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);

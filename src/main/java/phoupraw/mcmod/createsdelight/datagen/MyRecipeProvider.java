@@ -470,10 +470,18 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
         new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.APPLE_PASTE)
           .require(Items.APPLE)
           .require(Items.APPLE)
+          .require(Items.APPLE)
           .require(Ingredient.ofItems(Items.OAK_LEAVES, Items.DARK_OAK_LEAVES))
           .require(MyFluids.PASTE, FluidConstants.BOTTLE)
           .averageProcessingDuration()
           .output(MyFluids.APPLE_PASTE, FluidConstants.BOTTLE)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.APPLE_CAKE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(MyFluids.APPLE_PASTE, FluidConstants.BUCKET / 2)
+          .duration(20 * 15)
+          .output(MyItems.APPLE_CAKE)
           .build(exporter);
 
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
