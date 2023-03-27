@@ -9,7 +9,7 @@ import phoupraw.mcmod.createsdelight.inject.InjectSequencedAssemblyRecipe;
 import java.util.List;
 @Mixin(SequencedAssemblyRecipe.class)
 public abstract class MixinSequencedAssemblyRecipe implements InjectSequencedAssemblyRecipe.Interface {
-    @Shadow
+    @Shadow(remap = false)
     protected List<ProcessingOutput> resultPool;
 
     @Override

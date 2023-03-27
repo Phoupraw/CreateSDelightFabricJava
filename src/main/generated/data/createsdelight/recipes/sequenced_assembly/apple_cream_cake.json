@@ -67,6 +67,7 @@
           "item": "minecraft:apple"
         }
       ],
+      "processingTime": 20,
       "results": [
         {
           "item": "minecraft:apple"

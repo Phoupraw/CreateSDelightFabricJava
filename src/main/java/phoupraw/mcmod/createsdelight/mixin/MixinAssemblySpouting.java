@@ -22,7 +22,7 @@ public class MixinAssemblySpouting {
 //        return PanFryingDisplay.of(recipe.getRecipe().getFluidIngredients().get(0));
 //    }
 
-    @ModifyArg(method = "addFluidIngredients", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;"))
+    @ModifyArg(method = "addFluidIngredients", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;"), remap = false)
     private int fixIndex(int index) {
         return 0;
     }

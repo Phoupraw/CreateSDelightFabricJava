@@ -75,6 +75,16 @@ public final class LambdasC {
     }
 
     @Contract(pure = true)
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> during() {
+        return ProcessingRecipeBuilder::averageProcessingDuration;
+    }
+
+    @Contract(pure = true)
+    public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> during(int ticks) {
+        return r -> r.duration(ticks);
+    }
+
+    @Contract(pure = true)
     public static <T extends ProcessingRecipe<?>> @NotNull UnaryOperator<ProcessingRecipeBuilder<T>> outputing(float chance, ItemConvertible item) {
         return r -> r.output(chance, item);
     }
@@ -140,8 +150,8 @@ public final class LambdasC {
     }
 
     @Contract(pure = true)
-    public static <T> @NotNull UnaryOperator<T> andThen(@NotNull UnaryOperator<T> first, @NotNull UnaryOperator<T> second) {
-        return (UnaryOperator<T>) first.andThen(second);
+    public static <T> @NotNull UnaryOperator<T> combine(@NotNull UnaryOperator<T> first, @NotNull UnaryOperator<T> second) {
+        return t -> second.apply(first.apply(t));
     }
 
     private LambdasC() {}

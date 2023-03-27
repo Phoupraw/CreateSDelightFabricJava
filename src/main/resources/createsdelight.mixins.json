@@ -3,6 +3,7 @@
   "package": "phoupraw.mcmod.createsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AccessDeployerTileEntity",
     "AccessLerpedFloat",
     "MixinAllTileEntities",
     "MixinBasinRecipe",
@@ -10,6 +11,7 @@
     "MixinCreate",
     "MixinCreateDisplay",
     "MixinCrushingWheelControllerTileEntity",
+    "MixinDeployerTileEntity",
     "MixinDirectBeltInputBehaviour",
     "MixinLivingEntity",
     "MixinMillingRecipe",
@@ -22,6 +24,8 @@
   ],
   "client": [
     "MixinAssemblySpouting",
+    "MixinBasinCategory",
+    "MixinBasinRenderer",
     "MixinCrushingCategory",
     "MixinMillingCategory",
     "MixinMillstoneRenderer",

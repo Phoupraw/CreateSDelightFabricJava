@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.mojang.datafixers.util.Pair;
+import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import com.simibubi.create.foundation.utility.BlockHelper;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -8,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
@@ -21,6 +23,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import phoupraw.mcmod.createsdelight.item.StatusEffectsBlockItem;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 import phoupraw.mcmod.createsdelight.registry.MyStatusEffects;
 
@@ -64,28 +67,7 @@ public class SweetBerriesCakeSBlock extends Block {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         int bites = state.get(AGE_3);
-        int food;
-        int amplifier;
-        switch (bites) {
-            case 0 -> {
-                food = 2;
-                amplifier = 1;
-            }
-            case 1 -> {
-                food = 5;
-                amplifier = 7;
-            }
-            case 2 -> {
-                food = 2;
-                amplifier = 2;
-            }
-            case 3 -> {
-                food = 6;
-                amplifier = 8;
-            }
-            default -> throw new IllegalStateException(String.valueOf(bites));
-        }
-        JellyBeansCakeBlock.eat(world, pos, state, player, food, 0.5f, List.of(Pair.of(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1f)));
+        StatusEffectsBlockItem.eat(world, pos, state, hit.getPos(), player, 5, 0.5f, List.of(Pair.of(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 3), 1f), Pair.of(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f), Pair.of(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)));
         if (bites < 3) {
             world.setBlockState(pos, state.cycle(AGE_3));
         } else {

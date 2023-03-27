@@ -1,17 +1,23 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
+import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.Create;
+import com.simibubi.create.content.contraptions.components.millstone.MillingRecipe;
+import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
 import com.simibubi.create.foundation.block.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.api.RecipeEvents;
 
 import java.util.regex.Pattern;
 @ApiStatus.Internal
@@ -53,8 +59,7 @@ public final class MyModInitializer implements ModInitializer {
         MySpoutingBehaviours.PAN.hashCode();
     }
 
-    @Override
-    public void onInitialize() {
+    private static void checkCreateVersion() {
         String version = FabricLoader.getInstance().getModContainer("create").orElseThrow().getMetadata().getVersion().toString();
         var matcher = Pattern.compile("0\\.5\\.0\\.([a-z])-([0-9]+)\\+1\\.19\\.2").matcher(version);
         if (!matcher.matches()) {
@@ -66,15 +71,15 @@ public final class MyModInitializer implements ModInitializer {
                 throw new RuntimeException("Version of Create needs to be at least `0.5.0.g-817+1.19.2`, but it's actually `" + version + "`! 机械动力版本需要至少`0.5.0.g-817+1.19.2`，但是实际为`" + version + "`！");
             }
         }
-//
-//        ServerLifecycleEvents.SERVER_STOPPED.register(new ServerLifecycleEvents.ServerStopped() {
-//            @Override
-//            public void onServerStopped(MinecraftServer server) {
-//                var path = server.getSavePath(WorldSavePath.ROOT);
-//                for (ServerWorld world : server.getWorlds()) {
-//                    world.save();
-//                }
-//            }
-//        });
+    }
+
+    @Override
+    public void onInitialize() {
+        checkCreateVersion();
+        RecipeEvents.FINAL.register(recipes -> {
+            var recipe = (MillingRecipe) recipes.get(AllRecipeTypes.MILLING.getType()).get(Create.asResource("milling/sunflower"));
+            recipe.getRollableResults().add(new ProcessingOutput(new ItemStack(MyItems.SUNFLOWER_KERNELS, 3), 1f));
+//            recipe.getFluidResults().add(new FluidStack(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2));
+        });
     }
 }

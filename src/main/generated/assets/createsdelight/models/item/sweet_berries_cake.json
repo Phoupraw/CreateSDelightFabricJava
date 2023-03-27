@@ -1,3 +1,6 @@
 {
-  "parent": "createsdelight:block/sweet_berries_cake"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createsdelight:item/sweet_berries_cake"
+  }
 }

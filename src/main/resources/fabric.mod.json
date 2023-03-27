@@ -26,7 +26,7 @@
     "rei_server": ["phoupraw.mcmod.createsdelight.registry.MyREIServerPlugin"]
   },
   "mixins": ["createsdelight.mixins.json"],
-  "accessWidener": "createsdelight.accessWidener",
+  "accessWidener": "createsdelight.accesswidener",
   "depends": {
     "minecraft": ">=1.19",
     "fabricloader": "*",

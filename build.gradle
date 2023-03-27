@@ -111,6 +111,7 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+    exclude("com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity.class", "com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity\$State.class", "com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity\$Mode.class", "com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity\$1.class")
 }
 
 publishing {
@@ -130,7 +131,7 @@ publishing {
     }
 }
 loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accessWidener")
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
     runs {
         // This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
         datagenClient {

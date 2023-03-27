@@ -25,7 +25,7 @@ import phoupraw.mcmod.createsdelight.inject.InjectMillstoneTileEntity;
 import java.util.List;
 @Mixin(MillstoneTileEntity.class)
 public abstract class MixinMillstoneTileEntity extends KineticTileEntity implements SidedStorageBlockEntity, InjectMillstoneTileEntity {
-    @Shadow
+    @Shadow(remap = false)
     private MillingRecipe lastRecipe;
     private SmartFluidTankBehaviour tank;
     //    private final Collection<InjectMillstoneTileEntity.FluidStream> fluidStreams = new ArrayList<>(2);
@@ -39,7 +39,7 @@ public abstract class MixinMillstoneTileEntity extends KineticTileEntity impleme
         super(typeIn, pos, state);
     }
 
-    @Inject(method = "addBehaviours", at = @At("RETURN"))
+    @Inject(method = "addBehaviours", at = @At("RETURN"), remap = false)
     private void addBehaviours(List<TileEntityBehaviour> behaviours, CallbackInfo ci) {
         InjectMillstoneTileEntity.addBehaviours((MillstoneTileEntity) (Object) this, behaviours, ci);
     }
@@ -60,7 +60,7 @@ public abstract class MixinMillstoneTileEntity extends KineticTileEntity impleme
         InjectMillstoneTileEntity.lazyTick((MillstoneTileEntity) (Object) this);
     }
 
-    @Inject(method = "tick", at = @At("HEAD"/*value = "INVOKE",target = "Lcom/simibubi/create/content/contraptions/base/KineticTileEntity;tick()V",shift = At.Shift.AFTER*/))
+    @Inject(method = "tick", at = @At("HEAD"/*value = "INVOKE",target = "Lcom/simibubi/create/content/contraptions/base/KineticTileEntity;tick()V",shift = At.Shift.AFTER*/), remap = false)
     private void outputFluid(CallbackInfo ci) {
         InjectMillstoneTileEntity.outputFluid((MillstoneTileEntity) (Object) this);
     }

@@ -47,7 +47,7 @@ public final class MyBlockLootTableProvider extends FabricBlockLootTableProvider
 
     @Override
     protected void generateBlockLootTables() {
-        DataGenerations.addDrop(this, MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.VERTICAL_CUTTER, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.SKEWER, MyBlocks.BASIN, MyBlocks.SKEWER_PLATE, MyBlocks.JELLY_BEANS, MyBlocks.BROWNIE);
+        DataGenerations.addDrop(this, MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.VERTICAL_CUTTER, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.SKEWER, MyBlocks.BASIN, MyBlocks.SKEWER_PLATE, MyBlocks.JELLY_BEANS, MyBlocks.BROWNIE, MyBlocks.OVEN);
         addDropAge3(this, MyBlocks.JELLY_BEANS_CAKE, MyItems.JELLY_BEANS, 1);
         addDropAge3(this, MyBlocks.BASQUE_CAKE, Items.AIR, 0);
         addDropAge3(this, MyBlocks.SWEET_BERRIES_CAKE_S, MyItems.SWEET_BERRIES_CAKE, 3);
