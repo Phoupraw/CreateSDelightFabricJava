@@ -110,11 +110,21 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         ShapedRecipeJsonBuilder.create(MyItems.OVEN)
-          .pattern("AAA")
+          .group("oven")
+          .pattern("ACA")
           .pattern("B B")
-          .pattern("AAA")
+          .pattern("ACA")
           .input('A', AllItems.ANDESITE_ALLOY.get())
           .input('B', Items.GLASS_PANE)
+          .input('C', AllItems.IRON_SHEET.get())
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
+          .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.OVEN)
+          .group("oven")
+          .pattern("A")
+          .pattern("B")
+          .input('A', AllBlocks.FLUID_TANK.get())
+          .input('B', AllBlocks.BASIN.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
@@ -456,6 +466,14 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.PUMPKIN_SEEDS)
           .averageProcessingDuration()
           .output(MyFluids.PUMPKIN_OIL, FluidConstants.BOTTLE / 8)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.APPLE_PASTE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Ingredient.ofItems(Items.OAK_LEAVES, Items.DARK_OAK_LEAVES))
+          .require(MyFluids.PASTE, FluidConstants.BOTTLE)
+          .averageProcessingDuration()
+          .output(MyFluids.APPLE_PASTE, FluidConstants.BOTTLE)
           .build(exporter);
 
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)

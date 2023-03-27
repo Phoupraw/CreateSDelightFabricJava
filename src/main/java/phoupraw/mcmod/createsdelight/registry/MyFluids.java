@@ -21,9 +21,8 @@ import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
 /**
  虚拟流体创建流程：
  <ol>
- <li>用{@link VirtualFluids#of}创建流体类。<br>
  <li>在{@link MyIdentifiers}创建{@link Identifier}。<br>
- <li>在{@link MyFluids}创建流体<b>并注册</b>。<br>
+ <li>在{@link MyFluids}用{@link VirtualFluids#of}创建流体<b>并注册</b>。<br>
  <li>若要装有该流体桶、瓶或其它物品，则在{@link MyItems}按照创建物品的流程创建物品。</li>
  <li>若有桶，则补齐{@link VirtualFluids#of(Item)}的参数。<br>
  <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link VirtualFluids#getTranslationKey}添加翻译。<br>
@@ -52,6 +51,7 @@ public final class MyFluids {
     public static final Fluid THICK_HOT_COCOA = VirtualFluids.of(MyItems.THICK_HOT_COCOA);
     public static final Fluid PASTE = VirtualFluids.of();
     public static final Fluid PUMPKIN_OIL = VirtualFluids.of(MyItems.BUCKETED_PUMPKIN_OIL);
+    public static final Fluid APPLE_PASTE = VirtualFluids.of();
     //TODO 1桶苹果酒糟=1桶苹果酒+3稻米+3草秆+1瓶水+压煮
     //TODO 1桶高钙牛奶=1桶牛奶+深板岩圆石+竹子+淡灰色染料+绞肉+超级加热
     //TODO 1瓶灵魂热汤=1瓶岩浆+诡异菌索+灵魂土+搅拌
@@ -69,6 +69,7 @@ public final class MyFluids {
         Registries.register(MyIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
         Registries.register(MyIdentifiers.PASTE, PASTE);
         Registries.register(MyIdentifiers.PUMPKIN_OIL, PUMPKIN_OIL);
+        Registries.register(MyIdentifiers.APPLE_PASTE, APPLE_PASTE);
     }
     private MyFluids() {}
 }
