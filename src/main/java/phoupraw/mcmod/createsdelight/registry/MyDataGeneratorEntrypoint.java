@@ -13,6 +13,7 @@ public final class MyDataGeneratorEntrypoint implements DataGeneratorEntrypoint 
         generator.addProvider(new MyRecipeProvider(generator));
         generator.addProvider(new MyBlockTagProvider(generator));
         generator.addProvider(new MyItemTagProvider(generator));
+        generator.addProvider(new MyFluidTagProvider(generator));
         generator.addProvider(new MyBlockLootTableProvider(generator));
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             generator.addProvider(new MyChineseProvider(generator));

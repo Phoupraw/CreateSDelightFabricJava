@@ -6,8 +6,7 @@
     },
     {
       "amount": 2700,
-      "fluid": "createsdelight:sunflower_oil",
-      "nbt": {}
+      "fluidTag": "c:oil"
     }
   ],
   "processingTime": 100,

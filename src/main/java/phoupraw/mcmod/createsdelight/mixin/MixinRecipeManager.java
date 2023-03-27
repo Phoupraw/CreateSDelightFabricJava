@@ -74,4 +74,9 @@ public abstract class MixinRecipeManager {
         this.recipes = recipesByType2.build();
         this.recipesById = recipesById.build();
     }
+
+    @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("RETURN"))
+    private void invokeFinal(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci) {
+        RecipeEvents.FINAL.invoker().accept(this.recipes);
+    }
 }

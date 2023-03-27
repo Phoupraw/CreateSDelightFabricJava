@@ -99,6 +99,7 @@
           "item": "create:bar_of_chocolate"
         }
       ],
+      "processingTime": 20,
       "results": [
         {
           "item": "create:bar_of_chocolate"

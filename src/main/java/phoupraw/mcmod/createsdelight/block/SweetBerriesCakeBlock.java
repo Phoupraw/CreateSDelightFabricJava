@@ -1,12 +1,14 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.mojang.datafixers.util.Pair;
+import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -25,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.item.StatusEffectsBlockItem;
 import phoupraw.mcmod.createsdelight.registry.MyStatusEffects;
 
 import java.util.ArrayList;
@@ -80,7 +83,7 @@ public class SweetBerriesCakeBlock extends Block {
             pos = pos1;
             state = state1;
         }
-        JellyBeansCakeBlock.eat(world, pos, state, player, 1, 0.5f, List.of(Pair.of(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1f)));
+        StatusEffectsBlockItem.eat(world, pos, state, hit.getPos(), player, 5, 0.5f, List.of(Pair.of(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 3), 1f), Pair.of(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f), Pair.of(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)));
         int layers = state.get(AGE_3) + 1;
         if (layers == 1) {
             world.removeBlock(pos, false);

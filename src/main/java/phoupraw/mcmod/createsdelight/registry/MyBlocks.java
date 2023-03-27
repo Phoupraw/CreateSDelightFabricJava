@@ -43,6 +43,7 @@ public final class MyBlocks {
     public static final SkewerBlock SKEWER = new SkewerBlock();
     public static final MyBasinBlock BASIN = new MyBasinBlock();
     public static final SkewerPlateBlock SKEWER_PLATE = new SkewerPlateBlock();
+    public static final OvenBlock OVEN = new OvenBlock();
 
     public static final JellyBeansBlock JELLY_BEANS = new JellyBeansBlock();
     public static final JellyBeansCakeBlock JELLY_BEANS_CAKE = new JellyBeansCakeBlock();
@@ -65,6 +66,7 @@ public final class MyBlocks {
         Registries.register(MyIdentifiers.SKEWER, SKEWER);
         Registries.register(MyIdentifiers.BASIN, BASIN);
         Registries.register(MyIdentifiers.SKEWER_PLATE, SKEWER_PLATE);
+        Registries.register(MyIdentifiers.OVEN, OVEN);
 
         Registries.register(MyIdentifiers.JELLY_BEANS, JELLY_BEANS);
         Registries.register(MyIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);

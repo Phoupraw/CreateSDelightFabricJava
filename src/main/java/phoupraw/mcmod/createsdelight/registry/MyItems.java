@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.item.DrinkItem;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsBlockItem;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsItem;
 import phoupraw.mcmod.createsdelight.item.SweetBerriesCakeItem;
@@ -38,7 +39,10 @@ import java.util.List;
  <li>提交git。
  </ol> */
 public final class MyItems {
-    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(MyIdentifiers.ITEM_GROUP, MyItems::stupidJavaCompiler);
+    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(MyIdentifiers.ITEM_GROUP)
+      .icon(MyItems::stupidJavaCompiler)
+//      .appendItems(MyItems::appendItems)
+      .build();
 
     //方块
     public static final BlockItem PAN = new BlockItem(MyBlocks.PAN, newSettings());
@@ -60,11 +64,12 @@ public final class MyItems {
     public static final BlockItem SKEWER = new AssemblyOperatorBlockItem(MyBlocks.SKEWER, newSettings());
     public static final BlockItem BASIN = new BlockItem(MyBlocks.BASIN, newSettings());
     public static final BlockItem SKEWER_PLATE = new BlockItem(MyBlocks.SKEWER_PLATE, newSettings());
+    public static final BlockItem OVEN = new BlockItem(MyBlocks.OVEN, newSettings());
 
     //可食用方块
     public static final StatusEffectsBlockItem JELLY_BEANS = new StatusEffectsBlockItem(MyBlocks.JELLY_BEANS, MyItems.newSettings()
       .food(new FoodComponent.Builder()
-        .hunger(1)
+        .hunger(2)
         .saturationModifier(0.5f)
         .snack()
         .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 0), 1f)
@@ -73,58 +78,63 @@ public final class MyItems {
     public static final StatusEffectsBlockItem JELLY_BEANS_CAKE = new StatusEffectsBlockItem(MyBlocks.JELLY_BEANS_CAKE, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
-        .hunger(9)
+        .hunger(20)
         .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
     public static final StatusEffectsBlockItem SWEET_BERRIES_CAKE = new SweetBerriesCakeItem();
     public static final StatusEffectsBlockItem BASQUE_CAKE = new StatusEffectsBlockItem(MyBlocks.BASQUE_CAKE, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
-        .hunger(9)
+        .hunger(20)
         .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
     public static final StatusEffectsBlockItem SWEET_BERRIES_CAKE_S = new StatusEffectsBlockItem(MyBlocks.SWEET_BERRIES_CAKE_S, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
-        .hunger(9)
+        .hunger(20)
         .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
     public static final StatusEffectsBlockItem BROWNIE = new StatusEffectsBlockItem(MyBlocks.BROWNIE, newSettings()
       .maxCount(64)
       .food(new FoodComponent.Builder()
-        .hunger(9)
+        .hunger(5)
         .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 3), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)
         .build()
       ));
     public static final StatusEffectsBlockItem APPLE_CREAM_CAKE = new StatusEffectsBlockItem(MyBlocks.APPLE_CREAM_CAKE, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
-        .hunger(9)
+        .hunger(20)
         .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
 
     //不可食用物品
-    public static final Item BUCKETED_SUNFLOWER_OIL = new Item(newSettings().maxCount(1));
-    public static final Item BOTTLED_SUNFLOWER_OIL = new Item(newSettings().maxCount(16));
     public static final Item EGG_SHELL = new Item(newSettings());
     public static final Item EGG_DOUGH = new Item(newSettings());
     public static final Item CRUSHED_ICE = new Item(newSettings());
     public static final Item SALT = new Item(newSettings());
     public static final Item KELP_ASH = new Item(newSettings());
     public static final Item YEAST = new Item(newSettings());
-    public static final Item CAKE_BASE = new Item(newSettings());
-    public static final Item CAKE_BASE_SLICE = new Item(newSettings());
     public static final Item RAW_BASQUE_CAKE = new Item(newSettings());
-    public static final Item BUCKETED_PUMPKIN_OIL = new Item(newSettings().maxCount(1));
 
     //食物
     public static final StatusEffectsItem PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
@@ -245,11 +255,52 @@ public final class MyItems {
       .food(new FoodComponent.Builder()
         .hunger(2)
         .saturationModifier(0.3f)
+        .snack()
         .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 1), 1f)
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
       ));
+    public static final StatusEffectsItem CAKE_BASE = new StatusEffectsItem(newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(20)
+        .saturationModifier(0.5f)
+        .build()
+      ));
+    public static final StatusEffectsItem CAKE_BASE_SLICE = new StatusEffectsItem(newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(7)
+        .saturationModifier(0.5f)
+        .build()
+      ));
+    public static final StatusEffectsItem BUCKETED_SUNFLOWER_OIL = new DrinkItem(newSettings()
+      .maxCount(1)
+      .recipeRemainder(Items.BUCKET)
+      .food(new FoodComponent.Builder()
+        .hunger(3)
+        .saturationModifier(1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
+        .build()
+      ));
+    public static final StatusEffectsItem BOTTLED_SUNFLOWER_OIL = new DrinkItem(newSettings()
+      .maxCount(16)
+      .recipeRemainder(Items.BUCKET)
+      .food(new FoodComponent.Builder()
+        .hunger(1)
+        .saturationModifier(1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 9, 0), 0.8f)
+        .build()
+      ));
+    public static final StatusEffectsItem BUCKETED_PUMPKIN_OIL = new DrinkItem(newSettings()
+      .maxCount(1)
+      .recipeRemainder(Items.BUCKET)
+      .food(new FoodComponent.Builder()
+        .hunger(3)
+        .saturationModifier(1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
+        .build()
+      ));
+
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -269,6 +320,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.YEAST, YEAST);
         Registries.register(MyIdentifiers.CAKE_BASE, CAKE_BASE);
         Registries.register(MyIdentifiers.CAKE_BASE_SLICE, CAKE_BASE_SLICE);
+        Registries.register(MyIdentifiers.OVEN, OVEN);
 
         Registries.register(MyIdentifiers.JELLY_BEANS, JELLY_BEANS);
         Registries.register(MyIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);
@@ -323,6 +375,12 @@ public final class MyItems {
 
     private static ItemStack stupidJavaCompiler() {
         return JELLY_BEANS_CAKE.getDefaultStack();
+    }
+
+    private static void appendItems(List<ItemStack> itemStacks, ItemGroup itemGroup) {
+        for (Item item : new Item[]{JELLY_BEANS_CAKE, SWEET_BERRIES_CAKE, SWEET_BERRIES_CAKE_S, BASQUE_CAKE, APPLE_CREAM_CAKE, BROWNIE, JELLY_BEANS, BUCKETED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL, BUCKETED_PUMPKIN_OIL, KELP_ASH, RAW_BASQUE_CAKE}) {
+            itemStacks.add(item.getDefaultStack());
+        }
     }
 
     private MyItems() {}

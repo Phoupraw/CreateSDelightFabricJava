@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
 import com.simibubi.create.content.contraptions.components.crusher.CrushingWheelControllerTileEntity;
+import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +27,7 @@ import phoupraw.mcmod.createsdelight.inject.InjectCrushingWheelControllerTileEnt
 import java.util.List;
 import java.util.Optional;
 @Mixin(CrushingWheelControllerTileEntity.class)
-public abstract class MixinCrushingWheelControllerTileEntity extends SmartTileEntity implements InjectCrushingWheelControllerTileEntity, SidedStorageBlockEntity {
+public abstract class MixinCrushingWheelControllerTileEntity extends SmartTileEntity implements InjectCrushingWheelControllerTileEntity, SidedStorageBlockEntity, IHaveGoggleInformation {
     private SmartFluidTankBehaviour tank;
     private double bottom;
 
@@ -33,7 +35,7 @@ public abstract class MixinCrushingWheelControllerTileEntity extends SmartTileEn
         super(type, pos, state);
     }
 
-    @Inject(method = "addBehaviours", at = @At("RETURN"))
+    @Inject(method = "addBehaviours", at = @At("RETURN"), remap = false)
     private void addBehaviours(List<TileEntityBehaviour> behaviours, CallbackInfo ci) {
         InjectCrushingWheelControllerTileEntity.addBehaviours(this, behaviours, ci);
     }
@@ -82,5 +84,10 @@ public abstract class MixinCrushingWheelControllerTileEntity extends SmartTileEn
     @Override
     public void setBottom(double bottom) {
         this.bottom = bottom;
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Text> tooltip, boolean isPlayerSneaking) {
+        return containedFluidTooltip(tooltip, isPlayerSneaking, getTank().getCapability());
     }
 }

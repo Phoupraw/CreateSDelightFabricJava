@@ -1,7 +1,9 @@
 package phoupraw.mcmod.createsdelight.item;
 
+import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
@@ -15,11 +17,13 @@ import phoupraw.mcmod.createsdelight.registry.MyStatusEffects;
 public class SweetBerriesCakeItem extends StatusEffectsBlockItem {
     public SweetBerriesCakeItem() {
         this(MyBlocks.SWEET_BERRIES_CAKE, MyItems.newSettings()
-          .maxCount(16)
+          .maxCount(64)
           .food(new FoodComponent.Builder()
-            .hunger(9)
+            .hunger(5)
             .saturationModifier(0.5f)
-            .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 16), 1f)
+            .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 3), 1f)
+            .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f)
+            .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)
             .build()
           ));
     }

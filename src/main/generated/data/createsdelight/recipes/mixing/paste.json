@@ -14,21 +14,14 @@
       "item": "create:wheat_flour"
     },
     {
-      "item": "create:wheat_flour"
-    },
-    {
-      "item": "create:wheat_flour"
-    },
-    {
       "item": "minecraft:sugar"
     },
     {
       "item": "minecraft:sugar"
     },
     {
-      "amount": 27000,
-      "fluid": "createsdelight:sunflower_oil",
-      "nbt": {}
+      "amount": 13500,
+      "fluidTag": "c:oil"
     },
     {
       "amount": 27000,

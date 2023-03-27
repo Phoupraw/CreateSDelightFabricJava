@@ -18,12 +18,13 @@
           "item": "minecraft:sunflower"
         }
       ],
+      "processingTime": 20,
       "results": [
         {
           "item": "minecraft:sunflower"
         },
         {
-          "chance": 0.3,
+          "chance": 0.25,
           "item": "minecraft:stick"
         }
       ]
@@ -38,6 +39,10 @@
       "results": [
         {
           "item": "minecraft:sunflower"
+        },
+        {
+          "chance": 0.75,
+          "item": "minecraft:yellow_dye"
         }
       ]
     }

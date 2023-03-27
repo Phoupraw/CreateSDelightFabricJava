@@ -47,7 +47,8 @@ public final class MyClientModInitializer implements ClientModInitializer {
         BlockEntityRendererFactories.register(MyBlockEntityTypes.MINCER, castKineticRendererFactory());
         BlockEntityRendererFactories.register(MyBlockEntityTypes.SKEWER, SkewerRenderer::new);
         BlockEntityRendererFactories.register(MyBlockEntityTypes.SKEWER_PLATE, SkewerPlateRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.JELLY_BEANS, MyBlocks.JELLY_BEANS_CAKE);
+        BlockEntityRendererFactories.register(MyBlockEntityTypes.OVEN, OvenRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.JELLY_BEANS, MyBlocks.JELLY_BEANS_CAKE, MyBlocks.OVEN);
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.PUMPKIN_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_ORANGE.color));
         Identifier milk_still = new Identifier("milk", "block/milk_still");
