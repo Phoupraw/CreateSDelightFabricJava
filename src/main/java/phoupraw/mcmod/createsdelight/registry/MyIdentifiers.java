@@ -68,7 +68,8 @@ public final class MyIdentifiers {
       PUMPKIN_OIL = of("pumpkin_oil"),
       BUCKETED_PUMPKIN_OIL = of("bucketed_" + PUMPKIN_OIL.getPath()),
       OVEN = of("oven"),
-      APPLE_PASTE = of("apple_paste");
+      APPLE_PASTE = of("apple_paste"),
+      APPLE_CAKE = of("apple_cake");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

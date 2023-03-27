@@ -52,6 +52,8 @@ public final class MyBlocks {
     public static final Block SWEET_BERRIES_CAKE_S = new SweetBerriesCakeSBlock();
     public static final Block BROWNIE = new BrownieBlock();
     public static final Block APPLE_CREAM_CAKE = new AppleCreamCakeBlock();
+    public static final Block APPLE_CAKE = new AppleCakeBlock();
+
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
         Registries.register(MyIdentifiers.GRILL, GRILL);
@@ -75,6 +77,7 @@ public final class MyBlocks {
         Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
         Registries.register(MyIdentifiers.BROWNIE, BROWNIE);
         Registries.register(MyIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
+        Registries.register(MyIdentifiers.APPLE_CAKE, APPLE_CAKE);
     }
     private MyBlocks() {}
 }
