@@ -12,7 +12,6 @@ import com.simibubi.create.content.contraptions.relays.encased.EncasedCogInstanc
 import com.simibubi.create.foundation.render.AllMaterialSpecs;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import phoupraw.mcmod.createsdelight.block.entity.MincerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyPartialModels;
 /**
@@ -37,11 +36,7 @@ public class MincerInstance extends EncasedCogInstance implements DynamicInstanc
 
     public void transform() {
         MincerBlockEntity blockEntity = getBlockEntity();
-        long time = blockEntity.getWorld().getTime();
-        float speed = blockEntity.getSpeed();
         float partialTicks = AnimationTickHolder.getPartialTicks();
-        float lerped = MathHelper.lerp(partialTicks, time, time + 1);
-        float angle = lerped % 360 * speed;
         float offset = (float) blockEntity.getOffset(partialTicks);
         propeller
           .setPosition(getInstancePosition())
@@ -90,7 +85,7 @@ public class MincerInstance extends EncasedCogInstance implements DynamicInstanc
     @Override
     public void update() {
         super.update();
-        float speed = getBlockEntity().getSpeed();
-        updateRotation(propeller, getBlockEntity().isFullyExtended() ? speed * 3 : speed / 2);
+        float speed = Math.abs(getBlockEntity().getSpeed());
+        updateRotation(propeller, getBlockEntity().getExtension() >= 0.5 ? speed * 3 : speed / 2);
     }
 }

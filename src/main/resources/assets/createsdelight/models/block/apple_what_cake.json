@@ -1,0 +1,82 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "2": "createsdelight:block/basque_cake_bottom",
+    "3": "item/apple",
+    "4": "createsdelight:block/milk",
+    "6": "createsdelight:block/peeled_apple",
+    "particle": "createsdelight:block/basque_cake_bottom"
+  },
+  "elements": [
+    {
+      "name": "基",
+      "from": [1, 0, 1],
+      "to": [15, 8, 15],
+      "faces": {
+        "north": {"uv": [1, 4, 15, 12], "texture": "#2", "cullface": "east"},
+        "east": {"uv": [1, 4, 15, 12], "texture": "#2", "cullface": "east"},
+        "south": {"uv": [1, 4, 15, 12], "texture": "#2", "cullface": "east"},
+        "west": {"uv": [1, 4, 15, 12], "texture": "#2", "cullface": "east"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#2", "cullface": "down"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#2", "cullface": "down"}
+      }
+    },
+    {
+      "name": "苹果片",
+      "from": [13, 6, 2],
+      "to": [15, 11, 10],
+      "rotation": {"angle": 22.5, "axis": "z", "origin": [8, 4, 8]},
+      "faces": {
+        "north": {"uv": [5, 1, 10, 3], "rotation": 270, "texture": "#4"},
+        "east": {"uv": [8, 8, 16, 13], "texture": "#4"},
+        "south": {"uv": [5, 1, 10, 3], "rotation": 90, "texture": "#4"},
+        "west": {"uv": [8, 8, 16, 13], "texture": "#6"},
+        "up": {"uv": [4, 8, 12, 10], "rotation": 90, "texture": "#3"},
+        "down": {"uv": [2, 2, 10, 4], "rotation": 90, "texture": "#6"}
+      }
+    },
+    {
+      "name": "苹果片",
+      "from": [3, 8, 5],
+      "to": [11, 10, 10],
+      "rotation": {"angle": 0, "axis": "y", "origin": [6.88896, 9, 6.92807]},
+      "faces": {
+        "north": {"uv": [2, 2, 10, 4], "texture": "#6"},
+        "east": {"uv": [5, 1, 10, 3], "texture": "#6"},
+        "south": {"uv": [2, 2, 10, 4], "texture": "#6"},
+        "west": {"uv": [5, 1, 10, 3], "texture": "#6"},
+        "up": {"uv": [8, 9, 16, 14], "rotation": 90, "texture": "#6"}
+      }
+    },
+    {
+      "name": "苹果片",
+      "from": [2, 10, 3],
+      "to": [10, 12, 8],
+      "rotation": {"angle": 0, "axis": "y", "origin": [6.88896, 9, 6.92807]},
+      "faces": {
+        "north": {"uv": [2, 2, 10, 4], "texture": "#4"},
+        "east": {"uv": [5, 1, 10, 3], "texture": "#6"},
+        "south": {"uv": [2, 2, 10, 4], "texture": "#6"},
+        "west": {"uv": [5, 1, 10, 3], "texture": "#4"},
+        "up": {"uv": [4, 6, 12, 11], "texture": "#3"},
+        "down": {"uv": [8, 9, 16, 14], "rotation": 90, "texture": "#6"}
+      }
+    },
+    {
+      "name": "苹果片",
+      "from": [1, 6.75, 10.5],
+      "to": [9, 8.75, 15.5],
+      "rotation": {"angle": 45, "axis": "x", "origin": [4.88896, 11, 14.92807]},
+      "faces": {
+        "north": {"uv": [4, 7, 12, 9], "texture": "#3"},
+        "east": {"uv": [5, 1, 10, 3], "texture": "#4"},
+        "south": {"uv": [2, 2, 10, 4], "texture": "#6"},
+        "west": {"uv": [5, 1, 10, 3], "texture": "#4"},
+        "up": {"uv": [4, 7, 12, 12], "texture": "#3"},
+        "down": {"uv": [8, 8, 16, 13], "texture": "#6"}
+      }
+    }
+  ]
+}

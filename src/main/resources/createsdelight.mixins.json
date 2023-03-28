@@ -8,6 +8,7 @@
     "MixinAllTileEntities",
     "MixinBasinRecipe",
     "MixinBasinTileEntity",
+    "MixinBlocks",
     "MixinCreate",
     "MixinCreateDisplay",
     "MixinCrushingWheelControllerTileEntity",

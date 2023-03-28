@@ -1,17 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "oven",
   "key": {
     "A": {
       "item": "create:andesite_alloy"
     },
     "B": {
       "item": "minecraft:glass_pane"
+    },
+    "C": {
+      "item": "create:iron_sheet"
     }
   },
   "pattern": [
-    "AAA",
+    "ACA",
     "B B",
-    "AAA"
+    "ACA"
   ],
   "result": {
     "item": "createsdelight:oven"
