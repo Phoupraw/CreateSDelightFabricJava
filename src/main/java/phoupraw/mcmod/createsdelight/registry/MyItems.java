@@ -132,7 +132,7 @@ public final class MyItems {
         .hunger(20)
         .saturationModifier(0.5f)
         .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));

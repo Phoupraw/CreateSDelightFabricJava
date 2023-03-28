@@ -54,6 +54,6 @@ public class MincerBlock extends KineticBlock implements ITE<MincerBlockEntity>,
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return state.get(Properties.EXTENDED) ? EXTENDED : AllShapes.CASING_14PX.get(Direction.DOWN);
+        return state.get(Properties.EXTENDED) ? EXTENDED : VoxelShapes.fullCube();
     }
 }

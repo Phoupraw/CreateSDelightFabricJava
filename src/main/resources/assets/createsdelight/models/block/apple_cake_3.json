@@ -11,14 +11,14 @@
     {
       "name": "基",
       "from": [1, 0, 1],
-      "to": [15, 8, 15],
+      "to": [15, 8, 4.5],
       "faces": {
         "north": {"uv": [1, 4, 15, 12], "texture": "#6"},
-        "east": {"uv": [1, 4, 15, 12], "texture": "#6"},
+        "east": {"uv": [11.5, 4, 15, 12], "texture": "#6"},
         "south": {"uv": [1, 4, 15, 12], "texture": "#6"},
-        "west": {"uv": [1, 4, 15, 12], "texture": "#6"},
-        "up": {"uv": [1, 1, 15, 15], "texture": "#3"},
-        "down": {"uv": [1, 1, 15, 15], "texture": "#6", "cullface": "down"}
+        "west": {"uv": [1, 4, 4.5, 12], "texture": "#6"},
+        "up": {"uv": [1, 1, 15, 4.5], "texture": "#3"},
+        "down": {"uv": [1, 11.5, 15, 15], "texture": "#6", "cullface": "down"}
       }
     }
   ]

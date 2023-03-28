@@ -31,18 +31,17 @@ import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.Objects;
 /**
- * 大部分都是从{@link PressureCookerBlockEntity}抄的。
- */
+ 大部分都是从{@link PressureCookerBlockEntity}抄的。 */
 public class MincerBlockEntity extends BasinOperatingTileEntity implements InstanceOffset {
     /**
-     * 刀片伸出的程度，范围为[0,1]。当动力正转时增加，反转时减小。
+     刀片伸出的程度，范围为[0,1]。当动力正转时增加，反转时减小。
      */
     private double extension;
     /**
-     * {@link #extension}的渲染配套。无论有无动力，都与{@link #extension}在1游戏刻前的值保持一致。
+     {@link #extension}的渲染配套。无论有无动力，都与{@link #extension}在1游戏刻前的值保持一致。
      */
     private double prevExtention;
-    public double countdown = -1;
+    public double countdown = Integer.MIN_VALUE;
 
     public MincerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.MINCER, pos, state);}
 
@@ -71,7 +70,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
 
     @Override
     protected void onBasinRemoved() {
-        countdown = -1;
+        countdown = Integer.MIN_VALUE;
     }
 
     @Override
@@ -101,31 +100,31 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     }
 
     /**
-     * @see #extension
+     @see #extension
      */
     public double getExtension() {
         return extension;
     }
 
     /**
-     * @see #extension
+     @see #extension
      */
     public void setExtension(double extension) {
-        if ((extension >= 1) ^ isFullyExtended()) {
-            getWorld().setBlockState(getPos(), getCachedState().with(Properties.EXTENDED, extension >= 1));
+        if ((extension >= 0.5) ^ (getExtension() >= 0.5)) {
+            getWorld().setBlockState(getPos(), getCachedState().with(Properties.EXTENDED, extension >= 0.5));
         }
         this.extension = MathHelper.clamp(extension, 0, 1);
     }
 
     /**
-     * @see #prevExtention
+     @see #prevExtention
      */
     public double getPrevExtention() {
         return prevExtention;
     }
 
     /**
-     * @see #prevExtention
+     @see #prevExtention
      */
     public void setPrevExtention(double prevExtention) {
         this.prevExtention = prevExtention;
@@ -179,7 +178,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     }
 
     /**
-     * copy of {@link MechanicalMixerTileEntity#spillParticle}
+     copy of {@link MechanicalMixerTileEntity#spillParticle}
      */
     public static void spillParticle(World world, BlockPos pos, float speed, ParticleEffect data) {
         float angle = world.random.nextFloat() * 360;
@@ -193,7 +192,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     }
 
     /**
-     * copy of {@link MechanicalMixerTileEntity#renderParticles()}
+     copy of {@link MechanicalMixerTileEntity#renderParticles()}
      */
     public static void spillParticles(BasinTileEntity basin, float speed) {
         World world = Objects.requireNonNull(basin.getWorld());
