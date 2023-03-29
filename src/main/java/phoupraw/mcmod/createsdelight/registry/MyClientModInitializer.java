@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.simibubi.create.Create;
 import com.simibubi.create.content.contraptions.base.KineticTileEntity;
 import com.simibubi.create.content.contraptions.base.KineticTileEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
@@ -52,13 +51,16 @@ public final class MyClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.PUMPKIN_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_ORANGE.color));
         Identifier milk_still = new Identifier("milk", "block/milk_still");
+        Identifier turbid = MyIdentifiers.of("block/turbid");
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.MELON_JUICE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, 0xE24334));
-        Identifier chocolate_still = Create.asResource("fluid/chocolate_still");
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.PASTE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, MapColor.TERRACOTTA_WHITE.color));
+//        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.PASTE, VirtualFluids.newSimpleFluidRenderHandler(chocolate_still, MapColor.WHITE.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.APPLE_PASTE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, (MapColor.TERRACOTTA_WHITE.color * 5 + MapColor.YELLOW.color) / 6));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.TOMATO_SAUCE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, MapColor.RED.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.BEETROOT_SOUP, VirtualFluids.newSimpleFluidRenderHandler(milk_still, MapColor.DULL_RED.color));
-        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.POPPY_RUSSIAN_SOUP, VirtualFluids.newSimpleFluidRenderHandler(milk_still, MapColor.DARK_RED.color));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.TOMATO_SAUCE, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.RED.color));
+//        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.TOMATO_SAUCE, SimpleFluidRenderHandler.coloredWater(MapColor.WHITE.color));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.BEETROOT_SOUP, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.DULL_RED.color));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.POPPY_RUSSIAN_SOUP, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.DARK_RED.color));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.MASHED_POTATO, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.PALE_YELLOW.color));
         VirtualFluids.registerTexture(MyFluids.EGG_LIQUID, MyFluids.ICED_MELON_JUICE, MyFluids.THICK_HOT_COCOA, MyFluids.WHEAT_BLACK_TEA, MyFluids.ROSE_MILK_TEA, MyFluids.VEGETABLE_BIG_STEW);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.WHEAT_BLACK_TEA, MyFluids.PUMPKIN_OIL);
     }

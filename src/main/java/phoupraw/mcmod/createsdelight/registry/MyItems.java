@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
+import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.item.TooltipContext;
@@ -127,6 +128,16 @@ public final class MyItems {
         .build()
       ));
     public static final StatusEffectsBlockItem APPLE_CAKE = new StatusEffectsBlockItem(MyBlocks.APPLE_CAKE, newSettings()
+      .maxCount(16)
+      .food(new FoodComponent.Builder()
+        .hunger(20)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+        .build()
+      ));
+    public static final StatusEffectsBlockItem CARROT_CREAM_CAKE = new StatusEffectsBlockItem(MyBlocks.CARROT_CREAM_CAKE, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
         .hunger(20)
@@ -310,7 +321,19 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
         .build()
       ));
+    public static final StatusEffectsItem MASHED_POTATO = new DrinkItem(newSettings()
+      .maxCount(16)
+      .recipeRemainder(Items.BOWL)
+      .food(new FoodComponent.Builder()
+        .hunger(3)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 5), 1f)
+        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60, 0), 1f)
+        .build()
+      ));
 
+    //序列装配中间体
+    public static final SequencedAssemblyItem INCOMPLETE_JELLY_BEANS_CAKE = new SequencedAssemblyItem(newSettings());
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -340,6 +363,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.BROWNIE, BROWNIE);
         Registries.register(MyIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
         Registries.register(MyIdentifiers.APPLE_CAKE, APPLE_CAKE);
+        Registries.register(MyIdentifiers.CARROT_CREAM_CAKE, CARROT_CREAM_CAKE);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
@@ -369,6 +393,9 @@ public final class MyItems {
         Registries.register(MyIdentifiers.ICED_MELON_JUICE, ICED_MELON_JUICE);
         Registries.register(MyIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
         Registries.register(MyIdentifiers.SUNFLOWER_KERNELS, SUNFLOWER_KERNELS);
+        Registries.register(MyIdentifiers.MASHED_PATATO, MASHED_POTATO);
+
+        Registries.register(MyIdentifiers.INCOMPLETE_JELLY_BEANS_CAKE, INCOMPLETE_JELLY_BEANS_CAKE);
     }
     public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

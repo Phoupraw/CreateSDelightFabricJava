@@ -33,8 +33,8 @@ public final class MyIdentifiers {
       MINCER = of("mincer"),
       SATIATION = of("satiation"),
       ROSE_MILK_TEA = of("rose_milk_tea"),
-      BUCKETED_SUNFLOWER_OIL = of("bucketed_" + SUNFLOWER_OIL.getPath()),
-      BOTTLED_SUNFLOWER_OIL = of("bottled_" + SUNFLOWER_OIL.getPath()),
+      BUCKETED_SUNFLOWER_OIL = of("bucketed_sunflower_oil"),
+      BOTTLED_SUNFLOWER_OIL = of("bottled_sunflower_oil"),
       CORAL_COLORFULS = of("coral_colorfuls"),
       BEETROOT_SOUP = of("beetroot_soup"),
       TOMATO_SAUCE = of("tomato_sauce"),
@@ -66,10 +66,13 @@ public final class MyIdentifiers {
       APPLE_CREAM_CAKE = of("apple_cream_cake"),
       SUNFLOWER_KERNELS = of("sunflower_kernels"),
       PUMPKIN_OIL = of("pumpkin_oil"),
-      BUCKETED_PUMPKIN_OIL = of("bucketed_" + PUMPKIN_OIL.getPath()),
+      BUCKETED_PUMPKIN_OIL = of("bucketed_pumpkin_oil"),
       OVEN = of("oven"),
       APPLE_PASTE = of("apple_paste"),
-      APPLE_CAKE = of("apple_cake");
+      APPLE_CAKE = of("apple_cake"),
+      CARROT_CREAM_CAKE = of("carrot_cream_cake"),
+      MASHED_PATATO = of("mashed_potato"),
+      INCOMPLETE_JELLY_BEANS_CAKE = of("incomplete_jelly_beans_cake");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {
