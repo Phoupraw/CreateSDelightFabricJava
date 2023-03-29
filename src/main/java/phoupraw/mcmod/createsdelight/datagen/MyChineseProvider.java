@@ -108,5 +108,6 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.INCOMPLETE_BROWNIE, "制作中的布朗尼");
         builder.add(MyItems.INCOMPLETE_APPLE_CREAM_CAKE, "制作中的苹果奶油蛋糕");
         builder.add(MyItems.INCOMPLETE_CARROT_CREAM_CAKE, "制作中的胡萝卜奶油蛋糕");
+        builder.add(MyItems.IRON_BOWL, "铁碗");
     }
 }

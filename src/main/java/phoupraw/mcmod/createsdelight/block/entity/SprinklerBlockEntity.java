@@ -136,7 +136,6 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
         elapsed = tag.getInt("elapsed");
 //        }
     }
-
     @Override
     public boolean addToGoggleTooltip(List<Text> tooltip, boolean isPlayerSneaking) {
         super.addToGoggleTooltip(tooltip, isPlayerSneaking);

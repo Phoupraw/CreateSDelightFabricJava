@@ -16,20 +16,21 @@ import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
 import phoupraw.mcmod.createsdelight.recipe.*;
 /**
- * 配方类型添加步骤：<br>
- * - 创建配方类，继承{@link ProcessingRecipe}，创建符合{@link ProcessingRecipeFactory}的构造器<br>
- * - 在{@link MyRecipeTypes}创建{@link RecipeTypeInfo}<br>
- * - 补齐配方类的构造器中的{@link IRecipeTypeInfo}<br>
- * - 创建显示类，继承{@link Display}，创建接受配方类对象作为唯一参数的构造器<br>
- * - 创建类别类，继承{@link DisplayCategory}，重写{@link DisplayCategory#getIcon()}<br>
- * - 补齐显示类的{@link Display#getCategoryIdentifier()}<br>
- * - 在{@link MyREIClientPlugin}注册<br>
- * - 在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link Internationals#keyOfCategory}添加翻译<br>
- * - 运行数据生成器<br>
- * - 重写类别类的{@link DisplayCategory#setupDisplay(Display, Rectangle)}<br>
- * - 在{@code ChangeLog.md}添加更新日志<br>
- * - 提交git<br>
- */
+ 配方类型添加步骤：
+ <ol>
+ <li>创建配方类，继承{@link ProcessingRecipe}，创建符合{@link ProcessingRecipeFactory}的构造器<br>
+ <li>在{@link MyRecipeTypes}创建{@link RecipeTypeInfo}<br>
+ <li>补齐配方类的构造器中的{@link IRecipeTypeInfo}<br>
+ <li>创建显示类，继承{@link Display}，创建接受配方类对象作为唯一参数的构造器<br>
+ <li>创建类别类，继承{@link DisplayCategory}，重写{@link DisplayCategory#getIcon()}<br>
+ <li>补齐显示类的{@link Display#getCategoryIdentifier()}<br>
+ <li>在{@link MyREIClientPlugin}注册<br>
+ <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link Internationals#keyOfCategory}添加翻译<br>
+ <li>运行数据生成器<br>
+ <li>重写类别类的{@link DisplayCategory#setupDisplay(Display, Rectangle)}<br>
+ <li>在{@code ChangeLog.md}添加更新日志<br>
+ <li>提交git
+ </ol> */
 @SuppressWarnings("OverrideOnly")
 public final class MyRecipeTypes {
     public static final RecipeTypeInfo<PanFryingRecipe> PAN_FRYING = new RecipeTypeInfo<>(MyIdentifiers.of("pan_frying"), PanFryingRecipe::new);
@@ -48,10 +49,10 @@ public final class MyRecipeTypes {
 //        });
     }
     private MyRecipeTypes() {}
+
     /**
-     * <b>不要注册！</b>已在构造器中注册。
-     *
-     * @param <R> 配方
+     <b>不要注册！</b>已在构造器中注册。
+     @param <R> 配方
      */
     public static final class RecipeTypeInfo<R extends ProcessingRecipe<?>> implements IRecipeTypeInfo {
         private final Identifier id;
@@ -59,10 +60,10 @@ public final class MyRecipeTypes {
         private final RecipeType<R> type;
 
         /**
-         * @param id         用于注册序列化器和配方类型
-         * @param serializer 未注册的序列化器
-         * @param type       未注册的配方类型
-         * @throws IllegalStateException 若{@code serializer}或{@code type}已注册
+         @param id 用于注册序列化器和配方类型
+         @param serializer 未注册的序列化器
+         @param type 未注册的配方类型
+         @throws IllegalStateException 若{@code serializer}或{@code type}已注册
          */
         public RecipeTypeInfo(Identifier id, ProcessingRecipeSerializer<R> serializer, RecipeType<R> type) {
             this.id = id;
@@ -91,9 +92,8 @@ public final class MyRecipeTypes {
         }
 
         /**
-         * 我不知道为什么simibubi要搞个泛型方法，很不好用。
-         *
-         * @see #getRecipeType()
+         我不知道为什么simibubi要搞个泛型方法，很不好用。
+         @see #getRecipeType()
          */
         @SuppressWarnings("unchecked")
         @Override
