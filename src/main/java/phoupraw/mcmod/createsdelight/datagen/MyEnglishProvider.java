@@ -102,5 +102,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.MASHED_POTATO, "Bowled Mashed Potato");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.MASHED_POTATO), "Mashed Potato");
         builder.add(MyItems.INCOMPLETE_JELLY_BEANS_CAKE, "Incomplete Jelly Beans Cake");
+        builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE, "Incomplete Sweet Berries Cake");
     }
 }
