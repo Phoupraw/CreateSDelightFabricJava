@@ -108,5 +108,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.INCOMPLETE_BROWNIE, "Incomplete Brownie");
         builder.add(MyItems.INCOMPLETE_APPLE_CREAM_CAKE, "Incomplete Apple Craem Cake");
         builder.add(MyItems.INCOMPLETE_CARROT_CREAM_CAKE, "Incomplete Carrot Craem Cake");
+        builder.add(MyItems.IRON_BOWL, "Iron Bowl");
     }
 }

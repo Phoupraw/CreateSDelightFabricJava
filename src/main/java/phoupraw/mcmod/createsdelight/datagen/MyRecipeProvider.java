@@ -127,6 +127,12 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .input('B', AllBlocks.BASIN.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(MyItems.IRON_BOWL)
+          .pattern("A A")
+          .pattern(" A ")
+          .input('A', AllItems.IRON_SHEET.get())
+          .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
+          .offerTo(exporter);
         SmithingRecipeJsonBuilder.create(
             Ingredient.ofItems(AllBlocks.ITEM_DRAIN.get()),
             Ingredient.ofItems(AllItems.ELECTRON_TUBE.get()),
@@ -493,6 +499,10 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(MyFluids.EGG_LIQUID, FluidConstants.BOTTLE)
           .averageProcessingDuration()
           .output(MyFluids.MASHED_POTATO, FluidConstants.BOTTLE * 2)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), MyIdentifiers.IRON_BOWL)
+          .require(Items.BUCKET)
+          .output(MyItems.IRON_BOWL)
           .build(exporter);
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
