@@ -73,7 +73,8 @@ public final class MyIdentifiers {
       CARROT_CREAM_CAKE = of("carrot_cream_cake"),
       MASHED_PATATO = of("mashed_potato"),
       INCOMPLETE_JELLY_BEANS_CAKE = of("incomplete_jelly_beans_cake"),
-      INCOMPLETE_SWEET_BERRIES_CAKE = of("incomplete_sweet_berries_cake");
+      INCOMPLETE_SWEET_BERRIES_CAKE = of("incomplete_sweet_berries_cake"),
+      INCOMPLETE_SWEET_BERRIES_CAKE_S = of("incomplete_sweet_berries_cake_s");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

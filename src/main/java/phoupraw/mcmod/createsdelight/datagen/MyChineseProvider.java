@@ -103,5 +103,6 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(VirtualFluids.getTranslationKey(MyFluids.MASHED_POTATO), "土豆泥");
         builder.add(MyItems.INCOMPLETE_JELLY_BEANS_CAKE, "制作中的糖豆蛋糕");
         builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE, "制作中的甜浆果蛋糕");
+        builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE_S, "制作中的多层甜浆果蛋糕");
     }
 }
