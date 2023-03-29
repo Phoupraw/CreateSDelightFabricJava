@@ -338,6 +338,7 @@ public final class MyItems {
     public static final SequencedAssemblyItem INCOMPLETE_SWEET_BERRIES_CAKE_S = new SequencedAssemblyItem(newSettings());
     public static final SequencedAssemblyItem INCOMPLETE_RAW_BASQUE_CAKE = new SequencedAssemblyItem(newSettings());
     public static final SequencedAssemblyItem INCOMPLETE_BROWNIE = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem INCOMPLETE_APPLE_CREAM_CAKE = new SequencedAssemblyItem(newSettings());
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -404,6 +405,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.INCOMPLETE_SWEET_BERRIES_CAKE_S, INCOMPLETE_SWEET_BERRIES_CAKE_S);
         Registries.register(MyIdentifiers.INCOMPLETE_RAW_BASQUE_CAKE, INCOMPLETE_RAW_BASQUE_CAKE);
         Registries.register(MyIdentifiers.INCOMPLETE_BROWNIE, INCOMPLETE_BROWNIE);
+        Registries.register(MyIdentifiers.INCOMPLETE_APPLE_CREAM_CAKE, INCOMPLETE_APPLE_CREAM_CAKE);
     }
     public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
