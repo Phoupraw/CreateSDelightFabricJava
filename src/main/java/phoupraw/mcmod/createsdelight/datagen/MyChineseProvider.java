@@ -98,5 +98,9 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.OVEN, "密封工作盆");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.APPLE_PASTE), "苹果面糊");
         builder.add(MyBlocks.APPLE_CAKE, "苹果蛋糕");
+        builder.add(MyBlocks.CARROT_CREAM_CAKE, "胡萝卜奶油蛋糕");
+        builder.add(MyItems.MASHED_POTATO, "碗装土豆泥");
+        builder.add(VirtualFluids.getTranslationKey(MyFluids.MASHED_POTATO), "土豆泥");
+        builder.add(MyItems.INCOMPLETE_JELLY_BEANS_CAKE, "制作中的糖豆蛋糕");
     }
 }

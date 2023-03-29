@@ -1,0 +1,22 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "5": "item/carrot"
+  },
+  "elements": [
+    {
+      "from": [0, 13, 0],
+      "to": [8, 15, 8],
+      "faces": {
+        "north": {"uv": [0, 0, 8, 2], "texture": "#missing"},
+        "east": {"uv": [0, 0, 8, 2], "texture": "#missing"},
+        "south": {"uv": [0, 0, 8, 2], "texture": "#missing"},
+        "west": {"uv": [0, 0, 8, 2], "texture": "#missing"},
+        "up": {"uv": [3, 5, 11, 13], "texture": "#5"},
+        "down": {"uv": [0, 0, 8, 8], "texture": "#missing"}
+      }
+    }
+  ]
+}

@@ -483,10 +483,21 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .duration(20 * 15)
           .output(MyItems.APPLE_CAKE)
           .build(exporter);
-
+        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.MASHED_PATATO)
+          .require(Items.POTATO)
+          .require(Items.POTATO)
+          .require(Items.POTATO)
+          .require(MyItems.KELP_ASH)
+          .require(ItemsRegistry.ONION.get())
+          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+          .require(MyFluids.EGG_LIQUID, FluidConstants.BOTTLE)
+          .averageProcessingDuration()
+          .output(MyFluids.MASHED_POTATO, FluidConstants.BOTTLE * 2)
+          .build(exporter);
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
           .require(MyItems.JELLY_BEANS)
-          .transitionTo(MyItems.JELLY_BEANS)
+          .transitionTo(MyItems.INCOMPLETE_JELLY_BEANS_CAKE)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
@@ -551,6 +562,16 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .addStep(LambdasC.newingPressing(), LambdasC.outputing(0.75f, Items.YELLOW_DYE))
           .loops(6)
           .addOutput(new ItemStack(MyItems.SUNFLOWER_KERNELS, 8), 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.CARROT_CREAM_CAKE)
+          .require(Items.CARROT)
+          .transitionTo(Items.CARROT)
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.CARROT))
+          .addStep(LambdasC.newingCutting(), LambdasC.during(20))
+          .loops(3)
+          .addOutput(new ItemStack(MyItems.CARROT_CREAM_CAKE, 1), 1)
           .build(exporter);
     }
 }

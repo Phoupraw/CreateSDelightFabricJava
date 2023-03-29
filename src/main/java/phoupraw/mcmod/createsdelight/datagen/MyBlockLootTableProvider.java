@@ -53,6 +53,7 @@ public final class MyBlockLootTableProvider extends FabricBlockLootTableProvider
         addDropAge3(this, MyBlocks.SWEET_BERRIES_CAKE_S, MyItems.SWEET_BERRIES_CAKE, 3);
         addDropAge3(this, MyBlocks.APPLE_CREAM_CAKE, Items.APPLE, 1);
         addDropAge3(this, MyBlocks.APPLE_CAKE, Items.APPLE, 1);
+        addDropAge3(this, MyBlocks.CARROT_CREAM_CAKE, Items.CARROT, 1);
         {
             List<LeafEntry.Builder<?>> list = new ArrayList<>();
             for (int i = 0; i <= Properties.AGE_3_MAX; i++) {

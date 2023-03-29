@@ -11,7 +11,6 @@ public final class MyFluidTagProvider extends FabricTagProvider.FluidTagProvider
 
     @Override
     protected void generateTags() {
-        getOrCreateTagBuilder(MyFluidTags.OIL)
-          .add(MyFluids.SUNFLOWER_OIL, MyFluids.PUMPKIN_OIL);
+        getOrCreateTagBuilder(MyFluidTags.OIL).add(MyFluids.SUNFLOWER_OIL, MyFluids.PUMPKIN_OIL);
     }
 }
