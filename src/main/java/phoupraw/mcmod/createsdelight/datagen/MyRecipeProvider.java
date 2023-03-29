@@ -565,7 +565,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.CARROT_CREAM_CAKE)
           .require(Items.CARROT)
-          .transitionTo(Items.CARROT)
+          .transitionTo(MyItems.INCOMPLETE_CARROT_CREAM_CAKE)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.CARROT))
