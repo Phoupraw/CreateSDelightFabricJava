@@ -105,5 +105,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE, "Incomplete Sweet Berries Cake");
         builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE_S, "Incomplete Multi-layers Sweet Berries Cake");
         builder.add(MyItems.INCOMPLETE_RAW_BASQUE_CAKE, "Incomplete Raw Gateau Basque");
+        builder.add(MyItems.INCOMPLETE_BROWNIE, "Incomplete Brownie");
     }
 }
