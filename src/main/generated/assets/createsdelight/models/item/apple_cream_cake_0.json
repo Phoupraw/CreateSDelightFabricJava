@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createsdelight:item/apple_cream_cake_0"
+  }
+}
