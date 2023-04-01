@@ -1,0 +1,13 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "results": [
+    {
+      "item": "createsdelight:iron_bowl"
+    }
+  ]
+}

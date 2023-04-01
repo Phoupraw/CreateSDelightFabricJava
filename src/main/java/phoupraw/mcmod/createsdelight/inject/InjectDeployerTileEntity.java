@@ -38,7 +38,7 @@ public interface InjectDeployerTileEntity {
     }
     static void tickBeforeCheckSpeed(Object subject) {
         var deployer = (DeployerTileEntity & InjectDeployerTileEntity) subject;
-        deployer.setState(deployer.getState());
+//        deployer.setState(deployer.getState());
     }
     Enum<?> getState();
     void setState(Enum<?> name);

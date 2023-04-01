@@ -60,9 +60,9 @@ dependencies {
     modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}") {
         exclude(Map.of("module", "forge-config-api-port-fabric-547434"))
     }
-    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
-    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\core-3.6.5.jar"))
-    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\toml-3.6.5.jar"))
+    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
+    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\core-3.6.5.jar"))
+    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\toml-3.6.5.jar"))
 
 //    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:${forgeconfigapiport}"
 //    modCompileOnly("maven.modrinth:lazydfu:${lazydfu_version}")
@@ -70,14 +70,24 @@ dependencies {
     modImplementation("curse.maven:farmersdelightfabric-482834:${farmersdelight_version}")//这句是从https://github.com/ianm1647/expandeddelight/blob/1.19/build.gradle抄的。
     // Recipe Viewers - Create Fabric supports JEI, REI, and EMI.
     // See root gradle.properties to choose which to use at runtime.
-    switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
-        case "jei": modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
-        case "rei": modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
-        case "emi": modCompileOnly("dev.emi:emi:${emi_version}"); break
-            // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
-    }
-    modRuntimeOnly(files("D:\\CCC\\Documents\\local_maven\\enchlevel-langpatch-1.2.3.jar"))
-    include(modImplementation("phoupraw.mcmod:PhouprawSCommon:${common_version}"))
+//    switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
+//        case "jei": modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
+//        case "rei": modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
+//        case "emi": modCompileOnly("dev.emi:emi:${emi_version}"); break
+//            // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
+//    }
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
+//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
+//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
+//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\cloth-config-8.2.88-fabric.jar"))
+//    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
+    modCompileOnly("dev.emi:emi:${emi_version}:api")
+//    modLocalRuntime("dev.emi:emi:${emi_version}")
+    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\enchlevel-langpatch-1.2.3.jar"))
+    var common = include("phoupraw.mcmod:PhouprawSCommon:${common_version}")
+    modCompileOnly(common)
+    modLocalRuntime(common)
+//    include(modImplementation("phoupraw.mcmod:PhouprawSCommon:${common_version}"))
 //    modImplementation(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
 //    modImplementation(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
 }

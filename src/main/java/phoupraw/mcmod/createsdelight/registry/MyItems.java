@@ -331,13 +331,13 @@ public final class MyItems {
       ));
 
     //序列装配中间体
-    public static final SequencedAssemblyItem INCOMPLETE_JELLY_BEANS_CAKE = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem INCOMPLETE_SWEET_BERRIES_CAKE = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem INCOMPLETE_SWEET_BERRIES_CAKE_S = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem INCOMPLETE_RAW_BASQUE_CAKE = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem INCOMPLETE_BROWNIE = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem INCOMPLETE_APPLE_CREAM_CAKE = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem INCOMPLETE_CARROT_CREAM_CAKE = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem JELLY_BEANS_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_S_0 = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem RAW_BASQUE_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem BROWNIE_0 = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem APPLE_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    public static final SequencedAssemblyItem CARROT_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
@@ -400,13 +400,13 @@ public final class MyItems {
         Registries.register(MyIdentifiers.SUNFLOWER_KERNELS, SUNFLOWER_KERNELS);
         Registries.register(MyIdentifiers.MASHED_PATATO, MASHED_POTATO);
 
-        Registries.register(MyIdentifiers.INCOMPLETE_JELLY_BEANS_CAKE, INCOMPLETE_JELLY_BEANS_CAKE);
-        Registries.register(MyIdentifiers.INCOMPLETE_SWEET_BERRIES_CAKE, INCOMPLETE_SWEET_BERRIES_CAKE);
-        Registries.register(MyIdentifiers.INCOMPLETE_SWEET_BERRIES_CAKE_S, INCOMPLETE_SWEET_BERRIES_CAKE_S);
-        Registries.register(MyIdentifiers.INCOMPLETE_RAW_BASQUE_CAKE, INCOMPLETE_RAW_BASQUE_CAKE);
-        Registries.register(MyIdentifiers.INCOMPLETE_BROWNIE, INCOMPLETE_BROWNIE);
-        Registries.register(MyIdentifiers.INCOMPLETE_APPLE_CREAM_CAKE, INCOMPLETE_APPLE_CREAM_CAKE);
-        Registries.register(MyIdentifiers.INCOMPLETE_CARROT_CREAM_CAKE, INCOMPLETE_CARROT_CREAM_CAKE);
+        Registries.register(MyIdentifiers.JELLY_BEANS_CAKE_0, JELLY_BEANS_CAKE_0);
+        Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_0, SWEET_BERRIES_CAKE_0);
+        Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_S_0, SWEET_BERRIES_CAKE_S_0);
+        Registries.register(MyIdentifiers.RAW_BASQUE_CAKE_0, RAW_BASQUE_CAKE_0);
+        Registries.register(MyIdentifiers.BROWNIE_0, BROWNIE_0);
+        Registries.register(MyIdentifiers.APPLE_CREAM_CAKE_0, APPLE_CREAM_CAKE_0);
+        Registries.register(MyIdentifiers.CARROT_CREAM_CAKE_0, CARROT_CREAM_CAKE_0);
     }
     public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
         return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());

@@ -14,7 +14,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         },
         {
           "item": "minecraft:sweet_berries"
@@ -22,7 +22,7 @@
       ],
       "results": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         }
       ]
     },
@@ -30,7 +30,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         },
         {
           "item": "minecraft:sugar"
@@ -38,7 +38,7 @@
       ],
       "results": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         }
       ]
     },
@@ -46,7 +46,7 @@
       "type": "create:filling",
       "ingredients": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         },
         {
           "amount": 27000,
@@ -56,7 +56,7 @@
       ],
       "results": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         }
       ]
     },
@@ -64,7 +64,7 @@
       "type": "create:filling",
       "ingredients": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         },
         {
           "amount": 27000,
@@ -74,12 +74,12 @@
       ],
       "results": [
         {
-          "item": "createsdelight:cake_base"
+          "item": "createsdelight:raw_basque_cake_0"
         }
       ]
     }
   ],
   "transitionalItem": {
-    "item": "createsdelight:cake_base"
+    "item": "createsdelight:raw_basque_cake_0"
   }
 }

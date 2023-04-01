@@ -14,7 +14,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         },
         {
           "item": "createsdelight:cake_base_slice"
@@ -22,7 +22,7 @@
       ],
       "results": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         }
       ]
     },
@@ -30,7 +30,7 @@
       "type": "create:filling",
       "ingredients": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         },
         {
           "amount": 40500,
@@ -40,7 +40,7 @@
       ],
       "results": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         }
       ]
     },
@@ -48,7 +48,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         },
         {
           "item": "minecraft:apple"
@@ -56,7 +56,7 @@
       ],
       "results": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         }
       ]
     },
@@ -64,18 +64,18 @@
       "type": "create:cutting",
       "ingredients": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         }
       ],
       "processingTime": 20,
       "results": [
         {
-          "item": "minecraft:apple"
+          "item": "createsdelight:apple_cream_cake_0"
         }
       ]
     }
   ],
   "transitionalItem": {
-    "item": "minecraft:apple"
+    "item": "createsdelight:apple_cream_cake_0"
   }
 }

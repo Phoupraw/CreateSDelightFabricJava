@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createsdelight:oven"
+        "recipe": "createsdelight:crafting/oven_2"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createsdelight:oven"
+      "createsdelight:crafting/oven_2"
     ]
   }
 }

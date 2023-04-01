@@ -22,10 +22,7 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.tag.TagKey;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.createsdelight.recipe.MincingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.PressureCookingRecipe;
-import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
+import phoupraw.mcmod.createsdelight.recipe.*;
 
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -150,8 +147,18 @@ public final class LambdasC {
     }
 
     @Contract(pure = true)
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<BakingRecipe> newingBaking() {
+        return BakingRecipe::new;
+    }
+
+    @Contract(pure = true)
     public static <T> @NotNull UnaryOperator<T> combine(@NotNull UnaryOperator<T> first, @NotNull UnaryOperator<T> second) {
         return t -> second.apply(first.apply(t));
+    }
+
+    @Contract(pure = true)
+    public static @NotNull Predicate<Recipe<?>> firstIngredientMatching(Fluid fluid) {
+        return r0 -> r0 instanceof ProcessingRecipe<?> r && r.getFluidIngredients().get(0).test(new FluidStack(fluid, Long.MAX_VALUE));
     }
 
     private LambdasC() {}

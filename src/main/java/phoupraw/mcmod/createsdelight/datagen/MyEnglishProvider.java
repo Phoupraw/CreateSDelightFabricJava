@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.common.api.Internationals;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 import phoupraw.mcmod.createsdelight.registry.*;
 @Environment(EnvType.CLIENT)
 public final class MyEnglishProvider extends FabricLanguageProvider {
@@ -101,13 +102,15 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.CARROT_CREAM_CAKE, "Carrot Cream Cake");
         builder.add(MyItems.MASHED_POTATO, "Bowled Mashed Potato");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.MASHED_POTATO), "Mashed Potato");
-        builder.add(MyItems.INCOMPLETE_JELLY_BEANS_CAKE, "Incomplete Jelly Beans Cake");
-        builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE, "Incomplete Sweet Berries Cake");
-        builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE_S, "Incomplete Multi-layers Sweet Berries Cake");
-        builder.add(MyItems.INCOMPLETE_RAW_BASQUE_CAKE, "Incomplete Raw Gateau Basque");
-        builder.add(MyItems.INCOMPLETE_BROWNIE, "Incomplete Brownie");
-        builder.add(MyItems.INCOMPLETE_APPLE_CREAM_CAKE, "Incomplete Apple Craem Cake");
-        builder.add(MyItems.INCOMPLETE_CARROT_CREAM_CAKE, "Incomplete Carrot Craem Cake");
+        builder.add(MyItems.JELLY_BEANS_CAKE_0, "Incomplete Jelly Beans Cake");
+        builder.add(MyItems.SWEET_BERRIES_CAKE_0, "Incomplete Sweet Berries Cake");
+        builder.add(MyItems.SWEET_BERRIES_CAKE_S_0, "Incomplete Multi-layers Sweet Berries Cake");
+        builder.add(MyItems.RAW_BASQUE_CAKE_0, "Incomplete Raw Gateau Basque");
+        builder.add(MyItems.BROWNIE_0, "Incomplete Brownie");
+        builder.add(MyItems.APPLE_CREAM_CAKE_0, "Incomplete Apple Craem Cake");
+        builder.add(MyItems.CARROT_CREAM_CAKE_0, "Incomplete Carrot Craem Cake");
         builder.add(MyItems.IRON_BOWL, "Iron Bowl");
+        builder.add(IronBowlItem.getSuffixKey(), "%s (%s)");
+        builder.add(Internationals.keyOfCategory(MyRecipeTypes.BAKING.getId()), "Baking");
     }
 }

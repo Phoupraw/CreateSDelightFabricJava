@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.common.api.Internationals;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 import phoupraw.mcmod.createsdelight.registry.*;
 @Environment(EnvType.CLIENT)
 public final class MyChineseProvider extends FabricLanguageProvider {
@@ -101,13 +102,15 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.CARROT_CREAM_CAKE, "胡萝卜奶油蛋糕");
         builder.add(MyItems.MASHED_POTATO, "碗装土豆泥");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.MASHED_POTATO), "土豆泥");
-        builder.add(MyItems.INCOMPLETE_JELLY_BEANS_CAKE, "制作中的糖豆蛋糕");
-        builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE, "制作中的甜浆果蛋糕");
-        builder.add(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE_S, "制作中的多层甜浆果蛋糕");
-        builder.add(MyItems.INCOMPLETE_RAW_BASQUE_CAKE, "制作中的生巴斯克蛋糕");
-        builder.add(MyItems.INCOMPLETE_BROWNIE, "制作中的布朗尼");
-        builder.add(MyItems.INCOMPLETE_APPLE_CREAM_CAKE, "制作中的苹果奶油蛋糕");
-        builder.add(MyItems.INCOMPLETE_CARROT_CREAM_CAKE, "制作中的胡萝卜奶油蛋糕");
+        builder.add(MyItems.JELLY_BEANS_CAKE_0, "制作中的糖豆蛋糕");
+        builder.add(MyItems.SWEET_BERRIES_CAKE_0, "制作中的甜浆果蛋糕");
+        builder.add(MyItems.SWEET_BERRIES_CAKE_S_0, "制作中的多层甜浆果蛋糕");
+        builder.add(MyItems.RAW_BASQUE_CAKE_0, "制作中的生巴斯克蛋糕");
+        builder.add(MyItems.BROWNIE_0, "制作中的布朗尼");
+        builder.add(MyItems.APPLE_CREAM_CAKE_0, "制作中的苹果奶油蛋糕");
+        builder.add(MyItems.CARROT_CREAM_CAKE_0, "制作中的胡萝卜奶油蛋糕");
         builder.add(MyItems.IRON_BOWL, "铁碗");
+        builder.add(IronBowlItem.getSuffixKey(), "%s（%s）");
+        builder.add(Internationals.keyOfCategory(MyRecipeTypes.BAKING.getId()), "烘焙");
     }
 }

@@ -32,9 +32,9 @@ import static net.minecraft.state.property.Properties.AGE_3;
 public class AppleCakeBlock extends Block {
     public static final List<VoxelShape> SHAPES = List.of(
       createCuboidShape(1, 0, 1, 15, 8, 15),
-      createCuboidShape(1, 0, 4.5, 15, 8, 15),
-      createCuboidShape(1, 0, 8, 15, 8, 15),
-      createCuboidShape(1, 0, 11.5, 15, 8, 15));
+      createCuboidShape(1, 0, 1, 15, 8, 11.5),
+      createCuboidShape(1, 0, 1, 15, 8, 8),
+      createCuboidShape(1, 0, 1, 15, 8, 4.5));
 
     public AppleCakeBlock() {
         this(FabricBlockSettings.copyOf(Blocks.CAKE).breakInstantly());
