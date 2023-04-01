@@ -118,7 +118,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .input('B', Items.GLASS_PANE)
           .input('C', AllItems.IRON_SHEET.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
-          .offerTo(exporter);
+          .offerTo(exporter, MyIdentifiers.of("crafting/oven_1"));
         ShapedRecipeJsonBuilder.create(MyItems.OVEN)
           .group("oven")
           .pattern("A")
@@ -126,7 +126,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .input('A', AllBlocks.FLUID_TANK.get())
           .input('B', AllBlocks.BASIN.get())
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
-          .offerTo(exporter);
+          .offerTo(exporter, MyIdentifiers.of("crafting/oven_2"));
         ShapedRecipeJsonBuilder.create(MyItems.IRON_BOWL)
           .pattern("A A")
           .pattern(" A ")
@@ -504,10 +504,22 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.BUCKET)
           .output(MyItems.IRON_BOWL)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingBaking(), MyIdentifiers.CAKE_BASE)
+          .require(MyFluids.PASTE, FluidConstants.BUCKET / 2)
+          .duration(20 * 10)
+          .output(MyItems.CAKE_BASE)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingBaking(), MyIdentifiers.APPLE_CAKE)
+          .require(MyFluids.APPLE_PASTE, FluidConstants.BUCKET / 2)
+          .duration(20 * 10)
+          .output(MyItems.APPLE_CAKE)
+          .build(exporter);
+
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.JELLY_BEANS_CAKE)
           .require(MyItems.JELLY_BEANS)
-          .transitionTo(MyItems.INCOMPLETE_JELLY_BEANS_CAKE)
+          .transitionTo(MyItems.JELLY_BEANS_CAKE_0)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
@@ -517,7 +529,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.SWEET_BERRIES_CAKE)
           .require(MyItems.CAKE_BASE_SLICE)
-          .transitionTo(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE)
+          .transitionTo(MyItems.SWEET_BERRIES_CAKE_0)
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
           .loops(1)
@@ -525,7 +537,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.RAW_BASQUE_CAKE)
           .require(MyItems.CAKE_BASE)
-          .transitionTo(MyItems.INCOMPLETE_RAW_BASQUE_CAKE)
+          .transitionTo(MyItems.RAW_BASQUE_CAKE_0)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SUGAR))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
@@ -535,7 +547,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.SWEET_BERRIES_CAKE_S)
           .require(Items.SWEET_BERRIES)
-          .transitionTo(MyItems.INCOMPLETE_SWEET_BERRIES_CAKE_S)
+          .transitionTo(MyItems.SWEET_BERRIES_CAKE_S_0)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.SWEET_BERRIES_CAKE))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
@@ -545,7 +557,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.BROWNIE)
           .require(AllItems.BAR_OF_CHOCOLATE.get())
-          .transitionTo(MyItems.INCOMPLETE_BROWNIE)
+          .transitionTo(MyItems.BROWNIE_0)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
@@ -557,7 +569,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.APPLE_CREAM_CAKE)
           .require(Items.APPLE)
-          .transitionTo(MyItems.INCOMPLETE_APPLE_CREAM_CAKE)
+          .transitionTo(MyItems.APPLE_CREAM_CAKE_0)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.APPLE))
@@ -575,7 +587,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
         new SequencedAssemblyRecipeBuilder(MyIdentifiers.CARROT_CREAM_CAKE)
           .require(Items.CARROT)
-          .transitionTo(MyItems.INCOMPLETE_CARROT_CREAM_CAKE)
+          .transitionTo(MyItems.CARROT_CREAM_CAKE_0)
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(MyItems.CAKE_BASE_SLICE))
           .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BUCKET / 2))
           .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.CARROT))

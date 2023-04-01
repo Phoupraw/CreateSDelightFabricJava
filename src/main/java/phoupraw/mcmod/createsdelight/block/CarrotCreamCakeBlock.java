@@ -34,21 +34,23 @@ public class CarrotCreamCakeBlock extends Block {
     public static final List<VoxelShape> SHAPES = List.of(
       VoxelShapes.union(
         createCuboidShape(0, 0, 0, 16, 13, 16),
-        createCuboidShape(1, 13, 1, 15, 16, 15),
-        createCuboidShape(3, 16, 3, 13, 19, 13)),
+        createCuboidShape(7, 13, 1, 9, 15, 15),
+        createCuboidShape(6, 13, 4, 10, 16, 12),
+        createCuboidShape(5, 13, 7, 11, 16, 9)),
       VoxelShapes.union(
-        createCuboidShape(0, 0, 4, 16, 13, 16),
-        createCuboidShape(1, 13, 5, 15, 16, 15),
-        createCuboidShape(3, 16, 5, 13, 19, 13)),
+        createCuboidShape(4, 0, 0, 16, 13, 16),
+        createCuboidShape(7, 13, 1, 9, 15, 4),
+        createCuboidShape(6, 13, 4, 10, 16, 12),
+        createCuboidShape(5, 13, 7, 11, 16, 9)),
       VoxelShapes.union(
-        createCuboidShape(4, 0, 4, 12, 13, 11),
-        createCuboidShape(0, 0, 11, 16, 13, 16),
-        createCuboidShape(1, 16, 11, 11, 16, 15),
-        createCuboidShape(5, 13, 5, 11, 19, 13)),
+        createCuboidShape(4, 0, 0, 12, 13, 16),
+        createCuboidShape(7, 13, 1, 9, 15, 4),
+        createCuboidShape(6, 13, 4, 10, 16, 7),
+        createCuboidShape(5, 13, 7, 11, 16, 9)),
       VoxelShapes.union(
-        createCuboidShape(0, 0, 11, 16, 13, 16),
-        createCuboidShape(1, 13, 12, 4, 15, 15),
-        createCuboidShape(12, 13, 12, 15, 15, 15))
+        createCuboidShape(4, 0, 0, 12, 13, 8),
+        createCuboidShape(7, 13, 1, 9, 15, 4),
+        createCuboidShape(6, 13, 4, 10, 16, 6))
     );
 
     public CarrotCreamCakeBlock() {

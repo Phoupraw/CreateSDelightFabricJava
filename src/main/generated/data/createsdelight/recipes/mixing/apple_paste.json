@@ -1,0 +1,34 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    [
+      {
+        "item": "minecraft:oak_leaves"
+      },
+      {
+        "item": "minecraft:dark_oak_leaves"
+      }
+    ],
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:paste",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:apple_paste"
+    }
+  ]
+}

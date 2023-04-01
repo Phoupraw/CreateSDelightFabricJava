@@ -18,11 +18,11 @@ import phoupraw.mcmod.createsdelight.recipe.*;
 /**
  配方类型添加步骤：
  <ol>
- <li>创建配方类，继承{@link ProcessingRecipe}，创建符合{@link ProcessingRecipeFactory}的构造器<br>
+ <li>在{@link phoupraw.mcmod.createsdelight.recipe}创建配方类，继承{@link ProcessingRecipe}，创建符合{@link ProcessingRecipeFactory}的构造器<br>
  <li>在{@link MyRecipeTypes}创建{@link RecipeTypeInfo}<br>
  <li>补齐配方类的构造器中的{@link IRecipeTypeInfo}<br>
- <li>创建显示类，继承{@link Display}，创建接受配方类对象作为唯一参数的构造器<br>
- <li>创建类别类，继承{@link DisplayCategory}，重写{@link DisplayCategory#getIcon()}<br>
+ <li>在{@link phoupraw.mcmod.createsdelight.rei}创建显示类，继承{@link Display}，创建接受配方类对象作为唯一参数的构造器<br>
+ <li>在{@link phoupraw.mcmod.createsdelight.rei}创建类别类，继承{@link DisplayCategory}，重写{@link DisplayCategory#getIcon()}<br>
  <li>补齐显示类的{@link Display#getCategoryIdentifier()}<br>
  <li>在{@link MyREIClientPlugin}注册<br>
  <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link Internationals#keyOfCategory}添加翻译<br>
@@ -40,6 +40,7 @@ public final class MyRecipeTypes {
     public static final RecipeTypeInfo<VerticalCuttingRecipe> VERTICAL_CUTTING = new RecipeTypeInfo<>(MyIdentifiers.of("vertical_cutting"), VerticalCuttingRecipe::new);
     public static final RecipeTypeInfo<PressureCookingRecipe> PRESSURE_COOKING = new RecipeTypeInfo<>(MyIdentifiers.of("pressure_cooking"), PressureCookingRecipe::new);
     public static final RecipeTypeInfo<MincingRecipe> MINCING = new RecipeTypeInfo<>(MyIdentifiers.of("mincing"), MincingRecipe::new);
+    public static final RecipeTypeInfo<BakingRecipe> BAKING = new RecipeTypeInfo<>(MyIdentifiers.of("baking"), BakingRecipe::new);
     static {
 //        RecipeEvents.APPEND_1.register((recipeManager,adder) -> {
 //            var recipes = recipeManager.listAllOfType(RecipeTypesRegistry.CUTTING_RECIPE_SERIALIZER.<CuttingBoardRecipe>type()).stream().filter(Lambdas.matchingTool(ItemsRegistry.IRON_KNIFE.get().getDefaultStack())).toList();

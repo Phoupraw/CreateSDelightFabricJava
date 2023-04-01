@@ -18,17 +18,20 @@ import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.RecipeEvents;
+import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 
 import java.util.regex.Pattern;
 @ApiStatus.Internal
 public final class MyModInitializer implements ModInitializer {
     public static void initializeAfterCreate() {
         loadClasses();
+
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SPRINKLER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SKEWER, 1);
+
         VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA, MyFluids.PASTE, MyFluids.PUMPKIN_OIL, MyFluids.APPLE_PASTE, MyFluids.MASHED_POTATO);
         VirtualFluids.registerBowlStorage(MyFluids.VEGETABLE_BIG_STEW, MyItems.VEGETABLE_BIG_STEW);
         VirtualFluids.registerBucketStorage(MyFluids.SUNFLOWER_OIL, MyItems.BUCKETED_SUNFLOWER_OIL);
@@ -37,7 +40,7 @@ public final class MyModInitializer implements ModInitializer {
         VirtualFluids.registerBowlStorage(MyFluids.BEETROOT_SOUP, Items.BEETROOT_SOUP);
         VirtualFluids.registerBowlStorage(MyFluids.TOMATO_SAUCE, ItemsRegistry.TOMATO_SAUCE.get());
         VirtualFluids.registerBowlStorage(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
-        FluidStorage.combinedItemApiProvider(Items.EGG).register(Lambdas.fullProviderOf(MyItems.EGG_SHELL, FluidVariant.of(MyFluids.EGG_LIQUID), FluidConstants.BOTTLE));
+        FluidStorage.combinedItemApiProvider(Items.EGG).register(Lambdas.fullProviderOf(MyItems.EGG_SHELL, FluidVariant.of(MyFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
         VirtualFluids.registerBowlStorage(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
         VirtualFluids.registerBottleStorage(MyFluids.WHEAT_BLACK_TEA, MyItems.WHEAT_BLACK_TEA);
         VirtualFluids.registerBottleStorage(MyFluids.ICED_MELON_JUICE, MyItems.ICED_MELON_JUICE);
@@ -45,6 +48,8 @@ public final class MyModInitializer implements ModInitializer {
         VirtualFluids.registerBottleStorage(MyFluids.THICK_HOT_COCOA, MyItems.THICK_HOT_COCOA);
         VirtualFluids.registerBucketStorage(MyFluids.PUMPKIN_OIL, MyItems.BUCKETED_PUMPKIN_OIL);
         VirtualFluids.registerBowlStorage(MyFluids.MASHED_POTATO, MyItems.MASHED_POTATO);
+
+        IronBowlItem.onInitialize();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

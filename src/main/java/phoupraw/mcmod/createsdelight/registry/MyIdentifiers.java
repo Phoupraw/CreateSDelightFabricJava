@@ -72,13 +72,13 @@ public final class MyIdentifiers {
       APPLE_CAKE = of("apple_cake"),
       CARROT_CREAM_CAKE = of("carrot_cream_cake"),
       MASHED_PATATO = of("mashed_potato"),
-      INCOMPLETE_JELLY_BEANS_CAKE = of("incomplete_jelly_beans_cake"),
-      INCOMPLETE_SWEET_BERRIES_CAKE = of("incomplete_sweet_berries_cake"),
-      INCOMPLETE_SWEET_BERRIES_CAKE_S = of("incomplete_sweet_berries_cake_s"),
-      INCOMPLETE_RAW_BASQUE_CAKE = of("incomplete_raw_basque_cake"),
-      INCOMPLETE_BROWNIE = of("incomplete_brownie"),
-      INCOMPLETE_APPLE_CREAM_CAKE = of("incomplete_apple_cream_cake"),
-      INCOMPLETE_CARROT_CREAM_CAKE = of("incomplete_carrot_cream_cake"),
+      JELLY_BEANS_CAKE_0 = of("jelly_beans_cake_0"),
+      SWEET_BERRIES_CAKE_0 = of("sweet_berries_cake_0"),
+      SWEET_BERRIES_CAKE_S_0 = of("sweet_berries_cake_s_0"),
+      RAW_BASQUE_CAKE_0 = of("raw_basque_cake_0"),
+      BROWNIE_0 = of("brownie_0"),
+      APPLE_CREAM_CAKE_0 = of("apple_cream_cake_0"),
+      CARROT_CREAM_CAKE_0 = of("carrot_cream_cake_0"),
       IRON_BOWL = of("iron_bowl");
 
     @Contract("_ -> new")

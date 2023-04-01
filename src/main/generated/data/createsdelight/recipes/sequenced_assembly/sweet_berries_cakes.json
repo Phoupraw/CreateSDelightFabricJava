@@ -14,7 +14,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         },
         {
           "item": "createsdelight:sweet_berries_cake"
@@ -22,7 +22,7 @@
       ],
       "results": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         }
       ]
     },
@@ -30,7 +30,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         },
         {
           "item": "minecraft:sweet_berries"
@@ -38,7 +38,7 @@
       ],
       "results": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         }
       ]
     },
@@ -46,7 +46,7 @@
       "type": "create:filling",
       "ingredients": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         },
         {
           "amount": 40500,
@@ -56,7 +56,7 @@
       ],
       "results": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         }
       ]
     },
@@ -64,7 +64,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         },
         {
           "item": "minecraft:red_dye"
@@ -72,12 +72,12 @@
       ],
       "results": [
         {
-          "item": "minecraft:sweet_berries"
+          "item": "createsdelight:sweet_berries_cake_s_0"
         }
       ]
     }
   ],
   "transitionalItem": {
-    "item": "minecraft:sweet_berries"
+    "item": "createsdelight:sweet_berries_cake_s_0"
   }
 }

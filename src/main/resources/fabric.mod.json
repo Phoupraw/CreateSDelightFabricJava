@@ -23,7 +23,8 @@
     "fabric-datagen": ["phoupraw.mcmod.createsdelight.registry.MyDataGeneratorEntrypoint"],
     "client": ["phoupraw.mcmod.createsdelight.registry.MyClientModInitializer"],
     "rei_client": ["phoupraw.mcmod.createsdelight.registry.MyREIClientPlugin"],
-    "rei_server": ["phoupraw.mcmod.createsdelight.registry.MyREIServerPlugin"]
+    "rei_server": ["phoupraw.mcmod.createsdelight.registry.MyREIServerPlugin"],
+    "emi": ["phoupraw.mcmod.createsdelight.registry.MyEmiPlugin"]
   },
   "mixins": ["createsdelight.mixins.json"],
   "accessWidener": "createsdelight.accesswidener",

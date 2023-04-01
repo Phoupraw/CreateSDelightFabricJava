@@ -1,0 +1,37 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "createsdelight:kelp_ash"
+    },
+    {
+      "item": "farmersdelight:onion"
+    },
+    {
+      "amount": 27000,
+      "fluid": "milk:still_milk",
+      "nbt": {}
+    },
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:egg_liquid",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 54000,
+      "fluid": "createsdelight:mashed_potato"
+    }
+  ]
+}

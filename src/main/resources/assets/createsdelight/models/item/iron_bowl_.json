@@ -1,0 +1,36 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "block/observer_side",
+    "1": "create:block/basin",
+    "particle": "block/observer_side"
+  },
+  "elements": [
+    {
+      "name": "外",
+      "from": [0, 0, 0],
+      "to": [16, 10, 16],
+      "faces": {
+        "north": {"uv": [0, 3, 16, 13], "texture": "#0"},
+        "east": {"uv": [0, 3, 16, 13], "texture": "#0"},
+        "south": {"uv": [0, 3, 16, 13], "texture": "#0"},
+        "west": {"uv": [0, 3, 16, 13], "texture": "#0"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+      }
+    },
+    {
+      "name": "内",
+      "from": [15, 10, 15],
+      "to": [1, 1, 1],
+      "faces": {
+        "north": {"uv": [15, 12, 1, 3], "texture": "#0"},
+        "east": {"uv": [15, 12, 1, 3], "texture": "#0"},
+        "south": {"uv": [15, 12, 1, 3], "texture": "#0"},
+        "west": {"uv": [15, 12, 1, 3], "texture": "#0"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#1"}
+      }
+    }
+  ]
+}

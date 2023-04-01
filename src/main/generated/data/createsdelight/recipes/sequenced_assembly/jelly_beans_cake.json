@@ -14,7 +14,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         },
         {
           "item": "createsdelight:cake_base_slice"
@@ -22,7 +22,7 @@
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         }
       ]
     },
@@ -30,7 +30,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         },
         {
           "item": "create:bar_of_chocolate"
@@ -38,7 +38,7 @@
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         }
       ]
     },
@@ -46,7 +46,7 @@
       "type": "create:filling",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         },
         {
           "amount": 27000,
@@ -56,7 +56,7 @@
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         }
       ]
     },
@@ -64,7 +64,7 @@
       "type": "create:deploying",
       "ingredients": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         },
         {
           "item": "createsdelight:jelly_beans"
@@ -72,12 +72,12 @@
       ],
       "results": [
         {
-          "item": "createsdelight:jelly_beans"
+          "item": "createsdelight:jelly_beans_cake_0"
         }
       ]
     }
   ],
   "transitionalItem": {
-    "item": "createsdelight:jelly_beans"
+    "item": "createsdelight:jelly_beans_cake_0"
   }
 }

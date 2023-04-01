@@ -2,17 +2,34 @@ package phoupraw.mcmod.createsdelight.recipe;
 
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
+import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.foundation.utility.recipe.RecipeFinder;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+
+import java.util.function.Predicate;
 public class BakingRecipe extends DeprecatedMatchesRecipe {
-    public BakingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {this(MyRecipeTypes.PAN_FRYING, params);}
+    public static @Nullable BakingRecipe findFirst(@NotNull World world, @NotNull Predicate<Recipe<?>> predicate) {
+        return (BakingRecipe) RecipeFinder.get(BakingRecipe.class, world, RecipeConditions.isOfType(MyRecipeTypes.BAKING.getRecipeType())).stream().filter(predicate).findFirst().orElse(null);
+    }
+
+    public BakingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {
+        this(MyRecipeTypes.BAKING, params);
+    }
 
     public BakingRecipe(IRecipeTypeInfo typeInfo, ProcessingRecipeBuilder.ProcessingRecipeParams params) {
         super(typeInfo, params);
+        if (getIngredients().size() + getFluidIngredients().size() > 1) {
+            throw new IllegalArgumentException("getIngredients().size() + getFluidIngredients().size() > 1");
+        }
     }
 
     @Override
     protected int getMaxInputCount() {
-        return 0;
+        return 1;
     }
 
     @Override

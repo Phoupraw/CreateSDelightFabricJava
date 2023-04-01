@@ -1,0 +1,24 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "createsdelight:block/jelly_beans_cake_bottom",
+    "3": "createsdelight:block/milk",
+    "particle": "createsdelight:block/jelly_beans_cake_bottom"
+  },
+  "elements": [
+    {
+      "from": [2, 0, 2],
+      "to": [14, 4, 14],
+      "faces": {
+        "north": {"uv": [2, 12, 14, 16], "texture": "#3"},
+        "east": {"uv": [2, 12, 14, 16], "texture": "#3"},
+        "south": {"uv": [2, 12, 14, 16], "texture": "#3"},
+        "west": {"uv": [2, 12, 14, 16], "texture": "#3"},
+        "up": {"uv": [14, 14, 2, 2], "texture": "#0"},
+        "down": {"uv": [14, 2, 2, 14], "texture": "#0", "cullface": "down"}
+      }
+    }
+  ]
+}

@@ -5,8 +5,6 @@ import com.simibubi.create.Create;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
-import me.shedaniel.rei.api.client.registry.display.DynamicDisplayGenerator;
-import me.shedaniel.rei.api.client.view.ViewSearchBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -16,9 +14,6 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.recipe.*;
 import phoupraw.mcmod.createsdelight.rei.*;
-
-import java.util.List;
-import java.util.Optional;
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
 public final class MyREIClientPlugin implements REIClientPlugin {
@@ -40,7 +35,10 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.add(PressureCookingCategory.INSTANCE);
         registry.addWorkstations(MincingCategory.ID, EntryStacks.of(MyItems.MINCER), basin);
         registry.add(MincingCategory.INSTANCE);
-        registry.add(new LootTableCategory());
+        registry.addWorkstations(BakingCategory.ID, EntryStacks.of(MyItems.OVEN));
+        registry.add(BakingCategory.INSTANCE);
+
+//        registry.add(new LootTableCategory());
 
         registry.addWorkstations(CategoryIdentifier.of(Create.asResource("sequenced_assembly")), depot, belt, EntryStacks.of(AllBlocks.DEPLOYER.get()), EntryStacks.of(AllBlocks.MECHANICAL_PRESS.get()), EntryStacks.of(AllBlocks.MECHANICAL_SAW.get()), EntryStacks.of(AllBlocks.SPOUT.get()));//给序列组装加上工作站
     }
@@ -54,23 +52,24 @@ public final class MyREIClientPlugin implements REIClientPlugin {
         registry.registerRecipeFiller(VerticalCuttingRecipe.class, MyRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
         registry.registerRecipeFiller(PressureCookingRecipe.class, MyRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
         registry.registerRecipeFiller(MincingRecipe.class, MyRecipeTypes.MINCING.getRecipeType(), MincingDisplay::new);
+        registry.registerRecipeFiller(BakingRecipe.class, MyRecipeTypes.BAKING.getRecipeType(), BakingDisplay::new);
 //        registry.registerFiller(LootTable);
-        registry.registerDisplayGenerator(LootTableCategory.ID, new DynamicDisplayGenerator<>() {
-            @Override
-            public Optional<List<LootTableDisplay>> getRecipeFor(EntryStack<?> entry) {
-                return DynamicDisplayGenerator.super.getRecipeFor(entry);
-            }
-
-            @Override
-            public Optional<List<LootTableDisplay>> getUsageFor(EntryStack<?> entry) {
-                return DynamicDisplayGenerator.super.getUsageFor(entry);
-            }
-
-            @Override
-            public Optional<List<LootTableDisplay>> generate(ViewSearchBuilder builder) {
-
-                return DynamicDisplayGenerator.super.generate(builder);
-            }
-        });
+//        registry.registerDisplayGenerator(LootTableCategory.ID, new DynamicDisplayGenerator<>() {
+//            @Override
+//            public Optional<List<LootTableDisplay>> getRecipeFor(EntryStack<?> entry) {
+//                return DynamicDisplayGenerator.super.getRecipeFor(entry);
+//            }
+//
+//            @Override
+//            public Optional<List<LootTableDisplay>> getUsageFor(EntryStack<?> entry) {
+//                return DynamicDisplayGenerator.super.getUsageFor(entry);
+//            }
+//
+//            @Override
+//            public Optional<List<LootTableDisplay>> generate(ViewSearchBuilder builder) {
+//
+//                return DynamicDisplayGenerator.super.generate(builder);
+//            }
+//        });
     }
 }
