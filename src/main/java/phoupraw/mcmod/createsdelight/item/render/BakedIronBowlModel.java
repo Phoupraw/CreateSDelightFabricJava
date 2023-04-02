@@ -55,7 +55,7 @@ public class BakedIronBowlModel implements BakedModel, FabricBakedModel {
         for (int i = 0; i < 4; i++) {
             quad.copyPos(i, pos);
             pos.rotate(new Quaternion(Direction.DOWN.getUnitVector(), 45f, true));
-            pos.add(0, 0, -0.7071f);
+            pos.add(0, 0, -0.70710678118654752440084436210485f);
             pos.scale(14 / 12f);
             pos.add(0.5f, 1 / 16f, 0.5f);
             quad.pos(i, pos);
@@ -88,17 +88,18 @@ public class BakedIronBowlModel implements BakedModel, FabricBakedModel {
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
         context.bakedModelConsumer().accept(getBowlModel());
-        var builder = getMeshBuilder();
-        QuadEmitter emitter = builder.getEmitter();
         ContainerItemContext itemContext = ContainerItemContext.withConstant(stack);
         var fluidS = new IronBowlFluidStorage(itemContext, null);
         if (!fluidS.isResourceBlank()) {
+            var builder = getMeshBuilder();
+            QuadEmitter emitter = builder.getEmitter();
             Sprite sprite = FluidVariantRendering.getSprite(fluidS.getResource());
             int color = FluidVariantRendering.getColor(fluidS.getResource());
             emitter.square(Direction.UP, 1 / 16f, 1 / 16f, 15 / 16f, 15 / 16f, 6.5f / 16f);
             emitter.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV);
             emitter.spriteColor(0, color, color, color, color);
             emitter.emit();
+            context.meshConsumer().accept(builder.build());
         } else {
             var itemS = new IronBowlItemStorage(itemContext, null);
             if (!itemS.isResourceBlank()) {
@@ -110,15 +111,13 @@ public class BakedIronBowlModel implements BakedModel, FabricBakedModel {
                 } else {
                     context.pushTransform(ITEM_TRANSFORM);
                 }
-                if (itemModel.isVanillaAdapter()) {
-                    context.bakedModelConsumer().accept(itemModel);
-                } else {
+                context.bakedModelConsumer().accept(itemModel);
+                if (!itemModel.isVanillaAdapter()) {
                     itemModel.emitItemQuads(nestedStack, randomSupplier, context);
                 }
                 context.popTransform();
             }
         }
-        context.meshConsumer().accept(builder.build());
     }
 
     @Override

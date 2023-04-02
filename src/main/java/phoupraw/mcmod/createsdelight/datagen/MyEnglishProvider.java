@@ -96,7 +96,7 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.SUNFLOWER_KERNELS, "Sunflower Kernels");
         builder.add(MyItems.BUCKETED_PUMPKIN_OIL, "Bucketed Pumpkin Seeds Oil");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.PUMPKIN_OIL), "Pumpkin Seeds Oil");
-        builder.add(MyBlocks.OVEN, "Sealed Basin");
+        builder.add(MyBlocks.OVEN, "Oven");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.APPLE_PASTE), "Apple Paste");
         builder.add(MyBlocks.APPLE_CAKE, "Apple Cake");
         builder.add(MyBlocks.CARROT_CREAM_CAKE, "Carrot Cream Cake");
