@@ -30,9 +30,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.api.GetWorld;
+import phoupraw.mcmod.createsdelight.api.GetWorldContainerItemContext;
 import phoupraw.mcmod.createsdelight.api.ItemStorage2;
-import phoupraw.mcmod.createsdelight.api.WorldContainerItemContext;
-import phoupraw.mcmod.createsdelight.api.WorldGetter;
 import phoupraw.mcmod.createsdelight.recipe.ItemBowlRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 import phoupraw.mcmod.createsdelight.registry.MyItems;
@@ -43,8 +43,8 @@ import java.util.List;
 import java.util.Optional;
 public class IronBowlItem extends Item implements IHaveGoggleInformation {
     public static void onInitialize() {
-        ItemStorage2.ITEM.registerForItems((itemStack, context) -> new IronBowlItemStorage(context, WorldGetter.getOrNull(context)), MyItems.IRON_BOWL);
-        FluidStorage.ITEM.registerForItems((itemStack, context) -> new IronBowlFluidStorage(context, WorldGetter.getOrNull(context)), MyItems.IRON_BOWL);
+        ItemStorage2.ITEM.registerForItems((itemStack, context) -> new IronBowlItemStorage(context, GetWorld.getOrNull(context)), MyItems.IRON_BOWL);
+        FluidStorage.ITEM.registerForItems((itemStack, context) -> new IronBowlFluidStorage(context, GetWorld.getOrNull(context)), MyItems.IRON_BOWL);
         DeployerRecipeSearchEvent.EVENT.register(event -> {
             ItemStack bowlStack = event.getInventory().getStack(0);
             ContainerItemContext itemContext = ContainerItemContext.withConstant(bowlStack);
@@ -59,7 +59,7 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
     @Contract(pure = true)
     public static @NotNull ItemStack bowl(ItemVariant toBeStored) {
         var ironBowl = MyItems.IRON_BOWL.getDefaultStack();
-        var itemS = new IronBowlItemStorage(WorldContainerItemContext.of(ironBowl), null);
+        var itemS = new IronBowlItemStorage(GetWorldContainerItemContext.of(ironBowl), null);
         TransferUtil.insert(itemS, toBeStored, 1);
         return ironBowl;
     }
@@ -149,7 +149,7 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
         super.appendStacks(group, stacks);
         if (group == MyItems.ITEM_GROUP) {
             ItemStack ironBowl = getDefaultStack();
-            var fluidS = new IronBowlFluidStorage(WorldContainerItemContext.of(ironBowl), null);
+            var fluidS = new IronBowlFluidStorage(GetWorldContainerItemContext.of(ironBowl), null);
             TransferUtil.insert(fluidS, FluidVariant.of(MyFluids.PASTE), Long.MAX_VALUE);
             stacks.add(ironBowl.copy());
             TransferUtil.clearStorage(fluidS);

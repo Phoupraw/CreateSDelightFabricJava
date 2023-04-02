@@ -15,17 +15,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-public interface WorldContainerItemContext extends ContainerItemContext, WorldGetter {
+public interface GetWorldContainerItemContext extends ContainerItemContext, GetWorld {
     @Contract(value = "_ -> new", pure = true)
     static @NotNull ContainerItemContext of(ItemStack mutable) {
         return ContainerItemContext.ofSingleSlot(InventoryStorage.of(new SimpleInventory(mutable), null).getSlot(0));
     }
     @Contract(value = "_, _ -> new", pure = true)
-    static @NotNull WorldContainerItemContext of(@Nullable World world, ContainerItemContext wrapped) {
+    static @NotNull GetWorldContainerItemContext of(@Nullable World world, ContainerItemContext wrapped) {
         return new Wrapper(world, wrapped);
     }
     @ApiStatus.Experimental
-    class Wrapper implements WorldContainerItemContext {
+    class Wrapper implements GetWorldContainerItemContext {
         private final @Nullable World world;
         private final ContainerItemContext wrapped;
 

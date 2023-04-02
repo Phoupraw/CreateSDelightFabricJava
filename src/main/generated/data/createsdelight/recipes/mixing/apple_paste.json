@@ -10,12 +10,31 @@
     {
       "item": "minecraft:apple"
     },
+    {
+      "item": "minecraft:apple"
+    },
     [
       {
         "item": "minecraft:oak_leaves"
       },
       {
         "item": "minecraft:dark_oak_leaves"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:oak_leaves"
+      },
+      {
+        "item": "minecraft:dark_oak_leaves"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:oak_sapling"
+      },
+      {
+        "item": "minecraft:dark_oak_sapling"
       }
     ],
     {

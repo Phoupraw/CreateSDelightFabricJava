@@ -12,6 +12,7 @@ import phoupraw.mcmod.createsdelight.recipe.BakingRecipe;
 public class IronBowlFluidStorage extends SingleVariantItemStorage<FluidVariant> {
     public final ContainerItemContext itemContext;
     public final @Nullable World world;
+    private boolean amnesty = true;
 
     public IronBowlFluidStorage(ContainerItemContext context, @Nullable World world) {
         super(context);
@@ -61,9 +62,17 @@ public class IronBowlFluidStorage extends SingleVariantItemStorage<FluidVariant>
     @Override
     protected boolean canInsert(FluidVariant resource) {
         if (!new IronBowlItemStorage(itemContext, world).isResourceBlank()) return false;
-        if (world != null) {
+        if (!isAmnesty() && world != null) {
             return BakingRecipe.findFirst(world, LambdasC.firstIngredientMatching(resource.getFluid())) != null;
         }
         return super.canInsert(resource);
+    }
+
+    public boolean isAmnesty() {
+        return amnesty;
+    }
+
+    public void setAmnesty(boolean amnesty) {
+        this.amnesty = amnesty;
     }
 }

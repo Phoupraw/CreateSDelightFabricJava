@@ -17,20 +17,21 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
 /**
- * @see DirectBeltInputBehaviour
- */
+ @see DirectBeltInputBehaviour */
 public final class DirectBeltInput {
     /**
-     * 注册传送带直接输入开放式容器的回调函数。用法与{@link ItemStorage#SIDED}类似，但是{@link BlockApiLookup#find}中的{@code context}参数是多余的，故以{@link Void}作为类型，只能传{@code null}，仅作为占位符，没有用处。
+     注册传送带直接输入开放式容器的回调函数。用法与{@link ItemStorage#SIDED}类似，但是{@link BlockApiLookup#find}中的{@code context}参数是多余的，故以{@link Void}作为类型，只能传{@code null}，仅作为占位符，没有用处。
      */
     public static final BlockApiLookup<InsertionHandler, @Nullable Void> LOOKUP = BlockApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "direct_belt_input"), InsertionHandler.class, Void.class);
-
+    public static final BlockApiLookup<Insert, @Nullable Direction> SIDED = BlockApiLookup.get(MyIdentifiers.of("direct_belt_input_2"), Insert.class, Direction.class);
     static {
         LOOKUP.registerFallback((world, pos, state, blockEntity, v) -> {
             if (!(blockEntity instanceof SmartTileEntity smart)) return null;
@@ -62,27 +63,42 @@ public final class DirectBeltInput {
     private DirectBeltInput() {}
 
     @FunctionalInterface
+    public interface Insert {
+        /**
+         @see Storage#insert
+         */
+        long insert(ItemVariant resource, long maxAmount, TransactionContext transaction);
+        /**
+         @see Storage#simulateInsert
+         */
+        default long simulateInsert(ItemVariant resource, long maxAmount, @Nullable TransactionContext transaction) {
+            try (Transaction simulateTransaction = Transaction.openNested(transaction)) {
+                return insert(resource, maxAmount, simulateTransaction);
+            }
+        }
+    }
+
+    @FunctionalInterface
     public interface InsertionHandler {
         /**
-         * @param stack     要被输入的物品
-         * @param direction 要被输入的方向，例如，向<b>东</b>传输的传送带向它<b>东边</b>的置物台传输物品，置物台从<b>西边</b>被输入物品，则此参数为{@link Direction#WEST}
-         * @param simulate  如果为{@code true}，则不会发生实际的输入
-         * @return 从 {@code stack} 扣除成功输入的物品后剩余的物品
-         * @see DirectBeltInputBehaviour#handleInsertion(TransportedItemStack, Direction, boolean)
+         @param stack 要被输入的物品
+         @param direction 要被输入的方向，例如，向<b>东</b>传输的传送带向它<b>东边</b>的置物台传输物品，置物台从<b>西边</b>被输入物品，则此参数为{@link Direction#WEST}
+         @param simulate 如果为{@code true}，则不会发生实际的输入
+         @return 从 {@code stack} 扣除成功输入的物品后剩余的物品
+         @see DirectBeltInputBehaviour#handleInsertion(TransportedItemStack, Direction, boolean)
          */
         ItemStack handleInsertion(TransportedItemStack stack, Direction direction, boolean simulate);
         /**
-         * 默认等同于{@code handleInsertion(new TransportedItemStack(stack), direction, simulate)}
-         *
-         * @see #handleInsertion(TransportedItemStack, Direction, boolean)
-         * @see DirectBeltInputBehaviour#handleInsertion(ItemStack, Direction, boolean)
+         默认等同于{@code handleInsertion(new TransportedItemStack(stack), direction, simulate)}
+         @see #handleInsertion(TransportedItemStack, Direction, boolean)
+         @see DirectBeltInputBehaviour#handleInsertion(ItemStack, Direction, boolean)
          */
         default ItemStack handleInsertion(ItemStack stack, Direction direction, boolean simulate) {
             return handleInsertion(new TransportedItemStack(stack), direction, simulate);
         }
         /**
-         * 包装
-         * @see DirectBeltInputBehaviour#defaultInsertionCallback
+         包装
+         @see DirectBeltInputBehaviour#defaultInsertionCallback
          */
         static InsertionHandler of(@Nullable Storage<ItemVariant> storage) {
             return (inserted, direction, simulate) -> {

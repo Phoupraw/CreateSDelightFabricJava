@@ -1,0 +1,130 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "createsdelight:block/chocolate",
+    "2": "createsdelight:block/basque_cake_bottom",
+    "3": "createsdelight:block/milk",
+    "particle": "createsdelight:block/chocolate"
+  },
+  "elements": [
+    {
+      "name": "蛋糕层",
+      "from": [1, 0, 1],
+      "to": [15, 2, 15],
+      "faces": {
+        "north": {"uv": [1, 14, 15, 16], "texture": "#2"},
+        "east": {"uv": [1, 14, 15, 16], "texture": "#2"},
+        "south": {"uv": [1, 14, 15, 16], "texture": "#2"},
+        "west": {"uv": [1, 14, 15, 16], "texture": "#2"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#2"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#2"}
+      }
+    },
+    {
+      "name": "巧克力层",
+      "from": [1, 2, 1],
+      "to": [15, 3, 15],
+      "faces": {
+        "north": {"uv": [1, 13, 15, 14], "texture": "#1"},
+        "east": {"uv": [1, 13, 15, 14], "texture": "#1"},
+        "south": {"uv": [1, 13, 15, 14], "texture": "#1"},
+        "west": {"uv": [1, 13, 15, 14], "texture": "#1"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#1"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力层",
+      "from": [1, 7, 3],
+      "to": [15, 9, 15],
+      "faces": {
+        "north": {"uv": [1, 7, 15, 9], "texture": "#1"},
+        "east": {"uv": [1, 7, 13, 9], "texture": "#1"},
+        "south": {"uv": [1, 7, 15, 9], "texture": "#1"},
+        "west": {"uv": [3, 7, 15, 9], "texture": "#1"},
+        "up": {"uv": [1, 3, 15, 15], "texture": "#1"},
+        "down": {"uv": [1, 1, 15, 13], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力层",
+      "from": [1, 12, 12],
+      "to": [15, 13, 15],
+      "faces": {
+        "north": {"uv": [1, 3, 15, 4], "texture": "#1"},
+        "east": {"uv": [1, 3, 4, 4], "texture": "#1"},
+        "south": {"uv": [1, 3, 15, 4], "texture": "#1"},
+        "west": {"uv": [12, 3, 15, 4], "texture": "#1"},
+        "up": {"uv": [1, 12, 15, 15], "texture": "#1"},
+        "down": {"uv": [1, 1, 15, 4], "texture": "#1"}
+      }
+    },
+    {
+      "name": "奶油层",
+      "from": [1, 5, 1],
+      "to": [15, 6, 15],
+      "faces": {
+        "north": {"uv": [1, 10, 15, 11], "texture": "#3"},
+        "east": {"uv": [1, 10, 15, 11], "texture": "#3"},
+        "south": {"uv": [1, 10, 15, 11], "texture": "#3"},
+        "west": {"uv": [1, 10, 15, 11], "texture": "#3"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#3"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#3"}
+      }
+    },
+    {
+      "name": "奶油层",
+      "from": [1, 10, 9],
+      "to": [15, 12, 15],
+      "faces": {
+        "north": {"uv": [1, 4, 15, 6], "texture": "#3"},
+        "east": {"uv": [1, 4, 7, 6], "texture": "#3"},
+        "south": {"uv": [1, 4, 15, 6], "texture": "#3"},
+        "west": {"uv": [9, 4, 15, 6], "texture": "#3"},
+        "up": {"uv": [1, 9, 15, 15], "texture": "#3"},
+        "down": {"uv": [1, 1, 15, 7], "texture": "#3"}
+      }
+    },
+    {
+      "name": "蛋糕层",
+      "from": [1, 3, 1],
+      "to": [15, 5, 15],
+      "faces": {
+        "north": {"uv": [1, 11, 15, 13], "texture": "#2"},
+        "east": {"uv": [1, 11, 15, 13], "texture": "#2"},
+        "south": {"uv": [1, 11, 15, 13], "texture": "#2"},
+        "west": {"uv": [1, 11, 15, 13], "texture": "#2"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#2"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#2"}
+      }
+    },
+    {
+      "name": "蛋糕层",
+      "from": [1, 6, 1],
+      "to": [15, 7, 15],
+      "faces": {
+        "north": {"uv": [1, 9, 15, 10], "texture": "#2"},
+        "east": {"uv": [1, 9, 15, 10], "texture": "#2"},
+        "south": {"uv": [1, 9, 15, 10], "texture": "#2"},
+        "west": {"uv": [1, 9, 15, 10], "texture": "#2"},
+        "up": {"uv": [1, 1, 15, 15], "texture": "#2"},
+        "down": {"uv": [1, 1, 15, 15], "texture": "#2"}
+      }
+    },
+    {
+      "name": "蛋糕层",
+      "from": [1, 9, 6],
+      "to": [15, 10, 15],
+      "faces": {
+        "north": {"uv": [1, 6, 15, 7], "texture": "#2"},
+        "east": {"uv": [1, 6, 10, 7], "texture": "#2"},
+        "south": {"uv": [1, 6, 15, 7], "texture": "#2"},
+        "west": {"uv": [6, 6, 15, 7], "texture": "#2"},
+        "up": {"uv": [1, 6, 15, 15], "texture": "#2"},
+        "down": {"uv": [1, 1, 15, 10], "texture": "#2"}
+      }
+    }
+  ]
+}
