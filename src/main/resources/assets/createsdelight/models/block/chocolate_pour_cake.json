@@ -1,0 +1,91 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "createsdelight:block/chocolate",
+    "4": "create:fluid/chocolate_flow",
+    "5": "createsdelight:block/cake_base_bottom",
+    "particle": "createsdelight:block/chocolate"
+  },
+  "elements": [
+    {
+      "name": "蛋糕层",
+      "from": [4, 0, 4],
+      "to": [12, 6, 12],
+      "faces": {
+        "north": {"uv": [4, 10, 12, 16], "texture": "#5"},
+        "east": {"uv": [4, 10, 12, 16], "texture": "#5"},
+        "south": {"uv": [4, 10, 12, 16], "texture": "#5"},
+        "west": {"uv": [4, 10, 12, 16], "texture": "#5"},
+        "up": {"uv": [4, 4, 12, 12], "texture": "#5"},
+        "down": {"uv": [4, 4, 12, 12], "texture": "#5"}
+      }
+    },
+    {
+      "name": "巧克力层",
+      "from": [4, 6, 4],
+      "to": [12, 10, 12],
+      "faces": {
+        "north": {"uv": [4, 6, 12, 10], "texture": "#1"},
+        "east": {"uv": [4, 6, 12, 10], "texture": "#1"},
+        "south": {"uv": [4, 6, 12, 10], "texture": "#1"},
+        "west": {"uv": [4, 6, 12, 10], "texture": "#1"},
+        "up": {"uv": [4, 4, 12, 12], "texture": "#1"},
+        "down": {"uv": [4, 4, 12, 12], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力流",
+      "from": [12, 0, 6],
+      "to": [12.5, 10, 10],
+      "faces": {
+        "north": {"uv": [3.5, 6, 4, 16], "texture": "#4"},
+        "east": {"uv": [6, 6, 10, 16], "texture": "#4"},
+        "south": {"uv": [12, 6, 12.5, 16], "texture": "#4"},
+        "west": {"uv": [6, 6, 10, 16], "texture": "#4"},
+        "up": {"uv": [12, 6, 12.5, 10], "texture": "#4"},
+        "down": {"uv": [12, 6, 12.5, 10], "texture": "#4"}
+      }
+    },
+    {
+      "name": "巧克力流",
+      "from": [3.5, 0, 6],
+      "to": [4, 10, 10],
+      "faces": {
+        "north": {"uv": [12, 6, 12.5, 16], "texture": "#4"},
+        "east": {"uv": [6, 6, 10, 16], "texture": "#4"},
+        "south": {"uv": [3.5, 6, 4, 16], "texture": "#4"},
+        "west": {"uv": [6, 6, 10, 16], "texture": "#4"},
+        "up": {"uv": [3.5, 6, 4, 10], "texture": "#4"},
+        "down": {"uv": [3.5, 6, 4, 10], "texture": "#4"}
+      }
+    },
+    {
+      "name": "巧克力流顶",
+      "from": [8, 10, 6],
+      "to": [12.5, 10.5, 10],
+      "faces": {
+        "north": {"uv": [3.5, 5.5, 8, 6], "texture": "#4"},
+        "east": {"uv": [6, 5.5, 10, 6], "texture": "#4"},
+        "south": {"uv": [8, 5.5, 12.5, 6], "texture": "#4"},
+        "west": {"uv": [6, 5.5, 10, 6], "texture": "#4"},
+        "up": {"uv": [8, 6, 12.5, 10], "rotation": 270, "texture": "#4"},
+        "down": {"uv": [8, 6, 12.5, 10], "texture": "#4"}
+      }
+    },
+    {
+      "name": "巧克力流顶",
+      "from": [3.5, 10, 6],
+      "to": [8, 10.5, 10],
+      "faces": {
+        "north": {"uv": [8, 5.5, 12.5, 6], "texture": "#4"},
+        "east": {"uv": [6, 5.5, 10, 6], "texture": "#4"},
+        "south": {"uv": [3.5, 5.5, 8, 6], "texture": "#4"},
+        "west": {"uv": [6, 5.5, 10, 6], "texture": "#4"},
+        "up": {"uv": [3.5, 6, 8, 10], "rotation": 90, "texture": "#4"},
+        "down": {"uv": [3.5, 6, 8, 10], "texture": "#4"}
+      }
+    }
+  ]
+}

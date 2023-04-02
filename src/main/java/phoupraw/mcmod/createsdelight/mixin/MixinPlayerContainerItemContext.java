@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import phoupraw.mcmod.createsdelight.api.WorldGetter;
+import phoupraw.mcmod.createsdelight.api.GetWorld;
 @Mixin(PlayerContainerItemContext.class)
-public class MixinPlayerContainerItemContext implements WorldGetter {
+public class MixinPlayerContainerItemContext implements GetWorld {
     private World world;
 
     @Inject(method = "<init>(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)V", at = @At("RETURN"))
