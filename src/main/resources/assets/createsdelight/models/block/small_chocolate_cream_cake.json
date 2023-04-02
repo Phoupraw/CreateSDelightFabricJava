@@ -1,0 +1,52 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "createsdelight:block/chocolate",
+    "3": "createsdelight:block/milk",
+    "4": "item/sweet_berries",
+    "particle": "createsdelight:block/brownie_side"
+  },
+  "elements": [
+    {
+      "name": "基",
+      "from": [2, 0, 4],
+      "to": [14, 10, 12],
+      "faces": {
+        "north": {"uv": [2, 6, 14, 16], "texture": "#1"},
+        "east": {"uv": [4, 6, 12, 16], "texture": "#1"},
+        "south": {"uv": [2, 6, 14, 16], "texture": "#1"},
+        "west": {"uv": [4, 6, 12, 16], "texture": "#1"},
+        "up": {"uv": [2, 4, 14, 12], "texture": "#1"},
+        "down": {"uv": [2, 4, 14, 12], "texture": "#1"}
+      }
+    },
+    {
+      "name": "奶油",
+      "from": [5, 10, 5],
+      "to": [11, 12, 11],
+      "faces": {
+        "north": {"uv": [5, 4, 11, 6], "texture": "#3"},
+        "east": {"uv": [5, 4, 11, 6], "texture": "#3"},
+        "south": {"uv": [5, 4, 11, 6], "texture": "#3"},
+        "west": {"uv": [5, 4, 11, 6], "texture": "#3"},
+        "up": {"uv": [0, 0, 6, 6], "texture": "#3"},
+        "down": {"uv": [5, 5, 11, 11], "texture": "#3"}
+      }
+    },
+    {
+      "name": "甜浆果",
+      "from": [6.5, 12, 6.5],
+      "to": [9.5, 15, 9.5],
+      "faces": {
+        "north": {"uv": [6, 10, 9, 13], "rotation": 90, "texture": "#4"},
+        "east": {"uv": [9, 11, 6, 14], "texture": "#4"},
+        "south": {"uv": [6, 11, 9, 14], "texture": "#4"},
+        "west": {"uv": [6, 10, 9, 13], "texture": "#4"},
+        "up": {"uv": [6, 10, 9, 13], "texture": "#4"},
+        "down": {"uv": [6, 10, 9, 13], "texture": "#4"}
+      }
+    }
+  ]
+}

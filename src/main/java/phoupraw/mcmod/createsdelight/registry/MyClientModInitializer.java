@@ -75,10 +75,11 @@ public final class MyClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.PUMPKIN_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_ORANGE.color));
         Identifier milk_still = new Identifier("milk", "block/milk_still");
-        Identifier turbid = MyIdentifiers.of("block/turbid");
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.MELON_JUICE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, 0xE24334));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.PASTE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, MapColor.TERRACOTTA_WHITE.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.APPLE_PASTE, VirtualFluids.newSimpleFluidRenderHandler(milk_still, 0xfffab9));
+        FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.MASHED_POTATO/*TODO 巧克力面糊*/, VirtualFluids.newSimpleFluidRenderHandler(milk_still, 0xf2aba0));
+        Identifier turbid = MyIdentifiers.of("block/turbid");
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.TOMATO_SAUCE, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.RED.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.BEETROOT_SOUP, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.DULL_RED.color));
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.POPPY_RUSSIAN_SOUP, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.DARK_RED.color));

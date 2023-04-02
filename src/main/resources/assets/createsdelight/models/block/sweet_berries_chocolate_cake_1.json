@@ -1,0 +1,146 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "createsdelight:block/chocolate",
+    "3": "createsdelight:block/milk",
+    "4": "item/sweet_berries",
+    "particle": "createsdelight:block/brownie_side"
+  },
+  "elements": [
+    {
+      "name": "基",
+      "from": [0, 0, 6],
+      "to": [16, 13, 16],
+      "faces": {
+        "north": {"uv": [0, 3, 16, 16], "texture": "#particle"},
+        "east": {"uv": [0, 3, 10, 16], "texture": "#1", "cullface": "east"},
+        "south": {"uv": [0, 3, 16, 16], "texture": "#1", "cullface": "south"},
+        "west": {"uv": [6, 3, 16, 16], "texture": "#1", "cullface": "west"},
+        "up": {"uv": [0, 6, 16, 16], "texture": "#1"},
+        "down": {"uv": [0, 0, 16, 10], "texture": "#1", "cullface": "down"}
+      }
+    },
+    {
+      "name": "基",
+      "from": [9, 0, 0],
+      "to": [16, 13, 6],
+      "faces": {
+        "north": {"uv": [0, 3, 7, 16], "texture": "#1", "cullface": "north"},
+        "east": {"uv": [10, 3, 16, 16], "texture": "#1", "cullface": "east"},
+        "west": {"uv": [0, 3, 6, 16], "texture": "#particle"},
+        "up": {"uv": [9, 0, 16, 6], "texture": "#1"},
+        "down": {"uv": [9, 10, 16, 16], "texture": "#1", "cullface": "down"}
+      }
+    },
+    {
+      "name": "花底奶油",
+      "from": [1, 13, 10],
+      "to": [6, 14, 15],
+      "faces": {
+        "north": {"uv": [10, 2, 15, 3], "texture": "#3"},
+        "east": {"uv": [1, 2, 6, 3], "texture": "#3"},
+        "south": {"uv": [1, 2, 6, 3], "texture": "#3"},
+        "west": {"uv": [10, 2, 15, 3], "texture": "#3"},
+        "up": {"uv": [1, 10, 6, 15], "texture": "#3"}
+      }
+    },
+    {
+      "name": "花底奶油",
+      "from": [10, 13, 10],
+      "to": [15, 14, 15],
+      "faces": {
+        "north": {"uv": [1, 2, 6, 3], "texture": "#3"},
+        "east": {"uv": [1, 2, 6, 3], "texture": "#3"},
+        "south": {"uv": [10, 2, 15, 3], "texture": "#3"},
+        "west": {"uv": [10, 2, 15, 3], "texture": "#3"},
+        "up": {"uv": [10, 10, 15, 15], "texture": "#3"}
+      }
+    },
+    {
+      "name": "花底奶油",
+      "from": [10, 13, 1],
+      "to": [15, 14, 6],
+      "faces": {
+        "north": {"uv": [1, 2, 6, 3], "texture": "#3"},
+        "east": {"uv": [10, 2, 15, 3], "texture": "#3"},
+        "south": {"uv": [10, 2, 15, 3], "texture": "#3"},
+        "west": {"uv": [1, 2, 6, 3], "texture": "#3"},
+        "up": {"uv": [10, 1, 15, 6], "texture": "#3"}
+      }
+    },
+    {
+      "name": "花上巧克力",
+      "from": [11, 14, 11],
+      "to": [14, 16, 14],
+      "faces": {
+        "north": {"uv": [2, 0, 5, 2], "texture": "#1"},
+        "east": {"uv": [2, 0, 5, 2], "texture": "#1"},
+        "south": {"uv": [11, 0, 14, 2], "texture": "#1"},
+        "west": {"uv": [11, 0, 14, 2], "texture": "#1"},
+        "up": {"uv": [11, 11, 14, 14], "texture": "#1"}
+      }
+    },
+    {
+      "name": "花上巧克力",
+      "from": [2, 14, 11],
+      "to": [5, 16, 14],
+      "faces": {
+        "north": {"uv": [11, 0, 14, 2], "texture": "#1"},
+        "east": {"uv": [2, 0, 5, 2], "texture": "#1"},
+        "south": {"uv": [2, 0, 5, 2], "texture": "#1"},
+        "west": {"uv": [11, 0, 14, 2], "texture": "#1"},
+        "up": {"uv": [2, 11, 5, 14], "texture": "#1"}
+      }
+    },
+    {
+      "name": "花上巧克力",
+      "from": [11, 14, 2],
+      "to": [14, 16, 5],
+      "faces": {
+        "north": {"uv": [2, 0, 5, 2], "texture": "#1"},
+        "east": {"uv": [11, 0, 14, 2], "texture": "#1"},
+        "south": {"uv": [11, 0, 14, 2], "texture": "#1"},
+        "west": {"uv": [2, 0, 5, 2], "texture": "#1"},
+        "up": {"uv": [11, 2, 14, 5], "texture": "#1"}
+      }
+    },
+    {
+      "name": "甜浆果",
+      "from": [7, 13, 11],
+      "to": [9, 15, 13],
+      "faces": {
+        "north": {"uv": [6, 3, 8, 5], "rotation": 90, "texture": "#4"},
+        "east": {"uv": [7, 3, 9, 5], "rotation": 90, "texture": "#4"},
+        "south": {"uv": [7, 3, 9, 5], "texture": "#4"},
+        "west": {"uv": [6, 3, 8, 5], "texture": "#4"},
+        "up": {"uv": [6, 3, 8, 5], "texture": "#4"}
+      }
+    },
+    {
+      "name": "甜浆果",
+      "from": [11, 13, 7],
+      "to": [13, 15, 9],
+      "faces": {
+        "north": {"uv": [6, 3, 8, 5], "rotation": 90, "texture": "#4"},
+        "east": {"uv": [7, 3, 9, 5], "rotation": 90, "texture": "#4"},
+        "south": {"uv": [7, 3, 9, 5], "texture": "#4"},
+        "west": {"uv": [6, 3, 8, 5], "texture": "#4"},
+        "up": {"uv": [6, 3, 8, 5], "texture": "#4"}
+      }
+    },
+    {
+      "name": "甜浆果",
+      "from": [3, 13, 7],
+      "to": [5, 15, 9],
+      "faces": {
+        "north": {"uv": [6, 3, 8, 5], "rotation": 90, "texture": "#4"},
+        "east": {"uv": [7, 3, 9, 5], "rotation": 90, "texture": "#4"},
+        "south": {"uv": [7, 3, 9, 5], "texture": "#4"},
+        "west": {"uv": [6, 3, 8, 5], "texture": "#4"},
+        "up": {"uv": [6, 3, 8, 5], "texture": "#4"}
+      }
+    }
+  ]
+}

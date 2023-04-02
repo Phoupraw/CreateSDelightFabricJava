@@ -1,0 +1,129 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "createsdelight:block/chocolate",
+    "3": "createsdelight:block/milk",
+    "particle": "createsdelight:block/brownie_side"
+  },
+  "elements": [
+    {
+      "name": "巧克力层",
+      "from": [2, 0, 2],
+      "to": [14, 2, 14],
+      "faces": {
+        "north": {"uv": [2, 14, 14, 16], "texture": "#1"},
+        "east": {"uv": [2, 14, 14, 16], "texture": "#1"},
+        "south": {"uv": [2, 14, 14, 16], "texture": "#1"},
+        "west": {"uv": [2, 14, 14, 16], "texture": "#1"},
+        "up": {"uv": [2, 2, 14, 14], "texture": "#1"},
+        "down": {"uv": [2, 2, 14, 14], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力层",
+      "from": [2, 6, 2],
+      "to": [14, 8, 14],
+      "faces": {
+        "north": {"uv": [2, 8, 14, 10], "texture": "#1"},
+        "east": {"uv": [2, 8, 14, 10], "texture": "#1"},
+        "south": {"uv": [2, 8, 14, 10], "texture": "#1"},
+        "west": {"uv": [2, 8, 14, 10], "texture": "#1"},
+        "up": {"uv": [2, 2, 14, 14], "texture": "#1"},
+        "down": {"uv": [2, 2, 14, 14], "texture": "#1"}
+      }
+    },
+    {
+      "name": "奶油层",
+      "from": [2, 2, 2],
+      "to": [14, 6, 14],
+      "faces": {
+        "north": {"uv": [2, 10, 14, 14], "texture": "#3"},
+        "east": {"uv": [2, 10, 14, 14], "texture": "#3"},
+        "south": {"uv": [2, 10, 14, 14], "texture": "#3"},
+        "west": {"uv": [2, 10, 14, 14], "texture": "#3"},
+        "up": {"uv": [2, 2, 14, 14], "texture": "#3"},
+        "down": {"uv": [2, 2, 14, 14], "texture": "#3"}
+      }
+    },
+    {
+      "name": "巧克力卷",
+      "from": [2.5, 8, 4],
+      "to": [5.5, 9, 12],
+      "faces": {
+        "north": {"uv": [9, 7, 12, 8], "texture": "#1"},
+        "east": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "south": {"uv": [4, 7, 7, 8], "texture": "#1"},
+        "west": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "up": {"uv": [4, 4, 7, 12], "texture": "#1"},
+        "down": {"uv": [4, 4, 7, 12], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力卷",
+      "from": [6.5, 8, 4],
+      "to": [9.5, 9, 12],
+      "faces": {
+        "north": {"uv": [9, 7, 12, 8], "texture": "#1"},
+        "east": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "south": {"uv": [4, 7, 7, 8], "texture": "#1"},
+        "west": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "up": {"uv": [4, 4, 7, 12], "texture": "#1"},
+        "down": {"uv": [4, 4, 7, 12], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力卷",
+      "from": [6.5, 10, 4],
+      "to": [9.5, 11, 12],
+      "faces": {
+        "north": {"uv": [9, 7, 12, 8], "texture": "#1"},
+        "east": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "south": {"uv": [4, 7, 7, 8], "texture": "#1"},
+        "west": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "up": {"uv": [4, 4, 7, 12], "texture": "#1"},
+        "down": {"uv": [4, 4, 7, 12], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力卷",
+      "from": [10.5, 8, 4],
+      "to": [13.5, 9, 12],
+      "faces": {
+        "north": {"uv": [9, 7, 12, 8], "texture": "#1"},
+        "east": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "south": {"uv": [4, 7, 7, 8], "texture": "#1"},
+        "west": {"uv": [4, 7, 12, 8], "texture": "#1"},
+        "up": {"uv": [4, 4, 7, 12], "texture": "#1"},
+        "down": {"uv": [4, 4, 7, 12], "texture": "#1"}
+      }
+    },
+    {
+      "name": "白巧克力卷",
+      "from": [4.5, 9, 4],
+      "to": [7.5, 10, 12],
+      "faces": {
+        "north": {"uv": [8.5, 6, 11.5, 7], "texture": "#3"},
+        "east": {"uv": [4, 6, 12, 7], "texture": "#3"},
+        "south": {"uv": [4.5, 6, 7.5, 7], "texture": "#3"},
+        "west": {"uv": [4, 6, 12, 7], "texture": "#3"},
+        "up": {"uv": [4.5, 4, 7.5, 12], "texture": "#3"},
+        "down": {"uv": [4.5, 4, 7.5, 12], "texture": "#3"}
+      }
+    },
+    {
+      "name": "白巧克力卷",
+      "from": [8.5, 9, 4],
+      "to": [11.5, 10, 12],
+      "faces": {
+        "north": {"uv": [8.5, 6, 11.5, 7], "texture": "#3"},
+        "east": {"uv": [4, 6, 12, 7], "texture": "#3"},
+        "south": {"uv": [4.5, 6, 7.5, 7], "texture": "#3"},
+        "west": {"uv": [4, 6, 12, 7], "texture": "#3"},
+        "up": {"uv": [4.5, 4, 7.5, 12], "texture": "#3"},
+        "down": {"uv": [4.5, 4, 7.5, 12], "texture": "#3"}
+      }
+    }
+  ]
+}

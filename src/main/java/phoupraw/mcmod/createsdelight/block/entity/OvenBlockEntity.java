@@ -152,7 +152,6 @@ public class OvenBlockEntity extends SmartTileEntity implements SidedStorageBloc
     @Override
     public void markDirty() {
         super.markDirty();
-//        CreateSDelight.LOGGER.info("markdirty");
     }
 
     public double[] getCountdowns() {
