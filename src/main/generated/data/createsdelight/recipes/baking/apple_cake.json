@@ -3,7 +3,7 @@
   "ingredients": [
     {
       "amount": 40500,
-      "fluid": "createsdelight:paste",
+      "fluid": "createsdelight:apple_paste",
       "nbt": {}
     }
   ],

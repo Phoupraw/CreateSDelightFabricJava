@@ -8,6 +8,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.OvenBlockEntity;
 public class OvenRenderer extends SmartTileEntityRenderer<OvenBlockEntity> {
     public OvenRenderer(BlockEntityRendererFactory.Context context) {
@@ -18,31 +19,17 @@ public class OvenRenderer extends SmartTileEntityRenderer<OvenBlockEntity> {
     protected void renderSafe(OvenBlockEntity oven, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(oven, partialTicks, ms, buffer, light, overlay);
         TransformStack ts = TransformStack.cast(ms);
-//        float fluidLevel = 0;
-//        for (SmartFluidTankBehaviour.TankSegment tank : oven.getTank().getTanks()) {
-//            if (tank.isEmpty(partialTicks)) continue;
-//            fluidLevel = tank.getFluidLevel().getValue(partialTicks);
-//            float min = 1 / 16f;
-//            float max = 15 / 16f;
-//            FluidRenderer.renderFluidBox(tank.getRenderedFluid(), min, min, min, min + (max - min) * fluidLevel, max, max, buffer, ms, light, false);
-//            break;
-//        }
         int size = oven.getInventory().size();
         ts.pushPose();
-//        if (fluidLevel > 0.1) {
-//            ts.translateY(MathHelper.clamp(fluidLevel, 0, 0.8));
-//        }
+        ts.translate(0.5, 3 / 16.0, 0.5);
         for (int i = 0; i < size; i++) {
             ItemStack itemStack = oven.getInventory().getStack(i);
             if (itemStack.isEmpty()) continue;
             ts.pushPose();
-            ts.translateX(0.3);
             float angle = 360f * 7 / size * i;
             ts.rotateY(angle);
-//            if (fluidLevel > 0.1) {
-//                ts.translateY((MathHelper.sin(AnimationTickHolder.getRenderTime(oven.getWorld()) / 12f + angle) + 1.5f) * 1 / 32f);
-//            }
-            DepotRenderer.renderItem(ms, buffer, light, overlay, itemStack, 0, oven.getWorld().getRandom(), Vec3d.ofCenter(oven.getPos()));
+            ts.translate(3.5 / 16f, 0, 3.5 / 16f);
+            DepotRenderer.renderItem(ms, buffer, light, overlay, itemStack, (i * oven.getPos().hashCode()) % 360, Random.create(0), Vec3d.ZERO);
             ts.popPose();
         }
         ts.popPose();

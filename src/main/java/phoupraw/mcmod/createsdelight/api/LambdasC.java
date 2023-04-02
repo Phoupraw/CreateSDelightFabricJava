@@ -158,7 +158,12 @@ public final class LambdasC {
 
     @Contract(pure = true)
     public static @NotNull Predicate<Recipe<?>> firstIngredientMatching(Fluid fluid) {
-        return r0 -> r0 instanceof ProcessingRecipe<?> r && r.getFluidIngredients().get(0).test(new FluidStack(fluid, Long.MAX_VALUE));
+        return firstIngredientMatching(fluid, Long.MAX_VALUE);
+    }
+
+    @Contract(pure = true)
+    public static @NotNull Predicate<Recipe<?>> firstIngredientMatching(Fluid fluid, long amount) {
+        return r0 -> r0 instanceof ProcessingRecipe<?> r && !r.getFluidIngredients().isEmpty() && r.getFluidIngredients().get(0).test(new FluidStack(fluid, amount));
     }
 
     private LambdasC() {}

@@ -452,12 +452,6 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(MyFluids.PASTE, FluidConstants.BUCKET)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.CAKE_BASE)
-          .require(MyFluids.PASTE, FluidConstants.BUCKET / 2)
-          .requiresHeat(HeatCondition.HEATED)
-          .duration(20 * 10)
-          .output(MyItems.CAKE_BASE)
-          .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingCutting(), MyIdentifiers.CAKE_BASE_SLICE)
           .require(MyItems.CAKE_BASE)
           .duration(20)
@@ -477,17 +471,13 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.APPLE)
           .require(Items.APPLE)
           .require(Items.APPLE)
+          .require(Items.APPLE)
           .require(Ingredient.ofItems(Items.OAK_LEAVES, Items.DARK_OAK_LEAVES))
+          .require(Ingredient.ofItems(Items.OAK_LEAVES, Items.DARK_OAK_LEAVES))
+          .require(Ingredient.ofItems(Items.OAK_SAPLING, Items.DARK_OAK_SAPLING))
           .require(MyFluids.PASTE, FluidConstants.BOTTLE)
           .averageProcessingDuration()
           .output(MyFluids.APPLE_PASTE, FluidConstants.BOTTLE)
-          .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), MyIdentifiers.APPLE_CAKE)
-          .require(Items.APPLE)
-          .require(Items.APPLE)
-          .require(MyFluids.APPLE_PASTE, FluidConstants.BUCKET / 2)
-          .duration(20 * 15)
-          .output(MyItems.APPLE_CAKE)
           .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.MASHED_PATATO)
           .require(Items.POTATO)
