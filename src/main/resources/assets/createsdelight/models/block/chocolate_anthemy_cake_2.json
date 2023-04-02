@@ -1,0 +1,175 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "createsdelight:block/chocolate",
+    "3": "createsdelight:block/milk",
+    "particle": "createsdelight:block/brownie_side"
+  },
+  "elements": [
+    {
+      "name": "基",
+      "from": [7, 0, 4.68629],
+      "to": [16, 8, 11.31371],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 6.5, 8]},
+      "faces": {
+        "east": {"uv": [0.68629, 8, 7.31371, 16], "texture": "#3"},
+        "south": {"uv": [0, 8, 16, 16], "texture": "#3"},
+        "west": {"uv": [6.68629, 2, 13.31371, 10], "texture": "#3"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#1"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#1"}
+      }
+    },
+    {
+      "name": "基",
+      "from": [7, 0, 4.68629],
+      "to": [16, 8, 11.31371],
+      "rotation": {"angle": 45, "axis": "y", "origin": [8, 6.5, 8]},
+      "faces": {
+        "east": {"uv": [7.68629, 3, 14.31371, 11], "texture": "#3"},
+        "west": {"uv": [5.68629, 8, 12.31371, 16], "texture": "#3"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#1"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#1"}
+      }
+    },
+    {
+      "name": "基",
+      "from": [4.68629, 0, 0],
+      "to": [11.31371, 8, 9.37258],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 6.5, 8]},
+      "faces": {
+        "north": {"uv": [2.68629, 8, 9.31371, 16], "texture": "#3"},
+        "south": {"uv": [7.68629, 8, 14.31371, 16], "texture": "#3"},
+        "west": {"uv": [0, 8, 9, 16], "texture": "#3"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#1"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#1"}
+      }
+    },
+    {
+      "name": "基",
+      "from": [4.68629, 0, 6.62742],
+      "to": [11.31371, 8, 16],
+      "rotation": {"angle": 45, "axis": "y", "origin": [8, 6.5, 8]},
+      "faces": {
+        "north": {"uv": [1.68629, 3, 8.31371, 11], "texture": "#3"},
+        "south": {"uv": [4.68629, 8, 11.31371, 16], "texture": "#3"},
+        "west": {"uv": [7, 8, 16, 16], "texture": "#3"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#1"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [14, 8, 8.25],
+      "to": [16, 10, 10.25],
+      "rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "east": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "south": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "west": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "up": {"uv": [14, 8.25, 16, 10.25], "rotation": 180, "texture": "#1"},
+        "down": {"uv": [14, 5.75, 16, 7.75], "rotation": 180, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [14, 8, 5.75],
+      "to": [16, 10, 7.75],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "east": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "south": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "west": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "up": {"uv": [14, 5.75, 16, 7.75], "rotation": 180, "texture": "#1"},
+        "down": {"uv": [14, 8.25, 16, 10.25], "rotation": 180, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [14, 8, 8.25],
+      "to": [16, 10, 10.25],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "east": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "south": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "west": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "up": {"uv": [14, 8.25, 16, 10.25], "rotation": 180, "texture": "#1"},
+        "down": {"uv": [14, 5.75, 16, 7.75], "rotation": 180, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [14, 8, 5.75],
+      "to": [16, 10, 7.75],
+      "rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "east": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "south": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "west": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "up": {"uv": [14, 5.75, 16, 7.75], "rotation": 180, "texture": "#1"},
+        "down": {"uv": [14, 8.25, 16, 10.25], "rotation": 180, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [14, 8, 8.25],
+      "to": [16, 10, 10.25],
+      "rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "east": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "south": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "west": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "up": {"uv": [14, 8.25, 16, 10.25], "rotation": 180, "texture": "#1"},
+        "down": {"uv": [14, 5.75, 16, 7.75], "rotation": 180, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [14, 8, 5.75],
+      "to": [16, 10, 7.75],
+      "rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "east": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "south": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "west": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "up": {"uv": [14, 5.75, 16, 7.75], "rotation": 180, "texture": "#1"},
+        "down": {"uv": [14, 8.25, 16, 10.25], "rotation": 180, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [5.75, 8, 0],
+      "to": [7.75, 10, 2],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "east": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "south": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "west": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "up": {"uv": [5.75, 0, 7.75, 2], "rotation": 90, "texture": "#1"},
+        "down": {"uv": [5.75, 14, 7.75, 16], "rotation": 270, "texture": "#1"}
+      }
+    },
+    {
+      "name": "巧克力",
+      "from": [8.25, 8, 0],
+      "to": [10.25, 10, 2],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [5.75, 6, 7.75, 8], "texture": "#1"},
+        "east": {"uv": [14, 6, 16, 8], "texture": "#1"},
+        "south": {"uv": [8.25, 6, 10.25, 8], "texture": "#1"},
+        "west": {"uv": [0, 6, 2, 8], "texture": "#1"},
+        "up": {"uv": [8.25, 0, 10.25, 2], "rotation": 90, "texture": "#1"},
+        "down": {"uv": [8.25, 14, 10.25, 16], "rotation": 270, "texture": "#1"}
+      }
+    }
+  ]
+}

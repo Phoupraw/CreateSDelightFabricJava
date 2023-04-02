@@ -1,0 +1,25 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "createsdelight:block/chocolate_layerses_side",
+    "1": "createsdelight:block/chocolate",
+    "particle": "createsdelight:block/chocolate_layerses_side"
+  },
+  "elements": [
+    {
+      "name": "基",
+      "from": [3, 0, 4],
+      "to": [13, 15, 16],
+      "faces": {
+        "north": {"uv": [2, 1, 12, 16], "texture": "#0"},
+        "east": {"uv": [0, 1, 12, 16], "texture": "#0"},
+        "south": {"uv": [6, 1, 16, 16], "texture": "#0", "cullface": "south"},
+        "west": {"uv": [4, 1, 16, 16], "texture": "#0"},
+        "up": {"uv": [3, 4, 13, 16], "texture": "#1"},
+        "down": {"uv": [3, 0, 13, 12], "texture": "#1", "cullface": "down"}
+      }
+    }
+  ]
+}
