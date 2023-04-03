@@ -22,6 +22,7 @@
     "MixinMillstoneTileEntity",
     "MixinPlayerContainerItemContext",
     "MixinRecipeManager",
+    "MixinRustableBarsBlock",
     "MixinSectionedEntityCache",
     "MixinSequencedAssemblyRecipe",
     "MixinSpoutTileEntity",

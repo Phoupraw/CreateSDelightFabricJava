@@ -1,0 +1,36 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:cocoa_beans"
+    },
+    {
+      "item": "minecraft:cocoa_beans"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "amount": 27000,
+      "fluid": "createsdelight:paste",
+      "nbt": {}
+    },
+    {
+      "amount": 27000,
+      "fluid": "create:chocolate",
+      "nbt": {}
+    },
+    {
+      "amount": 27000,
+      "fluid": "milk:still_milk",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "amount": 81000,
+      "fluid": "createsdelight:chocolate_paste"
+    }
+  ]
+}

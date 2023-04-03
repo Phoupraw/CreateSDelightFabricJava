@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "createsdelight:block/iron_bar_skewer",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "createsdelight:block/iron_bar_skewer"
+    },
+    "axis=z": {
+      "model": "createsdelight:block/iron_bar_skewer",
+      "x": 90
+    }
+  }
+}

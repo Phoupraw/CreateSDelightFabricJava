@@ -7,9 +7,13 @@ import com.nhoryzon.mc.farmersdelight.registry.TagsRegistry;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.contraptions.fluids.tank.BoilerHeaters;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
@@ -23,6 +27,16 @@ public final class HeatSources {
             return WorldBlockApiCache.of(key, SIDED);
         }
     });
+
+    public static double find(World world, BlockPos pos, @Nullable Direction context) {
+        return find(world, pos, null, null, context);
+    }
+
+    public static double find(World world, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, @Nullable Direction context) {
+        var heat = SIDED.find(world, pos, state, blockEntity, context);
+        return heat == null ? 0 : heat;
+    }
+
     static {
         SIDED.registerFallback((world, pos, state, blockEntity, side) -> {
             if (side != Direction.UP) return null;

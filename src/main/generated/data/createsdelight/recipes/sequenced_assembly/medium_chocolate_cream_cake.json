@@ -1,0 +1,99 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "createsdelight:chocolate_cake_base"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": "createsdelight:medium_chocolate_cream_cake"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "amount": 27000,
+          "fluid": "create:chocolate",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "amount": 27000,
+          "fluid": "milk:still_milk",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "item": "create:bar_of_chocolate"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "item": "minecraft:white_dye"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ],
+      "processingTime": 20,
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "createsdelight:chocolate_cake_base"
+  }
+}
