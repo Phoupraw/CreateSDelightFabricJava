@@ -2,17 +2,17 @@ package phoupraw.mcmod.createsdelight.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 public class SmallChocolateCreamCakeBlock extends SmallCakeBlock {
+    public static final VoxelShape GROUND = createCuboidShape(2, 0, 4, 14, 16, 12);
     public static final VoxelShape SHAPE = VoxelShapes.union(
-      createCuboidShape(4, 0, 4, 12, 14, 12),
-      createCuboidShape(5, 14, 5, 11, 16, 11));//TODO
+      createCuboidShape(2, 0, 4, 14, 10, 12),
+      createCuboidShape(5, 10, 5, 11, 12, 11),
+      createCuboidShape(6.5, 12, 6.5, 9.5, 15, 9.5));
 
     public SmallChocolateCreamCakeBlock() {
         super();
@@ -29,7 +29,7 @@ public class SmallChocolateCreamCakeBlock extends SmallCakeBlock {
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), SHAPE, BooleanBiFunction.ONLY_SECOND);
+    public VoxelShape getGround(WorldView world, BlockPos blockPos, BlockState blockState) {
+        return GROUND;
     }
 }

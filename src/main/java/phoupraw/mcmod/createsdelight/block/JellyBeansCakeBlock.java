@@ -4,9 +4,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -61,12 +59,12 @@ public class JellyBeansCakeBlock extends BigCakeBlock {
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), COLLISION_SHAPES.get(0), BooleanBiFunction.ONLY_SECOND);
+    public void onFinalEat(World world, BlockPos blockPos, BlockState blockState) {
+        world.setBlockState(blockPos, MyBlocks.JELLY_BEANS.getDefaultState());
     }
 
     @Override
-    public void onFinalEat(World world, BlockPos blockPos, BlockState blockState) {
-        world.setBlockState(blockPos, MyBlocks.JELLY_BEANS.getDefaultState());
+    public VoxelShape getGround(WorldView world, BlockPos blockPos, BlockState blockState) {
+        return COLLISION_SHAPES.get(0);
     }
 }
