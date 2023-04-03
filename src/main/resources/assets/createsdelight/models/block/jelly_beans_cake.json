@@ -1,6 +1,7 @@
 {
   "credit": "Made with Blockbench",
   "parent": "block/block",
+  "render_type": "minecraft:cutout",
   "textures": {
     "0": "createsdelight:block/jelly_beans_cake_bottom",
     "1": "createsdelight:block/jelly_beans_cake_side",
@@ -16,8 +17,8 @@
         "east": {"uv": [2, 6, 14, 16], "texture": "#1"},
         "south": {"uv": [2, 6, 14, 16], "texture": "#1"},
         "west": {"uv": [2, 6, 14, 16], "texture": "#1"},
-        "up": {"uv": [14, 14, 2, 2], "texture": "#2"},
-        "down": {"uv": [14, 2, 2, 14], "texture": "#0", "cullface": "down"}
+        "up": {"uv": [2, 2, 14, 14], "texture": "#2"},
+        "down": {"uv": [2, 2, 14, 14], "texture": "#0", "cullface": "down"}
       }
     }
   ]
