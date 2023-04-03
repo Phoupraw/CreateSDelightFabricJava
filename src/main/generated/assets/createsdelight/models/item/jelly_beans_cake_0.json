@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "createsdelight:item/jelly_beans_cake_0"
-  }
-}

@@ -45,12 +45,12 @@ public abstract class MixinCrushingWheelControllerTileEntity extends SmartTileEn
         InjectCrushingWheelControllerTileEntity.checkTankEmpty(this, ci);
     }
 
-    @Inject(method = "applyRecipe", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")), at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/processing/ProcessingInventory;clear()V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void applyFluidResult(CallbackInfo ci, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ProcessingRecipe<Inventory>> recipe) {
+    @Inject(method = "applyRecipe", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")), at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/processing/ProcessingInventory;clear()V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, remap = false)
+    private void applyFluidResult(CallbackInfo ci, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ProcessingRecipe<Inventory>> recipe/*, List<ItemStack> list, int rolls*/) {
         InjectCrushingWheelControllerTileEntity.applyFluidResult(this, recipe.orElseThrow());
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/tileEntity/SmartTileEntity;tick()V"))
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/tileEntity/SmartTileEntity;tick()V"), remap = false)
     private void setBottom(CallbackInfo ci) {
         InjectCrushingWheelControllerTileEntity.setBottom(this);
     }
