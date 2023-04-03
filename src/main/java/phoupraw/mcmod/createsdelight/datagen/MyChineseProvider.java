@@ -112,5 +112,6 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(MyItems.IRON_BOWL, "铁碗");
         builder.add(IronBowlItem.getSuffixKey(), "%s（%s）");
         builder.add(Internationals.keyOfCategory(MyRecipeTypes.BAKING.getId()), "烘焙");
+        builder.add(MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE, "小巧克力奶油蛋糕");
     }
 }

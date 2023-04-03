@@ -54,6 +54,7 @@ public final class MyBlocks {
     public static final Block APPLE_CREAM_CAKE = new AppleCreamCakeBlock();
     public static final Block APPLE_CAKE = new AppleCakeBlock();
     public static final Block CARROT_CREAM_CAKE = new CarrotCreamCakeBlock();
+    public static final Block SMALL_CHOCOLATE_CREAM_CAKE = new SmallChocolateCreamCakeBlock();
 
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
