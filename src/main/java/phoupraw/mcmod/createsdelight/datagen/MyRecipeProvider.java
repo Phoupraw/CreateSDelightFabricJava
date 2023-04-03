@@ -504,6 +504,16 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .duration(20 * 10)
           .output(MyItems.APPLE_CAKE)
           .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.MASHED_PATATO)
+          .require(MyFluids.PASTE, FluidConstants.BOTTLE)
+          .require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE)
+          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+          .require(Items.COCOA_BEANS)
+          .require(Items.COCOA_BEANS)
+          .require(Items.SUGAR)
+          .averageProcessingDuration()
+          .output(MyFluids.CHOCOLATE_PASTE, FluidConstants.BUCKET)
+          .build(exporter);
 
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
