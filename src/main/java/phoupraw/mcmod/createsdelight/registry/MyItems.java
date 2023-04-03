@@ -153,7 +153,7 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
-      ));//TODO 配方
+      ));
     public static final StatusEffectsBlockItem MEDIUM_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(MyBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
@@ -163,7 +163,7 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
-      ));//TODO 配方
+      ));
     public static final StatusEffectsBlockItem BIG_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(MyBlocks.BIG_CHOCOLATE_CREAM_CAKE, newSettings()
       .maxCount(16)
       .food(new FoodComponent.Builder()
@@ -173,7 +173,7 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
-      ));//TODO 配方
+      ));
 
     //不可食用物品
     public static final Item EGG_SHELL = new Item(newSettings());
@@ -359,6 +359,12 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60, 0), 1f)
         .build()
       ));
+    public static final StatusEffectsItem CHOCOLATE_CAKE_BASE = new StatusEffectsItem(newSettings()
+      .food(new FoodComponent.Builder()
+        .hunger(20)
+        .saturationModifier(0.5f)
+        .build()
+      ));
 
     //序列装配中间体
     public static final SequencedAssemblyItem JELLY_BEANS_CAKE_0 = new SequencedAssemblyItem(newSettings());
@@ -432,6 +438,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
         Registries.register(MyIdentifiers.SUNFLOWER_KERNELS, SUNFLOWER_KERNELS);
         Registries.register(MyIdentifiers.MASHED_PATATO, MASHED_POTATO);
+        Registries.register(MyIdentifiers.CHOCOLATE_CAKE_BASE, CHOCOLATE_CAKE_BASE);
 
         Registries.register(MyIdentifiers.JELLY_BEANS_CAKE_0, JELLY_BEANS_CAKE_0);
         Registries.register(MyIdentifiers.SWEET_BERRIES_CAKE_0, SWEET_BERRIES_CAKE_0);

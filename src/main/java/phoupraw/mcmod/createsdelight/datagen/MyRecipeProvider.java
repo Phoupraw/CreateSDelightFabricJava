@@ -504,7 +504,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .duration(20 * 10)
           .output(MyItems.APPLE_CAKE)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.MASHED_PATATO)
+        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), MyIdentifiers.CHOCOLATE_PASTE)
           .require(MyFluids.PASTE, FluidConstants.BOTTLE)
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE)
           .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
@@ -513,6 +513,11 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .require(Items.SUGAR)
           .averageProcessingDuration()
           .output(MyFluids.CHOCOLATE_PASTE, FluidConstants.BUCKET)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(LambdasC.newingBaking(), MyIdentifiers.CHOCOLATE_CAKE_BASE)
+          .require(MyFluids.CHOCOLATE_PASTE, FluidConstants.BUCKET / 2)
+          .duration(20 * 10)
+          .output(MyItems.CHOCOLATE_CAKE_BASE)
           .build(exporter);
 
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -594,6 +599,38 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
           .addStep(LambdasC.newingCutting(), LambdasC.during(20))
           .loops(3)
           .addOutput(new ItemStack(MyItems.CARROT_CREAM_CAKE, 1), 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.SMALL_CHOCOLATE_CREAM_CAKE)
+          .require(MyItems.CHOCOLATE_CAKE_BASE)
+          .transitionTo(MyItems.CHOCOLATE_CAKE_BASE)
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
+          .addStep(LambdasC.newingCutting(), LambdasC.during(20))
+          .loops(3)
+          .addOutput(new ItemStack(MyItems.SMALL_CHOCOLATE_CREAM_CAKE, 3), 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.MEDIUM_CHOCOLATE_CREAM_CAKE)
+          .require(MyItems.CHOCOLATE_CAKE_BASE)
+          .transitionTo(MyItems.CHOCOLATE_CAKE_BASE)
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.WHITE_DYE))
+          .addStep(LambdasC.newingCutting(), LambdasC.during(20))
+          .loops(3)
+          .addOutput(new ItemStack(MyItems.MEDIUM_CHOCOLATE_CREAM_CAKE, 1), 1)
+          .build(exporter);
+        new SequencedAssemblyRecipeBuilder(MyIdentifiers.BIG_CHOCOLATE_CREAM_CAKE)
+          .require(MyItems.CHOCOLATE_CAKE_BASE)
+          .transitionTo(MyItems.CHOCOLATE_CAKE_BASE)
+          .addStep(LambdasC.newingfilling(), LambdasC.requiring(Milk.STILL_MILK, FluidConstants.BOTTLE))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(Items.SWEET_BERRIES))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(LambdasC.newingDeploying(), LambdasC.requiring(AllItems.BAR_OF_CHOCOLATE.get()))
+          .addStep(LambdasC.newingCutting(), LambdasC.during(20))
+          .loops(4)
+          .addOutput(new ItemStack(MyItems.BIG_CHOCOLATE_CREAM_CAKE, 1), 1)
           .build(exporter);
     }
 }
