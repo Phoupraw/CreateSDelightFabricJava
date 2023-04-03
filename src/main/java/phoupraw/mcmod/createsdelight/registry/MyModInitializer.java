@@ -31,6 +31,7 @@ public final class MyModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
         BlockStressDefaults.setDefaultImpact(MyIdentifiers.SKEWER, 1);
+        BlockStressDefaults.setDefaultImpact(MyIdentifiers.IRON_BAR_SKEWER, 1);
 
         VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA, MyFluids.PASTE, MyFluids.PUMPKIN_OIL, MyFluids.APPLE_PASTE, MyFluids.MASHED_POTATO, MyFluids.CHOCOLATE_PASTE);
         VirtualFluids.registerBowlStorage(MyFluids.VEGETABLE_BIG_STEW, MyItems.VEGETABLE_BIG_STEW);
@@ -50,6 +51,12 @@ public final class MyModInitializer implements ModInitializer {
         VirtualFluids.registerBowlStorage(MyFluids.MASHED_POTATO, MyItems.MASHED_POTATO);
 
         IronBowlItem.onInitialize();
+
+//        if (!(Blocks.IRON_BARS instanceof IronBarsBlock)) {
+//            if (FabricLoader.getInstance().isModLoaded("immersive_weathering")) {
+//                CreateSDelight.LOGGER.info("immersive_weathering loaded, iron_bars");
+//            }
+//        }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

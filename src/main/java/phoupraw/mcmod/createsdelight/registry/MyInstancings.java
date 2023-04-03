@@ -13,6 +13,7 @@ public final class MyInstancings {
     public static final SimpleBlockEntityInstancingController<PressureCookerBlockEntity> PRESSURE_COOKER = InstancedRenderRegistry.configure(MyBlockEntityTypes.PRESSURE_COOKER).factory(PressureCookerInstance::new).apply();
     public static final SimpleBlockEntityInstancingController<MincerBlockEntity> MINCER = InstancedRenderRegistry.configure(MyBlockEntityTypes.MINCER).factory(MincerInstance::new).apply();
     public static final SimpleBlockEntityInstancingController<SkewerBlockEntity> SKEWER = InstancedRenderRegistry.configure(MyBlockEntityTypes.SKEWER).factory(SingleRotatingInstance::new).apply();
+    public static final SimpleBlockEntityInstancingController<IronBarSkewerBlockEntity> IRON_BAR_SKEWER = InstancedRenderRegistry.configure(MyBlockEntityTypes.IRON_BAR_SKEWER).factory(SingleRotatingInstance::new).apply();
 
     private MyInstancings() {}
 }

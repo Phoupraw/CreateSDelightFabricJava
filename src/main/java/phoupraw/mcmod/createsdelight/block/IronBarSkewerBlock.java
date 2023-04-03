@@ -1,13 +1,24 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.google.common.base.Predicates;
 import com.simibubi.create.content.contraptions.base.RotatedPillarKineticBlock;
 import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -60,8 +71,34 @@ public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements ITE
     }
 
     @Override
-    public void onStateReplaced(BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        ITE.onRemove(pState, pLevel, pPos, pNewState);
-        super.onStateReplaced(pState, pLevel, pPos, pNewState, pIsMoving);
+    public void onStateReplaced(BlockState oldState, World world, BlockPos pos, BlockState newState, boolean moving) {
+        //        if (newState.isOf(this) && newState.get(Properties.AXIS).isVertical() && !TransferUtil.getNonEmpty(((IronBarSkewerBlockEntity) world.getBlockEntity(pos)).storage).iterator().hasNext()) {
+//            world.setBlockState(pos, Blocks.IRON_BARS.getDefaultState());
+//        }
+
+        ITE.onRemove(oldState, world, pos, newState);
+        super.onStateReplaced(oldState, world, pos, newState, moving);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack stackInHand = player.getStackInHand(hand);
+        var skewer = ((IronBarSkewerBlockEntity) world.getBlockEntity(pos));
+        @SuppressWarnings("ConstantConditions") var skewerS = skewer.storage;
+        if (stackInHand.isEmpty()) {
+            return StorageUtil.move(skewerS, PlayerInventoryStorage.of(player), Predicates.alwaysTrue(), Long.MAX_VALUE, null) != 0 ? ActionResult.SUCCESS : ActionResult.FAIL;
+        }
+        var recipe = world.getRecipeManager().listAllOfType(RecipeType.CAMPFIRE_COOKING).stream().filter(RecipeConditions.firstIngredientMatches(stackInHand)).findFirst().orElse(null);
+        if (recipe != null) {
+            return StorageUtil.move(PlayerInventoryStorage.of(player).getHandSlot(hand), skewerS, Predicates.alwaysTrue(), Long.MAX_VALUE, null) != 0 ? ActionResult.SUCCESS : ActionResult.FAIL;
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.INVISIBLE;
     }
 }

@@ -1,0 +1,84 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "createsdelight:chocolate_cake_base"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "count": 3,
+      "item": "createsdelight:small_chocolate_cream_cake"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "amount": 27000,
+          "fluid": "create:chocolate",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "amount": 27000,
+          "fluid": "milk:still_milk",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        },
+        {
+          "item": "minecraft:sweet_berries"
+        }
+      ],
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    },
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ],
+      "processingTime": 20,
+      "results": [
+        {
+          "item": "createsdelight:chocolate_cake_base"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "createsdelight:chocolate_cake_base"
+  }
+}
