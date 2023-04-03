@@ -6,12 +6,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
 
 import java.util.List;
 
 import static net.minecraft.state.property.Properties.AGE_3;
-public class MediumChocolateCreamCakeBlock extends BigCakeBlock {
+public class BigChocolateCreamCakeBlock extends BigCakeBlock {
     public static final List<VoxelShape> SHAPES = List.of(
       VoxelShapes.union(
         createCuboidShape(0, 0, 0, 16, 13, 16),
@@ -32,11 +31,11 @@ public class MediumChocolateCreamCakeBlock extends BigCakeBlock {
         createCuboidShape(12, 13, 12, 15, 15, 15))
     );//TODO
 
-    public MediumChocolateCreamCakeBlock() {
+    public BigChocolateCreamCakeBlock() {
         super();
     }
 
-    public MediumChocolateCreamCakeBlock(Settings settings) {
+    public BigChocolateCreamCakeBlock(Settings settings) {
         super(settings);
     }
 
@@ -45,9 +44,4 @@ public class MediumChocolateCreamCakeBlock extends BigCakeBlock {
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPES.get(state.get(AGE_3));
     }
-
-    @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return super.canPlaceAt(state, world, pos);
-    }//TODO
 }
