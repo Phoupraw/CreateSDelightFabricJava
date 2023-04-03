@@ -114,5 +114,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(Internationals.keyOfCategory(MyRecipeTypes.BAKING.getId()), "Baking");
         builder.add(MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE, "Small Chocolate Cream Cake");
         builder.add(MyBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, "Medium Chocolate Cream Cake");
+        builder.add(MyBlocks.BIG_CHOCOLATE_CREAM_CAKE, "Big Chocolate Cream Cake");
     }
 }
