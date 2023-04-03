@@ -64,6 +64,7 @@ public final class MyModelProvider extends FabricModelProvider {
         intProperty(generator, MyBlocks.APPLE_CREAM_CAKE, Properties.AGE_3);
         intProperty(generator, MyBlocks.APPLE_CAKE, Properties.AGE_3);
         intProperty(generator, MyBlocks.CARROT_CREAM_CAKE, Properties.AGE_3);
+        intProperty(generator, MyBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
         generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(MyBlocks.MINCER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_MIXER.get(), "/block")));
         generator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(MyBlocks.SKEWER, ModelIds.getBlockModelId(MyBlocks.SKEWER)));
         generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
