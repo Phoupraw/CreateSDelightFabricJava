@@ -12,24 +12,13 @@ import java.util.List;
 import static net.minecraft.state.property.Properties.AGE_3;
 public class BigChocolateCreamCakeBlock extends BigCakeBlock {
     public static final List<VoxelShape> SHAPES = List.of(
+      createCuboidShape(0, 0, 0, 16, 11, 16),
       VoxelShapes.union(
-        createCuboidShape(0, 0, 0, 16, 13, 16),
-        createCuboidShape(1, 13, 1, 15, 16, 15),
-        createCuboidShape(3, 16, 3, 13, 19, 13)),
-      VoxelShapes.union(
-        createCuboidShape(0, 0, 4, 16, 13, 16),
-        createCuboidShape(1, 13, 5, 15, 16, 15),
-        createCuboidShape(3, 16, 5, 13, 19, 13)),
-      VoxelShapes.union(
-        createCuboidShape(4, 0, 4, 12, 13, 11),
-        createCuboidShape(0, 0, 11, 16, 13, 16),
-        createCuboidShape(1, 16, 11, 11, 16, 15),
-        createCuboidShape(5, 13, 5, 11, 19, 13)),
-      VoxelShapes.union(
-        createCuboidShape(0, 0, 11, 16, 13, 16),
-        createCuboidShape(1, 13, 12, 4, 15, 15),
-        createCuboidShape(12, 13, 12, 15, 15, 15))
-    );//TODO
+        createCuboidShape(0, 0, 8, 16, 11, 16),
+        createCuboidShape(8, 0, 0, 16, 11, 8)),
+      createCuboidShape(8, 0, 0, 16, 11, 16),
+      createCuboidShape(8, 0, 0, 16, 11, 8)
+    );
 
     public BigChocolateCreamCakeBlock() {
         super();

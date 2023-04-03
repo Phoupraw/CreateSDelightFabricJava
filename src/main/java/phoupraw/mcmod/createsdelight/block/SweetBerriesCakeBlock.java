@@ -10,12 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
@@ -70,11 +67,6 @@ public class SweetBerriesCakeBlock extends BigCakeBlock {
         return ActionResult.SUCCESS;
     }
 
-    @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), SHAPES.get(Properties.AGE_3_MAX), BooleanBiFunction.ONLY_SECOND);
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public boolean canReplace(BlockState state, ItemPlacementContext context) {
@@ -91,5 +83,10 @@ public class SweetBerriesCakeBlock extends BigCakeBlock {
             return blockState.cycle(AGE_3);
         }
         return super.getPlacementState(ctx);
+    }
+
+    @Override
+    public VoxelShape getGround(WorldView world, BlockPos blockPos, BlockState blockState) {
+        return SHAPES.get(Properties.AGE_3_MAX);
     }
 }
