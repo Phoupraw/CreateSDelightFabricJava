@@ -70,6 +70,7 @@ public final class MyClientModInitializer implements ClientModInitializer {
         BlockEntityRendererFactories.register(MyBlockEntityTypes.SKEWER, SkewerRenderer::new);
         BlockEntityRendererFactories.register(MyBlockEntityTypes.SKEWER_PLATE, SkewerPlateRenderer::new);
         BlockEntityRendererFactories.register(MyBlockEntityTypes.OVEN, OvenRenderer::new);
+        BlockEntityRendererFactories.register(MyBlockEntityTypes.IRON_BAR_SKEWER, IronBarSkewerRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.JELLY_BEANS, MyBlocks.JELLY_BEANS_CAKE, MyBlocks.OVEN);
 
         FluidRenderHandlerRegistry.INSTANCE.register(MyFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));

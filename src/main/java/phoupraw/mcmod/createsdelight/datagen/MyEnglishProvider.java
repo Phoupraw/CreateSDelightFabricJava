@@ -117,5 +117,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyBlocks.BIG_CHOCOLATE_CREAM_CAKE, "Big Chocolate Cream Cake");
         builder.add(VirtualFluids.getTranslationKey(MyFluids.CHOCOLATE_PASTE), "Chocolate Paste");
         builder.add(MyItems.CHOCOLATE_CAKE_BASE, "Chocolate Cake Base");
+        builder.add(MyBlocks.IRON_BAR_SKEWER, "Iron Bar Skewer");
     }
 }
