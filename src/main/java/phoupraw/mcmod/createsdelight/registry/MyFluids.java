@@ -53,6 +53,7 @@ public final class MyFluids {
     public static final Fluid PUMPKIN_OIL = VirtualFluids.of(MyItems.BUCKETED_PUMPKIN_OIL);
     public static final Fluid APPLE_PASTE = VirtualFluids.of();
     public static final Fluid MASHED_POTATO = VirtualFluids.of(MyItems.MASHED_POTATO);
+    public static final Fluid CHOCOLATE_PASTE = VirtualFluids.of();
     //TODO 1桶苹果酒糟=1桶苹果酒+3稻米+3草秆+1瓶水+压煮
     //TODO 1桶高钙牛奶=1桶牛奶+深板岩圆石+竹子+淡灰色染料+绞肉+超级加热
     //TODO 1瓶灵魂热汤=1瓶岩浆+诡异菌索+灵魂土+搅拌
@@ -72,6 +73,7 @@ public final class MyFluids {
         Registries.register(MyIdentifiers.PUMPKIN_OIL, PUMPKIN_OIL);
         Registries.register(MyIdentifiers.APPLE_PASTE, APPLE_PASTE);
         Registries.register(MyIdentifiers.MASHED_PATATO, MASHED_POTATO);
+        Registries.register(MyIdentifiers.CHOCOLATE_PASTE, CHOCOLATE_PASTE);
     }
     private MyFluids() {}
 }

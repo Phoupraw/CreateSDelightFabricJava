@@ -155,6 +155,9 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
             TransferUtil.clearStorage(fluidS);
             TransferUtil.insert(fluidS, FluidVariant.of(MyFluids.APPLE_PASTE), Long.MAX_VALUE);
             stacks.add(ironBowl.copy());
+            TransferUtil.clearStorage(fluidS);
+            TransferUtil.insert(fluidS, FluidVariant.of(MyFluids.CHOCOLATE_PASTE), Long.MAX_VALUE);
+            stacks.add(ironBowl.copy());
         }
     }
 }
