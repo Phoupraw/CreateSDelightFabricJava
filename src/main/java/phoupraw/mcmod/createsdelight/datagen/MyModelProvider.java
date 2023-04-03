@@ -54,7 +54,7 @@ public final class MyModelProvider extends FabricModelProvider {
      */
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        DataGenerations.registerSimpleState(generator, MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.MULTIFUNC_BASIN, MyBlocks.BASIN, MyBlocks.SKEWER_PLATE, MyBlocks.JELLY_BEANS, MyBlocks.BROWNIE, MyBlocks.OVEN);
+        DataGenerations.registerSimpleState(generator, MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.MULTIFUNC_BASIN, MyBlocks.BASIN, MyBlocks.SKEWER_PLATE, MyBlocks.JELLY_BEANS, MyBlocks.BROWNIE, MyBlocks.OVEN, MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE);
         horizontalAxis(generator, MyBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
         horizontalAxis(generator, MyBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(MyBlocks.PRESSURE_COOKER));
         intProperty(generator, MyBlocks.JELLY_BEANS_CAKE, Properties.AGE_3);

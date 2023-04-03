@@ -112,5 +112,6 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         builder.add(MyItems.IRON_BOWL, "Iron Bowl");
         builder.add(IronBowlItem.getSuffixKey(), "%s (%s)");
         builder.add(Internationals.keyOfCategory(MyRecipeTypes.BAKING.getId()), "Baking");
+        builder.add(MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE, "Small Chocolate Cream Cake");
     }
 }

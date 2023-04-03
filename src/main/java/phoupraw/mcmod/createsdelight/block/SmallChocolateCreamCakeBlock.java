@@ -9,16 +9,16 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
-public class BrownieBlock extends SmallCakeBlock {
+public class SmallChocolateCreamCakeBlock extends SmallCakeBlock {
     public static final VoxelShape SHAPE = VoxelShapes.union(
       createCuboidShape(4, 0, 4, 12, 14, 12),
-      createCuboidShape(5, 14, 5, 11, 16, 11));
+      createCuboidShape(5, 14, 5, 11, 16, 11));//TODO
 
-    public BrownieBlock() {
+    public SmallChocolateCreamCakeBlock() {
         super();
     }
 
-    public BrownieBlock(Settings settings) {
+    public SmallChocolateCreamCakeBlock(Settings settings) {
         super(settings);
     }
 

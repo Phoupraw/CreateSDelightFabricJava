@@ -144,6 +144,16 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
+    public static final StatusEffectsBlockItem SMALL_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE, newSettings()
+      .maxCount(16)
+      .food(new FoodComponent.Builder()
+        .hunger(20)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+        .build()
+      ));//TODO 配方
 
     //不可食用物品
     public static final Item EGG_SHELL = new Item(newSettings());
