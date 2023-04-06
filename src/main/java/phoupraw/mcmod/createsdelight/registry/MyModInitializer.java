@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
@@ -18,6 +19,7 @@ import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.RecipeEvents;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.block.IronBarsBlock;
 import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 
 import java.util.regex.Pattern;
@@ -52,11 +54,13 @@ public final class MyModInitializer implements ModInitializer {
 
         IronBowlItem.onInitialize();
 
-//        if (!(Blocks.IRON_BARS instanceof IronBarsBlock)) {
-//            if (FabricLoader.getInstance().isModLoaded("immersive_weathering")) {
-//                CreateSDelight.LOGGER.info("immersive_weathering loaded, iron_bars");
-//            }
-//        }
+        if (!(Blocks.IRON_BARS instanceof IronBarsBlock)) {
+            if (FabricLoader.getInstance().isModLoaded("immersive_weathering")) {
+                CreateSDelight.LOGGER.info("检测到沉浸风化，已变更铁栏杆的Mixin。");
+            } else {
+                throw new IllegalStateException("检测到铁栏杆的Mixin未按预期生效！");
+            }
+        }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

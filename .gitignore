@@ -33,3 +33,15 @@ bin/
 run/
 src/main/generated/.cache/
 /logs/
+/lib/protostuff-api-1.7.4.jar
+/lib/protostuff-api-1.7.4-javadoc.jar
+/lib/protostuff-api-1.7.4-sources.jar
+/lib/protostuff-collectionschema-1.7.4.jar
+/lib/protostuff-collectionschema-1.7.4-javadoc.jar
+/lib/protostuff-collectionschema-1.7.4-sources.jar
+/lib/protostuff-core-1.7.4.jar
+/lib/protostuff-core-1.7.4-javadoc.jar
+/lib/protostuff-core-1.7.4-sources.jar
+/lib/protostuff-runtime-1.7.4.jar
+/lib/protostuff-runtime-1.7.4-javadoc.jar
+/lib/protostuff-runtime-1.7.4-sources.jar
