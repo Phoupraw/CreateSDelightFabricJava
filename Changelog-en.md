@@ -1,3 +1,10 @@
+# 0.1.0-pre9
+
+## Fix
+
+- Incompactible with Immersive Weathering.
+- Crashes on launch at dedicated server.
+
 # 0.1.0-pre8
 
 ## New

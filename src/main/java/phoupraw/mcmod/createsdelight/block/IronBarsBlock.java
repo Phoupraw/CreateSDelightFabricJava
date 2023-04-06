@@ -53,6 +53,4 @@ public class IronBarsBlock extends PaneBlock implements IWrenchable {
     public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
         return getRotatedBlockState(this, originalState, targetedFace);
     }
-
-
 }

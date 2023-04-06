@@ -10,6 +10,7 @@
     "MixinBasinRecipe",
     "MixinBasinTileEntity",
     "MixinBeltHelper",
+    "MixinBlock",
     "MixinBlocks",
     "MixinCreate",
     "MixinCreateDisplay",
@@ -41,5 +42,6 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "plugin": "phoupraw.mcmod.createsdelight.registry.MyMixinConfigPlugin"
 }
