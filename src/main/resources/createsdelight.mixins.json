@@ -29,6 +29,7 @@
     "MixinTileEntityBehaviour"
   ],
   "client": [
+    "ClientMixinAllTileEntities",
     "MixinAssemblySpouting",
     "MixinBasinCategory",
     "MixinBasinRenderer",

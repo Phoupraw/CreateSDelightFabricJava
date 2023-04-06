@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import phoupraw.mcmod.createsdelight.api.RecipeEvents;
+import phoupraw.mcmod.common.api.RecipeEvents;
 
 import java.util.Collection;
 import java.util.HashMap;

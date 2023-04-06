@@ -118,5 +118,6 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         builder.add(VirtualFluids.getTranslationKey(MyFluids.CHOCOLATE_PASTE), "巧克力面糊");
         builder.add(MyItems.CHOCOLATE_CAKE_BASE, "巧克力蛋糕胚");
         builder.add(MyBlocks.IRON_BAR_SKEWER, "铁栏杆炙烤扦");
+        builder.add(MyBlocks.CHOCOLATE_ANTHEMY_CAKE, "巧克力八仙蛋糕");
     }
 }
