@@ -85,7 +85,8 @@ public final class MyIdentifiers {
       BIG_CHOCOLATE_CREAM_CAKE = of("big_chocolate_cream_cake"),
       CHOCOLATE_PASTE = of("chocolate_paste"),
       CHOCOLATE_CAKE_BASE = of("chocolate_cake_base"),
-      IRON_BAR_SKEWER = of("iron_bar_skewer");
+      IRON_BAR_SKEWER = of("iron_bar_skewer"),
+      CHOCOLATE_ANTHEMY_CAKE = of("chocolate_anthemy_cake");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

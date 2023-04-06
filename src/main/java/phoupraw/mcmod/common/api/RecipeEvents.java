@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.api;
+package phoupraw.mcmod.common.api;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

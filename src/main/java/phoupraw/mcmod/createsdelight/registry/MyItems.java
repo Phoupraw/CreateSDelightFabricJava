@@ -174,6 +174,16 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
+    public static final StatusEffectsBlockItem CHOCOLATE_ANTHEMY_CAKE = new StatusEffectsBlockItem(MyBlocks.CHOCOLATE_ANTHEMY_CAKE, newSettings()
+      .maxCount(16)
+      .food(new FoodComponent.Builder()
+        .hunger(20)
+        .saturationModifier(0.5f)
+        .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 10), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+        .build()
+      ));
 
     //不可食用物品
     public static final Item EGG_SHELL = new Item(newSettings());
@@ -407,6 +417,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.SMALL_CHOCOLATE_CREAM_CAKE, SMALL_CHOCOLATE_CREAM_CAKE);
         Registries.register(MyIdentifiers.MEDIUM_CHOCOLATE_CREAM_CAKE, MEDIUM_CHOCOLATE_CREAM_CAKE);
         Registries.register(MyIdentifiers.BIG_CHOCOLATE_CREAM_CAKE, BIG_CHOCOLATE_CREAM_CAKE);
+        Registries.register(MyIdentifiers.CHOCOLATE_ANTHEMY_CAKE, CHOCOLATE_ANTHEMY_CAKE);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);

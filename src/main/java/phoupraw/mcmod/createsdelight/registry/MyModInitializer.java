@@ -15,9 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.common.api.Lambdas;
+import phoupraw.mcmod.common.api.RecipeEvents;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.api.RecipeEvents;
 import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 
 import java.util.regex.Pattern;

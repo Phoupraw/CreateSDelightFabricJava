@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.api;
+package phoupraw.mcmod.common.impl;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.common.api.WorldBlockApiCache;
 public  class WorldBlockApiCacheImpl<A, C> implements WorldBlockApiCache<A, C> {
     private final @NotNull ServerWorld world;
     private final BlockApiLookup<A, C> lookup;

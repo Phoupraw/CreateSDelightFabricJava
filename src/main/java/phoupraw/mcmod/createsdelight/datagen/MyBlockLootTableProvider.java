@@ -29,7 +29,7 @@ public final class MyBlockLootTableProvider extends FabricBlockLootTableProvider
         var alternative = AlternativeEntry.builder(
           ItemEntry.builder(block)
             .conditionally(BlockStatePropertyLootCondition.builder(block).properties(StatePredicate.Builder.create().exactMatch(Properties.AGE_3, 0))));
-        if (item != Items.AIR) {
+        if (item != Items.AIR && count != 0) {
             var itemEntry = ItemEntry.builder(item);
             if (count != 1) {
                 itemEntry.apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(count)));
@@ -56,6 +56,7 @@ public final class MyBlockLootTableProvider extends FabricBlockLootTableProvider
         addDropAge3(this, MyBlocks.CARROT_CREAM_CAKE, Items.CARROT, 1);
         addDropAge3(this, MyBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
         addDropAge3(this, MyBlocks.BIG_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
+        addDropAge3(this, MyBlocks.CHOCOLATE_ANTHEMY_CAKE, Items.AIR, 0);
         addDrop(MyBlocks.IRON_BAR_SKEWER, Items.IRON_BARS);
         {
             List<LeafEntry.Builder<?>> list = new ArrayList<>();
