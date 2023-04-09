@@ -44,7 +44,7 @@ public class StatusEffectsTooltipComponent implements net.minecraft.client.gui.t
                 line = Text.translatable("potion.withAmplifier", name, Text.translatable("potion.potency." + amplifier));
             }
             if (effect.getDuration() > 1) {
-                line = Text.translatable("potion.withDuration", line, Text.literal(Internationals.symbolToSeconds(effect.getDuration())));
+                line = Text.translatable("potion.withDuration", line, Internationals.translateToSeconds(effect.getDuration()));
             }
             if (pair.getSecond() < 1) {
                 line.append(Text.literal(" " + DecimalFormat.getNumberInstance().format(pair.getSecond() * 100) + "%"));

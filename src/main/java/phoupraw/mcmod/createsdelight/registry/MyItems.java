@@ -23,17 +23,17 @@ import java.util.List;
 /**
  物品编写流程：
  <ol>
- <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br>
- <li>在{@link MyIdentifiers}创建{@link Identifier}。<br>
- <li>在{@link MyItems}创建物品<b>并注册</b>。<br>
- <li>若不为{@link BlockItem}，则在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译。<br>
- <li>若不为{@link BlockItem}，则在{@link MyModelProvider}添加模型。<br>
- <li>在{@link MyRecipeProvider}添加配方。<br>
- <li>在{@link MyItemTagProvider}添加标签。<br>
- <li>运行数据生成器。<br>
- <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br>
- <li>运行客户端，检查物品效果是否如预期。<br>
- <li>在{@code ChangeLog.md}添加更新日志。<br>
+ <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br/>
+ <li>在{@link MyIdentifiers}创建{@link Identifier}。<br/>
+ <li>在{@link MyItems}创建物品<b>并注册</b>。<br/>
+ <li>若不为{@link BlockItem}，则在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译。<br/>
+ <li>若不为{@link BlockItem}，则在{@link MyModelProvider}添加模型。<br/>
+ <li>在{@link MyRecipeProvider}添加配方。<br/>
+ <li>在{@link MyItemTagProvider}添加标签。<br/>
+ <li>运行数据生成器。<br/>
+ <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br/>
+ <li>运行客户端，检查物品效果是否如预期。<br/>
+ <li>在{@code ChangeLog.md}添加更新日志。<br/>
  <li>提交git。
  </ol> */
 public final class MyItems {

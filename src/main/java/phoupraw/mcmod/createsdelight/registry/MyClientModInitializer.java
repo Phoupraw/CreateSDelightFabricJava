@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.MapColor;
 import net.minecraft.client.render.RenderLayer;
@@ -19,6 +20,8 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import phoupraw.mcmod.common.api.Lambdas;
+import phoupraw.mcmod.common.api.StatusEffectsTooltipComponent;
+import phoupraw.mcmod.common.api.StatusEffectsTooltipData;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.*;
 import phoupraw.mcmod.createsdelight.item.render.UnbakedIronBowlModel;
@@ -90,5 +93,6 @@ public final class MyClientModInitializer implements ClientModInitializer {
 
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> resourceId.equals(UnbakedIronBowlModel.ID) ? new UnbakedIronBowlModel() : null);
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(turbid));
+        TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
     }
 }

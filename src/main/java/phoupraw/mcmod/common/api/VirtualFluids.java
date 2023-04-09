@@ -111,7 +111,7 @@ public final class VirtualFluids {
      如果流体的纹理是<code>assets/namespace/textures/block/path.png</code>，则可以用此方法快捷注册纹理。
      <p>
      执行的注册：<code>
-     FluidRenderHandlerRegistry.INSTANCE.register<br>
+     FluidRenderHandlerRegistry.INSTANCE.register<br/>
      ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register
      </code>
      @param fluids 流体

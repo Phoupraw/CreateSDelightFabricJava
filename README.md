@@ -1,5 +1,5 @@
 [![Modrinth](https://img.shields.io/modrinth/dt/creates-delight?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c)](https://modrinth.com/mod/creates-delight)
-[![Curseforge](https://cf.way2muchnoise.eu/short_831180.svg)](https://www.curseforge.com/minecraft/mc-mods/creates-delight/)
+[![Curseforge](https://cf.way2muchnoise.eu/short_831180.svg)](https://beta.curseforge.com/minecraft/mc-mods/creates-delight)
 [![Discord](https://img.shields.io/discord/891929048895356948?label=Discord)](https://discord.gg/create-addon-hub-891929048895356948)
 ![Minecraft](https://img.shields.io/badge/Available%20for-MC%201.19-c70039)
 [![License](https://img.shields.io/github/license/Creators-of-Create/Create?style=flat&color=900c3f)](https://github.com/Creators-of-Create/Create/blob/master/LICENSE)
