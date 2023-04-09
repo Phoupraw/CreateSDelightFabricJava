@@ -1,5 +1,9 @@
 # 0.1.0-pre10
 
+## 修复
+
+- 鼠标悬浮在会给予状态效果的物品上时崩溃（[#12](https://github.com/Phoupraw/CreateSDelightFabricJava/issues/12)）。
+
 # 0.1.0-pre9
 
 ## 修复

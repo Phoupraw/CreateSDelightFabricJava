@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
- 支持高并发调用{@link Collection#add}的集合。<br>
+ 支持高并发调用{@link Collection#add}的集合。<br/>
  经测试，效率还不如<code>{@link Collections#synchronizedCollection}(new {@link ArrayList}<>())</code> */
 @ApiStatus.Experimental
 public class ConcurrentArrayList<E> extends AbstractCollection<E> {

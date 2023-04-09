@@ -1,5 +1,9 @@
 # 0.1.0-pre10
 
+## Fix
+
+- Crashes when mouse hovers over an item that gives player status effects \([#12](https://github.com/Phoupraw/CreateSDelightFabricJava/issues/12)\).
+
 # 0.1.0-pre9
 
 ## Fix

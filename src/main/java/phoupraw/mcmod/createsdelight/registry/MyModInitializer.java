@@ -23,6 +23,15 @@ import phoupraw.mcmod.createsdelight.block.IronBarsBlock;
 import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 
 import java.util.regex.Pattern;
+/**
+ 模组构建和发布流程（每次修改代码后都需要从头开始，切不可跳步骤）：
+ <ol border="1">
+ <li>在开发环境运行客户端，进入世界，简单随意游玩，确保不会崩溃。</li>
+ <li>在开发环境运行专用服务端，确保不会崩溃。</li>
+ <li>运行`publishToMavenLocal`或`publish`Gradle任务，如果报错，一般是Mixin的remap错误，请根据情况把报错的mixin的remap设为{@code false}。<br/></li>
+ <li>在生产环境运行客户端，进入世界，简单随意游玩，确保不会崩溃。</li>
+ <li>在生产环境运行专用服务端，确保不会崩溃。</li>
+ </ol> */
 @ApiStatus.Internal
 public final class MyModInitializer implements ModInitializer {
     public static void initializeAfterCreate() {

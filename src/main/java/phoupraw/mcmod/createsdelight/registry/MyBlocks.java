@@ -13,19 +13,19 @@ import phoupraw.mcmod.createsdelight.datagen.*;
 /**
  方块编写流程：
  <ol>
- <li>若自定义方块，则在{@link phoupraw.mcmod.createsdelight.block}创建方块类，继承{@link Block}；推荐重载无参构造器。<br>
- <li>在{@link MyIdentifiers}创建{@link Identifier}。<br>
- <li>在{@link MyBlocks}创建方块<b>并注册</b>。<br>
- <li>在{@link MyItems}按照创建物品的流程创建{@link BlockItem}或自定义物品<b>并注册</b>。<br>
- <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译。<br>
- <li>在{@link MyModelProvider}添加方块状态和物品模型。<br>
- <li>在{@link MyBlockLootTableProvider}添加战利品表。<br>
- <li>在{@link MyBlockTagProvider}添加标签。<br>
- <li>运行数据生成器。<br>
- <li>在{@code src/main/resources/assets/createsdelight/models/block}创建方块模型。<br>
- <li>若贴图包含透明像素，需在{@link MyClientModInitializer}添加{@link BlockRenderLayerMap}。<br>
- <li>运行客户端，检查方块效果是否如预期。<br>
- <li>在{@code ChangeLog.md}添加更新日志。<br>
+ <li>若自定义方块，则在{@link phoupraw.mcmod.createsdelight.block}创建方块类，继承{@link Block}；推荐重载无参构造器。<br/>
+ <li>在{@link MyIdentifiers}创建{@link Identifier}。<br/>
+ <li>在{@link MyBlocks}创建方块<b>并注册</b>。<br/>
+ <li>在{@link MyItems}按照创建物品的流程创建{@link BlockItem}或自定义物品<b>并注册</b>。<br/>
+ <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译。<br/>
+ <li>在{@link MyModelProvider}添加方块状态和物品模型。<br/>
+ <li>在{@link MyBlockLootTableProvider}添加战利品表。<br/>
+ <li>在{@link MyBlockTagProvider}添加标签。<br/>
+ <li>运行数据生成器。<br/>
+ <li>在{@code src/main/resources/assets/createsdelight/models/block}创建方块模型。<br/>
+ <li>若贴图包含透明像素，需在{@link MyClientModInitializer}添加{@link BlockRenderLayerMap}。<br/>
+ <li>运行客户端，检查方块效果是否如预期。<br/>
+ <li>在{@code ChangeLog.md}添加更新日志。<br/>
  <li>提交git。
  </ol>
  @see MyBlockEntityTypes */

@@ -26,7 +26,7 @@ public interface ClearOnlyCollection<E> extends Collection<E> {
     @Contract(value = "_->true", mutates = "this")
     boolean add(E e);
     /**
-     <code>c</code>中所有元素都会被添加。<br>时间复杂度：几乎线性
+     <code>c</code>中所有元素都会被添加。<br/>时间复杂度：几乎线性
      */
     @Override
     @Contract(mutates = "this")

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "createsdelight:chocolate_anthemy_cake",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "age": "0"
+                  }
+                }
+              ],
+              "name": "createsdelight:chocolate_anthemy_cake"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
