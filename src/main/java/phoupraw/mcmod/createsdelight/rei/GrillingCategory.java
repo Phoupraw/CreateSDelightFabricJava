@@ -10,14 +10,14 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.common.api.REILayouts;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 public class GrillingCategory implements DisplayCategory<GrillingDisplay> {
-    public static final CategoryIdentifier<GrillingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.GRILLING.getId());
+    public static final CategoryIdentifier<GrillingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.GRILLING.getId());
     public static final GrillingCategory INSTANCE = new GrillingCategory();
 
     @Override
@@ -32,7 +32,7 @@ public class GrillingCategory implements DisplayCategory<GrillingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.GRILL);
+        return EntryStacks.of(CDItems.GRILL);
     }
 
     @Override

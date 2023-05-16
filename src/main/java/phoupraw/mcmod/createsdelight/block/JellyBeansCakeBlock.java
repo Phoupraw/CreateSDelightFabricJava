@@ -10,7 +10,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class JellyBeansCakeBlock extends BigCakeBlock {
 
     @Override
     public void onFinalEat(World world, BlockPos blockPos, BlockState blockState) {
-        world.setBlockState(blockPos, MyBlocks.JELLY_BEANS.getDefaultState());
+        world.setBlockState(blockPos, CDBlocks.JELLY_BEANS.getDefaultState());
     }
 
     @Override

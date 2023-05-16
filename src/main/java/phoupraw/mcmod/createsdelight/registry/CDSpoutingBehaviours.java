@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
-public final class MySpoutingBehaviours {
+public final class CDSpoutingBehaviours {
     public static final BlockSpoutingBehaviour PAN = new BlockSpoutingBehaviour() {
         @Override
         public long fillBlock(World world, BlockPos pos, SpoutTileEntity spout, FluidStack availableFluid, boolean simulate) {
@@ -40,10 +40,11 @@ public final class MySpoutingBehaviours {
         }
     };
     static {
-        BlockSpoutingBehaviour.addCustomSpoutInteraction(MyIdentifiers.PAN, PAN);
-        BlockSpoutingBehaviour.addCustomSpoutInteraction(MyIdentifiers.SMART_DRAIN, SMART_DARIN);
+        BlockSpoutingBehaviour.addCustomSpoutInteraction(CDIdentifiers.PAN, PAN);
+        BlockSpoutingBehaviour.addCustomSpoutInteraction(CDIdentifiers.SMART_DRAIN, SMART_DARIN);
     }
-    private MySpoutingBehaviours() {}
+    private CDSpoutingBehaviours() {
+    }
 
     public interface SpoutExtra {
         double getBottomY();

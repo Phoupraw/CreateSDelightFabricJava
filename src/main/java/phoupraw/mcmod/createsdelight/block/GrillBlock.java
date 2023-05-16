@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import phoupraw.mcmod.common.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
 
@@ -46,7 +46,7 @@ public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
 
     @Override
     public BlockEntityType<? extends GrillBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.GRILL;
+        return CDBlockEntityTypes.GRILL;
     }
 
     @SuppressWarnings("deprecation")
@@ -98,7 +98,7 @@ public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (world.isClient()) return ActionResult.CONSUME;
-        var blockStorage = world.getBlockEntity(pos, MyBlockEntityTypes.GRILL).orElseThrow().storage;
+        var blockStorage = world.getBlockEntity(pos, CDBlockEntityTypes.GRILL).orElseThrow().storage;
         long toBlock;
         try (var transaction = Transaction.openOuter()) {
             var livingStorage = LivingEntityStorage.of(player);

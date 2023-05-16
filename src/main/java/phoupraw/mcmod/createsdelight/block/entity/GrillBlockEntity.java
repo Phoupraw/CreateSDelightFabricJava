@@ -32,8 +32,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 
 import java.util.*;
@@ -65,7 +65,9 @@ public class GrillBlockEntity extends SmartTileEntity implements SidedStorageBlo
         }
         storage = new CombinedStorage<>(list);
     }
-    public GrillBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.GRILL, pos, state);}
+    public GrillBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.GRILL, pos, state);
+    }
 
     public GrillBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -102,7 +104,7 @@ public class GrillBlockEntity extends SmartTileEntity implements SidedStorageBlo
         for (int j = 0; j < nonEmpties.size(); j++) {
             int i = nonEmpties.get(j).getLeft();
             BlockingTransportedStorage slot = nonEmpties.get(j).getRight();
-            var recipe = getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.GRILLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(slot.getStack())).findFirst().orElse(null);
+            var recipe = getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.GRILLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(slot.getStack())).findFirst().orElse(null);
             if (recipe == null) {
                 resetTicks(i);
                 continue;

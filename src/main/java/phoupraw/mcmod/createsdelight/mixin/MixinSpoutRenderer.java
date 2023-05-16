@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import phoupraw.mcmod.createsdelight.registry.MySpoutingBehaviours;
+import phoupraw.mcmod.createsdelight.registry.CDSpoutingBehaviours;
 @Environment(EnvType.CLIENT)
 @Mixin(value = SpoutRenderer.class)
 public class MixinSpoutRenderer {
@@ -25,6 +25,6 @@ public class MixinSpoutRenderer {
     @ModifyArg(method = "renderSafe(Lcom/simibubi/create/content/contraptions/fluids/actors/SpoutTileEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;<init>(DDDDDD)V"), index = 4)
     private double modifyBottomY(double yMin) {
         var spout = this.spout.get();
-        return yMin - 13 / 16.0 + ((MySpoutingBehaviours.SpoutExtra) spout).getBottomY();
+        return yMin - 13 / 16.0 + ((CDSpoutingBehaviours.SpoutExtra) spout).getBottomY();
     }
 }

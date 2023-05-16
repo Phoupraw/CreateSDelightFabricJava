@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import phoupraw.mcmod.createsdelight.registry.MyModInitializer;
+import phoupraw.mcmod.createsdelight.registry.CDModInitializer;
 @Mixin(value = Create.class)
 public class MixinCreate {
     /**
@@ -13,6 +13,6 @@ public class MixinCreate {
      */
     @Inject(method = "onInitialize",at = @At("TAIL"),remap = false)
     private void afterInitialize(CallbackInfo ci){
-        MyModInitializer.initializeAfterCreate();
+        CDModInitializer.initializeAfterCreate();
     }
 }

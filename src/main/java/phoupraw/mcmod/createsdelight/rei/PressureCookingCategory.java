@@ -3,10 +3,10 @@ package phoupraw.mcmod.createsdelight.rei;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 public class PressureCookingCategory extends BasinCategory<PressureCookingDisplay> {
-    public static final CategoryIdentifier<PressureCookingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.PRESSURE_COOKING.getId());
+    public static final CategoryIdentifier<PressureCookingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.PRESSURE_COOKING.getId());
     public static final PressureCookingCategory INSTANCE = new PressureCookingCategory();
 
     @Override
@@ -16,7 +16,7 @@ public class PressureCookingCategory extends BasinCategory<PressureCookingDispla
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.PRESSURE_COOKER);
+        return EntryStacks.of(CDItems.PRESSURE_COOKER);
     }
 
 }

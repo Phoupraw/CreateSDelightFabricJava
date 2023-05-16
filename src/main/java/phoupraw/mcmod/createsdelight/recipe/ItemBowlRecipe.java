@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 import phoupraw.mcmod.createsdelight.storage.IronBowlItemStorage;
 public class ItemBowlRecipe implements Recipe<Inventory> {
     public final DeployerRecipeSearchEvent event;
@@ -40,7 +40,7 @@ public class ItemBowlRecipe implements Recipe<Inventory> {
 
     @Override
     public DefaultedList<Ingredient> getIngredients() {
-        return DefaultedList.copyOf(Ingredient.empty(), Ingredient.ofItems(MyItems.IRON_BOWL), Ingredient.ofStacks(event.getInventory().getStack(1)));
+        return DefaultedList.copyOf(Ingredient.empty(), Ingredient.ofItems(CDItems.IRON_BOWL), Ingredient.ofStacks(event.getInventory().getStack(1)));
     }
 
     @Override

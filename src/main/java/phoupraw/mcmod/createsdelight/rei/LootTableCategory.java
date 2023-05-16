@@ -13,13 +13,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.common.api.REILayouts;
-import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
+import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 
 import java.util.LinkedList;
 import java.util.List;
 @Environment(EnvType.CLIENT)
 public class LootTableCategory implements DisplayCategory<LootTableDisplay> {
-    public static final CategoryIdentifier<LootTableDisplay> ID = CategoryIdentifier.of(MyIdentifiers.of("loot_table"));
+    public static final CategoryIdentifier<LootTableDisplay> ID = CategoryIdentifier.of(CDIdentifiers.of("loot_table"));
 
     public static List<Widget> setupDisplay(LootTableCategory _this, LootTableDisplay display, Rectangle bounds) {
         List<Widget> widgets = new LinkedList<>();

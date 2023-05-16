@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.recipe.VerticalCuttingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -68,7 +68,9 @@ public class VerticalCutterBlockEntity extends KineticTileEntity implements Inst
      */
     private int chopped;
 
-    public VerticalCutterBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.VERTICAL_CUTTER, pos, state);}
+    public VerticalCutterBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.VERTICAL_CUTTER, pos, state);
+    }
 
     public VerticalCutterBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         super(typeIn, pos, state);
@@ -132,7 +134,7 @@ public class VerticalCutterBlockEntity extends KineticTileEntity implements Inst
     }
 
     public @Nullable VerticalCuttingRecipe findRecipe(ItemStack ingredient) {
-        return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.VERTICAL_CUTTING.getRecipeType()).stream().filter(RecipeConditions.firstIngredientMatches(ingredient)).findFirst().orElse(null);
+        return getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.VERTICAL_CUTTING.getRecipeType()).stream().filter(RecipeConditions.firstIngredientMatches(ingredient)).findFirst().orElse(null);
     }
 
     @Override

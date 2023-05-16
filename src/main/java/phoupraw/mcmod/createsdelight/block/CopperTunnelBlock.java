@@ -25,8 +25,8 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.block.entity.CopperTunnelBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 
 import java.util.*;
 public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEntity>, IWrenchable {
@@ -69,7 +69,7 @@ public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEnt
 
     @Override
     public BlockEntityType<? extends CopperTunnelBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.COPPER_TUNNEL;
+        return CDBlockEntityTypes.COPPER_TUNNEL;
     }
 
     @SuppressWarnings("deprecation")
@@ -125,7 +125,7 @@ public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEnt
     @SuppressWarnings("deprecation")
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isOf(MyBlocks.SMART_DRAIN) && super.canPlaceAt(state, world, pos);
+        return world.getBlockState(pos.down()).isOf(CDBlocks.SMART_DRAIN) && super.canPlaceAt(state, world, pos);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEnt
         for (Direction side : Direction.Type.HORIZONTAL) {
             var pos1 = pos0.offset(side);
             var state1 = world.getBlockState(pos1);
-            if (state1.isOf(MyBlocks.COPPER_TUNNEL)) {
+            if (state1.isOf(CDBlocks.COPPER_TUNNEL)) {
                 var model = state1.get(Model.HORIZONTALS.get(side.getOpposite()));
                 if (model != Model.COPPER) {
                     state0 = state0.with(Model.HORIZONTALS.get(side), Model.NONE);
@@ -144,7 +144,7 @@ public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEnt
             } else {
                 var pos2 = pos1.down();
                 var state2 = world.getBlockState(pos2);
-                if (state2.isOf(MyBlocks.SMART_DRAIN)) {
+                if (state2.isOf(CDBlocks.SMART_DRAIN)) {
                     state0 = state0.with(Model.HORIZONTALS.get(side), Model.CURTAIN);
                 }
             }
@@ -156,12 +156,12 @@ public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEnt
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         var state0 = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-        if (direction == Direction.DOWN && !neighborState.isOf(MyBlocks.SMART_DRAIN)) return Blocks.AIR.getDefaultState();
+        if (direction == Direction.DOWN && !neighborState.isOf(CDBlocks.SMART_DRAIN)) return Blocks.AIR.getDefaultState();
         if (direction.getAxis().isHorizontal()) {
             EnumProperty<Model> property = Model.HORIZONTALS.get(direction);
-            if (neighborState.isOf(MyBlocks.COPPER_TUNNEL)) {
+            if (neighborState.isOf(CDBlocks.COPPER_TUNNEL)) {
                 state0 = state0.with(property, neighborState.get(Model.HORIZONTALS.get(direction.getOpposite())));
-            } else if (world.getBlockState(neighborPos.down()).isOf(MyBlocks.SMART_DRAIN)) {
+            } else if (world.getBlockState(neighborPos.down()).isOf(CDBlocks.SMART_DRAIN)) {
                 state0 = state0.with(property, Model.CURTAIN);
             } else {
                 state0 = state0.with(property, Model.GLASS);

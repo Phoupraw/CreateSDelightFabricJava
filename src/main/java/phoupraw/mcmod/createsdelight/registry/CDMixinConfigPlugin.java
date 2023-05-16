@@ -11,7 +11,7 @@ import phoupraw.mcmod.createsdelight.mixin.MixinBlocks;
 import java.util.List;
 import java.util.Set;
 @ApiStatus.Internal
-public final class MyMixinConfigPlugin implements IMixinConfigPlugin {
+public final class CDMixinConfigPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
 

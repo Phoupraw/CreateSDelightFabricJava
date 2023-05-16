@@ -12,7 +12,7 @@ import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,9 @@ public class VerticalCuttingRecipe extends DeprecatedMatchesRecipe {
     {
         setKnives(1);
     }
-    public VerticalCuttingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {this(MyRecipeTypes.VERTICAL_CUTTING, params);}
+    public VerticalCuttingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {
+        this(CDRecipeTypes.VERTICAL_CUTTING, params);
+    }
 
     public VerticalCuttingRecipe(IRecipeTypeInfo typeInfo, ProcessingRecipeBuilder.ProcessingRecipeParams params) {
         super(typeInfo, params);

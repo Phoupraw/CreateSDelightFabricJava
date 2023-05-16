@@ -11,7 +11,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import phoupraw.mcmod.createsdelight.block.entity.VerticalCutterBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 /**
  * 纵切机
  */
@@ -28,7 +28,7 @@ public class VerticalCutterBlock extends HorizontalAxisKineticBlock implements I
 
     @Override
     public BlockEntityType<? extends VerticalCutterBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.VERTICAL_CUTTER;
+        return CDBlockEntityTypes.VERTICAL_CUTTER;
     }
 
     @SuppressWarnings("deprecation")

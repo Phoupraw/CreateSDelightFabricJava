@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class IronBarSkewerBlockEntity extends KineticTileEntity implements Sided
     public final double[] countdowns = new double[SIZE];
 
     public IronBarSkewerBlockEntity(BlockPos pos, BlockState state) {
-        this(MyBlockEntityTypes.IRON_BAR_SKEWER, pos, state);
+        this(CDBlockEntityTypes.IRON_BAR_SKEWER, pos, state);
     }
 
     public IronBarSkewerBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {

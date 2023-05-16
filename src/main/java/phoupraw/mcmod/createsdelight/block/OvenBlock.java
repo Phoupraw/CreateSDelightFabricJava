@@ -9,7 +9,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.OvenBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class OvenBlock extends Block implements ITE<OvenBlockEntity> {
     public OvenBlock() {
         this(FabricBlockSettings.copyOf(AllBlocks.ITEM_VAULT.get()).nonOpaque());
@@ -26,7 +26,7 @@ public class OvenBlock extends Block implements ITE<OvenBlockEntity> {
 
     @Override
     public BlockEntityType<? extends OvenBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.OVEN;
+        return CDBlockEntityTypes.OVEN;
     }
 
     @SuppressWarnings("deprecation")

@@ -16,7 +16,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import phoupraw.mcmod.createsdelight.block.entity.MincerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class MincerBlock extends KineticBlock implements ITE<MincerBlockEntity>, ICogWheel {
     public static final VoxelShape EXTENDED = VoxelShapes.union(AllShapes.CASING_14PX.get(Direction.DOWN), createCuboidShape(5, -14, 5, 11, 2, 11), createCuboidShape(0, -16, 0, 16, -14, 16));
 
@@ -43,7 +43,7 @@ public class MincerBlock extends KineticBlock implements ITE<MincerBlockEntity>,
 
     @Override
     public BlockEntityType<? extends MincerBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.MINCER;
+        return CDBlockEntityTypes.MINCER;
     }
 
     @Override

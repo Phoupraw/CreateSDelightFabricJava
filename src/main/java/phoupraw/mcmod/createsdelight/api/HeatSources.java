@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.common.api.WorldBlockApiCache;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public final class HeatSources {
     public static final BlockApiLookup<Double, @Nullable Direction> SIDED = BlockApiLookup.get(new Identifier(CreateSDelight.MOD_ID, "heat_source"), Double.class, Direction.class);
     public static final LoadingCache<ServerWorld, WorldBlockApiCache<Double, @Nullable Direction>> CACHE = CacheBuilder.newBuilder().build(new CacheLoader<>() {
@@ -45,7 +45,7 @@ public final class HeatSources {
             return boiler >= 0 ? boiler + 1.0 : null;
         });
         SIDED.registerFallback((world, pos, state, blockEntity, side) -> side == Direction.UP && (state.isIn(AllTags.AllBlockTags.PASSIVE_BOILER_HEATERS.tag) || state.isIn(TagsRegistry.HEAT_SOURCES)) ? 1.0 : null);
-        SIDED.registerForBlockEntity(SmartDrainBlockEntity::getSelfHeat, MyBlockEntityTypes.SMART_DRAIN);
+        SIDED.registerForBlockEntity(SmartDrainBlockEntity::getSelfHeat, CDBlockEntityTypes.SMART_DRAIN);
     }
     private HeatSources() {}
 }

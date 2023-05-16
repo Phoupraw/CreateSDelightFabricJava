@@ -11,17 +11,17 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyStatusEffects;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDStatusEffects;
 public class SweetBerriesCakeItem extends StatusEffectsBlockItem {
     public SweetBerriesCakeItem() {
-        this(MyBlocks.SWEET_BERRIES_CAKE, MyItems.newSettings()
+        this(CDBlocks.SWEET_BERRIES_CAKE, CDItems.newSettings()
           .maxCount(64)
           .food(new FoodComponent.Builder()
             .hunger(5)
             .saturationModifier(0.5f)
-            .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 3), 1f)
+            .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 3), 1f)
             .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f)
             .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)
             .build()
@@ -43,7 +43,7 @@ public class SweetBerriesCakeItem extends StatusEffectsBlockItem {
         BlockPos blockPos = context.getHitResult().getBlockPos();
         while (true) {
             var blockState = context.getWorld().getBlockState(blockPos);
-            if (!blockState.isOf(MyBlocks.SWEET_BERRIES_CAKE) || blockState.get(Properties.AGE_3) < Properties.AGE_3_MAX) return new ItemPlacementContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), context.getHitResult().withBlockPos(blockPos));
+            if (!blockState.isOf(CDBlocks.SWEET_BERRIES_CAKE) || blockState.get(Properties.AGE_3) < Properties.AGE_3_MAX) return new ItemPlacementContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), context.getHitResult().withBlockPos(blockPos));
             blockPos = blockPos.up();
         }
     }

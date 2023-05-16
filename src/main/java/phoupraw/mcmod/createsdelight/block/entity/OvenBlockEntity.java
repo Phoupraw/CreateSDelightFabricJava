@@ -26,8 +26,8 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.api.LambdasC;
 import phoupraw.mcmod.createsdelight.recipe.BakingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 import phoupraw.mcmod.createsdelight.storage.IronBowlFluidStorage;
 import phoupraw.mcmod.createsdelight.storage.IronBowlItemStorage;
 
@@ -39,7 +39,7 @@ public class OvenBlockEntity extends SmartTileEntity implements SidedStorageBloc
     private final double[] countdowns = new double[SIZE];
 
     public OvenBlockEntity(BlockPos pos, BlockState state) {
-        this(MyBlockEntityTypes.OVEN, pos, state);
+        this(CDBlockEntityTypes.OVEN, pos, state);
     }
 
     public OvenBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -89,7 +89,7 @@ public class OvenBlockEntity extends SmartTileEntity implements SidedStorageBloc
             double step = heat - 1;
             for (int i = 0; i < SIZE; i++) {
                 ItemStack itemStack = getInventory().getStack(i);
-                if (itemStack.isOf(MyItems.IRON_BOWL)) {
+                if (itemStack.isOf(CDItems.IRON_BOWL)) {
                     ContainerItemContext itemContext = ContainerItemContext.ofSingleSlot(InventoryStorage.of(getInventory(), null).getSlot(i));
                     var itemS = new IronBowlItemStorage(itemContext, getWorld());
                     var fluidS = new IronBowlFluidStorage(itemContext, getWorld());

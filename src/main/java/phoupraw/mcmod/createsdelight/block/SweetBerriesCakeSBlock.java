@@ -9,7 +9,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 
 import java.util.List;
 
@@ -48,6 +48,6 @@ public class SweetBerriesCakeSBlock extends BigCakeBlock {
 
     @Override
     public void onFinalEat(World world, BlockPos blockPos, BlockState blockState) {
-        world.setBlockState(blockPos, MyBlocks.SWEET_BERRIES_CAKE.getDefaultState().with(AGE_3, 2));
+        world.setBlockState(blockPos, CDBlocks.SWEET_BERRIES_CAKE.getDefaultState().with(AGE_3, 2));
     }
 }

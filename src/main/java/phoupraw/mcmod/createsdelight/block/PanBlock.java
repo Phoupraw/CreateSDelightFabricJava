@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import phoupraw.mcmod.common.api.LivingEntityStorage;
 import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleFluidStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
@@ -80,7 +80,7 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (world.isClient()) return ActionResult.CONSUME;
-        var pan = world.getBlockEntity(pos, MyBlockEntityTypes.PAN).orElseThrow();
+        var pan = world.getBlockEntity(pos, CDBlockEntityTypes.PAN).orElseThrow();
         try (var transaction = Transaction.openOuter()) {
             var handStorage = FluidStorage.ITEM.find(player.getStackInHand(hand), ContainerItemContext.ofPlayerHand(player, hand));
             if (handStorage != null) {
@@ -124,6 +124,6 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
 
     @Override
     public BlockEntityType<? extends PanBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.PAN;
+        return CDBlockEntityTypes.PAN;
     }
 }

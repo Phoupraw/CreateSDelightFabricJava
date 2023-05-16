@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.*;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -113,7 +113,7 @@ public class CakeBlueprintItem extends SchematicItem {
     }
 
     public CakeBlueprintItem() {
-        this(MyItems.newSettings().maxCount(1));
+        this(CDItems.newSettings().maxCount(1));
     }
 
     public CakeBlueprintItem(Settings properties) {

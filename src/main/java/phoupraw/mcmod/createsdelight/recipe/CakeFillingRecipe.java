@@ -12,9 +12,9 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
-import phoupraw.mcmod.createsdelight.registry.MyIdentifiers;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDFluids;
+import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +23,16 @@ public class CakeFillingRecipe extends FillingRecipe {
     public static final FluidIngredient FLUID_INGREDIENT = FluidIngredient.fromFluid(Fluids.EMPTY, FluidConstants.BUCKET);
     static {
         List<FluidStack> list = new ArrayList<>();
-        for (Fluid f : new Fluid[]{Milk.STILL_MILK, AllFluids.CHOCOLATE.get(), AllFluids.TEA.get(), AllFluids.HONEY.get(), MyFluids.PASTE, MyFluids.EGG_LIQUID, MyFluids.TOMATO_SAUCE}) {
+        for (Fluid f : new Fluid[]{Milk.STILL_MILK, AllFluids.CHOCOLATE.get(), AllFluids.TEA.get(), AllFluids.HONEY.get(), CDFluids.PASTE, CDFluids.EGG_LIQUID, CDFluids.TOMATO_SAUCE}) {
             list.add(new FluidStack(f, FluidConstants.BUCKET));
         }
         FLUID_INGREDIENT.matchingFluidStacks = list;
     }
     @ApiStatus.Internal
-    public static final CakeFillingRecipe INSTANCE = new ProcessingRecipeBuilder<>(CakeFillingRecipe::new, MyIdentifiers.of("blueprint_cake"))
-      .require(MyItems.CAKE_BLUEPRINT)
+    public static final CakeFillingRecipe INSTANCE = new ProcessingRecipeBuilder<>(CakeFillingRecipe::new, CDIdentifiers.of("blueprint_cake"))
+      .require(CDItems.CAKE_BLUEPRINT)
       .require(FLUID_INGREDIENT)
-      .output(MyItems.CAKE_BLUEPRINT)
+      .output(CDItems.CAKE_BLUEPRINT)
       .build();
 
     public static CakeFillingRecipe getInstance() {

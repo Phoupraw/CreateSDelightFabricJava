@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.behaviour.RollingItemBehaviour;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 
 import java.util.*;
 public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity {
@@ -36,7 +36,9 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     public Map<Direction, Boolean> toFlaps = new EnumMap<>(Direction.class);
     public RollingItemBehaviour rolling;
 
-    public CopperTunnelBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.COPPER_TUNNEL, pos, state);}
+    public CopperTunnelBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.COPPER_TUNNEL, pos, state);
+    }
 
     public CopperTunnelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

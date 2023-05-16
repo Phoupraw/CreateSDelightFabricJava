@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import phoupraw.mcmod.createsdelight.block.entity.MultifuncBasinBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class MultifuncBasinBlock extends Block implements ITE<MultifuncBasinBlockEntity> {
     public MultifuncBasinBlock(Settings settings) {
         super(settings);
@@ -23,7 +23,7 @@ public class MultifuncBasinBlock extends Block implements ITE<MultifuncBasinBloc
 
     @Override
     public BlockEntityType<? extends MultifuncBasinBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.MULTIFUNC_BASIN;
+        return CDBlockEntityTypes.MULTIFUNC_BASIN;
     }
 
     @SuppressWarnings("deprecation")

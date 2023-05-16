@@ -11,13 +11,13 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.common.api.REILayouts;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingDisplay> {
-    public static final CategoryIdentifier<VerticalCuttingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.VERTICAL_CUTTING.getId());
+    public static final CategoryIdentifier<VerticalCuttingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.VERTICAL_CUTTING.getId());
     public static final VerticalCuttingCategory INSTANCE = new VerticalCuttingCategory();
 
     @Override
@@ -32,7 +32,7 @@ public class VerticalCuttingCategory implements DisplayCategory<VerticalCuttingD
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.VERTICAL_CUTTER);
+        return EntryStacks.of(CDItems.VERTICAL_CUTTER);
     }
 
     @Override

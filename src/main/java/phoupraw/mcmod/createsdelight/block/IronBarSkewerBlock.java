@@ -27,7 +27,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import phoupraw.mcmod.createsdelight.block.entity.IronBarSkewerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 
 import java.util.Map;
 public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements ITE<IronBarSkewerBlockEntity> {
@@ -57,7 +57,7 @@ public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements ITE
 
     @Override
     public BlockEntityType<? extends IronBarSkewerBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.IRON_BAR_SKEWER;
+        return CDBlockEntityTypes.IRON_BAR_SKEWER;
     }
 
     @SuppressWarnings("deprecation")

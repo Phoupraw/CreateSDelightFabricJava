@@ -24,7 +24,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.item.StatusEffectsBlockItem;
-import phoupraw.mcmod.createsdelight.registry.MyStatusEffects;
+import phoupraw.mcmod.createsdelight.registry.CDStatusEffects;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class BigCakeBlock extends Block {
 
     @ApiStatus.OverrideOnly
     public void onEachEat(World world, BlockPos blockPos, BlockState blockState, PlayerEntity player, BlockHitResult hitResult) {
-        StatusEffectsBlockItem.eat(world, blockPos, blockState, hitResult.getPos(), player, 5, 0.5f, List.of(Pair.of(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 3), 1f), Pair.of(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f), Pair.of(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)));
+        StatusEffectsBlockItem.eat(world, blockPos, blockState, hitResult.getPos(), player, 5, 0.5f, List.of(Pair.of(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 3), 1f), Pair.of(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f), Pair.of(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)));
     }
 
     @ApiStatus.OverrideOnly

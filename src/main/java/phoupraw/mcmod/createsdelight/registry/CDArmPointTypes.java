@@ -25,7 +25,7 @@ import phoupraw.mcmod.createsdelight.api.FarmersDelightWrappers;
 import phoupraw.mcmod.createsdelight.block.entity.SkewerPlateBlockEntity;
 
 import java.util.Objects;
-public final class MyArmPointTypes {
+public final class CDArmPointTypes {
     public static final ArmInteractionPointType STOVE = new DefaultPointType(new Identifier(CreateSDelight.MOD_ID, "stove"), BlocksRegistry.STOVE.get()) {
         @Override
         public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
@@ -59,8 +59,8 @@ public final class MyArmPointTypes {
      */
     public static final ArmInteractionPointType SKILLET;
 
-    public static final ArmInteractionPointType PAN = new DefaultPointType(MyIdentifiers.PAN, MyBlocks.PAN);
-    public static final ArmInteractionPointType GRILL = new DefaultPointType(MyIdentifiers.GRILL, MyBlocks.GRILL) /*{
+    public static final ArmInteractionPointType PAN = new DefaultPointType(CDIdentifiers.PAN, CDBlocks.PAN);
+    public static final ArmInteractionPointType GRILL = new DefaultPointType(CDIdentifiers.GRILL, CDBlocks.GRILL) /*{
         @Override
         public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
             return new ArmInteractionPoint(this, level, pos, state) {
@@ -84,7 +84,7 @@ public final class MyArmPointTypes {
             };
         }
     }*/;
-    public static final ArmInteractionPointType SKEWER_PLATE = new DefaultPointType(MyIdentifiers.SKEWER_PLATE, MyBlocks.SKEWER_PLATE) {
+    public static final ArmInteractionPointType SKEWER_PLATE = new DefaultPointType(CDIdentifiers.SKEWER_PLATE, CDBlocks.SKEWER_PLATE) {
         @Override
         public @NotNull ArmInteractionPoint createPoint(World level, BlockPos pos, BlockState state) {
             return new ArmInteractionPoint(this, level, pos, state) {
@@ -139,11 +139,12 @@ public final class MyArmPointTypes {
             ArmInteractionPointType.register(type);
         }
     }
-    private MyArmPointTypes() {}
+    private CDArmPointTypes() {
+    }
 
     /**
      只要{@link #canCreatePoint(World, BlockPos, BlockState)}的{@code state}符合{@link #getBlock()}，就可以创建，创建的是{@link ArmInteractionPoint}
-     @see MyArmPointTypes
+     @see CDArmPointTypes
      */
     public static class DefaultPointType extends ArmInteractionPointType {
         private final Block block;

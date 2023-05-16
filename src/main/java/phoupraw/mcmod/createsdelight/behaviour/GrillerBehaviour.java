@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.recipe.GrillingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 import phoupraw.mcmod.createsdelight.storage.ReplaceableStorageView;
 
 import java.util.ArrayList;
@@ -172,7 +172,7 @@ public class GrillerBehaviour extends TileEntityBehaviour {
     }
 
     public @Nullable GrillingRecipe getRecipe(ItemStack ingredient) {
-        return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.GRILLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(ingredient)).findFirst().orElse(null);
+        return getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.GRILLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(ingredient)).findFirst().orElse(null);
     }
 
     public boolean onDone(StorageView<ItemVariant> view, int i, GrillingRecipe recipe) {

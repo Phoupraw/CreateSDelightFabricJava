@@ -20,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.recipe.PressureCookingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.Objects;
 public class PressureCookerBlockEntity extends BasinOperatingTileEntity implements InstanceOffset {
@@ -35,7 +35,9 @@ public class PressureCookerBlockEntity extends BasinOperatingTileEntity implemen
     private double prevExtention;
     public int countdown;
 
-    public PressureCookerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.PRESSURE_COOKER, pos, state);}
+    public PressureCookerBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.PRESSURE_COOKER, pos, state);
+    }
 
     public PressureCookerBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         super(typeIn, pos, state);
@@ -67,7 +69,7 @@ public class PressureCookerBlockEntity extends BasinOperatingTileEntity implemen
 
     @Override
     protected <C extends Inventory> boolean matchStaticFilters(Recipe<C> recipe) {
-        return recipe.getType() == MyRecipeTypes.PRESSURE_COOKING.getRecipeType();
+        return recipe.getType() == CDRecipeTypes.PRESSURE_COOKING.getRecipeType();
     }
 
     @Override

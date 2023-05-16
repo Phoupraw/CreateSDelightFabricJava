@@ -12,7 +12,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 import phoupraw.mcmod.createsdelight.block.entity.SprinklerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyPartialModels;
+import phoupraw.mcmod.createsdelight.registry.CDPartialModels;
 @Environment(EnvType.CLIENT)
 public class SprinklerRenderer extends SmartTileEntityRenderer<SprinklerBlockEntity> {
 
@@ -28,7 +28,7 @@ public class SprinklerRenderer extends SmartTileEntityRenderer<SprinklerBlockEnt
         ms.translate(0.5, 0, 0.5);
         ms.multiply(new Quaternion(Direction.UP.getUnitVector(), (float) angle, false));
         ms.translate(-0.5, 0, -0.5);
-        CachedBufferer.partial(MyPartialModels.SPRINKLER_LID, spr.getCachedState())
+        CachedBufferer.partial(CDPartialModels.SPRINKLER_LID, spr.getCachedState())
           .light(light)
           .renderInto(ms, buffer.getBuffer(RenderLayer.getCutout()));
         ms.pop();

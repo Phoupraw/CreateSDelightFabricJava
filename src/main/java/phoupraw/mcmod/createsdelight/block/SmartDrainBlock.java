@@ -41,7 +41,7 @@ import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.createsdelight.behaviour.GrillerBehaviour;
 import phoupraw.mcmod.createsdelight.behaviour.SteamerBehaviour;
 import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
 public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>, IWrenchable {
@@ -64,7 +64,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
 
     @Override
     public BlockEntityType<? extends SmartDrainBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.SMART_DRAIN;
+        return CDBlockEntityTypes.SMART_DRAIN;
     }
 
     @SuppressWarnings("deprecation")
@@ -86,7 +86,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
         if (hit.getSide() != Direction.UP) return super.onUse(state, world, pos, player, hand, hit);
         if (world.isClient()) return ActionResult.CONSUME;
         ItemStack handStack = player.getStackInHand(hand);
-        var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
+        var drain = world.getBlockEntity(pos, CDBlockEntityTypes.SMART_DRAIN).orElseThrow();
         if (handStack.isOf(Items.FLINT_AND_STEEL) || handStack.isOf(Items.FIRE_CHARGE)) {
             if (drain.getBurner().tryIgnite() > 0) {
                 if (handStack.isOf(Items.FLINT_AND_STEEL)) {
@@ -130,7 +130,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
-        var drain = world.getBlockEntity(pos, MyBlockEntityTypes.SMART_DRAIN).orElseThrow();
+        var drain = world.getBlockEntity(pos, CDBlockEntityTypes.SMART_DRAIN).orElseThrow();
         if (state.get(Properties.LIT) && random.nextInt(24) == 0) {
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1, 1);
             world.addParticle(ParticleTypes.LARGE_SMOKE, pos.getX() + 0.2 + random.nextDouble() * 0.6, pos.getY() + 0.5, pos.getZ() + 0.2 + random.nextDouble() * 0.6, 0, 0, 0);

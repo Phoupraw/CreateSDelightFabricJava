@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import phoupraw.mcmod.createsdelight.registry.MySpoutingBehaviours;
+import phoupraw.mcmod.createsdelight.registry.CDSpoutingBehaviours;
 @Mixin(value = SpoutTileEntity.class)
-public abstract class MixinSpoutTileEntity extends SmartTileEntity implements MySpoutingBehaviours.SpoutExtra {
+public abstract class MixinSpoutTileEntity extends SmartTileEntity implements CDSpoutingBehaviours.SpoutExtra {
     private double bottomY = 13 / 16.0;
 
     public MixinSpoutTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

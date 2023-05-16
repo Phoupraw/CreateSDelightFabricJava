@@ -12,13 +12,13 @@ import net.minecraft.text.Text;
 import phoupraw.mcmod.common.api.Internationals;
 import phoupraw.mcmod.common.api.REICreates;
 import phoupraw.mcmod.common.api.REILayouts;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 public class BakingCategory implements DisplayCategory<BakingDisplay> {
-    public static final CategoryIdentifier<BakingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.BAKING.getId());
+    public static final CategoryIdentifier<BakingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.BAKING.getId());
     public static final BakingCategory INSTANCE = new BakingCategory();
 
     @Override
@@ -33,7 +33,7 @@ public class BakingCategory implements DisplayCategory<BakingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.OVEN);
+        return EntryStacks.of(CDItems.OVEN);
     }
 
     @Override

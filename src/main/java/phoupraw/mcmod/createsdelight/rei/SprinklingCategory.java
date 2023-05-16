@@ -11,13 +11,13 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.common.api.REILayouts;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 public class SprinklingCategory implements DisplayCategory<SprinklingDisplay> {
-    public static final CategoryIdentifier<SprinklingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.SPRINKLING.getId());
+    public static final CategoryIdentifier<SprinklingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.SPRINKLING.getId());
     public static final SprinklingCategory INSTANCE = new SprinklingCategory();
 
     @Override
@@ -32,7 +32,7 @@ public class SprinklingCategory implements DisplayCategory<SprinklingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.SPRINKLER);
+        return EntryStacks.of(CDItems.SPRINKLER);
     }
 
     @Override

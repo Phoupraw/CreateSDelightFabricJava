@@ -9,14 +9,14 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 public class SteamingCategory implements DisplayCategory<SteamingDisplay> {
-    public static final CategoryIdentifier<SteamingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.STEAMING.getId());
+    public static final CategoryIdentifier<SteamingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.STEAMING.getId());
     public static final SteamingCategory INSTANCE = new SteamingCategory();
 
     @Override
@@ -31,7 +31,7 @@ public class SteamingCategory implements DisplayCategory<SteamingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.BAMBOO_STEAMER);
+        return EntryStacks.of(CDItems.BAMBOO_STEAMER);
     }
 
     @Override

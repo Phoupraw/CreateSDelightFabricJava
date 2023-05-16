@@ -18,15 +18,15 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 public class PrintedCakeModel implements BakedModel, FabricBakedModel {
-    public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(MyBlocks.PRINTED_CAKE);
-    public static final Identifier ITEM_ID = ModelIds.getItemModelId(MyItems.PRINTED_CAKE);
+    public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CDBlocks.PRINTED_CAKE);
+    public static final Identifier ITEM_ID = ModelIds.getItemModelId(CDItems.PRINTED_CAKE);
     public static final Map<UUID, List<BakedQuad>> CACHE = new HashMap<>();
     public final ThreadLocal<NbtCompound> theRendering = new ThreadLocal<>();
 

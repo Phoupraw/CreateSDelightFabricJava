@@ -13,7 +13,7 @@ import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.common.api.Collections3;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.Objects;
 public class PanFrierBehaviour extends TileEntityBehaviour {
@@ -52,7 +52,7 @@ public class PanFrierBehaviour extends TileEntityBehaviour {
         super.tick();
         if (!getWorld().isClient()) {
             if (getHeat() >= 1) {
-                var recipes = Collections3.top(getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.PAN_FRYING.getRecipeType()), PanFryingRecipe.testing(getItemS(), getFluidS()), 1);
+                var recipes = Collections3.top(getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.PAN_FRYING.getRecipeType()), PanFryingRecipe.testing(getItemS(), getFluidS()), 1);
                 if (recipes.isEmpty()) {
                     setWorking(false);
                     setTicks(-1);

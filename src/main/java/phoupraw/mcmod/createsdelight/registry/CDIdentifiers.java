@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-public final class MyIdentifiers {
+public final class CDIdentifiers {
 
     public static final Identifier
       PAN = of("pan"),
@@ -95,6 +95,6 @@ public final class MyIdentifiers {
         return new Identifier(CreateSDelight.MOD_ID, path);
     }
 
-    private MyIdentifiers() {
+    private CDIdentifiers() {
     }
 }

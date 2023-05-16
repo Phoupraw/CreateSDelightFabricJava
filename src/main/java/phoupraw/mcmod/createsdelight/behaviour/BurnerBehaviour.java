@@ -18,7 +18,7 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
+import phoupraw.mcmod.createsdelight.registry.CDFluids;
 
 import java.util.List;
 public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleInformation {
@@ -98,7 +98,7 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
         if (fluidS != null) {
             for (var view : fluidS) {
                 var resource = view.getResource();
-                if (!resource.isOf(MyFluids.SUNFLOWER_OIL)) continue;
+                if (!resource.isOf(CDFluids.SUNFLOWER_OIL)) continue;
                 try (var transa = Transaction.openOuter()) {
                     long amount = view.extract(resource, FluidConstants.NUGGET, transa);
                     if (amount > 0) {

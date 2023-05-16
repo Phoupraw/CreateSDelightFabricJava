@@ -28,14 +28,16 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
 import phoupraw.mcmod.createsdelight.behaviour.*;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDFluids;
 
 import java.util.List;
 import java.util.Objects;
 public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity, IHaveGoggleInformation {
-    public SmartDrainBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.SMART_DRAIN, pos, state);}
+    public SmartDrainBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.SMART_DRAIN, pos, state);
+    }
 
     public SmartDrainBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -48,7 +50,9 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
             public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
                 if (side.getAxis().isHorizontal()) {
                     var stateAbove = getWorld().getBlockState(getPos().up());
-                    if (stateAbove.isOf(MyBlocks.COPPER_TUNNEL) && !stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(side.getOpposite())).isOpen()) {return transp.stack;}
+                    if (stateAbove.isOf(CDBlocks.COPPER_TUNNEL) && !stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(side.getOpposite())).isOpen()) {
+                        return transp.stack;
+                    }
                 }
                 return super.apply(transp, side, simulate);
             }
@@ -58,8 +62,8 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
                 super.afterInsert(insertedFrom);
                 if (insertedFrom.getAxis().isVertical()) return;
                 var stateAbove = getWorld().getBlockState(getPos().up());
-                if (stateAbove.isOf(MyBlocks.COPPER_TUNNEL) && stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(insertedFrom.getOpposite())) == CopperTunnelBlock.Model.CURTAIN) {
-                    getWorld().getBlockEntity(getPos().up(), MyBlockEntityTypes.COPPER_TUNNEL).orElseThrow().flap(insertedFrom.getOpposite(), true);
+                if (stateAbove.isOf(CDBlocks.COPPER_TUNNEL) && stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(insertedFrom.getOpposite())) == CopperTunnelBlock.Model.CURTAIN) {
+                    getWorld().getBlockEntity(getPos().up(), CDBlockEntityTypes.COPPER_TUNNEL).orElseThrow().flap(insertedFrom.getOpposite(), true);
                 }
             }
 
@@ -67,12 +71,12 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
             public boolean output(Direction insertedFrom, boolean throwable, boolean simulate) {
                 if (insertedFrom.getAxis().isHorizontal()) {
                     var stateAbove = getWorld().getBlockState(getPos().up());
-                    if (stateAbove.isOf(MyBlocks.COPPER_TUNNEL)) {
+                    if (stateAbove.isOf(CDBlocks.COPPER_TUNNEL)) {
                         if (!stateAbove.get(CopperTunnelBlock.Model.HORIZONTALS.get(insertedFrom)).isOpen()) {
                             return false;
                         } else if (super.output(insertedFrom, throwable, simulate)) {
                             if (!simulate) {
-                                getWorld().getBlockEntity(getPos().up(), MyBlockEntityTypes.COPPER_TUNNEL).orElseThrow().flap(insertedFrom, false);
+                                getWorld().getBlockEntity(getPos().up(), CDBlockEntityTypes.COPPER_TUNNEL).orElseThrow().flap(insertedFrom, false);
                             }
                             return true;
                         }
@@ -104,7 +108,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
         tb.whenFluidUpdates(() -> {
             if (bb.getFuelTicks() >= 0) {
                 var fluid = tb.getPrimaryHandler().getResource();
-                if (!fluid.isBlank() && !fluid.isOf(MyFluids.SUNFLOWER_OIL)) {
+                if (!fluid.isBlank() && !fluid.isOf(CDFluids.SUNFLOWER_OIL)) {
                     bb.setFuelTicks(-1);
                     getWorld().playSound(null, getPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
                 }

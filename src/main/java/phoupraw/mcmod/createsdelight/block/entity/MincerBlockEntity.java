@@ -26,8 +26,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.recipe.MincingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.Objects;
 /**
@@ -43,7 +43,9 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     private double prevExtention;
     public double countdown = Integer.MIN_VALUE;
 
-    public MincerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.MINCER, pos, state);}
+    public MincerBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.MINCER, pos, state);
+    }
 
     public MincerBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         super(typeIn, pos, state);
@@ -91,7 +93,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
 
     @Override
     protected <C extends Inventory> boolean matchStaticFilters(Recipe<C> recipe) {
-        return recipe.getType() == MyRecipeTypes.MINCING.getRecipeType();
+        return recipe.getType() == CDRecipeTypes.MINCING.getRecipeType();
     }
 
     @Override

@@ -44,5 +44,5 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "phoupraw.mcmod.createsdelight.registry.MyMixinConfigPlugin"
+  "plugin": "phoupraw.mcmod.createsdelight.registry.CDMixinConfigPlugin"
 }

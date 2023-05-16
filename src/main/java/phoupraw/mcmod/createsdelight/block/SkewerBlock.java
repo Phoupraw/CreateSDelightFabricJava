@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldView;
 import phoupraw.mcmod.createsdelight.block.entity.SkewerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class SkewerBlock extends RotatedPillarKineticBlock implements ITE<SkewerBlockEntity> {
     public SkewerBlock() {this(FabricBlockSettings.copyOf(AllBlocks.SHAFT.get()));}
 
@@ -32,7 +32,7 @@ public class SkewerBlock extends RotatedPillarKineticBlock implements ITE<Skewer
 
     @Override
     public BlockEntityType<? extends SkewerBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.SKEWER;
+        return CDBlockEntityTypes.SKEWER;
     }
 
     @Override

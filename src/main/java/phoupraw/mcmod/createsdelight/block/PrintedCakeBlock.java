@@ -5,11 +5,11 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 public class PrintedCakeBlock extends Block implements ITE<PrintedCakeBE> {
     public PrintedCakeBlock() {
-        this(FabricBlockSettings.copyOf(MyBlocks.JELLY_BEANS_CAKE));
+        this(FabricBlockSettings.copyOf(CDBlocks.JELLY_BEANS_CAKE));
     }
 
     public PrintedCakeBlock(Settings settings) {
@@ -23,6 +23,6 @@ public class PrintedCakeBlock extends Block implements ITE<PrintedCakeBE> {
 
     @Override
     public BlockEntityType<? extends PrintedCakeBE> getTileEntityType() {
-        return MyBlockEntityTypes.PRINTED_CAKE;
+        return CDBlockEntityTypes.PRINTED_CAKE;
     }
 }

@@ -7,11 +7,11 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import phoupraw.mcmod.createsdelight.item.CakeBlueprintItem;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 @ApiStatus.Internal
 public interface InjectFillingBySpout {
     static void findCakeBlueprint(World world, ItemStack stack, FluidStack availableFluid, CallbackInfoReturnable<Long> cir) {
-        if (!stack.isOf(MyItems.CAKE_BLUEPRINT)) return;
+        if (!stack.isOf(CDItems.CAKE_BLUEPRINT)) return;
         var nextStep = CakeBlueprintItem.getNextStep(stack.getNbt());
         if (nextStep == null) return;
         if (nextStep.getKey().isOf(availableFluid.getFluid())) {
@@ -19,7 +19,7 @@ public interface InjectFillingBySpout {
         }
     }
     static void fillCakeBlueprint(World world, long requiredAmount, ItemStack stack, FluidStack availableFluid, CallbackInfoReturnable<ItemStack> cir) {
-        if (!stack.isOf(MyItems.CAKE_BLUEPRINT)) return;
+        if (!stack.isOf(CDItems.CAKE_BLUEPRINT)) return;
         NbtCompound nbt = stack.getNbt();
         var nextStep = CakeBlueprintItem.getNextStep(nbt);
         if (nextStep == null) return;

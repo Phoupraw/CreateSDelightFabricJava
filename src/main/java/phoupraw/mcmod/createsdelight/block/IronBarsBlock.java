@@ -15,7 +15,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 public class IronBarsBlock extends PaneBlock implements IWrenchable {
     public static final IWrenchable I_WRENCHABLE = new IWrenchable() {};
 
@@ -24,9 +24,9 @@ public class IronBarsBlock extends PaneBlock implements IWrenchable {
         if (state.getEntries().equals(subject.getDefaultState().getEntries())) {
             ItemStack stackInHand = player.getStackInHand(hand);
             if (RecipeFinder.get(IronBarsBlock.class, world, RecipeConditions.isOfType(RecipeType.CAMPFIRE_COOKING)).stream().anyMatch(RecipeConditions.firstIngredientMatches(stackInHand))) {
-                BlockState skewerState = MyBlocks.IRON_BAR_SKEWER.getDefaultState();
+                BlockState skewerState = CDBlocks.IRON_BAR_SKEWER.getDefaultState();
                 world.setBlockState(pos, skewerState);
-                return MyBlocks.IRON_BAR_SKEWER.onUse(skewerState, world, pos, player, hand, hit);
+                return CDBlocks.IRON_BAR_SKEWER.onUse(skewerState, world, pos, player, hand, hit);
             }
         }
         return ActionResult.PASS;
@@ -34,7 +34,7 @@ public class IronBarsBlock extends PaneBlock implements IWrenchable {
 
     public static BlockState getRotatedBlockState(Block subject, BlockState originalState, Direction targetedFace) {
         if (targetedFace.getAxis().isVertical() || !originalState.getEntries().equals(subject.getDefaultState().getEntries())) return originalState;
-        return I_WRENCHABLE.getRotatedBlockState(MyBlocks.IRON_BAR_SKEWER.getDefaultState(), targetedFace);
+        return I_WRENCHABLE.getRotatedBlockState(CDBlocks.IRON_BAR_SKEWER.getDefaultState(), targetedFace);
     }
 
     public IronBarsBlock(Settings settings) {

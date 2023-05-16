@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.createsdelight.block.entity.SkewerPlateBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class SkewerPlateBlock extends KineticBlock implements ITE<SkewerPlateBlockEntity> {
     public SkewerPlateBlock() {this(FabricBlockSettings.copyOf(AllBlocks.TURNTABLE.get()));}
 
@@ -28,6 +28,6 @@ public class SkewerPlateBlock extends KineticBlock implements ITE<SkewerPlateBlo
 
     @Override
     public BlockEntityType<? extends SkewerPlateBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.SKEWER_PLATE;
+        return CDBlockEntityTypes.SKEWER_PLATE;
     }
 }

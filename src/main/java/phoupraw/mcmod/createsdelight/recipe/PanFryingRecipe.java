@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.exp.RecipeOperations;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.function.Predicate;
 public class PanFryingRecipe extends DeprecatedMatchesRecipe {
@@ -22,7 +22,9 @@ public class PanFryingRecipe extends DeprecatedMatchesRecipe {
         };
     }
 
-    public PanFryingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {this(MyRecipeTypes.PAN_FRYING, params);}
+    public PanFryingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {
+        this(CDRecipeTypes.PAN_FRYING, params);
+    }
 
     public PanFryingRecipe(IRecipeTypeInfo typeInfo, ProcessingRecipeBuilder.ProcessingRecipeParams params) {
         super(typeInfo, params);

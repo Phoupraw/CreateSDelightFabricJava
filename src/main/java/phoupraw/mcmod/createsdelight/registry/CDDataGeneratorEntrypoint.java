@@ -7,7 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.datagen.*;
 @ApiStatus.Internal
-public final class MyDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
+public final class CDDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {
         generator.addProvider(new MyRecipeProvider(generator));

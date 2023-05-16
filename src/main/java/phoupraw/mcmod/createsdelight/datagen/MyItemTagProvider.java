@@ -4,8 +4,8 @@ import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.AllTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import phoupraw.mcmod.createsdelight.registry.MyItemTags;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDItemTags;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 public final class MyItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public MyItemTagProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
@@ -13,9 +13,9 @@ public final class MyItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void generateTags() {
-        getOrCreateTagBuilder(MyItemTags.COOKED_PORK).add(MyItems.PAN_FRIED_PORK_SLICE);
-        getOrCreateTagBuilder(MyItemTags.DOUGH).add(ItemsRegistry.WHEAT_DOUGH.get());
-        getOrCreateTagBuilder(MyItemTags.SALT).add(MyItems.SALT);
-        getOrCreateTagBuilder(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag).add(MyItems.EGG_SHELL);
+        getOrCreateTagBuilder(CDItemTags.COOKED_PORK).add(CDItems.PAN_FRIED_PORK_SLICE);
+        getOrCreateTagBuilder(CDItemTags.DOUGH).add(ItemsRegistry.WHEAT_DOUGH.get());
+        getOrCreateTagBuilder(CDItemTags.SALT).add(CDItems.SALT);
+        getOrCreateTagBuilder(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag).add(CDItems.EGG_SHELL);
     }
 }

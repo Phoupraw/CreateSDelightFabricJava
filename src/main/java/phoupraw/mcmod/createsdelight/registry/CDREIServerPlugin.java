@@ -11,7 +11,7 @@ import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.rei.LootTableCategory;
 import phoupraw.mcmod.createsdelight.rei.LootTableDisplay;
 @ApiStatus.Internal
-public final class MyREIServerPlugin implements REIServerPlugin {
+public final class CDREIServerPlugin implements REIServerPlugin {
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
         registry.register(LootTableCategory.ID, new DisplaySerializer<>() {

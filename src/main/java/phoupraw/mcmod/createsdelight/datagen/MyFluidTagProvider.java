@@ -2,8 +2,8 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import phoupraw.mcmod.createsdelight.registry.MyFluidTags;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
+import phoupraw.mcmod.createsdelight.registry.CDFluidTags;
+import phoupraw.mcmod.createsdelight.registry.CDFluids;
 public final class MyFluidTagProvider extends FabricTagProvider.FluidTagProvider {
     public MyFluidTagProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
@@ -11,6 +11,6 @@ public final class MyFluidTagProvider extends FabricTagProvider.FluidTagProvider
 
     @Override
     protected void generateTags() {
-        getOrCreateTagBuilder(MyFluidTags.OIL).add(MyFluids.SUNFLOWER_OIL, MyFluids.PUMPKIN_OIL);
+        getOrCreateTagBuilder(CDFluidTags.OIL).add(CDFluids.SUNFLOWER_OIL, CDFluids.PUMPKIN_OIL);
     }
 }

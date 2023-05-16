@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyEntryTypes;
+import phoupraw.mcmod.createsdelight.registry.CDEntryTypes;
 
 import java.util.stream.Stream;
 public class EntityEntryDefinition implements EntryDefinition<EntityType<?>> {
@@ -32,7 +32,7 @@ public class EntityEntryDefinition implements EntryDefinition<EntityType<?>> {
 
     @Override
     public EntryType<EntityType<?>> getType() {
-        return MyEntryTypes.ENTITY;
+        return CDEntryTypes.ENTITY;
     }
 
     @Override

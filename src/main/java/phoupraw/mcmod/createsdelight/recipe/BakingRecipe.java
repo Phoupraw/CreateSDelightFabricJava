@@ -8,16 +8,16 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.function.Predicate;
 public class BakingRecipe extends DeprecatedMatchesRecipe {
     public static @Nullable BakingRecipe findFirst(@NotNull World world, @NotNull Predicate<Recipe<?>> predicate) {
-        return (BakingRecipe) RecipeFinder.get(BakingRecipe.class, world, RecipeConditions.isOfType(MyRecipeTypes.BAKING.getRecipeType())).stream().filter(predicate).findFirst().orElse(null);
+        return (BakingRecipe) RecipeFinder.get(BakingRecipe.class, world, RecipeConditions.isOfType(CDRecipeTypes.BAKING.getRecipeType())).stream().filter(predicate).findFirst().orElse(null);
     }
 
     public BakingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {
-        this(MyRecipeTypes.BAKING, params);
+        this(CDRecipeTypes.BAKING, params);
     }
 
     public BakingRecipe(IRecipeTypeInfo typeInfo, ProcessingRecipeBuilder.ProcessingRecipeParams params) {

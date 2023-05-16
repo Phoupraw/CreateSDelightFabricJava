@@ -12,7 +12,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 import phoupraw.mcmod.createsdelight.block.entity.SprinklerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class SprinklerBlock extends KineticBlock implements ITE<SprinklerBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.union(createCuboidShape(0, 2, 0, 16, 16, 16), createCuboidShape(2.5, 0, 2.5, 13.5, 2, 13.5));
 
@@ -32,7 +32,7 @@ public class SprinklerBlock extends KineticBlock implements ITE<SprinklerBlockEn
 
     @Override
     public BlockEntityType<? extends SprinklerBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.SPRINKLER;
+        return CDBlockEntityTypes.SPRINKLER;
     }
 
     @SuppressWarnings("deprecation")

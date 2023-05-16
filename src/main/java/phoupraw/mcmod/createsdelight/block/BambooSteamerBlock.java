@@ -15,7 +15,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.BambooSteamerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.union(
       createCuboidShape(0, 1, 0, 16, 16, 16),
@@ -35,7 +35,7 @@ public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockE
 
     @Override
     public BlockEntityType<? extends BambooSteamerBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.BAMBOO_STEAMER;
+        return CDBlockEntityTypes.BAMBOO_STEAMER;
     }
 
     @SuppressWarnings("deprecation")
@@ -48,8 +48,8 @@ public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockE
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
-        if (world.getBlockEntity(pos, MyBlockEntityTypes.BAMBOO_STEAMER).orElseThrow().isWorkable()) {
-            world.addParticle(ParticleTypesRegistry.STEAM.get(), pos.getX() + 0.2 + random.nextDouble() * 0.6, pos.getY()-0.5 + random.nextDouble(), pos.getZ() + 0.2 + random.nextDouble() * 0.6, 0, 0, 0);
+        if (world.getBlockEntity(pos, CDBlockEntityTypes.BAMBOO_STEAMER).orElseThrow().isWorkable()) {
+            world.addParticle(ParticleTypesRegistry.STEAM.get(), pos.getX() + 0.2 + random.nextDouble() * 0.6, pos.getY() - 0.5 + random.nextDouble(), pos.getZ() + 0.2 + random.nextDouble() * 0.6, 0, 0, 0);
         }
     }
 

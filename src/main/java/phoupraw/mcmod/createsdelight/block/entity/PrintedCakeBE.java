@@ -5,13 +5,13 @@ import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 
 import java.util.List;
 public class PrintedCakeBE extends SmartTileEntity {
 
     public PrintedCakeBE(BlockPos pos, BlockState state) {
-        this(MyBlockEntityTypes.PRINTED_CAKE, pos, state);
+        this(CDBlockEntityTypes.PRINTED_CAKE, pos, state);
     }
 
     public PrintedCakeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {

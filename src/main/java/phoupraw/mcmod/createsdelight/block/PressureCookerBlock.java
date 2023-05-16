@@ -11,7 +11,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import phoupraw.mcmod.createsdelight.block.entity.PressureCookerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 public class PressureCookerBlock extends HorizontalAxisKineticBlock implements ITE<PressureCookerBlockEntity> {
     public PressureCookerBlock(Settings properties) {
         super(properties);
@@ -24,7 +24,7 @@ public class PressureCookerBlock extends HorizontalAxisKineticBlock implements I
 
     @Override
     public BlockEntityType<? extends PressureCookerBlockEntity> getTileEntityType() {
-        return MyBlockEntityTypes.PRESSURE_COOKER;
+        return CDBlockEntityTypes.PRESSURE_COOKER;
     }
 
     @SuppressWarnings("deprecation")

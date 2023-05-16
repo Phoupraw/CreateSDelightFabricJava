@@ -25,8 +25,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.HeatSources;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +44,9 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
     private boolean workable;
     public final int[] elapsed = new int[8];
 
-    public BambooSteamerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.BAMBOO_STEAMER, pos, state);}
+    public BambooSteamerBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.BAMBOO_STEAMER, pos, state);
+    }
 
     public BambooSteamerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -120,7 +122,7 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
                 elapsed[i] = 0;
                 continue;
             }
-            var recipe = getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.STEAMING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(itemStack)).findFirst().orElse(null);
+            var recipe = getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.STEAMING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(itemStack)).findFirst().orElse(null);
             if (recipe == null) {
                 elapsed[i] = 0;
                 continue;

@@ -7,11 +7,13 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 
 import java.util.List;
 public class MyBasinBlockEntity extends SmartTileEntity implements IHaveGoggleInformation, SidedStorageBlockEntity {
-    public MyBasinBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.BASIN, pos, state);}
+    public MyBasinBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.BASIN, pos, state);
+    }
 
     public MyBasinBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

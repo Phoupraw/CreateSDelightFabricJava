@@ -15,8 +15,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.common.api.DataGenerations;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import static net.minecraft.data.client.VariantSettings.MODEL;
 import static net.minecraft.data.client.VariantSettings.Y;
@@ -54,47 +54,47 @@ public final class MyModelProvider extends FabricModelProvider {
      */
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        DataGenerations.registerSimpleState(generator, MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.MULTIFUNC_BASIN, MyBlocks.BASIN, MyBlocks.SKEWER_PLATE, MyBlocks.JELLY_BEANS, MyBlocks.BROWNIE, MyBlocks.OVEN, MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE);
-        horizontalAxis(generator, MyBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
-        horizontalAxis(generator, MyBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(MyBlocks.PRESSURE_COOKER));
-        intProperty(generator, MyBlocks.JELLY_BEANS_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.SWEET_BERRIES_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.BASQUE_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.SWEET_BERRIES_CAKE_S, Properties.AGE_3);
-        intProperty(generator, MyBlocks.APPLE_CREAM_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.APPLE_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.CARROT_CREAM_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.BIG_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
-        intProperty(generator, MyBlocks.CHOCOLATE_ANTHEMY_CAKE, Properties.AGE_3);
-        generator.registerAxisRotated(MyBlocks.IRON_BAR_SKEWER, ModelIds.getBlockModelId(MyBlocks.IRON_BAR_SKEWER));
-        generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(MyBlocks.MINCER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_MIXER.get(), "/block")));
-        generator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(MyBlocks.SKEWER, ModelIds.getBlockModelId(MyBlocks.SKEWER)));
-        generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(MyBlocks.SMART_DRAIN)
+        DataGenerations.registerSimpleState(generator, CDBlocks.PAN, CDBlocks.GRILL, CDBlocks.SPRINKLER, CDBlocks.BAMBOO_STEAMER, CDBlocks.MULTIFUNC_BASIN, CDBlocks.BASIN, CDBlocks.SKEWER_PLATE, CDBlocks.JELLY_BEANS, CDBlocks.BROWNIE, CDBlocks.OVEN, CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE);
+        horizontalAxis(generator, CDBlocks.VERTICAL_CUTTER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_PRESS.get(), "/block"));
+        horizontalAxis(generator, CDBlocks.PRESSURE_COOKER, ModelIds.getBlockModelId(CDBlocks.PRESSURE_COOKER));
+        intProperty(generator, CDBlocks.JELLY_BEANS_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.SWEET_BERRIES_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.BASQUE_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.SWEET_BERRIES_CAKE_S, Properties.AGE_3);
+        intProperty(generator, CDBlocks.APPLE_CREAM_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.APPLE_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.CARROT_CREAM_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
+        intProperty(generator, CDBlocks.CHOCOLATE_ANTHEMY_CAKE, Properties.AGE_3);
+        generator.registerAxisRotated(CDBlocks.IRON_BAR_SKEWER, ModelIds.getBlockModelId(CDBlocks.IRON_BAR_SKEWER));
+        generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(CDBlocks.MINCER, ModelIds.getBlockSubModelId(AllBlocks.MECHANICAL_MIXER.get(), "/block")));
+        generator.blockStateCollector.accept(BlockStateModelGenerator.createAxisRotatedBlockState(CDBlocks.SKEWER, ModelIds.getBlockModelId(CDBlocks.SKEWER)));
+        generator.blockStateCollector.accept(MultipartBlockStateSupplier.create(CDBlocks.SMART_DRAIN)
           .with(BlockStateVariant.create()
-            .put(MODEL, ModelIds.getBlockModelId(MyBlocks.SMART_DRAIN)))
+            .put(MODEL, ModelIds.getBlockModelId(CDBlocks.SMART_DRAIN)))
           .with(When.create().set(Properties.LIT, true), BlockStateVariant.create()
-            .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.SMART_DRAIN, "_fire"))));
+            .put(MODEL, ModelIds.getBlockSubModelId(CDBlocks.SMART_DRAIN, "_fire"))));
         {
-            var sup = MultipartBlockStateSupplier.create(MyBlocks.COPPER_TUNNEL)
+            var sup = MultipartBlockStateSupplier.create(CDBlocks.COPPER_TUNNEL)
               .with(BlockStateVariant.create()
-                .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_frame")));
+                .put(MODEL, ModelIds.getBlockSubModelId(CDBlocks.COPPER_TUNNEL, "_frame")));
             for (Direction side : Direction.Type.HORIZONTAL) {
                 EnumProperty<CopperTunnelBlock.Model> property = CopperTunnelBlock.Model.HORIZONTALS.get(side);
                 VariantSettings.Rotation rotation = VariantSettings.Rotation.values()[side.getHorizontal()];
                 sup.with(When.create().set(property, CopperTunnelBlock.Model.GLASS), BlockStateVariant.create()
-                    .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_glass"))
+                    .put(MODEL, ModelIds.getBlockSubModelId(CDBlocks.COPPER_TUNNEL, "_glass"))
                     .put(VariantSettings.Y, rotation))
                   .with(When.create().set(property, CopperTunnelBlock.Model.COPPER), BlockStateVariant.create()
-                    .put(MODEL, ModelIds.getBlockSubModelId(MyBlocks.COPPER_TUNNEL, "_copper"))
+                    .put(MODEL, ModelIds.getBlockSubModelId(CDBlocks.COPPER_TUNNEL, "_copper"))
                     .put(VariantSettings.Y, rotation));
             }
             generator.blockStateCollector.accept(sup);
         }
-        DataGenerations.excludeFromSimpleItemModelGeneration(generator, MyBlocks.COPPER_TUNNEL, MyBlocks.VERTICAL_CUTTER, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.JELLY_BEANS, MyBlocks.JELLY_BEANS_CAKE, MyBlocks.SWEET_BERRIES_CAKE, MyBlocks.BASQUE_CAKE, MyBlocks.IRON_BAR_SKEWER);
+        DataGenerations.excludeFromSimpleItemModelGeneration(generator, CDBlocks.COPPER_TUNNEL, CDBlocks.VERTICAL_CUTTER, CDBlocks.PRESSURE_COOKER, CDBlocks.MINCER, CDBlocks.JELLY_BEANS, CDBlocks.JELLY_BEANS_CAKE, CDBlocks.SWEET_BERRIES_CAKE, CDBlocks.BASQUE_CAKE, CDBlocks.IRON_BAR_SKEWER);
 
-        for (Item item : new Item[]{MyItems.BUCKETED_SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL, MyItems.PAN_FRIED_BEEF_PATTY, MyItems.THICK_PORK_SLICE, MyItems.PAN_FRIED_PORK_SLICE, MyItems.THIN_PORK_SLICE, MyItems.GRILLED_PORK_SLICE, MyItems.SUGAR_PORK, MyItems.LEAVES_RICE, MyItems.VANILLA, MyItems.VANILLA_SWEET_ROLL, MyItems.STEAMED_BUNS, MyItems.COOKED_RICE, MyItems.VEGETABLE_BIG_STEW, MyItems.ROSE_MILK_TEA, MyItems.CORAL_COLORFULS, MyItems.POPPY_RUSSIAN_SOUP, MyItems.EGG_SHELL, MyItems.EGG_DOUGH, MyItems.CRUSHED_ICE, MyItems.WHEAT_BLACK_TEA, MyItems.ICED_MELON_JUICE, MyItems.THICK_HOT_COCOA, MyItems.SALT, MyItems.KELP_ASH, MyItems.JELLY_BEANS,
-          MyItems.YEAST, MyItems.CAKE_BASE, MyItems.CAKE_BASE_SLICE, MyItems.SUNFLOWER_KERNELS, MyItems.BUCKETED_PUMPKIN_OIL, MyItems.JELLY_BEANS_CAKE, MyItems.SWEET_BERRIES_CAKE, MyItems.BASQUE_CAKE, MyItems.MASHED_POTATO, MyItems.CHOCOLATE_CAKE_BASE, MyItems.CAKE_BLUEPRINT}) {
+        for (Item item : new Item[]{CDItems.BUCKETED_SUNFLOWER_OIL, CDItems.BOTTLED_SUNFLOWER_OIL, CDItems.PAN_FRIED_BEEF_PATTY, CDItems.THICK_PORK_SLICE, CDItems.PAN_FRIED_PORK_SLICE, CDItems.THIN_PORK_SLICE, CDItems.GRILLED_PORK_SLICE, CDItems.SUGAR_PORK, CDItems.LEAVES_RICE, CDItems.VANILLA, CDItems.VANILLA_SWEET_ROLL, CDItems.STEAMED_BUNS, CDItems.COOKED_RICE, CDItems.VEGETABLE_BIG_STEW, CDItems.ROSE_MILK_TEA, CDItems.CORAL_COLORFULS, CDItems.POPPY_RUSSIAN_SOUP, CDItems.EGG_SHELL, CDItems.EGG_DOUGH, CDItems.CRUSHED_ICE, CDItems.WHEAT_BLACK_TEA, CDItems.ICED_MELON_JUICE, CDItems.THICK_HOT_COCOA, CDItems.SALT, CDItems.KELP_ASH, CDItems.JELLY_BEANS,
+          CDItems.YEAST, CDItems.CAKE_BASE, CDItems.CAKE_BASE_SLICE, CDItems.SUNFLOWER_KERNELS, CDItems.BUCKETED_PUMPKIN_OIL, CDItems.JELLY_BEANS_CAKE, CDItems.SWEET_BERRIES_CAKE, CDItems.BASQUE_CAKE, CDItems.MASHED_POTATO, CDItems.CHOCOLATE_CAKE_BASE, CDItems.CAKE_BLUEPRINT}) {
             generator.registerItemModel(item);
         }
     }

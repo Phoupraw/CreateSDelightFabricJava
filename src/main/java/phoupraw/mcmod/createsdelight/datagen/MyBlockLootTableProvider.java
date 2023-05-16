@@ -18,8 +18,8 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.state.property.Properties;
 import phoupraw.mcmod.common.api.DataGenerations;
-import phoupraw.mcmod.createsdelight.registry.MyBlocks;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,26 +47,26 @@ public final class MyBlockLootTableProvider extends FabricBlockLootTableProvider
 
     @Override
     protected void generateBlockLootTables() {
-        DataGenerations.addDrop(this, MyBlocks.PAN, MyBlocks.GRILL, MyBlocks.SPRINKLER, MyBlocks.BAMBOO_STEAMER, MyBlocks.SMART_DRAIN, MyBlocks.COPPER_TUNNEL, MyBlocks.MULTIFUNC_BASIN, MyBlocks.VERTICAL_CUTTER, MyBlocks.PRESSURE_COOKER, MyBlocks.MINCER, MyBlocks.SKEWER, MyBlocks.BASIN, MyBlocks.SKEWER_PLATE, MyBlocks.JELLY_BEANS, MyBlocks.BROWNIE, MyBlocks.OVEN, MyBlocks.SMALL_CHOCOLATE_CREAM_CAKE);
-        addDropAge3(this, MyBlocks.JELLY_BEANS_CAKE, MyItems.JELLY_BEANS, 1);
-        addDropAge3(this, MyBlocks.BASQUE_CAKE, Items.AIR, 0);
-        addDropAge3(this, MyBlocks.SWEET_BERRIES_CAKE_S, MyItems.SWEET_BERRIES_CAKE, 3);
-        addDropAge3(this, MyBlocks.APPLE_CREAM_CAKE, Items.APPLE, 1);
-        addDropAge3(this, MyBlocks.APPLE_CAKE, Items.APPLE, 1);
-        addDropAge3(this, MyBlocks.CARROT_CREAM_CAKE, Items.CARROT, 1);
-        addDropAge3(this, MyBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
-        addDropAge3(this, MyBlocks.BIG_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
-        addDropAge3(this, MyBlocks.CHOCOLATE_ANTHEMY_CAKE, Items.AIR, 0);
-        addDrop(MyBlocks.IRON_BAR_SKEWER, Items.IRON_BARS);
+        DataGenerations.addDrop(this, CDBlocks.PAN, CDBlocks.GRILL, CDBlocks.SPRINKLER, CDBlocks.BAMBOO_STEAMER, CDBlocks.SMART_DRAIN, CDBlocks.COPPER_TUNNEL, CDBlocks.MULTIFUNC_BASIN, CDBlocks.VERTICAL_CUTTER, CDBlocks.PRESSURE_COOKER, CDBlocks.MINCER, CDBlocks.SKEWER, CDBlocks.BASIN, CDBlocks.SKEWER_PLATE, CDBlocks.JELLY_BEANS, CDBlocks.BROWNIE, CDBlocks.OVEN, CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE);
+        addDropAge3(this, CDBlocks.JELLY_BEANS_CAKE, CDItems.JELLY_BEANS, 1);
+        addDropAge3(this, CDBlocks.BASQUE_CAKE, Items.AIR, 0);
+        addDropAge3(this, CDBlocks.SWEET_BERRIES_CAKE_S, CDItems.SWEET_BERRIES_CAKE, 3);
+        addDropAge3(this, CDBlocks.APPLE_CREAM_CAKE, Items.APPLE, 1);
+        addDropAge3(this, CDBlocks.APPLE_CAKE, Items.APPLE, 1);
+        addDropAge3(this, CDBlocks.CARROT_CREAM_CAKE, Items.CARROT, 1);
+        addDropAge3(this, CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
+        addDropAge3(this, CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
+        addDropAge3(this, CDBlocks.CHOCOLATE_ANTHEMY_CAKE, Items.AIR, 0);
+        addDrop(CDBlocks.IRON_BAR_SKEWER, Items.IRON_BARS);
         {
             List<LeafEntry.Builder<?>> list = new ArrayList<>();
             for (int i = 0; i <= Properties.AGE_3_MAX; i++) {
-                LeafEntry.Builder<?> apply = ItemEntry.builder(MyItems.SWEET_BERRIES_CAKE)
-                  .conditionally(BlockStatePropertyLootCondition.builder(MyBlocks.SWEET_BERRIES_CAKE).properties(StatePredicate.Builder.create().exactMatch(Properties.AGE_3, i)))
+                LeafEntry.Builder<?> apply = ItemEntry.builder(CDItems.SWEET_BERRIES_CAKE)
+                  .conditionally(BlockStatePropertyLootCondition.builder(CDBlocks.SWEET_BERRIES_CAKE).properties(StatePredicate.Builder.create().exactMatch(Properties.AGE_3, i)))
                   .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(i + 1)));
                 list.add(apply);
             }
-            addDrop(MyBlocks.SWEET_BERRIES_CAKE, LootTable.builder().pool(new LootPool.Builder()
+            addDrop(CDBlocks.SWEET_BERRIES_CAKE, LootTable.builder().pool(new LootPool.Builder()
               .rolls(ConstantLootNumberProvider.create(1))
               .with(AlternativeEntry.builder(list.toArray(new LootPoolEntry.Builder[0])))));
         }

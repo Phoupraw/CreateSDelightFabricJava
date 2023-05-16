@@ -31,8 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 import phoupraw.mcmod.createsdelight.recipe.SprinklingRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -62,7 +62,9 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
     public int elapsed = -1;
 //    public boolean working;
 
-    public SprinklerBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.SPRINKLER, pos, state);}
+    public SprinklerBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.SPRINKLER, pos, state);
+    }
 
     public SprinklerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -167,7 +169,7 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
     }
 
     public @UnmodifiableView Collection<SprinklingRecipe> getCandidateRecipes(ItemStack beltItem) {
-        return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.SPRINKLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(beltItem)).toList();
+        return getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.SPRINKLING.getRecipeType()).parallelStream().filter(RecipeConditions.firstIngredientMatches(beltItem)).toList();
     }
 
     public @Nullable SprinklingRecipe getRecipe(ItemStack beltItem) {

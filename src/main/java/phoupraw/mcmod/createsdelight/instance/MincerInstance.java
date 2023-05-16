@@ -13,7 +13,7 @@ import com.simibubi.create.foundation.render.AllMaterialSpecs;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.createsdelight.block.entity.MincerBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.MyPartialModels;
+import phoupraw.mcmod.createsdelight.registry.CDPartialModels;
 /**
  * 从{@link MixerInstance}和{@link PillarInstance}抄的。
  */
@@ -25,11 +25,11 @@ public class MincerInstance extends EncasedCogInstance implements DynamicInstanc
         super(dispatcher, tile, false);
         propeller = dispatcher.defaultCutout()
           .material(AllMaterialSpecs.ROTATING)
-          .getModel(MyPartialModels.MINCER_PROPELLER, blockState, Direction.NORTH)
+          .getModel(CDPartialModels.MINCER_PROPELLER, blockState, Direction.NORTH)
           .createInstance();
         this.vertical = dispatcher.defaultCutout()
           .material(Materials.ORIENTED)
-          .getModel(MyPartialModels.MINCER_LID, blockState)
+          .getModel(CDPartialModels.MINCER_LID, blockState)
           .createInstance();
         transform();
     }

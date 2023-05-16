@@ -34,8 +34,8 @@ import phoupraw.mcmod.createsdelight.api.GetWorld;
 import phoupraw.mcmod.createsdelight.api.GetWorldContainerItemContext;
 import phoupraw.mcmod.createsdelight.api.ItemStorage2;
 import phoupraw.mcmod.createsdelight.recipe.ItemBowlRecipe;
-import phoupraw.mcmod.createsdelight.registry.MyFluids;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
+import phoupraw.mcmod.createsdelight.registry.CDFluids;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
 import phoupraw.mcmod.createsdelight.storage.IronBowlFluidStorage;
 import phoupraw.mcmod.createsdelight.storage.IronBowlItemStorage;
 
@@ -43,13 +43,13 @@ import java.util.List;
 import java.util.Optional;
 public class IronBowlItem extends Item implements IHaveGoggleInformation {
     public static void onInitialize() {
-        ItemStorage2.ITEM.registerForItems((itemStack, context) -> new IronBowlItemStorage(context, GetWorld.getOrNull(context)), MyItems.IRON_BOWL);
-        FluidStorage.ITEM.registerForItems((itemStack, context) -> new IronBowlFluidStorage(context, GetWorld.getOrNull(context)), MyItems.IRON_BOWL);
+        ItemStorage2.ITEM.registerForItems((itemStack, context) -> new IronBowlItemStorage(context, GetWorld.getOrNull(context)), CDItems.IRON_BOWL);
+        FluidStorage.ITEM.registerForItems((itemStack, context) -> new IronBowlFluidStorage(context, GetWorld.getOrNull(context)), CDItems.IRON_BOWL);
         DeployerRecipeSearchEvent.EVENT.register(event -> {
             ItemStack bowlStack = event.getInventory().getStack(0);
             ContainerItemContext itemContext = ContainerItemContext.withConstant(bowlStack);
             World world = event.getTileEntity().getWorld();
-            if (!bowlStack.isOf(MyItems.IRON_BOWL) || !new IronBowlFluidStorage(itemContext, world).isResourceBlank()) return;
+            if (!bowlStack.isOf(CDItems.IRON_BOWL) || !new IronBowlFluidStorage(itemContext, world).isResourceBlank()) return;
             var itemS = new IronBowlItemStorage(itemContext, world);
             if (!itemS.isResourceBlank()) return;
             event.addRecipe(() -> Optional.of(new ItemBowlRecipe(event)), 200);
@@ -58,18 +58,18 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
 
     @Contract(pure = true)
     public static @NotNull ItemStack bowl(ItemVariant toBeStored) {
-        var ironBowl = MyItems.IRON_BOWL.getDefaultStack();
+        var ironBowl = CDItems.IRON_BOWL.getDefaultStack();
         var itemS = new IronBowlItemStorage(GetWorldContainerItemContext.of(ironBowl), null);
         TransferUtil.insert(itemS, toBeStored, 1);
         return ironBowl;
     }
 
     public static String getSuffixKey() {
-        return MyItems.IRON_BOWL.getTranslationKey() + ".suffix";
+        return CDItems.IRON_BOWL.getTranslationKey() + ".suffix";
     }
 
     public IronBowlItem() {
-        this(MyItems.newSettings().maxCount(1));
+        this(CDItems.newSettings().maxCount(1));
     }
 
     public IronBowlItem(Settings settings) {
@@ -147,16 +147,16 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
     @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         super.appendStacks(group, stacks);
-        if (group == MyItems.ITEM_GROUP) {
+        if (group == CDItems.ITEM_GROUP) {
             ItemStack ironBowl = getDefaultStack();
             var fluidS = new IronBowlFluidStorage(GetWorldContainerItemContext.of(ironBowl), null);
-            TransferUtil.insert(fluidS, FluidVariant.of(MyFluids.PASTE), Long.MAX_VALUE);
+            TransferUtil.insert(fluidS, FluidVariant.of(CDFluids.PASTE), Long.MAX_VALUE);
             stacks.add(ironBowl.copy());
             TransferUtil.clearStorage(fluidS);
-            TransferUtil.insert(fluidS, FluidVariant.of(MyFluids.APPLE_PASTE), Long.MAX_VALUE);
+            TransferUtil.insert(fluidS, FluidVariant.of(CDFluids.APPLE_PASTE), Long.MAX_VALUE);
             stacks.add(ironBowl.copy());
             TransferUtil.clearStorage(fluidS);
-            TransferUtil.insert(fluidS, FluidVariant.of(MyFluids.CHOCOLATE_PASTE), Long.MAX_VALUE);
+            TransferUtil.insert(fluidS, FluidVariant.of(CDFluids.CHOCOLATE_PASTE), Long.MAX_VALUE);
             stacks.add(ironBowl.copy());
         }
     }

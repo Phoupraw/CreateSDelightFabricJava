@@ -11,14 +11,14 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
 import phoupraw.mcmod.common.api.REILayouts;
-import phoupraw.mcmod.createsdelight.registry.MyItems;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 public class PanFryingCategory implements DisplayCategory<PanFryingDisplay> {
-    public static final CategoryIdentifier<PanFryingDisplay> ID = CategoryIdentifier.of(MyRecipeTypes.PAN_FRYING.getId());
+    public static final CategoryIdentifier<PanFryingDisplay> ID = CategoryIdentifier.of(CDRecipeTypes.PAN_FRYING.getId());
     public static final PanFryingCategory INSTANCE = new PanFryingCategory();
 
     @Override
@@ -33,7 +33,7 @@ public class PanFryingCategory implements DisplayCategory<PanFryingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(MyItems.PAN);
+        return EntryStacks.of(CDItems.PAN);
     }
 
     @Override

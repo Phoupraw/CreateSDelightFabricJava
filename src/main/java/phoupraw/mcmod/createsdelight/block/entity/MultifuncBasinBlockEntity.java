@@ -5,11 +5,13 @@ import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
 
 import java.util.List;
 public class MultifuncBasinBlockEntity extends SmartTileEntity {
-    public MultifuncBasinBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.MULTIFUNC_BASIN, pos, state);}
+    public MultifuncBasinBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.MULTIFUNC_BASIN, pos, state);
+    }
 
     public MultifuncBasinBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

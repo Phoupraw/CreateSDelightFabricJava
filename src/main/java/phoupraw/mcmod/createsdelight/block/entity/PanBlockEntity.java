@@ -20,14 +20,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
+import phoupraw.mcmod.createsdelight.registry.CDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CDRecipeTypes;
 
 import java.util.List;
 
 public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInformation, Runnable {
 
-    public PanBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.PAN, pos, state);}
+    public PanBlockEntity(BlockPos pos, BlockState state) {
+        this(CDBlockEntityTypes.PAN, pos, state);
+    }
 
     public PanBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -107,7 +109,7 @@ public class PanBlockEntity extends MyBlockEntity1 implements IHaveGoggleInforma
 
     @Override
     public @Nullable ProcessingRecipe<?> getRecipe() {
-        return getWorld().getRecipeManager().listAllOfType(MyRecipeTypes.PAN_FRYING.getRecipeType()).parallelStream().filter(this).findFirst().orElse(null);
+        return getWorld().getRecipeManager().listAllOfType(CDRecipeTypes.PAN_FRYING.getRecipeType()).parallelStream().filter(this).findFirst().orElse(null);
     }
 
     @Override

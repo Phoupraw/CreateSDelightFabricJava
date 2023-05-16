@@ -34,33 +34,33 @@ import java.util.regex.Pattern;
  <li>在<a href="https://modrinth.com/mod/creates-delight/versions">Modrinth</a>和<a href="https://beta.curseforge.com/minecraft/mc-mods/creates-delight/files">Curseforge</a>上发布新版本。</li>
  </ol> */
 @ApiStatus.Internal
-public final class MyModInitializer implements ModInitializer {
+public final class CDModInitializer implements ModInitializer {
     public static void initializeAfterCreate() {
         loadClasses();
 
-        BlockStressDefaults.setDefaultImpact(MyIdentifiers.SPRINKLER, 1);
-        BlockStressDefaults.setDefaultImpact(MyIdentifiers.VERTICAL_CUTTER, 1);
-        BlockStressDefaults.setDefaultImpact(MyIdentifiers.PRESSURE_COOKER, 1);
-        BlockStressDefaults.setDefaultImpact(MyIdentifiers.MINCER, 1);
-        BlockStressDefaults.setDefaultImpact(MyIdentifiers.SKEWER, 1);
-        BlockStressDefaults.setDefaultImpact(MyIdentifiers.IRON_BAR_SKEWER, 1);
+        BlockStressDefaults.setDefaultImpact(CDIdentifiers.SPRINKLER, 1);
+        BlockStressDefaults.setDefaultImpact(CDIdentifiers.VERTICAL_CUTTER, 1);
+        BlockStressDefaults.setDefaultImpact(CDIdentifiers.PRESSURE_COOKER, 1);
+        BlockStressDefaults.setDefaultImpact(CDIdentifiers.MINCER, 1);
+        BlockStressDefaults.setDefaultImpact(CDIdentifiers.SKEWER, 1);
+        BlockStressDefaults.setDefaultImpact(CDIdentifiers.IRON_BAR_SKEWER, 1);
 
-        VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.EGG_LIQUID, MyFluids.WHEAT_BLACK_TEA, MyFluids.ICED_MELON_JUICE, MyFluids.MELON_JUICE, MyFluids.THICK_HOT_COCOA, MyFluids.PASTE, MyFluids.PUMPKIN_OIL, MyFluids.APPLE_PASTE, MyFluids.MASHED_POTATO, MyFluids.CHOCOLATE_PASTE);
-        VirtualFluids.registerBowlStorage(MyFluids.VEGETABLE_BIG_STEW, MyItems.VEGETABLE_BIG_STEW);
-        VirtualFluids.registerBucketStorage(MyFluids.SUNFLOWER_OIL, MyItems.BUCKETED_SUNFLOWER_OIL);
-        VirtualFluids.registerBottleStorage(MyFluids.SUNFLOWER_OIL, MyItems.BOTTLED_SUNFLOWER_OIL);
-        VirtualFluids.registerBottleStorage(MyFluids.ROSE_MILK_TEA, MyItems.ROSE_MILK_TEA);
-        VirtualFluids.registerBowlStorage(MyFluids.BEETROOT_SOUP, Items.BEETROOT_SOUP);
-        VirtualFluids.registerBowlStorage(MyFluids.TOMATO_SAUCE, ItemsRegistry.TOMATO_SAUCE.get());
-        VirtualFluids.registerBowlStorage(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
-        FluidStorage.combinedItemApiProvider(Items.EGG).register(Lambdas.fullProviderOf(MyItems.EGG_SHELL, FluidVariant.of(MyFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
-        VirtualFluids.registerBowlStorage(MyFluids.POPPY_RUSSIAN_SOUP, MyItems.POPPY_RUSSIAN_SOUP);
-        VirtualFluids.registerBottleStorage(MyFluids.WHEAT_BLACK_TEA, MyItems.WHEAT_BLACK_TEA);
-        VirtualFluids.registerBottleStorage(MyFluids.ICED_MELON_JUICE, MyItems.ICED_MELON_JUICE);
-        VirtualFluids.registerBottleStorage(MyFluids.MELON_JUICE, ItemsRegistry.MELON_JUICE.get());
-        VirtualFluids.registerBottleStorage(MyFluids.THICK_HOT_COCOA, MyItems.THICK_HOT_COCOA);
-        VirtualFluids.registerBucketStorage(MyFluids.PUMPKIN_OIL, MyItems.BUCKETED_PUMPKIN_OIL);
-        VirtualFluids.registerBowlStorage(MyFluids.MASHED_POTATO, MyItems.MASHED_POTATO);
+        VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, CDFluids.SUNFLOWER_OIL, CDFluids.VEGETABLE_BIG_STEW, CDFluids.ROSE_MILK_TEA, CDFluids.BEETROOT_SOUP, CDFluids.TOMATO_SAUCE, CDFluids.POPPY_RUSSIAN_SOUP, CDFluids.EGG_LIQUID, CDFluids.WHEAT_BLACK_TEA, CDFluids.ICED_MELON_JUICE, CDFluids.MELON_JUICE, CDFluids.THICK_HOT_COCOA, CDFluids.PASTE, CDFluids.PUMPKIN_OIL, CDFluids.APPLE_PASTE, CDFluids.MASHED_POTATO, CDFluids.CHOCOLATE_PASTE);
+        VirtualFluids.registerBowlStorage(CDFluids.VEGETABLE_BIG_STEW, CDItems.VEGETABLE_BIG_STEW);
+        VirtualFluids.registerBucketStorage(CDFluids.SUNFLOWER_OIL, CDItems.BUCKETED_SUNFLOWER_OIL);
+        VirtualFluids.registerBottleStorage(CDFluids.SUNFLOWER_OIL, CDItems.BOTTLED_SUNFLOWER_OIL);
+        VirtualFluids.registerBottleStorage(CDFluids.ROSE_MILK_TEA, CDItems.ROSE_MILK_TEA);
+        VirtualFluids.registerBowlStorage(CDFluids.BEETROOT_SOUP, Items.BEETROOT_SOUP);
+        VirtualFluids.registerBowlStorage(CDFluids.TOMATO_SAUCE, ItemsRegistry.TOMATO_SAUCE.get());
+        VirtualFluids.registerBowlStorage(CDFluids.POPPY_RUSSIAN_SOUP, CDItems.POPPY_RUSSIAN_SOUP);
+        FluidStorage.combinedItemApiProvider(Items.EGG).register(Lambdas.fullProviderOf(CDItems.EGG_SHELL, FluidVariant.of(CDFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
+        VirtualFluids.registerBowlStorage(CDFluids.POPPY_RUSSIAN_SOUP, CDItems.POPPY_RUSSIAN_SOUP);
+        VirtualFluids.registerBottleStorage(CDFluids.WHEAT_BLACK_TEA, CDItems.WHEAT_BLACK_TEA);
+        VirtualFluids.registerBottleStorage(CDFluids.ICED_MELON_JUICE, CDItems.ICED_MELON_JUICE);
+        VirtualFluids.registerBottleStorage(CDFluids.MELON_JUICE, ItemsRegistry.MELON_JUICE.get());
+        VirtualFluids.registerBottleStorage(CDFluids.THICK_HOT_COCOA, CDItems.THICK_HOT_COCOA);
+        VirtualFluids.registerBucketStorage(CDFluids.PUMPKIN_OIL, CDItems.BUCKETED_PUMPKIN_OIL);
+        VirtualFluids.registerBowlStorage(CDFluids.MASHED_POTATO, CDItems.MASHED_POTATO);
 
         IronBowlItem.onInitialize();
 
@@ -99,15 +99,15 @@ public final class MyModInitializer implements ModInitializer {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        MyBlocks.PAN.hashCode();
-        MyBlockEntityTypes.PAN.hashCode();
-        MyItems.ITEM_GROUP.hashCode();
-        MyFluids.SUNFLOWER_OIL.hashCode();
-        MyRecipeTypes.PAN_FRYING.hashCode();
-        MyStatusEffects.SATIATION.hashCode();
+        CDBlocks.PAN.hashCode();
+        CDBlockEntityTypes.PAN.hashCode();
+        CDItems.ITEM_GROUP.hashCode();
+        CDFluids.SUNFLOWER_OIL.hashCode();
+        CDRecipeTypes.PAN_FRYING.hashCode();
+        CDStatusEffects.SATIATION.hashCode();
 
-        MyArmPointTypes.BASKET.hashCode();
-        MySpoutingBehaviours.PAN.hashCode();
+        CDArmPointTypes.BASKET.hashCode();
+        CDSpoutingBehaviours.PAN.hashCode();
     }
 
     private static void checkCreateVersion() {
@@ -129,7 +129,7 @@ public final class MyModInitializer implements ModInitializer {
         checkCreateVersion();
         RecipeEvents.FINAL.register(recipes -> {
             var recipe = (MillingRecipe) recipes.get(AllRecipeTypes.MILLING.getType()).get(Create.asResource("milling/sunflower"));
-            recipe.getRollableResults().add(new ProcessingOutput(new ItemStack(MyItems.SUNFLOWER_KERNELS, 3), 1f));
+            recipe.getRollableResults().add(new ProcessingOutput(new ItemStack(CDItems.SUNFLOWER_KERNELS, 3), 1f));
             //            recipe.getFluidResults().add(new FluidStack(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2));
         });
     }
