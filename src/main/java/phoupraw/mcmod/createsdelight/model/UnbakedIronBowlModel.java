@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.item.render;
+package phoupraw.mcmod.createsdelight.model;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.render.model.BakedModel;

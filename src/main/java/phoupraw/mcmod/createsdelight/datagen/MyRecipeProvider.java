@@ -42,6 +42,7 @@ public final class MyRecipeProvider extends FabricRecipeProvider {
         offerStonecuttingRecipe(exporter, MyItems.THIN_PORK_SLICE, MyItems.THICK_PORK_SLICE, 2);
         offerStonecuttingRecipe(exporter, MyItems.SKEWER, AllBlocks.SHAFT.get(), 1);
         offerStonecuttingRecipe(exporter, MyItems.BASIN, AllBlocks.BASIN.get(), 1);
+        offerStonecuttingRecipe(exporter, MyItems.CAKE_BLUEPRINT, AllItems.SCHEMATIC.get(), 1);
         offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 20, Items.WATER_BUCKET, MyItems.SALT, 0.4f);
         offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 10, Items.DRIED_KELP, MyItems.KELP_ASH, 0.2f);
         offerCookingRecipe(exporter, "smoking", RecipeSerializer.SMOKING, 20 * 10, MyItems.RAW_BASQUE_CAKE, MyItems.BASQUE_CAKE, 2f);

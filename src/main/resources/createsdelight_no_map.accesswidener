@@ -1,5 +1,0 @@
-accessWidener v2 intermediary
-accessible class com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$State
-accessible class com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$Mode
-accessible field com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity state Lcom/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$State;
-accessible field com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity mode Lcom/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$Mode;

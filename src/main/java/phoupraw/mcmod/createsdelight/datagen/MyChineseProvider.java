@@ -121,5 +121,7 @@ public final class MyChineseProvider extends FabricLanguageProvider {
         b.add(MyBlocks.CHOCOLATE_ANTHEMY_CAKE, "巧克力八仙蛋糕");
         b.add(Internationals.SECONDS, "%s秒");
         b.add(Internationals.MST, "%s分%s秒%s刻");
+        b.add(MyItems.CAKE_BLUEPRINT, "蛋糕蓝图");
+        b.add(MyBlocks.PRINTED_CAKE, "蓝图蛋糕");
     }
 }

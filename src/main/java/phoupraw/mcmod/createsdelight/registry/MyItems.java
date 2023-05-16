@@ -5,16 +5,12 @@ import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlock
 import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
 import phoupraw.mcmod.createsdelight.item.*;
@@ -49,19 +45,17 @@ public final class MyItems {
     public static final BlockItem BAMBOO_STEAMER = new BlockItem(MyBlocks.BAMBOO_STEAMER, newSettings());
     public static final BlockItem SMART_DRAIN = new BlockItem(MyBlocks.SMART_DRAIN, newSettings());
     public static final BlockItem COPPER_TUNNEL = new BlockItem(MyBlocks.COPPER_TUNNEL, newSettings());
-    public static final BlockItem MULTIFUNC_BASIN = new BlockItem(MyBlocks.MULTIFUNC_BASIN, newSettings()) {
-        @Override
-        public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-            super.appendTooltip(stack, world, tooltip, context);
-            tooltip.add(Text.literal("In dev, No using. 开发中，请勿使用。"));
-        }
-    };
+    @ApiStatus.Experimental
+    public static final BlockItem MULTIFUNC_BASIN = new BlockItem(MyBlocks.MULTIFUNC_BASIN, new FabricItemSettings());
     public static final BlockItem VERTICAL_CUTTER = new AssemblyOperatorBlockItem(MyBlocks.VERTICAL_CUTTER, newSettings());
     public static final BlockItem PRESSURE_COOKER = new AssemblyOperatorBlockItem(MyBlocks.PRESSURE_COOKER, newSettings());
     public static final BlockItem MINCER = new AssemblyOperatorBlockItem(MyBlocks.MINCER, newSettings());
-    public static final BlockItem SKEWER = new AssemblyOperatorBlockItem(MyBlocks.SKEWER, newSettings());
-    public static final BlockItem BASIN = new BlockItem(MyBlocks.BASIN, newSettings());
-    public static final BlockItem SKEWER_PLATE = new BlockItem(MyBlocks.SKEWER_PLATE, newSettings());
+    @ApiStatus.Experimental
+    public static final BlockItem SKEWER = new AssemblyOperatorBlockItem(MyBlocks.SKEWER, new FabricItemSettings());
+    @ApiStatus.Experimental
+    public static final BlockItem BASIN = new BlockItem(MyBlocks.BASIN, new FabricItemSettings());
+    @ApiStatus.Experimental
+    public static final BlockItem SKEWER_PLATE = new BlockItem(MyBlocks.SKEWER_PLATE, new FabricItemSettings());
     public static final BlockItem OVEN = new BlockItem(MyBlocks.OVEN, newSettings());
 
     //可食用方块
@@ -184,16 +178,21 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
         .build()
       ));
+    public static final BlockItem PRINTED_CAKE = new StatusEffectsBlockItem(MyBlocks.PRINTED_CAKE, newSettings());
 
     //不可食用物品
     public static final Item EGG_SHELL = new Item(newSettings());
     public static final Item EGG_DOUGH = new Item(newSettings());
-    public static final Item CRUSHED_ICE = new Item(newSettings());
-    public static final Item SALT = new Item(newSettings());
+    @ApiStatus.Experimental
+    public static final Item CRUSHED_ICE = new Item(new FabricItemSettings());
+    @ApiStatus.Experimental
+    public static final Item SALT = new Item(new FabricItemSettings());
     public static final Item KELP_ASH = new Item(newSettings());
-    public static final Item YEAST = new Item(newSettings());
+    @ApiStatus.Experimental
+    public static final Item YEAST = new Item(new FabricItemSettings());
     public static final Item RAW_BASQUE_CAKE = new Item(newSettings());
-    public static final IronBowlItem IRON_BOWL = new IronBowlItem();
+    public static final Item IRON_BOWL = new IronBowlItem();
+    public static final Item CAKE_BLUEPRINT = new CakeBlueprintItem();
 
     //食物
     public static final StatusEffectsItem PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
@@ -239,14 +238,16 @@ public final class MyItems {
       .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1)
       .build()
     ));
-    public static final StatusEffectsItem VEGETABLE_BIG_STEW = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem VEGETABLE_BIG_STEW = new StatusEffectsItem(new FabricItemSettings().food(new FoodComponent.Builder()
       .hunger(6)
       .saturationModifier(0.5f)
       .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, 20), 1f)
       .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 120, 0), 1)
       .build()
     ));
-    public static final StatusEffectsItem ROSE_MILK_TEA = new StatusEffectsItem(newSettings()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem ROSE_MILK_TEA = new StatusEffectsItem(new FabricItemSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -257,7 +258,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
       ));
-    public static final StatusEffectsItem CORAL_COLORFULS = new StatusEffectsItem(newSettings()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem CORAL_COLORFULS = new StatusEffectsItem(new FabricItemSettings()
       .food(new FoodComponent.Builder()
         .hunger(6)
         .saturationModifier(0.5f)
@@ -267,7 +269,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 200), 1)
         .build()
       ));
-    public static final StatusEffectsItem POPPY_RUSSIAN_SOUP = new StatusEffectsItem(newSettings()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem POPPY_RUSSIAN_SOUP = new StatusEffectsItem(new FabricItemSettings()
       .maxCount(16)
       .recipeRemainder(Items.BOWL)
       .food(new FoodComponent.Builder()
@@ -277,7 +280,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 180, 0), 1)
         .build()
       ));
-    public static final StatusEffectsItem WHEAT_BLACK_TEA = new StatusEffectsItem(newSettings()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem WHEAT_BLACK_TEA = new StatusEffectsItem(new FabricItemSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -288,7 +292,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
       ));
-    public static final StatusEffectsItem ICED_MELON_JUICE = new StatusEffectsItem(newSettings()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem ICED_MELON_JUICE = new StatusEffectsItem(new FabricItemSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -299,7 +304,8 @@ public final class MyItems {
         .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
         .build()
       ));
-    public static final StatusEffectsItem THICK_HOT_COCOA = new StatusEffectsItem(newSettings()
+    @ApiStatus.Experimental
+    public static final StatusEffectsItem THICK_HOT_COCOA = new StatusEffectsItem(new FabricItemSettings()
       .maxCount(16)
       .recipeRemainder(Items.GLASS_BOTTLE)
       .food(new FoodComponent.Builder()
@@ -418,6 +424,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.MEDIUM_CHOCOLATE_CREAM_CAKE, MEDIUM_CHOCOLATE_CREAM_CAKE);
         Registries.register(MyIdentifiers.BIG_CHOCOLATE_CREAM_CAKE, BIG_CHOCOLATE_CREAM_CAKE);
         Registries.register(MyIdentifiers.CHOCOLATE_ANTHEMY_CAKE, CHOCOLATE_ANTHEMY_CAKE);
+        Registries.register(MyIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
 
         Registries.register(MyIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         Registries.register(MyIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
@@ -428,6 +435,7 @@ public final class MyItems {
         Registries.register(MyIdentifiers.RAW_BASQUE_CAKE, RAW_BASQUE_CAKE);
         Registries.register(MyIdentifiers.BUCKETED_PUMPKIN_OIL, BUCKETED_PUMPKIN_OIL);
         Registries.register(MyIdentifiers.IRON_BOWL, IRON_BOWL);
+        Registries.register(MyIdentifiers.CAKE_BLUEPRINT, CAKE_BLUEPRINT);
 
         Registries.register(MyIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
         Registries.register(MyIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
@@ -460,7 +468,13 @@ public final class MyItems {
         Registries.register(MyIdentifiers.CARROT_CREAM_CAKE_0, CARROT_CREAM_CAKE_0);
     }
     public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
-        return food(new FoodComponent.Builder().meat().statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1).alwaysEdible().hunger(hunger).saturationModifier(saturationModifier).build());
+        return food(new FoodComponent.Builder()
+          .meat()
+          .statusEffect(new StatusEffectInstance(MyStatusEffects.SATIATION, 1, amplifier), 1)
+          .alwaysEdible()
+          .hunger(hunger)
+          .saturationModifier(saturationModifier)
+          .build());
     }
 
     public static StatusEffectsItem food(FoodComponent foodComponent) {
@@ -473,15 +487,16 @@ public final class MyItems {
         return new FabricItemSettings().group(ITEM_GROUP);
     }
 
-    private static ItemStack stupidJavaCompiler() {
-        return JELLY_BEANS_CAKE.getDefaultStack();
-    }
-
     private static void appendItems(List<ItemStack> itemStacks, ItemGroup itemGroup) {
         for (Item item : new Item[]{JELLY_BEANS_CAKE, SWEET_BERRIES_CAKE, SWEET_BERRIES_CAKE_S, BASQUE_CAKE, APPLE_CREAM_CAKE, BROWNIE, JELLY_BEANS, BUCKETED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL, BUCKETED_PUMPKIN_OIL, KELP_ASH, RAW_BASQUE_CAKE}) {
             itemStacks.add(item.getDefaultStack());
         }
     }
 
-    private MyItems() {}
+    private static ItemStack stupidJavaCompiler() {
+        return JELLY_BEANS_CAKE.getDefaultStack();
+    }
+
+    private MyItems() {
+    }
 }

@@ -121,5 +121,7 @@ public final class MyEnglishProvider extends FabricLanguageProvider {
         b.add(MyBlocks.CHOCOLATE_ANTHEMY_CAKE, "Chocolate Anthemy Cake");
         b.add(Internationals.SECONDS, "%ssec");
         b.add(Internationals.MST, "%smin %ssec %s ticks");
+        b.add(MyItems.CAKE_BLUEPRINT, "Cake Blueprint");
+        b.add(MyBlocks.PRINTED_CAKE, "Blueprint Cake");
     }
 }

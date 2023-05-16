@@ -52,6 +52,7 @@ public final class MyBlockEntityTypes {
     public static final BlockEntityType<SkewerPlateBlockEntity> SKEWER_PLATE = Registries.of(SkewerPlateBlockEntity::new, MyBlocks.SKEWER_PLATE);
     public static final BlockEntityType<OvenBlockEntity> OVEN = Registries.of(OvenBlockEntity::new, MyBlocks.OVEN);
     public static final BlockEntityType<IronBarSkewerBlockEntity> IRON_BAR_SKEWER = Registries.of(IronBarSkewerBlockEntity::new, MyBlocks.IRON_BAR_SKEWER);
+    public static final BlockEntityType<PrintedCakeBE> PRINTED_CAKE = Registries.of(PrintedCakeBE::new, MyBlocks.PRINTED_CAKE);
     static {
         Registries.register(MyIdentifiers.PAN, PAN);
         Registries.register(MyIdentifiers.GRILL, GRILL);
@@ -68,6 +69,7 @@ public final class MyBlockEntityTypes {
         Registries.register(MyIdentifiers.SKEWER_PLATE, SKEWER_PLATE);
         Registries.register(MyIdentifiers.OVEN, OVEN);
         Registries.register(MyIdentifiers.IRON_BAR_SKEWER, IRON_BAR_SKEWER);
+        Registries.register(MyIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
     }
 
     private MyBlockEntityTypes() {}

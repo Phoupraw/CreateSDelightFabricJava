@@ -17,6 +17,7 @@
     "MixinCrushingWheelControllerTileEntity",
     "MixinDeployerTileEntity",
     "MixinDirectBeltInputBehaviour",
+    "MixinFillingBySpout",
     "MixinGenericItemFilling",
     "MixinLivingEntity",
     "MixinMillingRecipe",

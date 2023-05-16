@@ -71,6 +71,30 @@ public final class MyModInitializer implements ModInitializer {
                 throw new IllegalStateException("检测到铁栏杆的Mixin未按预期生效！");
             }
         }
+
+        //test
+        //        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
+        //            @Override
+        //            public Identifier getFabricId() {
+        //                return ResourceReloadListenerKeys.LOOT_TABLES;
+        //            }
+        //
+        //            @Override
+        //            public void reload(ResourceManager manager) {
+        //                CreateSDelight.LOGGER.info("3333");
+        //            }
+        //        });
+        //        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
+        //            @Override
+        //            public Identifier getFabricId() {
+        //                return ResourceReloadListenerKeys.SOUNDS;
+        //            }
+        //
+        //            @Override
+        //            public void reload(ResourceManager manager) {
+        //                CreateSDelight.LOGGER.info("2222");
+        //            }
+        //        });
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -106,7 +130,7 @@ public final class MyModInitializer implements ModInitializer {
         RecipeEvents.FINAL.register(recipes -> {
             var recipe = (MillingRecipe) recipes.get(AllRecipeTypes.MILLING.getType()).get(Create.asResource("milling/sunflower"));
             recipe.getRollableResults().add(new ProcessingOutput(new ItemStack(MyItems.SUNFLOWER_KERNELS, 3), 1f));
-//            recipe.getFluidResults().add(new FluidStack(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2));
+            //            recipe.getFluidResults().add(new FluidStack(MyFluids.SUNFLOWER_OIL, FluidConstants.BOTTLE / 2));
         });
     }
 }

@@ -24,7 +24,8 @@ import phoupraw.mcmod.common.api.StatusEffectsTooltipComponent;
 import phoupraw.mcmod.common.api.StatusEffectsTooltipData;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.block.entity.renderer.*;
-import phoupraw.mcmod.createsdelight.item.render.UnbakedIronBowlModel;
+import phoupraw.mcmod.createsdelight.model.PrintedCakeModel;
+import phoupraw.mcmod.createsdelight.model.UnbakedIronBowlModel;
 
 import java.awt.*;
 @Environment(EnvType.CLIENT)
@@ -91,7 +92,11 @@ public final class MyClientModInitializer implements ClientModInitializer {
         VirtualFluids.registerTexture(MyFluids.EGG_LIQUID, MyFluids.ICED_MELON_JUICE, MyFluids.THICK_HOT_COCOA, MyFluids.WHEAT_BLACK_TEA, MyFluids.ROSE_MILK_TEA, MyFluids.VEGETABLE_BIG_STEW);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MyFluids.SUNFLOWER_OIL, MyFluids.VEGETABLE_BIG_STEW, MyFluids.ROSE_MILK_TEA, MyFluids.BEETROOT_SOUP, MyFluids.TOMATO_SAUCE, MyFluids.POPPY_RUSSIAN_SOUP, MyFluids.WHEAT_BLACK_TEA, MyFluids.PUMPKIN_OIL);
 
-        ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> resourceId.equals(UnbakedIronBowlModel.ID) ? new UnbakedIronBowlModel() : null);
+        ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> {
+            if (resourceId.equals(UnbakedIronBowlModel.ID)) return new UnbakedIronBowlModel();
+            if (resourceId.equals(PrintedCakeModel.BLOCK_ID) || resourceId.equals(PrintedCakeModel.ITEM_ID)) return new PrintedCakeModel.Unbaked();
+            return null;
+        });
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(turbid));
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
     }

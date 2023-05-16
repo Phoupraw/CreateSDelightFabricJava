@@ -86,12 +86,15 @@ public final class MyIdentifiers {
       CHOCOLATE_PASTE = of("chocolate_paste"),
       CHOCOLATE_CAKE_BASE = of("chocolate_cake_base"),
       IRON_BAR_SKEWER = of("iron_bar_skewer"),
-      CHOCOLATE_ANTHEMY_CAKE = of("chocolate_anthemy_cake");
+      CHOCOLATE_ANTHEMY_CAKE = of("chocolate_anthemy_cake"),
+      CAKE_BLUEPRINT = of("cake_blueprint"),
+      PRINTED_CAKE = of("printed_cake");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path);
     }
 
-    private MyIdentifiers() {}
+    private MyIdentifiers() {
+    }
 }

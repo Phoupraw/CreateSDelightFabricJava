@@ -134,6 +134,7 @@ public final class REICreates {
      @see #resultsOf
      @since 1.0.0
      */
+    @Contract(pure = true)
     public static Slot slotOf(Point pos, Collection<EntryStack<?>> entries) {
         var slot = Widgets.createSlot(pos).entries(entries);
         if (entries.iterator().next().getValue() instanceof FluidStack) {
