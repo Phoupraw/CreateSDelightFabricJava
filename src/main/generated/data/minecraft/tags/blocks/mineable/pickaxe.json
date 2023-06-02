@@ -1,20 +1,6 @@
 {
   "replace": false,
   "values": [
-    "createsdelight:pan",
-    "createsdelight:grill",
-    "createsdelight:sprinkler",
-    "createsdelight:smart_drain",
-    "createsdelight:copper_tunnel",
-    "createsdelight:multifunc_basin",
-    "createsdelight:vertical_cutter",
-    "createsdelight:pressure_cooker",
-    "createsdelight:mincer",
-    "createsdelight:skewer",
-    "createsdelight:basin",
-    "createsdelight:skewer_plate",
-    "createsdelight:oven",
-    "createsdelight:iron_bar_skewer",
     "createsdelight:cake_oven"
   ]
 }

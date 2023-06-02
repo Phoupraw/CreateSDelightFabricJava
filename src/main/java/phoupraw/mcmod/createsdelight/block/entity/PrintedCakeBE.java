@@ -10,6 +10,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtIntArray;
@@ -26,16 +28,15 @@ import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.registry.CDBETypes;
 import phoupraw.mcmod.createsdelight.registry.CDRegistries;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class PrintedCakeBE extends SmartTileEntity implements Nameable {
+
 private @Nullable Text customName;
+
 @Override
 public Text getName() {
-    return Objects.requireNonNullElse(getCustomName(),getCachedState().getBlock().getName());
+    return Objects.requireNonNullElse(getCustomName(), getCachedState().getBlock().getName());
 }
 
 @Nullable
@@ -88,8 +89,8 @@ public static BlockBox nbt2box(int[] ar) {
 }
 
 public static void writeContent(PrintedCakeBE be, NbtCompound tag, boolean clientPacket) {
-    var content = be.content;
-    Vec3i size = be.size;
+    var content = be.getContent();
+    Vec3i size = be.getSize();
     if (content == null || size == null) return;
     NbtCompound nbtContent = new NbtCompound();
     for (var entry : content.asMap().entrySet()) {
@@ -106,19 +107,25 @@ public static void writeContent(PrintedCakeBE be, NbtCompound tag, boolean clien
 public static void readContent(PrintedCakeBE be, NbtCompound tag, boolean clientPacket) {
     var pair = nbt2content(tag);
     if (pair == null) {
-        be.content = null;
-        be.size = null;
+        be.setContent(null);
+        be.setSize(null);
     } else {
-        be.content = pair.getKey();
-        be.size = pair.getValue();
+        be.setContent(pair.getKey());
+        be.setSize(pair.getValue());
     }
-    be.shape = null;
+    be.setShape(null);
     var world = be.getWorld();
     if (world == null) return;
     if (world.isClient()) {
-        be.bakedModel = null;
+        be.setBakedModel(null);
     }
     world.updateListeners(be.getPos(), be.getCachedState(), be.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
+}
+
+public static @Nullable Map.Entry<Multimap<CakeIngredient, BlockBox>, Vec3i> nbt2content(ItemStack itemStack) {
+    NbtCompound blockEntityTag = BlockItem.getBlockEntityNbt(itemStack);
+    if (blockEntityTag == null) return null;
+    return nbt2content(blockEntityTag);
 }
 
 public static @Nullable Map.Entry<Multimap<CakeIngredient, BlockBox>, Vec3i> nbt2content(NbtCompound blockEntityTag) {
@@ -144,13 +151,17 @@ public UUID uuid = new UUID(0, 0);
 //@Nullable
 //@Deprecated
 //public Map<CakeIngredient, Collection<Box>> _content = null;
-public @Nullable VoxelShape shape = null;
+@Nullable
+private VoxelShape shape = null;
 @Environment(EnvType.CLIENT)
-public @Nullable BakedModel bakedModel;
+@Nullable
+private BakedModel bakedModel;
 //@Environment(EnvType.CLIENT)
 public boolean caching;
-public @Nullable Vec3i size;
-public @Nullable Multimap<CakeIngredient, BlockBox> content;
+@Nullable
+private Vec3i size;
+@Nullable
+private Multimap<CakeIngredient, BlockBox> content;
 
 public PrintedCakeBE(BlockPos pos, BlockState state) {
     this(CDBETypes.PRINTED_CAKE, pos, state);
@@ -169,8 +180,8 @@ public void addBehaviours(List<TileEntityBehaviour> behaviours) {
 protected void write(NbtCompound tag, boolean clientPacket) {
     super.write(tag, clientPacket);
     writeContent(this, tag, clientPacket);
-    if (getCustomName()!=null) {
-        tag.putString("CustomName",Text.Serializer.toJson(getCustomName()));
+    if (getCustomName() != null) {
+        tag.putString("CustomName", Text.Serializer.toJson(getCustomName()));
     }
 }
 
@@ -178,11 +189,55 @@ protected void write(NbtCompound tag, boolean clientPacket) {
 protected void read(NbtCompound tag, boolean clientPacket) {
     super.read(tag, clientPacket);
     readContent(this, tag, clientPacket);
-    if (tag.contains("CustomName", NbtElement.STRING_TYPE)){
+    if (tag.contains("CustomName", NbtElement.STRING_TYPE)) {
         setCustomName(Text.Serializer.fromJson(tag.getString("CustomName")));
-    }else{
+    } else {
         setCustomName(null);
     }
 }
+
+public @Nullable VoxelShape getShape() {
+    return shape;
+}
+
+public void setShape(@Nullable VoxelShape shape) {
+    this.shape = shape;
+}
+
+public @Nullable BakedModel getBakedModel() {
+    return bakedModel;
+}
+
+public void setBakedModel(@Nullable BakedModel bakedModel) {
+    this.bakedModel = bakedModel;
+}
+
+public @Nullable Vec3i getSize() {
+    return size;
+}
+
+public void setSize(@Nullable Vec3i size) {
+    this.size = size;
+}
+
+public @Nullable Multimap<CakeIngredient, BlockBox> getContent() {
+    return content;
+}
+
+public void setContent(@Nullable Multimap<CakeIngredient, BlockBox> content) {
+    this.content = content;
+    if (content == null) return;
+    for (CakeIngredient key : content.keySet()) {
+        if (content.get(key) instanceof List<BlockBox> list) {
+            list.sort(BLOCK_BOX_COMPARATOR);
+        }
+    }
+}
+
+public static final Comparator<BlockBox> BLOCK_BOX_COMPARATOR = Comparator
+  .comparingInt(BlockBox::getMinY)
+  .reversed()
+  .thenComparingInt(BlockBox::getMinX)
+  .thenComparingInt(BlockBox::getMinZ);
 
 }

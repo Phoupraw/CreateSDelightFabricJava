@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.google.common.collect.Multimap;
 import com.simibubi.create.foundation.block.ITE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -9,19 +10,23 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
+import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.registry.CDBETypes;
 import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 
@@ -140,9 +145,11 @@ public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable Livi
     if (itemStack.getNbt() == null) {
         return;
     }
-    var blockEntity = (PrintedCakeBE) world.getBlockEntity(pos);
-    //        blockEntity.uuid = NbtHelper.toUuid(itemStack.getNbt().get("uuid"));
-    //        blockEntity._content = CakeBlueprintItem.getContent(itemStack.getNbt());
+    var be = (PrintedCakeBE) world.getBlockEntity(pos);
+    if (be == null) return;
+    if (itemStack.hasCustomName()) {
+        be.setCustomName(itemStack.getName());
+    }
 }
 
 public static Box block2box(BlockBox box, Vec3i size) {
@@ -154,33 +161,36 @@ public static Box block2box(BlockBox box, Vec3i size) {
 
 public static final VoxelShape MIN_SHAPE = VoxelShapes.cuboid(0.4, 0, 0.4, 0.6, 0.2, 0.6);
 
-@SuppressWarnings("deprecation")
-@Override
-public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+public static VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     var blockEntity = (PrintedCakeBE) world.getBlockEntity(pos);
     VoxelShape shape = VoxelShapes.empty();
     if (blockEntity != null) {
-        shape = blockEntity.shape;
+        shape = blockEntity.getShape();
         if (shape == null) {
-            var content = blockEntity.content;
-            var size = blockEntity.size;
+            var content = blockEntity.getContent();
+            var size = blockEntity.getSize();
             if (content != null && size != null) {
-                shape = VoxelShapes.empty();
-                for (BlockBox box : unionBoxes2(content.values())) {
-                    shape = VoxelShapes.union(shape, VoxelShapes.cuboid(block2box(box, size)));
-                }
-                if (!shape.isEmpty()) {
-                    blockEntity.shape = shape;
-                }
+                shape = content2shape(content, size);
             } else {
                 shape = VoxelShapes.empty();
             }
         }
     }
-    //Box box = shape.getBoundingBox();
-    //if (box.getXLength() * box.getYLength() * box.getZLength() < 0.01) {
-    //    shape = VoxelShapes.union(shape, MIN_SHAPE);
-    //}
+    return shape;
+}
+
+public static VoxelShape content2shape(Multimap<CakeIngredient, BlockBox> content, Vec3i size) {
+    VoxelShape shape = VoxelShapes.empty();
+    for (BlockBox box : unionBoxes2(content.values())) {
+        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(block2box(box, size)));
+    }
+    return shape;
+}
+
+@SuppressWarnings("deprecation")
+@Override
+public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    VoxelShape shape = getShape(state, world, pos, context);
     return shape.isEmpty() ? MIN_SHAPE : shape;
 }
 
@@ -208,7 +218,7 @@ public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEnt
 }
 
 /**
- 总是如同按住ctrl键选取方块那样复制NBT。也复制自定义名称。*/
+ 总是如同按住ctrl键选取方块那样复制NBT。也复制自定义名称。 */
 @Override
 public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
     ItemStack stack = super.getPickStack(world, pos, state);
@@ -219,6 +229,28 @@ public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         stack.setCustomName(be.getCustomName());
     }
     return stack;
+}
+
+@SuppressWarnings("deprecation")
+@Override
+public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    VoxelShape shape = getShape(state, world, pos, ShapeContext.absent());
+    return canPlaceAt(world, pos, shape);
+}
+
+public static boolean canPlaceAt(WorldView world, BlockPos pos, VoxelShape shape) {
+    if (shape.isEmpty()) return false;
+    return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), shape.getFace(Direction.DOWN), BooleanBiFunction.ONLY_SECOND);
+}
+
+@Nullable
+@Override
+public BlockState getPlacementState(ItemPlacementContext ctx) {
+    var pair = PrintedCakeBE.nbt2content(ctx.getStack());
+    if (pair == null) return null;
+    VoxelShape shape = content2shape(pair.getKey(), pair.getValue());
+    BlockState state = super.getPlacementState(ctx);
+    return state != null && canPlaceAt(ctx.getWorld(), ctx.getBlockPos(), shape) ? state : null;
 }
 
 }

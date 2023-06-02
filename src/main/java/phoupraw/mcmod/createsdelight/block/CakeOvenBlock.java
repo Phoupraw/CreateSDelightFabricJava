@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.block;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.simibubi.create.content.contraptions.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ITE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -19,16 +20,11 @@ import phoupraw.mcmod.createsdelight.registry.CDBETypes;
 import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CDCakeIngredients;
 
-import java.util.Comparator;
 import java.util.Objects;
 
-public class CakeOvenBlock extends Block implements ITE<CakeOvenBE> {
+public class CakeOvenBlock extends Block implements ITE<CakeOvenBE>, IWrenchable {
 
-public static final Comparator<BlockBox> BLOCK_BOX_COMPARATOR = Comparator
-  .comparingInt(BlockBox::getMinY)
-  .reversed()
-  .thenComparingInt(BlockBox::getMinX)
-  .thenComparingInt(BlockBox::getMinZ);
+
 public CakeOvenBlock() {
     this(FabricBlockSettings.copyOf(Blocks.COPPER_BLOCK));
 }
@@ -78,14 +74,11 @@ public static void neighborUpdate2(BlockState state, World world, BlockPos pos, 
         }
     }
     if (content.isEmpty()) return;
-    for (CakeIngredient key : content.keySet()) {
-        content.get(key).sort(BLOCK_BOX_COMPARATOR);
-    }
-    BlockPos pos1 = pos.up(2);
+    BlockPos pos1 = pos.up();
     if (world.setBlockState(pos1, CDBlocks.PRINTED_CAKE.getDefaultState())) {
         PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), content.toString());
-        blockEntity.content = content;
-        blockEntity.size = new Vec3i(len, len, len);
+        blockEntity.setContent(content);
+        blockEntity.setSize(new Vec3i(len, len, len));
         blockEntity.sendData();
     }
 }

@@ -91,15 +91,19 @@ public final class CDIdentifiers {
       PRINTED_CAKE = of("printed_cake"),
       MILK = of("milk"),
       CAKE_INGREDIENT = of("cake_ingredient"),
-    CHOCOLATE=of("chocolate"),
-    HONEY=of("honey"),
-    CAKE_OVEN=of("cake_oven");
+      CHOCOLATE = of("chocolate"),
+      HONEY = of("honey"),
+      CAKE_OVEN = of("cake_oven"),
+      PUMPKIN = of("pumpkin"),
+      MELON = of("melon"),
+      HAY = of("hay");
 
-    @Contract("_ -> new")
-    public static @NotNull Identifier of(String path) {
-        return new Identifier(CreateSDelight.MOD_ID, path);
-    }
+@Contract("_ -> new")
+public static @NotNull Identifier of(String path) {
+    return new Identifier(CreateSDelight.MOD_ID, path);
+}
 
-    private CDIdentifiers() {
-    }
+private CDIdentifiers() {
+}
+
 }

@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "ops": [
+                {
+                  "op": "replace",
+                  "source": "content",
+                  "target": "BlockEntityTag.content"
+                }
+              ],
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "ops": [
+                {
+                  "op": "replace",
+                  "source": "size",
+                  "target": "BlockEntityTag.size"
+                }
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "createsdelight:printed_cake"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

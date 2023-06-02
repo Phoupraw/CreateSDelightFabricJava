@@ -1,11 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "createsdelight:sprinkler",
-    "createsdelight:bamboo_steamer",
-    "createsdelight:vertical_cutter",
-    "createsdelight:pressure_cooker",
-    "createsdelight:mincer",
-    "createsdelight:skewer_plate"
-  ]
+  "values": []
 }

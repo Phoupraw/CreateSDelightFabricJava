@@ -712,12 +712,13 @@ public static BakedModel content2model(@NotNull Multimap<CakeIngredient, BlockBo
 public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
     var blockEntity = (PrintedCakeBE) blockView.getBlockEntity(pos);
     if (blockEntity == null) return;//可能还没初始化，再等等
-    var bakedModel = blockEntity.bakedModel;
+    var bakedModel = blockEntity.getBakedModel();
     if (bakedModel == null) {//    if (blockEntity.caching) return;
-        var content = blockEntity.content;
-        var size = blockEntity.size;
+        var content = blockEntity.getContent();
+        var size = blockEntity.getSize();
         if (content == null || size == null) return;
-        bakedModel = blockEntity.bakedModel = content2model(content, size);
+        bakedModel = content2model(content, size);
+        blockEntity.setBakedModel(bakedModel);
         //    blockEntity.caching = true;
         //    new Thread(() -> blockEntity.bakedModel = content2model(content, size)).start();
     }
