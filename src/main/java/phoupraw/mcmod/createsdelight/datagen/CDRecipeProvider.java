@@ -4,7 +4,6 @@ import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipeBuilder;
-import com.simibubi.create.content.contraptions.processing.HeatCondition;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import io.github.tropheusj.milk.Milk;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -12,12 +11,10 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
@@ -146,54 +143,54 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .require(Items.BEEF)
           .output(ItemsRegistry.MINCED_BEEF.get(), 2)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), CDIdentifiers.VEGETABLE_BIG_STEW)
-          .require(Items.CARROT)
-          .require(Items.POTATO)
-          .require(Items.BEETROOT)
-          .require(ItemsRegistry.TOMATO.get())
-          .require(ItemsRegistry.CABBAGE_LEAF.get())
-          .require(ItemsRegistry.ONION.get())
-          .require(ItemsRegistry.PUMPKIN_SLICE.get())
-          //          .require(Items.SUGAR)
-          .require(Fluids.WATER, FluidConstants.BUCKET / 2)
-          .output(CDFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 2)
-          .duration(20 * 15)
-          .requiresHeat(HeatCondition.HEATED)
-          .build(exporter);
+        //new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), CDIdentifiers.VEGETABLE_BIG_STEW)
+        //  .require(Items.CARROT)
+        //  .require(Items.POTATO)
+        //  .require(Items.BEETROOT)
+        //  .require(ItemsRegistry.TOMATO.get())
+        //  .require(ItemsRegistry.CABBAGE_LEAF.get())
+        //  .require(ItemsRegistry.ONION.get())
+        //  .require(ItemsRegistry.PUMPKIN_SLICE.get())
+        //  //          .require(Items.SUGAR)
+        //  .require(Fluids.WATER, FluidConstants.BUCKET / 2)
+        //  .output(CDFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 2)
+        //  .duration(20 * 15)
+        //  .requiresHeat(HeatCondition.HEATED)
+        //  .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
           .require(Items.BEEF)
           .output(ItemsRegistry.MINCED_BEEF.get(), 2)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), CDIdentifiers.ROSE_MILK_TEA)
-          .require(Items.ROSE_BUSH)
-          .require(Items.SUGAR)
-          .require(ItemTags.LEAVES)
-          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
-          .output(CDFluids.ROSE_MILK_TEA, FluidConstants.BOTTLE)
-          .averageProcessingDuration()
-          .requiresHeat(HeatCondition.HEATED)
-          .build(exporter);
+        //new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), CDIdentifiers.ROSE_MILK_TEA)
+        //  .require(Items.ROSE_BUSH)
+        //  .require(Items.SUGAR)
+        //  .require(ItemTags.LEAVES)
+        //  .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+        //  .output(CDFluids.ROSE_MILK_TEA, FluidConstants.BOTTLE)
+        //  .averageProcessingDuration()
+        //  .requiresHeat(HeatCondition.HEATED)
+        //  .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), CDIdentifiers.TOMATO_SAUCE)
           .require(ItemsRegistry.TOMATO.get())
           .output(CDFluids.TOMATO_SAUCE, FluidConstants.BUCKET / 8)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), CDIdentifiers.POPPY_RUSSIAN_SOUP)
-          .require(Items.POPPY)
-          .require(Items.POPPY)
-          .require(Items.POPPY)
-          .require(Items.CARROT)
-          .require(Items.BAKED_POTATO)
-          .require(ItemsRegistry.MINCED_BEEF.get())
-          .require(ItemsRegistry.CABBAGE_LEAF.get())
-          .require(CDFluids.TOMATO_SAUCE, FluidConstants.BOTTLE)
-          .require(Milk.STILL_MILK, FluidConstants.BOTTLE / 3)
-          .require(CDFluids.BEETROOT_SOUP, FluidConstants.BOTTLE * 2 / 3)
-          .output(CDFluids.POPPY_RUSSIAN_SOUP, FluidConstants.BOTTLE * 2)
-          .duration(20 * 15)
-          .requiresHeat(HeatCondition.HEATED)
-          .build(exporter);
+        //new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), CDIdentifiers.POPPY_RUSSIAN_SOUP)
+        //  .require(Items.POPPY)
+        //  .require(Items.POPPY)
+        //  .require(Items.POPPY)
+        //  .require(Items.CARROT)
+        //  .require(Items.BAKED_POTATO)
+        //  .require(ItemsRegistry.MINCED_BEEF.get())
+        //  .require(ItemsRegistry.CABBAGE_LEAF.get())
+        //  .require(CDFluids.TOMATO_SAUCE, FluidConstants.BOTTLE)
+        //  .require(Milk.STILL_MILK, FluidConstants.BOTTLE / 3)
+        //  .require(CDFluids.BEETROOT_SOUP, FluidConstants.BOTTLE * 2 / 3)
+        //  .output(CDFluids.POPPY_RUSSIAN_SOUP, FluidConstants.BOTTLE * 2)
+        //  .duration(20 * 15)
+        //  .requiresHeat(HeatCondition.HEATED)
+        //  .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), CDIdentifiers.EGG_DOUGH)
           .require(AllItems.DOUGH.get())
           .require(Items.SUGAR)
@@ -259,17 +256,17 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .averageProcessingDuration()
           .output(CDFluids.APPLE_PASTE, FluidConstants.BOTTLE)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), CDIdentifiers.MASHED_PATATO)
-          .require(Items.POTATO)
-          .require(Items.POTATO)
-          .require(Items.POTATO)
-          .require(CDItems.KELP_ASH)
-          .require(ItemsRegistry.ONION.get())
-          .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
-          .require(CDFluids.EGG_LIQUID, FluidConstants.BOTTLE)
-          .averageProcessingDuration()
-          .output(CDFluids.MASHED_POTATO, FluidConstants.BOTTLE * 2)
-          .build(exporter);
+        //new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), CDIdentifiers.MASHED_PATATO)
+        //  .require(Items.POTATO)
+        //  .require(Items.POTATO)
+        //  .require(Items.POTATO)
+        //  .require(CDItems.KELP_ASH)
+        //  .require(ItemsRegistry.ONION.get())
+        //  .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
+        //  .require(CDFluids.EGG_LIQUID, FluidConstants.BOTTLE)
+        //  .averageProcessingDuration()
+        //  .output(CDFluids.MASHED_POTATO, FluidConstants.BOTTLE * 2)
+        //  .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), CDIdentifiers.IRON_BOWL)
           .require(Items.BUCKET)
           .output(CDItems.IRON_BOWL)

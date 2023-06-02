@@ -12,8 +12,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
-import phoupraw.mcmod.createsdelight.recipe.*;
-import phoupraw.mcmod.createsdelight.rei.*;
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
 public final class CDREIClientPlugin implements REIClientPlugin {
@@ -45,14 +43,14 @@ public final class CDREIClientPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        registry.registerRecipeFiller(PanFryingRecipe.class, CDRecipeTypes.PAN_FRYING.getRecipeType(), PanFryingDisplay::new);
-        registry.registerRecipeFiller(GrillingRecipe.class, CDRecipeTypes.GRILLING.getRecipeType(), GrillingDisplay::new);
-        registry.registerRecipeFiller(SprinklingRecipe.class, CDRecipeTypes.SPRINKLING.getRecipeType(), SprinklingDisplay::new);
-        registry.registerRecipeFiller(SteamingRecipe.class, CDRecipeTypes.STEAMING.getRecipeType(), SteamingDisplay::new);
-        registry.registerRecipeFiller(VerticalCuttingRecipe.class, CDRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
-        registry.registerRecipeFiller(PressureCookingRecipe.class, CDRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
-        registry.registerRecipeFiller(MincingRecipe.class, CDRecipeTypes.MINCING.getRecipeType(), MincingDisplay::new);
-        registry.registerRecipeFiller(BakingRecipe.class, CDRecipeTypes.BAKING.getRecipeType(), BakingDisplay::new);
+        //registry.registerRecipeFiller(PanFryingRecipe.class, CDRecipeTypes.PAN_FRYING.getRecipeType(), PanFryingDisplay::new);
+        //registry.registerRecipeFiller(GrillingRecipe.class, CDRecipeTypes.GRILLING.getRecipeType(), GrillingDisplay::new);
+        //registry.registerRecipeFiller(SprinklingRecipe.class, CDRecipeTypes.SPRINKLING.getRecipeType(), SprinklingDisplay::new);
+        //registry.registerRecipeFiller(SteamingRecipe.class, CDRecipeTypes.STEAMING.getRecipeType(), SteamingDisplay::new);
+        //registry.registerRecipeFiller(VerticalCuttingRecipe.class, CDRecipeTypes.VERTICAL_CUTTING.getRecipeType(), VerticalCuttingDisplay::new);
+        //registry.registerRecipeFiller(PressureCookingRecipe.class, CDRecipeTypes.PRESSURE_COOKING.getRecipeType(), PressureCookingDisplay::new);
+        //registry.registerRecipeFiller(MincingRecipe.class, CDRecipeTypes.MINCING.getRecipeType(), MincingDisplay::new);
+        //registry.registerRecipeFiller(BakingRecipe.class, CDRecipeTypes.BAKING.getRecipeType(), BakingDisplay::new);
         //        registry.registerFiller(LootTable);
         //        registry.registerDisplayGenerator(LootTableCategory.ID, new DynamicDisplayGenerator<>() {
         //            @Override

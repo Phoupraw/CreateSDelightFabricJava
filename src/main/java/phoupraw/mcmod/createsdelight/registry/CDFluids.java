@@ -59,20 +59,20 @@ public final class CDFluids {
     //TODO 1瓶灵魂热汤=1瓶岩浆+诡异菌索+灵魂土+搅拌
     static {
         Registries.register(CDIdentifiers.SUNFLOWER_OIL, SUNFLOWER_OIL);
-        Registries.register(CDIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
-        Registries.register(CDIdentifiers.ROSE_MILK_TEA, ROSE_MILK_TEA);
+        //Registries.register(CDIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
+        //Registries.register(CDIdentifiers.ROSE_MILK_TEA, ROSE_MILK_TEA);
         Registries.register(CDIdentifiers.BEETROOT_SOUP, BEETROOT_SOUP);
         Registries.register(CDIdentifiers.TOMATO_SAUCE, TOMATO_SAUCE);
-        Registries.register(CDIdentifiers.POPPY_RUSSIAN_SOUP, POPPY_RUSSIAN_SOUP);
+        //Registries.register(CDIdentifiers.POPPY_RUSSIAN_SOUP, POPPY_RUSSIAN_SOUP);
         Registries.register(CDIdentifiers.EGG_LIQUID, EGG_LIQUID);
-        Registries.register(CDIdentifiers.WHEAT_BLACK_TEA, WHEAT_BLACK_TEA);
-        Registries.register(CDIdentifiers.ICED_MELON_JUICE, ICED_MELON_JUICE);
+        //Registries.register(CDIdentifiers.WHEAT_BLACK_TEA, WHEAT_BLACK_TEA);
+        //Registries.register(CDIdentifiers.ICED_MELON_JUICE, ICED_MELON_JUICE);
         Registries.register(CDIdentifiers.MELON_JUICE, MELON_JUICE);
-        Registries.register(CDIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
+        //Registries.register(CDIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
         Registries.register(CDIdentifiers.PASTE, PASTE);
         Registries.register(CDIdentifiers.PUMPKIN_OIL, PUMPKIN_OIL);
         Registries.register(CDIdentifiers.APPLE_PASTE, APPLE_PASTE);
-        Registries.register(CDIdentifiers.MASHED_PATATO, MASHED_POTATO);
+        //Registries.register(CDIdentifiers.MASHED_PATATO, MASHED_POTATO);
         Registries.register(CDIdentifiers.CHOCOLATE_PASTE, CHOCOLATE_PASTE);
     }
     private CDFluids() {

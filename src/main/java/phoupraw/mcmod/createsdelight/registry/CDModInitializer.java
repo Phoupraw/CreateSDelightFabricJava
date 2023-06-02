@@ -44,7 +44,7 @@ CDModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(CDIdentifiers.SKEWER, 1);
         BlockStressDefaults.setDefaultImpact(CDIdentifiers.IRON_BAR_SKEWER, 1);
 
-        VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, CDFluids.SUNFLOWER_OIL, CDFluids.VEGETABLE_BIG_STEW, CDFluids.ROSE_MILK_TEA, CDFluids.BEETROOT_SOUP, CDFluids.TOMATO_SAUCE, CDFluids.POPPY_RUSSIAN_SOUP, CDFluids.EGG_LIQUID, CDFluids.WHEAT_BLACK_TEA, CDFluids.ICED_MELON_JUICE, CDFluids.MELON_JUICE, CDFluids.THICK_HOT_COCOA, CDFluids.PASTE, CDFluids.PUMPKIN_OIL, CDFluids.APPLE_PASTE, CDFluids.MASHED_POTATO, CDFluids.CHOCOLATE_PASTE);
+        VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, CDFluids.SUNFLOWER_OIL, /*CDFluids.VEGETABLE_BIG_STEW,*//* CDFluids.ROSE_MILK_TEA,*/ CDFluids.BEETROOT_SOUP, CDFluids.TOMATO_SAUCE,/* CDFluids.POPPY_RUSSIAN_SOUP,*/ CDFluids.EGG_LIQUID, /*CDFluids.WHEAT_BLACK_TEA, CDFluids.ICED_MELON_JUICE,*/ CDFluids.MELON_JUICE,/* CDFluids.THICK_HOT_COCOA,*/ CDFluids.PASTE, CDFluids.PUMPKIN_OIL, CDFluids.APPLE_PASTE, /*CDFluids.MASHED_POTATO,*/ CDFluids.CHOCOLATE_PASTE);
         //VirtualFluids.registerBowlStorage(CDFluids.VEGETABLE_BIG_STEW, CDItems.VEGETABLE_BIG_STEW);
         VirtualFluids.registerBucketStorage(CDFluids.SUNFLOWER_OIL, CDItems.BUCKETED_SUNFLOWER_OIL);
         VirtualFluids.registerBottleStorage(CDFluids.SUNFLOWER_OIL, CDItems.BOTTLED_SUNFLOWER_OIL);
@@ -108,7 +108,7 @@ CDModInitializer implements ModInitializer {
 
         //机械
         CDArmPointTypes.BASKET.hashCode();
-        CDSpoutingBehaviours.PAN.hashCode();
+        //CDSpoutingBehaviours.PAN.hashCode();
 
         //我
         CDCakeIngredients.MILK.hashCode();
