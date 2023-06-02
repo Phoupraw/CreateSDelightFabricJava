@@ -1,12 +1,14 @@
 package phoupraw.mcmod.createsdelight.item;
 
-import com.simibubi.create.content.schematics.item.SchematicItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
@@ -15,7 +17,7 @@ import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import java.nio.file.Path;
 import java.util.*;
-public class CakeBlueprintItem extends SchematicItem {
+public class CakeBlueprintItem extends Item {
     //    public static final LoadingCache<UUID,Map<FluidVariant, Collection<Box>>> CACHE = CacheBuilder.newBuilder().build(new CacheLoader<>() {
     //        @Override
     //        public @NotNull Map<FluidVariant, Collection<Box>> load(@NotNull UUID uuid) {
@@ -32,16 +34,16 @@ public class CakeBlueprintItem extends SchematicItem {
     }
 
     @Contract(pure = true)
-    public static @NotNull Map<FluidVariant, Collection<Box>> getContent(@UnmodifiableView @Nullable NbtCompound root) {
+    public static @NotNull Map<FluidVariant, Collection<Box>> getContent(@Nullable NbtCompound root) {
         Map<FluidVariant, Collection<Box>> parsedContent = new HashMap<>();
         if (root == null) return parsedContent;
-        var content = root.getCompound("content");
-        for (String key : content.getKeys()) {
-            var boxes = content.getList(key, NbtElement.LIST_TYPE);
+        var nbtContent = root.getCompound("content");
+        for (String key : nbtContent.getKeys()) {
+            var nbtBoxes = nbtContent.getList(key, NbtElement.LIST_TYPE);
             Collection<Box> parsedBoxes = new LinkedList<>();
-            for (int i = 0; i < boxes.size(); i++) {
-                var box = boxes.getList(i);
-                var parsedBox = new Box(box.getDouble(0), box.getDouble(1), box.getDouble(2), box.getDouble(3), box.getDouble(4), box.getDouble(5));
+            for (int i = 0; i < nbtBoxes.size(); i++) {
+                var box = nbtBoxes.getList(i);
+                Box parsedBox = nbt2box(box);
                 parsedBoxes.add(parsedBox);
             }
             parsedContent.put(FluidVariant.of(Registry.FLUID.get(new Identifier(key))), parsedBoxes);
@@ -49,8 +51,44 @@ public class CakeBlueprintItem extends SchematicItem {
         return parsedContent;
     }
 
+    @NotNull
+    public static Box nbt2box(NbtList nbtBox) {
+        return new Box(nbtBox.getDouble(0), nbtBox.getDouble(1), nbtBox.getDouble(2), nbtBox.getDouble(3), nbtBox.getDouble(4), nbtBox.getDouble(5));
+    }
+
+    public static void setContent(@NotNull NbtCompound root, @Nullable Map<FluidVariant, Collection<Box>> content) {
+        if (content == null) {
+            root.remove("content");
+            return;
+        }
+        var nbtContent = new NbtCompound();
+        for (Map.Entry<FluidVariant, Collection<Box>> entry : content.entrySet()) {
+            FluidVariant fluidVariant = entry.getKey();
+            Collection<Box> boxes = entry.getValue();
+            var nbtBoxes = new NbtList();
+            for (Box box : boxes) {
+                NbtList nbtBox = box2nbt(box);
+                nbtBoxes.add(nbtBox);
+            }
+            nbtContent.put(Registry.FLUID.getId(fluidVariant.getFluid()).toString(), nbtBoxes);
+        }
+        root.put("content", nbtContent);
+    }
+
+    @NotNull
+    public static NbtList box2nbt(Box box) {
+        var nbtBox = new NbtList();
+        nbtBox.add(NbtDouble.of(box.minX));
+        nbtBox.add(NbtDouble.of(box.minY));
+        nbtBox.add(NbtDouble.of(box.minZ));
+        nbtBox.add(NbtDouble.of(box.maxX));
+        nbtBox.add(NbtDouble.of(box.maxY));
+        nbtBox.add(NbtDouble.of(box.maxZ));
+        return nbtBox;
+    }
+
     @Contract(pure = true)
-    public static @NotNull Collection<@NotNull Box> getSimplified(@UnmodifiableView @NotNull Collection<@NotNull Box> raw) {
+    public static @NotNull Collection<@NotNull Box> getSimplified(@NotNull Collection<@NotNull Box> raw) {
         List<Box> simplified = new LinkedList<>(raw);
         while (true) {
             Box box1 = null, box2 = null, merged = null;
@@ -77,7 +115,7 @@ public class CakeBlueprintItem extends SchematicItem {
         return Double.compare(a.minY, b.minY);
     }
 
-    public static @NotNull List<Map.@Unmodifiable Entry<FluidVariant, Box>> getSequence(@UnmodifiableView @NotNull Map<FluidVariant, Collection<Box>> map) {
+    public static @NotNull List<Map.@Unmodifiable Entry<FluidVariant, Box>> getSequence(@NotNull Map<FluidVariant, Collection<Box>> map) {
         List<Map.Entry<FluidVariant, Box>> sequence = new ArrayList<>();
         for (var entry : map.entrySet()) {
             for (Box box : entry.getValue()) {
@@ -89,7 +127,7 @@ public class CakeBlueprintItem extends SchematicItem {
     }
 
     @Contract("null -> null")
-    public static @Nullable Map.@Unmodifiable Entry<FluidVariant, Box> getNextStep(@UnmodifiableView @Nullable NbtCompound root) {
+    public static @Nullable Map.@Unmodifiable Entry<FluidVariant, Box> getNextStep(@Nullable NbtCompound root) {
         if (root == null) return null;
         var sequence = CakeBlueprintItem.getSequence(CakeBlueprintItem.getContent(root));
         int index = getIndex(root);

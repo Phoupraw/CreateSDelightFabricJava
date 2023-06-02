@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.ApiStatus;
@@ -19,7 +18,6 @@ import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.RecipeEvents;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.block.IronBarsBlock;
 import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 
 import java.util.regex.Pattern;
@@ -34,7 +32,8 @@ import java.util.regex.Pattern;
  <li>在<a href="https://modrinth.com/mod/creates-delight/versions">Modrinth</a>和<a href="https://beta.curseforge.com/minecraft/mc-mods/creates-delight/files">Curseforge</a>上发布新版本。</li>
  </ol> */
 @ApiStatus.Internal
-public final class CDModInitializer implements ModInitializer {
+public final class
+CDModInitializer implements ModInitializer {
     public static void initializeAfterCreate() {
         loadClasses();
 
@@ -46,31 +45,31 @@ public final class CDModInitializer implements ModInitializer {
         BlockStressDefaults.setDefaultImpact(CDIdentifiers.IRON_BAR_SKEWER, 1);
 
         VirtualFluids.registerAttributeHandler(VirtualFluids.ATTRIBUTE_HANDLER, CDFluids.SUNFLOWER_OIL, CDFluids.VEGETABLE_BIG_STEW, CDFluids.ROSE_MILK_TEA, CDFluids.BEETROOT_SOUP, CDFluids.TOMATO_SAUCE, CDFluids.POPPY_RUSSIAN_SOUP, CDFluids.EGG_LIQUID, CDFluids.WHEAT_BLACK_TEA, CDFluids.ICED_MELON_JUICE, CDFluids.MELON_JUICE, CDFluids.THICK_HOT_COCOA, CDFluids.PASTE, CDFluids.PUMPKIN_OIL, CDFluids.APPLE_PASTE, CDFluids.MASHED_POTATO, CDFluids.CHOCOLATE_PASTE);
-        VirtualFluids.registerBowlStorage(CDFluids.VEGETABLE_BIG_STEW, CDItems.VEGETABLE_BIG_STEW);
+        //VirtualFluids.registerBowlStorage(CDFluids.VEGETABLE_BIG_STEW, CDItems.VEGETABLE_BIG_STEW);
         VirtualFluids.registerBucketStorage(CDFluids.SUNFLOWER_OIL, CDItems.BUCKETED_SUNFLOWER_OIL);
         VirtualFluids.registerBottleStorage(CDFluids.SUNFLOWER_OIL, CDItems.BOTTLED_SUNFLOWER_OIL);
-        VirtualFluids.registerBottleStorage(CDFluids.ROSE_MILK_TEA, CDItems.ROSE_MILK_TEA);
+        //VirtualFluids.registerBottleStorage(CDFluids.ROSE_MILK_TEA, CDItems.ROSE_MILK_TEA);
         VirtualFluids.registerBowlStorage(CDFluids.BEETROOT_SOUP, Items.BEETROOT_SOUP);
         VirtualFluids.registerBowlStorage(CDFluids.TOMATO_SAUCE, ItemsRegistry.TOMATO_SAUCE.get());
-        VirtualFluids.registerBowlStorage(CDFluids.POPPY_RUSSIAN_SOUP, CDItems.POPPY_RUSSIAN_SOUP);
+        //VirtualFluids.registerBowlStorage(CDFluids.POPPY_RUSSIAN_SOUP, CDItems.POPPY_RUSSIAN_SOUP);
         FluidStorage.combinedItemApiProvider(Items.EGG).register(Lambdas.fullProviderOf(CDItems.EGG_SHELL, FluidVariant.of(CDFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
-        VirtualFluids.registerBowlStorage(CDFluids.POPPY_RUSSIAN_SOUP, CDItems.POPPY_RUSSIAN_SOUP);
-        VirtualFluids.registerBottleStorage(CDFluids.WHEAT_BLACK_TEA, CDItems.WHEAT_BLACK_TEA);
-        VirtualFluids.registerBottleStorage(CDFluids.ICED_MELON_JUICE, CDItems.ICED_MELON_JUICE);
+        //VirtualFluids.registerBowlStorage(CDFluids.POPPY_RUSSIAN_SOUP, CDItems.POPPY_RUSSIAN_SOUP);
+        //VirtualFluids.registerBottleStorage(CDFluids.WHEAT_BLACK_TEA, CDItems.WHEAT_BLACK_TEA);
+        //VirtualFluids.registerBottleStorage(CDFluids.ICED_MELON_JUICE, CDItems.ICED_MELON_JUICE);
         VirtualFluids.registerBottleStorage(CDFluids.MELON_JUICE, ItemsRegistry.MELON_JUICE.get());
-        VirtualFluids.registerBottleStorage(CDFluids.THICK_HOT_COCOA, CDItems.THICK_HOT_COCOA);
+        //VirtualFluids.registerBottleStorage(CDFluids.THICK_HOT_COCOA, CDItems.THICK_HOT_COCOA);
         VirtualFluids.registerBucketStorage(CDFluids.PUMPKIN_OIL, CDItems.BUCKETED_PUMPKIN_OIL);
-        VirtualFluids.registerBowlStorage(CDFluids.MASHED_POTATO, CDItems.MASHED_POTATO);
+        //VirtualFluids.registerBowlStorage(CDFluids.MASHED_POTATO, CDItems.MASHED_POTATO);
 
         IronBowlItem.onInitialize();
 
-        if (!(Blocks.IRON_BARS instanceof IronBarsBlock)) {
-            if (FabricLoader.getInstance().isModLoaded("immersive_weathering")) {
-                CreateSDelight.LOGGER.info("检测到沉浸风化，已变更铁栏杆的Mixin。");
-            } else {
-                throw new IllegalStateException("检测到铁栏杆的Mixin未按预期生效！");
-            }
-        }
+        //if (!(Blocks.IRON_BARS instanceof IronBarsBlock)) {
+        //    if (FabricLoader.getInstance().isModLoaded("immersive_weathering")) {
+        //        CreateSDelight.LOGGER.info("检测到沉浸风化，已变更铁栏杆的Mixin。");
+        //    } else {
+        //        throw new IllegalStateException("检测到铁栏杆的Mixin未按预期生效！");
+        //    }
+        //}
 
         //test
         //        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
@@ -99,15 +98,20 @@ public final class CDModInitializer implements ModInitializer {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        CDBlocks.PAN.hashCode();
-        CDBlockEntityTypes.PAN.hashCode();
+        //原版
+        CDBlocks.PRINTED_CAKE.hashCode();
+        CDBETypes.PRINTED_CAKE.hashCode();
         CDItems.ITEM_GROUP.hashCode();
         CDFluids.SUNFLOWER_OIL.hashCode();
         CDRecipeTypes.PAN_FRYING.hashCode();
         CDStatusEffects.SATIATION.hashCode();
 
+        //机械
         CDArmPointTypes.BASKET.hashCode();
         CDSpoutingBehaviours.PAN.hashCode();
+
+        //我
+        CDCakeIngredients.MILK.hashCode();
     }
 
     private static void checkCreateVersion() {

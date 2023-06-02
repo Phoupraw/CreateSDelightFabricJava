@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
@@ -20,29 +19,6 @@ import org.jetbrains.annotations.NotNull;
  一些快捷注册的静态方法
  @since 1.0.0 */
 public final class Registries {
-    /**
-     @since 1.0.0
-     */
-    @Contract("_, _ -> param2")
-    public static <T extends Block> T register(Identifier id, T block) {
-        return Registry.register(Registry.BLOCK, id, block);
-    }
-
-    /**
-     @since 1.0.0
-     */
-    @Contract("_, _ -> param2")
-    public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
-        return Registry.register(Registry.BLOCK_ENTITY_TYPE, id, blockEntityType);
-    }
-
-    /**
-     @since 1.0.0
-     */
-    @Contract("_, _ -> param2")
-    public static <T extends Item> T register(Identifier id, T item) {
-        return Registry.register(Registry.ITEM, id, item);
-    }
 
     /**
      @since 1.0.0

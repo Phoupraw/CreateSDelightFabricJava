@@ -88,7 +88,12 @@ public final class CDIdentifiers {
       IRON_BAR_SKEWER = of("iron_bar_skewer"),
       CHOCOLATE_ANTHEMY_CAKE = of("chocolate_anthemy_cake"),
       CAKE_BLUEPRINT = of("cake_blueprint"),
-      PRINTED_CAKE = of("printed_cake");
+      PRINTED_CAKE = of("printed_cake"),
+      MILK = of("milk"),
+      CAKE_INGREDIENT = of("cake_ingredient"),
+    CHOCOLATE=of("chocolate"),
+    HONEY=of("honey"),
+    CAKE_OVEN=of("cake_oven");
 
     @Contract("_ -> new")
     public static @NotNull Identifier of(String path) {

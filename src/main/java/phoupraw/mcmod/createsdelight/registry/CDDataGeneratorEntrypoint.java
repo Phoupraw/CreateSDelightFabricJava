@@ -10,15 +10,15 @@ import phoupraw.mcmod.createsdelight.datagen.*;
 public final class CDDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {
-        generator.addProvider(new MyRecipeProvider(generator));
-        generator.addProvider(new MyBlockTagProvider(generator));
-        generator.addProvider(new MyItemTagProvider(generator));
-        generator.addProvider(new MyFluidTagProvider(generator));
-        generator.addProvider(new MyBlockLootTableProvider(generator));
+        generator.addProvider(new CDRecipeProvider(generator));
+        generator.addProvider(new CDBlockTagProvider(generator));
+        generator.addProvider(new CDItemTagProvider(generator));
+        generator.addProvider(new CDFluidTagProvider(generator));
+        generator.addProvider(new CDBlockLootTableProvider(generator));
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            generator.addProvider(new MyChineseProvider(generator));
-            generator.addProvider(new MyEnglishProvider(generator));
-            generator.addProvider(new MyModelProvider(generator));
+            generator.addProvider(new CDChineseProvider(generator));
+            generator.addProvider(new CDEnglishProvider(generator));
+            generator.addProvider(new CDModelProvider(generator));
         }
     }
 }

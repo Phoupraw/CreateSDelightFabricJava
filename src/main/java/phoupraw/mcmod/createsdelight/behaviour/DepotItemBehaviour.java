@@ -24,7 +24,6 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ReplaceableStorageView;
 
@@ -164,11 +163,11 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         ms.push();
         ms.translate(0, -11 / 16.0, 0);
         if (!getMain().stack.isEmpty()) {
-            SmartDrainRenderer.renderLikeDepot(getMain(), partialTicks, ms, buffer, light, overlay);
+            //SmartDrainRenderer.renderLikeDepot(getMain(), partialTicks, ms, buffer, light, overlay);
         }
         for (TransportedItemStack incoming : getIncomings()) {
             if (!incoming.stack.isEmpty()) {
-                SmartDrainRenderer.renderLikeDepot(incoming, partialTicks, ms, buffer, light, overlay);
+                //SmartDrainRenderer.renderLikeDepot(incoming, partialTicks, ms, buffer, light, overlay);
             }
         }
         ms.pop();

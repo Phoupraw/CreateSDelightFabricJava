@@ -12,8 +12,8 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.common.api.Internationals;
-import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDEnglishProvider;
 import phoupraw.mcmod.createsdelight.recipe.*;
 /**
  配方类型添加步骤：
@@ -25,7 +25,7 @@ import phoupraw.mcmod.createsdelight.recipe.*;
  <li>在{@link phoupraw.mcmod.createsdelight.rei}创建类别类，继承{@link DisplayCategory}，重写{@link DisplayCategory#getIcon()}<br/>
  <li>补齐显示类的{@link Display#getCategoryIdentifier()}<br/>
  <li>在{@link CDREIClientPlugin}注册<br/>
- <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link Internationals#keyOfCategory}添加翻译<br/>
+ <li>在{@link CDChineseProvider}和{@link CDEnglishProvider}用{@link Internationals#keyOfCategory}添加翻译<br/>
  <li>运行数据生成器<br/>
  <li>重写类别类的{@link DisplayCategory#setupDisplay(Display, Rectangle)}<br/>
  <li>在{@code ChangeLog.md}添加更新日志<br/>

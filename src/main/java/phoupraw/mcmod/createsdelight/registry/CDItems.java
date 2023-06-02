@@ -1,7 +1,6 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
-import com.simibubi.create.content.contraptions.components.AssemblyOperatorBlockItem;
 import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -9,23 +8,24 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.createsdelight.datagen.*;
 import phoupraw.mcmod.createsdelight.item.*;
 
 import java.util.List;
+
 /**
  物品编写流程：
  <ol>
  <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br/>
  <li>在{@link CDIdentifiers}创建{@link Identifier}。<br/>
  <li>在{@link CDItems}创建物品<b>并注册</b>。<br/>
- <li>若不为{@link BlockItem}，则在{@link MyChineseProvider}和{@link MyEnglishProvider}添加翻译。<br/>
- <li>若不为{@link BlockItem}，则在{@link MyModelProvider}添加模型。<br/>
- <li>在{@link MyRecipeProvider}添加配方。<br/>
- <li>在{@link MyItemTagProvider}添加标签。<br/>
+ <li>若不为{@link BlockItem}，则在{@link CDChineseProvider}和{@link CDEnglishProvider}添加翻译。<br/>
+ <li>若不为{@link BlockItem}，则在{@link CDModelProvider}添加模型。<br/>
+ <li>在{@link CDRecipeProvider}添加配方。<br/>
+ <li>在{@link CDItemTagProvider}添加标签。<br/>
  <li>运行数据生成器。<br/>
  <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br/>
  <li>运行客户端，检查物品效果是否如预期。<br/>
@@ -33,470 +33,301 @@ import java.util.List;
  <li>提交git。
  </ol> */
 public final class CDItems {
-    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(CDIdentifiers.ITEM_GROUP)
-      .icon(CDItems::stupidJavaCompiler)
-      //      .appendItems(MyItems::appendItems)
-      .build();
 
-    //方块
-    public static final BlockItem PAN = new BlockItem(CDBlocks.PAN, newSettings());
-    public static final BlockItem GRILL = new BlockItem(CDBlocks.GRILL, newSettings());
-    public static final BlockItem SPRINKLER = new AssemblyOperatorBlockItem(CDBlocks.SPRINKLER, newSettings());
-    public static final BlockItem BAMBOO_STEAMER = new BlockItem(CDBlocks.BAMBOO_STEAMER, newSettings());
-    public static final BlockItem SMART_DRAIN = new BlockItem(CDBlocks.SMART_DRAIN, newSettings());
-    public static final BlockItem COPPER_TUNNEL = new BlockItem(CDBlocks.COPPER_TUNNEL, newSettings());
-    @ApiStatus.Experimental
-    public static final BlockItem MULTIFUNC_BASIN = new BlockItem(CDBlocks.MULTIFUNC_BASIN, new FabricItemSettings());
-    public static final BlockItem VERTICAL_CUTTER = new AssemblyOperatorBlockItem(CDBlocks.VERTICAL_CUTTER, newSettings());
-    public static final BlockItem PRESSURE_COOKER = new AssemblyOperatorBlockItem(CDBlocks.PRESSURE_COOKER, newSettings());
-    public static final BlockItem MINCER = new AssemblyOperatorBlockItem(CDBlocks.MINCER, newSettings());
-    @ApiStatus.Experimental
-    public static final BlockItem SKEWER = new AssemblyOperatorBlockItem(CDBlocks.SKEWER, new FabricItemSettings());
-    @ApiStatus.Experimental
-    public static final BlockItem BASIN = new BlockItem(CDBlocks.BASIN, new FabricItemSettings());
-    @ApiStatus.Experimental
-    public static final BlockItem SKEWER_PLATE = new BlockItem(CDBlocks.SKEWER_PLATE, new FabricItemSettings());
-    public static final BlockItem OVEN = new BlockItem(CDBlocks.OVEN, newSettings());
+public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(CDIdentifiers.ITEM_GROUP)
+  .icon(CDItems::stupidJavaCompiler)
+  .appendItems(CDItems::appendItems)
+  .build();
 
-    //可食用方块
-    public static final StatusEffectsBlockItem JELLY_BEANS = new StatusEffectsBlockItem(CDBlocks.JELLY_BEANS, CDItems.newSettings()
-      .food(new FoodComponent.Builder()
-        .hunger(2)
-        .saturationModifier(0.5f)
-        .snack()
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 0), 1f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem JELLY_BEANS_CAKE = new StatusEffectsBlockItem(CDBlocks.JELLY_BEANS_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem SWEET_BERRIES_CAKE = new SweetBerriesCakeItem();
-    public static final StatusEffectsBlockItem BASQUE_CAKE = new StatusEffectsBlockItem(CDBlocks.BASQUE_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem SWEET_BERRIES_CAKE_S = new StatusEffectsBlockItem(CDBlocks.SWEET_BERRIES_CAKE_S, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem BROWNIE = new StatusEffectsBlockItem(CDBlocks.BROWNIE, newSettings()
-      .maxCount(64)
-      .food(new FoodComponent.Builder()
-        .hunger(5)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 3), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem APPLE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.APPLE_CREAM_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem APPLE_CAKE = new StatusEffectsBlockItem(CDBlocks.APPLE_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem CARROT_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.CARROT_CREAM_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem SMALL_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem MEDIUM_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem BIG_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsBlockItem CHOCOLATE_ANTHEMY_CAKE = new StatusEffectsBlockItem(CDBlocks.CHOCOLATE_ANTHEMY_CAKE, newSettings()
-      .maxCount(16)
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
-        .build()
-      ));
-    public static final BlockItem PRINTED_CAKE = new StatusEffectsBlockItem(CDBlocks.PRINTED_CAKE, newSettings());
+//方块
+public static final BlockItem CAKE_OVEN = new BlockItem(CDBlocks.CAKE_OVEN, newSettings());
 
-    //不可食用物品
-    public static final Item EGG_SHELL = new Item(newSettings());
-    public static final Item EGG_DOUGH = new Item(newSettings());
-    @ApiStatus.Experimental
-    public static final Item CRUSHED_ICE = new Item(new FabricItemSettings());
-    @ApiStatus.Experimental
-    public static final Item SALT = new Item(new FabricItemSettings());
-    public static final Item KELP_ASH = new Item(newSettings());
-    @ApiStatus.Experimental
-    public static final Item YEAST = new Item(new FabricItemSettings());
-    public static final Item RAW_BASQUE_CAKE = new Item(newSettings());
-    public static final Item IRON_BOWL = new IronBowlItem();
-    public static final Item CAKE_BLUEPRINT = new CakeBlueprintItem();
+//可食用方块
+public static final StatusEffectsBlockItem JELLY_BEANS = new StatusEffectsBlockItem(CDBlocks.JELLY_BEANS, CDItems.newSettings()
+  .food(new FoodComponent.Builder()
+    .hunger(2)
+    .saturationModifier(0.5f)
+    .snack()
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 0), 1f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem JELLY_BEANS_CAKE = new StatusEffectsBlockItem(CDBlocks.JELLY_BEANS_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem SWEET_BERRIES_CAKE = new SweetBerriesCakeItem();
+public static final StatusEffectsBlockItem BASQUE_CAKE = new StatusEffectsBlockItem(CDBlocks.BASQUE_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem SWEET_BERRIES_CAKE_S = new StatusEffectsBlockItem(CDBlocks.SWEET_BERRIES_CAKE_S, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem BROWNIE = new StatusEffectsBlockItem(CDBlocks.BROWNIE, newSettings()
+  .maxCount(64)
+  .food(new FoodComponent.Builder()
+    .hunger(5)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 3), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0), 1f)
+    .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60 * 2, 0), 1f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem APPLE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.APPLE_CREAM_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 5, 0), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem APPLE_CAKE = new StatusEffectsBlockItem(CDBlocks.APPLE_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem CARROT_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.CARROT_CREAM_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem SMALL_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem MEDIUM_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem BIG_CHOCOLATE_CREAM_CAKE = new StatusEffectsBlockItem(CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsBlockItem CHOCOLATE_ANTHEMY_CAKE = new StatusEffectsBlockItem(CDBlocks.CHOCOLATE_ANTHEMY_CAKE, newSettings()
+  .maxCount(16)
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 10), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4), 1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 0), 0.8f)
+    .build()
+  ));
+public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
 
-    //食物
-    public static final StatusEffectsItem PAN_FRIED_BEEF_PATTY = satiationMeat(4, 0.8f, 2);
-    public static final StatusEffectsItem THICK_PORK_SLICE = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder().meat().hunger(2).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
-    public static final StatusEffectsItem PAN_FRIED_PORK_SLICE = satiationMeat(4, 0.6f, 0);
-    public static final StatusEffectsItem THIN_PORK_SLICE = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder().meat().hunger(1).saturationModifier(0.3f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 40, 0), 0.05f).build()));
-    public static final StatusEffectsItem GRILLED_PORK_SLICE = satiationMeat(2, 0.6f, 0);
-    public static final StatusEffectsItem SUGAR_PORK = satiationMeat(4, 0.8f, 2);
-    public static final StatusEffectsItem LEAVES_RICE = new StatusEffectsItem(newSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.BOWL)
-      .food(new FoodComponent.Builder()
-        .hunger(6)
-        .saturationModifier(0.4f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 0), 1)
-        .build()
-      ));
-    public static final StatusEffectsItem VANILLA = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
-      .hunger(1)
-      .saturationModifier(0.5f)
-      .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20), 0.25f)
-      .build()
-    ));
-    public static final StatusEffectsItem VANILLA_SWEET_ROLL = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
-      .hunger(6)
-      .saturationModifier(0.8f)
-      .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 0), 1f)
-      .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 300, 0), 1)
-      .build()
-    ));
-    public static final StatusEffectsItem STEAMED_BUNS = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
-      .hunger(3)
-      .saturationModifier(0.5f)
-      .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 4), 1f)
-      .build()
-    ));
-    public static final StatusEffectsItem COOKED_RICE = new StatusEffectsItem(newSettings().food(new FoodComponent.Builder()
-      .hunger(4)
-      .saturationModifier(0.6f)
-      .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
-      .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 600, 0), 1)
-      .build()
-    ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem VEGETABLE_BIG_STEW = new StatusEffectsItem(new FabricItemSettings().food(new FoodComponent.Builder()
-      .hunger(6)
-      .saturationModifier(0.5f)
-      .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 20), 1f)
-      .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 120, 0), 1)
-      .build()
-    ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem ROSE_MILK_TEA = new StatusEffectsItem(new FabricItemSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.GLASS_BOTTLE)
-      .food(new FoodComponent.Builder()
-        .hunger(2)
-        .saturationModifier(0.3f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
-        .build()
-      ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem CORAL_COLORFULS = new StatusEffectsItem(new FabricItemSettings()
-      .food(new FoodComponent.Builder()
-        .hunger(6)
-        .saturationModifier(0.5f)
-        .snack()
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 2), 1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 200), 1)
-        .build()
-      ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem POPPY_RUSSIAN_SOUP = new StatusEffectsItem(new FabricItemSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.BOWL)
-      .food(new FoodComponent.Builder()
-        .hunger(6)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 20), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.NOURISHMENT.get(), 20 * 180, 0), 1)
-        .build()
-      ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem WHEAT_BLACK_TEA = new StatusEffectsItem(new FabricItemSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.GLASS_BOTTLE)
-      .food(new FoodComponent.Builder()
-        .hunger(2)
-        .saturationModifier(0.3f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
-        .build()
-      ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem ICED_MELON_JUICE = new StatusEffectsItem(new FabricItemSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.GLASS_BOTTLE)
-      .food(new FoodComponent.Builder()
-        .hunger(2)
-        .saturationModifier(0.3f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
-        .build()
-      ));
-    @ApiStatus.Experimental
-    public static final StatusEffectsItem THICK_HOT_COCOA = new StatusEffectsItem(new FabricItemSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.GLASS_BOTTLE)
-      .food(new FoodComponent.Builder()
-        .hunger(2)
-        .saturationModifier(0.3f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
-        .build()
-      ));
-    public static final StatusEffectsItem SUNFLOWER_KERNELS = new StatusEffectsItem(newSettings()
-      .food(new FoodComponent.Builder()
-        .hunger(2)
-        .saturationModifier(0.3f)
-        .snack()
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
-        .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
-        .build()
-      ));
-    public static final StatusEffectsItem CAKE_BASE = new StatusEffectsItem(newSettings()
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .build()
-      ));
-    public static final StatusEffectsItem CAKE_BASE_SLICE = new StatusEffectsItem(newSettings()
-      .food(new FoodComponent.Builder()
-        .hunger(7)
-        .saturationModifier(0.5f)
-        .build()
-      ));
-    public static final StatusEffectsItem BUCKETED_SUNFLOWER_OIL = new DrinkItem(newSettings()
-      .maxCount(1)
-      .recipeRemainder(Items.BUCKET)
-      .food(new FoodComponent.Builder()
-        .hunger(3)
-        .saturationModifier(1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsItem BOTTLED_SUNFLOWER_OIL = new DrinkItem(newSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.BUCKET)
-      .food(new FoodComponent.Builder()
-        .hunger(1)
-        .saturationModifier(1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 9, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsItem BUCKETED_PUMPKIN_OIL = new DrinkItem(newSettings()
-      .maxCount(1)
-      .recipeRemainder(Items.BUCKET)
-      .food(new FoodComponent.Builder()
-        .hunger(3)
-        .saturationModifier(1f)
-        .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
-        .build()
-      ));
-    public static final StatusEffectsItem MASHED_POTATO = new DrinkItem(newSettings()
-      .maxCount(16)
-      .recipeRemainder(Items.BOWL)
-      .food(new FoodComponent.Builder()
-        .hunger(3)
-        .saturationModifier(0.5f)
-        .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 5), 1f)
-        .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 20 * 60, 0), 1f)
-        .build()
-      ));
-    public static final StatusEffectsItem CHOCOLATE_CAKE_BASE = new StatusEffectsItem(newSettings()
-      .food(new FoodComponent.Builder()
-        .hunger(20)
-        .saturationModifier(0.5f)
-        .build()
-      ));
+//不可食用物品
+public static final Item EGG_SHELL = new Item(newSettings());
+public static final Item EGG_DOUGH = new Item(newSettings());
+public static final Item KELP_ASH = new Item(newSettings());
+public static final Item RAW_BASQUE_CAKE = new Item(newSettings());
+public static final Item IRON_BOWL = new IronBowlItem();
+public static final Item CAKE_BLUEPRINT = new CakeBlueprintItem();
 
-    //序列装配中间体
-    public static final SequencedAssemblyItem JELLY_BEANS_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_S_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem RAW_BASQUE_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem BROWNIE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem APPLE_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem CARROT_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
+//食物
+public static final StatusEffectsItem CAKE_BASE = new StatusEffectsItem(newSettings()
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .build()
+  ));
+public static final StatusEffectsItem CAKE_BASE_SLICE = new StatusEffectsItem(newSettings()
+  .food(new FoodComponent.Builder()
+    .hunger(7)
+    .saturationModifier(0.5f)
+    .build()
+  ));
+public static final StatusEffectsItem BUCKETED_SUNFLOWER_OIL = new DrinkItem(newSettings()
+  .maxCount(1)
+  .recipeRemainder(Items.BUCKET)
+  .food(new FoodComponent.Builder()
+    .hunger(3)
+    .saturationModifier(1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsItem BOTTLED_SUNFLOWER_OIL = new DrinkItem(newSettings()
+  .maxCount(16)
+  .recipeRemainder(Items.BUCKET)
+  .food(new FoodComponent.Builder()
+    .hunger(1)
+    .saturationModifier(1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 9, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsItem BUCKETED_PUMPKIN_OIL = new DrinkItem(newSettings()
+  .maxCount(1)
+  .recipeRemainder(Items.BUCKET)
+  .food(new FoodComponent.Builder()
+    .hunger(3)
+    .saturationModifier(1f)
+    .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 18, 0), 0.8f)
+    .build()
+  ));
+public static final StatusEffectsItem CHOCOLATE_CAKE_BASE = new StatusEffectsItem(newSettings()
+  .food(new FoodComponent.Builder()
+    .hunger(20)
+    .saturationModifier(0.5f)
+    .build()
+  ));
+public static final StatusEffectsItem SUNFLOWER_KERNELS = new StatusEffectsItem(newSettings()
+  .food(new FoodComponent.Builder()
+    .hunger(2)
+    .saturationModifier(0.3f)
+    .snack()
+    .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, 1), 1f)
+    .statusEffect(new StatusEffectInstance(EffectsRegistry.COMFORT.get(), 100, 0), 1)
+    .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40), 1)
+    .build()
+  ));
+//序列装配中间体
+public static final SequencedAssemblyItem JELLY_BEANS_CAKE_0 = new SequencedAssemblyItem(newSettings());
+public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_0 = new SequencedAssemblyItem(newSettings());
+public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_S_0 = new SequencedAssemblyItem(newSettings());
+public static final SequencedAssemblyItem RAW_BASQUE_CAKE_0 = new SequencedAssemblyItem(newSettings());
+public static final SequencedAssemblyItem BROWNIE_0 = new SequencedAssemblyItem(newSettings());
+public static final SequencedAssemblyItem APPLE_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
+public static final SequencedAssemblyItem CARROT_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
 
-    static {
-        Registries.register(CDIdentifiers.PAN, PAN);
-        Registries.register(CDIdentifiers.GRILL, GRILL);
-        Registries.register(CDIdentifiers.SPRINKLER, SPRINKLER);
-        Registries.register(CDIdentifiers.BAMBOO_STEAMER, BAMBOO_STEAMER);
-        Registries.register(CDIdentifiers.SMART_DRAIN, SMART_DRAIN);
-        Registries.register(CDIdentifiers.COPPER_TUNNEL, COPPER_TUNNEL);
-        Registries.register(CDIdentifiers.MULTIFUNC_BASIN, MULTIFUNC_BASIN);
-        Registries.register(CDIdentifiers.VERTICAL_CUTTER, VERTICAL_CUTTER);
-        Registries.register(CDIdentifiers.PRESSURE_COOKER, PRESSURE_COOKER);
-        Registries.register(CDIdentifiers.MINCER, MINCER);
-        Registries.register(CDIdentifiers.SKEWER, SKEWER);
-        Registries.register(CDIdentifiers.BASIN, BASIN);
-        Registries.register(CDIdentifiers.SKEWER_PLATE, SKEWER_PLATE);
-        Registries.register(CDIdentifiers.KELP_ASH, KELP_ASH);
-        Registries.register(CDIdentifiers.YEAST, YEAST);
-        Registries.register(CDIdentifiers.CAKE_BASE, CAKE_BASE);
-        Registries.register(CDIdentifiers.CAKE_BASE_SLICE, CAKE_BASE_SLICE);
-        Registries.register(CDIdentifiers.OVEN, OVEN);
+//蛋糕材料
+public static final BlockItem MILK = new BlockItem(CDBlocks.MILK, newSettings());
+public static final BlockItem CHOCOLATE = new BlockItem(CDBlocks.CHOCOLATE, newSettings());
+static {
 
-        Registries.register(CDIdentifiers.JELLY_BEANS, JELLY_BEANS);
-        Registries.register(CDIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);
-        Registries.register(CDIdentifiers.SWEET_BERRIES_CAKE, SWEET_BERRIES_CAKE);
-        Registries.register(CDIdentifiers.BASQUE_CAKE, BASQUE_CAKE);
-        Registries.register(CDIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
-        Registries.register(CDIdentifiers.BROWNIE, BROWNIE);
-        Registries.register(CDIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
-        Registries.register(CDIdentifiers.APPLE_CAKE, APPLE_CAKE);
-        Registries.register(CDIdentifiers.CARROT_CREAM_CAKE, CARROT_CREAM_CAKE);
-        Registries.register(CDIdentifiers.SMALL_CHOCOLATE_CREAM_CAKE, SMALL_CHOCOLATE_CREAM_CAKE);
-        Registries.register(CDIdentifiers.MEDIUM_CHOCOLATE_CREAM_CAKE, MEDIUM_CHOCOLATE_CREAM_CAKE);
-        Registries.register(CDIdentifiers.BIG_CHOCOLATE_CREAM_CAKE, BIG_CHOCOLATE_CREAM_CAKE);
-        Registries.register(CDIdentifiers.CHOCOLATE_ANTHEMY_CAKE, CHOCOLATE_ANTHEMY_CAKE);
-        Registries.register(CDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
+    register(CDIdentifiers.KELP_ASH, KELP_ASH);
+    register(CDIdentifiers.CAKE_BASE, CAKE_BASE);
+    register(CDIdentifiers.CAKE_BASE_SLICE, CAKE_BASE_SLICE);
+    register(CDIdentifiers.CAKE_OVEN, CAKE_OVEN);
 
-        Registries.register(CDIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
-        Registries.register(CDIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
-        Registries.register(CDIdentifiers.EGG_SHELL, EGG_SHELL);
-        Registries.register(CDIdentifiers.EGG_DOUGH, EGG_DOUGH);
-        Registries.register(CDIdentifiers.CRUSHED_ICE, CRUSHED_ICE);
-        Registries.register(CDIdentifiers.SALT, SALT);
-        Registries.register(CDIdentifiers.RAW_BASQUE_CAKE, RAW_BASQUE_CAKE);
-        Registries.register(CDIdentifiers.BUCKETED_PUMPKIN_OIL, BUCKETED_PUMPKIN_OIL);
-        Registries.register(CDIdentifiers.IRON_BOWL, IRON_BOWL);
-        Registries.register(CDIdentifiers.CAKE_BLUEPRINT, CAKE_BLUEPRINT);
+    register(CDIdentifiers.JELLY_BEANS, JELLY_BEANS);
+    register(CDIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);
+    register(CDIdentifiers.SWEET_BERRIES_CAKE, SWEET_BERRIES_CAKE);
+    register(CDIdentifiers.BASQUE_CAKE, BASQUE_CAKE);
+    register(CDIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
+    register(CDIdentifiers.BROWNIE, BROWNIE);
+    register(CDIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
+    register(CDIdentifiers.APPLE_CAKE, APPLE_CAKE);
+    register(CDIdentifiers.CARROT_CREAM_CAKE, CARROT_CREAM_CAKE);
+    register(CDIdentifiers.SMALL_CHOCOLATE_CREAM_CAKE, SMALL_CHOCOLATE_CREAM_CAKE);
+    register(CDIdentifiers.MEDIUM_CHOCOLATE_CREAM_CAKE, MEDIUM_CHOCOLATE_CREAM_CAKE);
+    register(CDIdentifiers.BIG_CHOCOLATE_CREAM_CAKE, BIG_CHOCOLATE_CREAM_CAKE);
+    register(CDIdentifiers.CHOCOLATE_ANTHEMY_CAKE, CHOCOLATE_ANTHEMY_CAKE);
+    register(CDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
 
-        Registries.register(CDIdentifiers.PAN_FRIED_BEEF_PATTY, PAN_FRIED_BEEF_PATTY);
-        Registries.register(CDIdentifiers.THICK_PORK_SLICE, THICK_PORK_SLICE);
-        Registries.register(CDIdentifiers.PAN_FRIED_PORK_SLICE, PAN_FRIED_PORK_SLICE);
-        Registries.register(CDIdentifiers.THIN_PORK_SLICE, THIN_PORK_SLICE);
-        Registries.register(CDIdentifiers.GRILLED_PORK_SLICE, GRILLED_PORK_SLICE);
-        Registries.register(CDIdentifiers.SUGAR_PORK, SUGAR_PORK);
-        Registries.register(CDIdentifiers.LEAVES_RICE, LEAVES_RICE);
-        Registries.register(CDIdentifiers.VANILLA, VANILLA);
-        Registries.register(CDIdentifiers.VANILLA_SWEET_ROLL, VANILLA_SWEET_ROLL);
-        Registries.register(CDIdentifiers.STEAMED_BUNS, STEAMED_BUNS);
-        Registries.register(CDIdentifiers.COOKED_RICE, COOKED_RICE);
-        Registries.register(CDIdentifiers.VEGETABLE_BIG_STEW, VEGETABLE_BIG_STEW);
-        Registries.register(CDIdentifiers.ROSE_MILK_TEA, ROSE_MILK_TEA);
-        Registries.register(CDIdentifiers.CORAL_COLORFULS, CORAL_COLORFULS);
-        Registries.register(CDIdentifiers.POPPY_RUSSIAN_SOUP, POPPY_RUSSIAN_SOUP);
-        Registries.register(CDIdentifiers.WHEAT_BLACK_TEA, WHEAT_BLACK_TEA);
-        Registries.register(CDIdentifiers.ICED_MELON_JUICE, ICED_MELON_JUICE);
-        Registries.register(CDIdentifiers.THICK_HOT_COCOA, THICK_HOT_COCOA);
-        Registries.register(CDIdentifiers.SUNFLOWER_KERNELS, SUNFLOWER_KERNELS);
-        Registries.register(CDIdentifiers.MASHED_PATATO, MASHED_POTATO);
-        Registries.register(CDIdentifiers.CHOCOLATE_CAKE_BASE, CHOCOLATE_CAKE_BASE);
+    register(CDIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
+    register(CDIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
+    register(CDIdentifiers.EGG_SHELL, EGG_SHELL);
+    register(CDIdentifiers.EGG_DOUGH, EGG_DOUGH);
+    register(CDIdentifiers.RAW_BASQUE_CAKE, RAW_BASQUE_CAKE);
+    register(CDIdentifiers.BUCKETED_PUMPKIN_OIL, BUCKETED_PUMPKIN_OIL);
+    register(CDIdentifiers.IRON_BOWL, IRON_BOWL);
+    register(CDIdentifiers.CAKE_BLUEPRINT, CAKE_BLUEPRINT);
 
-        Registries.register(CDIdentifiers.JELLY_BEANS_CAKE_0, JELLY_BEANS_CAKE_0);
-        Registries.register(CDIdentifiers.SWEET_BERRIES_CAKE_0, SWEET_BERRIES_CAKE_0);
-        Registries.register(CDIdentifiers.SWEET_BERRIES_CAKE_S_0, SWEET_BERRIES_CAKE_S_0);
-        Registries.register(CDIdentifiers.RAW_BASQUE_CAKE_0, RAW_BASQUE_CAKE_0);
-        Registries.register(CDIdentifiers.BROWNIE_0, BROWNIE_0);
-        Registries.register(CDIdentifiers.APPLE_CREAM_CAKE_0, APPLE_CREAM_CAKE_0);
-        Registries.register(CDIdentifiers.CARROT_CREAM_CAKE_0, CARROT_CREAM_CAKE_0);
+    register(CDIdentifiers.CHOCOLATE_CAKE_BASE, CHOCOLATE_CAKE_BASE);
+
+    register(CDIdentifiers.JELLY_BEANS_CAKE_0, JELLY_BEANS_CAKE_0);
+    register(CDIdentifiers.SWEET_BERRIES_CAKE_0, SWEET_BERRIES_CAKE_0);
+    register(CDIdentifiers.SWEET_BERRIES_CAKE_S_0, SWEET_BERRIES_CAKE_S_0);
+    register(CDIdentifiers.RAW_BASQUE_CAKE_0, RAW_BASQUE_CAKE_0);
+    register(CDIdentifiers.BROWNIE_0, BROWNIE_0);
+    register(CDIdentifiers.APPLE_CREAM_CAKE_0, APPLE_CREAM_CAKE_0);
+    register(CDIdentifiers.CARROT_CREAM_CAKE_0, CARROT_CREAM_CAKE_0);
+
+    register(CDIdentifiers.MILK, MILK);
+    register(CDIdentifiers.CHOCOLATE, CHOCOLATE);
+
+    register(CDIdentifiers.SUNFLOWER_KERNELS,SUNFLOWER_KERNELS);
+}
+public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
+    return food(new FoodComponent.Builder()
+      .meat()
+      .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, amplifier), 1)
+      .alwaysEdible()
+      .hunger(hunger)
+      .saturationModifier(saturationModifier)
+      .build());
+}
+
+public static StatusEffectsItem food(FoodComponent foodComponent) {
+    return new StatusEffectsItem(newSettings().food(foodComponent));
+}
+
+@Contract(pure = true, value = "->new")
+@ApiStatus.Internal
+public static FabricItemSettings newSettings() {
+    return new FabricItemSettings().group(ITEM_GROUP);
+}
+
+private static void appendItems(List<ItemStack> itemStacks, ItemGroup itemGroup) {
+    for (Item item : new Item[]{
+      CAKE_OVEN,
+      MILK, CHOCOLATE,
+      BUCKETED_SUNFLOWER_OIL, BUCKETED_PUMPKIN_OIL,
+      BOTTLED_SUNFLOWER_OIL,
+      KELP_ASH, RAW_BASQUE_CAKE
+    }) {
+        itemStacks.add(item.getDefaultStack());
     }
-    public static StatusEffectsItem satiationMeat(int hunger, float saturationModifier, int amplifier) {
-        return food(new FoodComponent.Builder()
-          .meat()
-          .statusEffect(new StatusEffectInstance(CDStatusEffects.SATIATION, 1, amplifier), 1)
-          .alwaysEdible()
-          .hunger(hunger)
-          .saturationModifier(saturationModifier)
-          .build());
-    }
+}
 
-    public static StatusEffectsItem food(FoodComponent foodComponent) {
-        return new StatusEffectsItem(newSettings().food(foodComponent));
-    }
+private static ItemStack stupidJavaCompiler() {
+    return JELLY_BEANS_CAKE.getDefaultStack();
+}
 
-    @Contract(pure = true, value = "->new")
-    @ApiStatus.Internal
-    public static FabricItemSettings newSettings() {
-        return new FabricItemSettings().group(ITEM_GROUP);
-    }
+@Contract("_, _ -> param2")
+public static <T extends Item> T register(Identifier id, T item) {
+    return Registry.register(Registry.ITEM, id, item);
+}
 
-    private static void appendItems(List<ItemStack> itemStacks, ItemGroup itemGroup) {
-        for (Item item : new Item[]{JELLY_BEANS_CAKE, SWEET_BERRIES_CAKE, SWEET_BERRIES_CAKE_S, BASQUE_CAKE, APPLE_CREAM_CAKE, BROWNIE, JELLY_BEANS, BUCKETED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL, BUCKETED_PUMPKIN_OIL, KELP_ASH, RAW_BASQUE_CAKE}) {
-            itemStacks.add(item.getDefaultStack());
-        }
-    }
+private CDItems() {
+}
 
-    private static ItemStack stupidJavaCompiler() {
-        return JELLY_BEANS_CAKE.getDefaultStack();
-    }
-
-    private CDItems() {
-    }
 }

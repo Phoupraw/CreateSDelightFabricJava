@@ -13,7 +13,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.MapColor;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.Identifier;
@@ -23,9 +22,8 @@ import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.StatusEffectsTooltipComponent;
 import phoupraw.mcmod.common.api.StatusEffectsTooltipData;
 import phoupraw.mcmod.common.api.VirtualFluids;
-import phoupraw.mcmod.createsdelight.block.entity.renderer.*;
+import phoupraw.mcmod.createsdelight.model.IronBowlModel;
 import phoupraw.mcmod.createsdelight.model.PrintedCakeModel;
-import phoupraw.mcmod.createsdelight.model.UnbakedIronBowlModel;
 
 import java.awt.*;
 @Environment(EnvType.CLIENT)
@@ -52,8 +50,8 @@ public final class CDClientModInitializer implements ClientModInitializer {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        CDInstancings.SPRINKLER.hashCode();
-        CDPartialModels.SPRINKLER_LID.hashCode();
+        //CDInstancings.SPRINKLER.hashCode();
+        //CDPartialModels.SPRINKLER_LID.hashCode();
     }
 
     @SuppressWarnings("deprecation")
@@ -61,21 +59,21 @@ public final class CDClientModInitializer implements ClientModInitializer {
     public void onInitializeClient() {
         loadClasses();
 
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.PAN, PanRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.GRILL, GrillRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.SPRINKLER, SprinklerRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.BAMBOO_STEAMER, BambooSteamerRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.SMART_DRAIN, SmartDrainRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.COPPER_TUNNEL, CopperTunnelRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.MULTIFUNC_BASIN, MultifuncBasinRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.VERTICAL_CUTTER, castKineticRendererFactory());
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.PRESSURE_COOKER, castKineticRendererFactory());
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.MINCER, castKineticRendererFactory());
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.SKEWER, SkewerRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.SKEWER_PLATE, SkewerPlateRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.OVEN, OvenRenderer::new);
-        BlockEntityRendererFactories.register(CDBlockEntityTypes.IRON_BAR_SKEWER, IronBarSkewerRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), CDBlocks.GRILL, CDBlocks.SPRINKLER, CDBlocks.BAMBOO_STEAMER, CDBlocks.SMART_DRAIN, CDBlocks.COPPER_TUNNEL, CDBlocks.MULTIFUNC_BASIN, CDBlocks.PRESSURE_COOKER, CDBlocks.MINCER, CDBlocks.JELLY_BEANS, CDBlocks.JELLY_BEANS_CAKE, CDBlocks.OVEN);
+        //BlockEntityRendererFactories.register(CDBETypes.PAN, PanRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.GRILL, GrillRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.SPRINKLER, SprinklerRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.BAMBOO_STEAMER, BambooSteamerRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.SMART_DRAIN, SmartDrainRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.COPPER_TUNNEL, CopperTunnelRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.MULTIFUNC_BASIN, MultifuncBasinRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.VERTICAL_CUTTER, castKineticRendererFactory());
+        //BlockEntityRendererFactories.register(CDBETypes.PRESSURE_COOKER, castKineticRendererFactory());
+        //BlockEntityRendererFactories.register(CDBETypes.MINCER, castKineticRendererFactory());
+        //BlockEntityRendererFactories.register(CDBETypes.SKEWER, SkewerRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.SKEWER_PLATE, SkewerPlateRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.OVEN, OvenRenderer::new);
+        //BlockEntityRendererFactories.register(CDBETypes.IRON_BAR_SKEWER, IronBarSkewerRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), /*CDBlocks.GRILL, CDBlocks.SPRINKLER, CDBlocks.BAMBOO_STEAMER, CDBlocks.SMART_DRAIN, CDBlocks.COPPER_TUNNEL, CDBlocks.MULTIFUNC_BASIN, CDBlocks.PRESSURE_COOKER, CDBlocks.MINCER,*/ CDBlocks.JELLY_BEANS, CDBlocks.JELLY_BEANS_CAKE);
 
         FluidRenderHandlerRegistry.INSTANCE.register(CDFluids.SUNFLOWER_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_YELLOW.color));
         FluidRenderHandlerRegistry.INSTANCE.register(CDFluids.PUMPKIN_OIL, SimpleFluidRenderHandler.coloredWater(MapColor.TERRACOTTA_ORANGE.color));
@@ -93,7 +91,7 @@ public final class CDClientModInitializer implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), CDFluids.SUNFLOWER_OIL, CDFluids.VEGETABLE_BIG_STEW, CDFluids.ROSE_MILK_TEA, CDFluids.BEETROOT_SOUP, CDFluids.TOMATO_SAUCE, CDFluids.POPPY_RUSSIAN_SOUP, CDFluids.WHEAT_BLACK_TEA, CDFluids.PUMPKIN_OIL);
 
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> {
-            if (resourceId.equals(UnbakedIronBowlModel.ID)) return new UnbakedIronBowlModel();
+            if (resourceId.equals(IronBowlModel.Unbaked.ID)) return new IronBowlModel.Unbaked();
             if (resourceId.equals(PrintedCakeModel.BLOCK_ID) || resourceId.equals(PrintedCakeModel.ITEM_ID)) return new PrintedCakeModel.Unbaked();
             return null;
         });

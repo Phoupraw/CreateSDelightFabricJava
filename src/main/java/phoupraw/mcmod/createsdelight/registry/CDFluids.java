@@ -15,9 +15,9 @@ import net.minecraft.util.Identifier;
 import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.Registries;
 import phoupraw.mcmod.common.api.VirtualFluids;
-import phoupraw.mcmod.createsdelight.datagen.MyChineseProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyEnglishProvider;
-import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider;
 /**
  虚拟流体创建流程：
  <ol>
@@ -25,8 +25,8 @@ import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
  <li>在{@link CDFluids}用{@link VirtualFluids#of}创建流体<b>并注册</b>。<br/>
  <li>若要装有该流体桶、瓶或其它物品，则在{@link CDItems}按照创建物品的流程创建物品。</li>
  <li>若有桶，则补齐{@link VirtualFluids#of(Item)}的参数。<br/>
- <li>在{@link MyChineseProvider}和{@link MyEnglishProvider}用{@link VirtualFluids#getTranslationKey}添加翻译。<br/>
- <li>在{@link MyRecipeProvider}添加配方。<br/>
+ <li>在{@link CDChineseProvider}和{@link CDEnglishProvider}用{@link VirtualFluids#getTranslationKey}添加翻译。<br/>
+ <li>在{@link CDRecipeProvider}添加配方。<br/>
  <li>运行数据生成器。<br/>
  <li>在{@code src/main/resources/assets/createsdelight/textures/block}创建流体的纹理。<br/>
  <li>若有装有该流体桶、瓶或其它物品，在{@link CDModInitializer#initializeAfterCreate()}用{@link Lambdas#emptyProviderOf}和{@link Lambdas#fullProviderOf}在{@link FluidStorage#combinedItemApiProvider}注册流体物品转运。<br/>
@@ -39,20 +39,20 @@ import phoupraw.mcmod.createsdelight.datagen.MyRecipeProvider;
  </ol> */
 public final class CDFluids {
     public static final Fluid SUNFLOWER_OIL = VirtualFluids.of(CDItems.BUCKETED_SUNFLOWER_OIL);
-    public static final Fluid VEGETABLE_BIG_STEW = VirtualFluids.of(CDItems.VEGETABLE_BIG_STEW);
-    public static final Fluid ROSE_MILK_TEA = VirtualFluids.of(CDItems.ROSE_MILK_TEA);
+    //public static final Fluid VEGETABLE_BIG_STEW = VirtualFluids.of(CDItems.VEGETABLE_BIG_STEW);
+    //public static final Fluid ROSE_MILK_TEA = VirtualFluids.of(CDItems.ROSE_MILK_TEA);
     public static final Fluid BEETROOT_SOUP = VirtualFluids.of(Items.BEETROOT_SOUP);
     public static final Fluid TOMATO_SAUCE = VirtualFluids.of(ItemsRegistry.TOMATO_SAUCE.get());
-    public static final Fluid POPPY_RUSSIAN_SOUP = VirtualFluids.of(CDItems.POPPY_RUSSIAN_SOUP);
+    //public static final Fluid POPPY_RUSSIAN_SOUP = VirtualFluids.of(CDItems.POPPY_RUSSIAN_SOUP);
     public static final Fluid EGG_LIQUID = VirtualFluids.of(Items.EGG);
-    public static final Fluid WHEAT_BLACK_TEA = VirtualFluids.of(CDItems.WHEAT_BLACK_TEA);
-    public static final Fluid ICED_MELON_JUICE = VirtualFluids.of(CDItems.ICED_MELON_JUICE);
+    //public static final Fluid WHEAT_BLACK_TEA = VirtualFluids.of(CDItems.WHEAT_BLACK_TEA);
+    //public static final Fluid ICED_MELON_JUICE = VirtualFluids.of(CDItems.ICED_MELON_JUICE);
     public static final Fluid MELON_JUICE = VirtualFluids.of(ItemsRegistry.MELON_JUICE.get());
-    public static final Fluid THICK_HOT_COCOA = VirtualFluids.of(CDItems.THICK_HOT_COCOA);
+    //public static final Fluid THICK_HOT_COCOA = VirtualFluids.of(CDItems.THICK_HOT_COCOA);
     public static final Fluid PASTE = VirtualFluids.of();
     public static final Fluid PUMPKIN_OIL = VirtualFluids.of(CDItems.BUCKETED_PUMPKIN_OIL);
     public static final Fluid APPLE_PASTE = VirtualFluids.of();
-    public static final Fluid MASHED_POTATO = VirtualFluids.of(CDItems.MASHED_POTATO);
+    //public static final Fluid MASHED_POTATO = VirtualFluids.of(CDItems.MASHED_POTATO);
     public static final Fluid CHOCOLATE_PASTE = VirtualFluids.of();
     //TODO 1桶苹果酒糟=1桶苹果酒+3稻米+3草秆+1瓶水+压煮
     //TODO 1桶高钙牛奶=1桶牛奶+深板岩圆石+竹子+淡灰色染料+绞肉+超级加热

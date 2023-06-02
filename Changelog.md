@@ -1,5 +1,8 @@
 # 0.1.0-pre11
-
+## 更改
+- 删除了许多实验性物品。
+## 修复
+- 不安装REI会崩溃（[#18](https://github.com/Phoupraw/CreateSDelightFabricJava/issues/18)）。
 # 0.1.0-pre10
 
 ## 修复

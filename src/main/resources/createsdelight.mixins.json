@@ -36,6 +36,7 @@
     "MixinBasinCategory",
     "MixinBasinRenderer",
     "MixinCrushingCategory",
+    "MixinDepotRenderer",
     "MixinMillingCategory",
     "MixinMillstoneRenderer",
     "MixinMinecraftClient",

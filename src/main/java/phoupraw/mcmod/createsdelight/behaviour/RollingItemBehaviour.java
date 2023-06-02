@@ -40,9 +40,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
-
-import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDepot;
-import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDrain;
 public class RollingItemBehaviour extends TileEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {
     public static final float STEP = 1 / 8f;
     public static final BehaviourType<RollingItemBehaviour> TYPE = new BehaviourType<>("item_drain_item");
@@ -53,9 +50,9 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         if (!surfaceItem.isEmpty()) {
             Direction insertedFrom = transp.insertedFrom;
             if (insertedFrom.getAxis().isHorizontal()) {
-                renderLikeDrain(transp, pos, partialTicks, ms, buffer, light, overlay);
+                //renderLikeDrain(transp, pos, partialTicks, ms, buffer, light, overlay);
             } else {
-                renderLikeDepot(transp, partialTicks, ms, buffer, light, overlay);
+                //renderLikeDepot(transp, partialTicks, ms, buffer, light, overlay);
             }
         }
     }

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "cookingtime": 400,
-  "experience": 0.4,
-  "ingredient": {
-    "item": "minecraft:water_bucket"
-  },
-  "result": "createsdelight:salt"
-}

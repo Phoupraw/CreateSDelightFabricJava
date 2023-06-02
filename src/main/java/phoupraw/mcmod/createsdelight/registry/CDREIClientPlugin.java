@@ -20,23 +20,23 @@ public final class CDREIClientPlugin implements REIClientPlugin {
     @Override
     public void registerCategories(CategoryRegistry registry) {
         EntryStack<ItemStack> depot = EntryStacks.of(AllBlocks.DEPOT.get()), belt = EntryStacks.of(AllBlocks.BELT.get()), basin = EntryStacks.of(AllBlocks.BASIN.get());
-        registry.add(PanFryingCategory.INSTANCE);
-        registry.addWorkstations(PanFryingCategory.ID, EntryStacks.of(CDItems.PAN));
-        registry.add(GrillingCategory.INSTANCE);
-        registry.addWorkstations(GrillingCategory.ID, EntryStacks.of(CDItems.GRILL), EntryStacks.of(CDItems.SMART_DRAIN));
-        registry.add(SprinklingCategory.INSTANCE);
-        registry.addWorkstations(SprinklingCategory.ID, EntryStacks.of(CDItems.SPRINKLER), depot, belt);
-        registry.add(SteamingCategory.INSTANCE);
-        registry.addWorkstations(SteamingCategory.ID, EntryStacks.of(CDItems.BAMBOO_STEAMER));
-        registry.addWorkstations(CategoryIdentifier.of("create", "draining"), EntryStacks.of(CDItems.SMART_DRAIN));
-        registry.addWorkstations(VerticalCuttingCategory.ID, EntryStacks.of(CDItems.VERTICAL_CUTTER), depot, belt);
-        registry.add(VerticalCuttingCategory.INSTANCE);
-        registry.addWorkstations(PressureCookingCategory.ID, EntryStacks.of(CDItems.PRESSURE_COOKER), basin);
-        registry.add(PressureCookingCategory.INSTANCE);
-        registry.addWorkstations(MincingCategory.ID, EntryStacks.of(CDItems.MINCER), basin);
-        registry.add(MincingCategory.INSTANCE);
-        registry.addWorkstations(BakingCategory.ID, EntryStacks.of(CDItems.OVEN));
-        registry.add(BakingCategory.INSTANCE);
+        //registry.add(PanFryingCategory.INSTANCE);
+        //registry.addWorkstations(PanFryingCategory.ID, EntryStacks.of(CDItems.PAN));
+        //registry.add(GrillingCategory.INSTANCE);
+        //registry.addWorkstations(GrillingCategory.ID, EntryStacks.of(CDItems.GRILL), EntryStacks.of(CDItems.SMART_DRAIN));
+        //registry.add(SprinklingCategory.INSTANCE);
+        //registry.addWorkstations(SprinklingCategory.ID, EntryStacks.of(CDItems.SPRINKLER), depot, belt);
+        //registry.add(SteamingCategory.INSTANCE);
+        //registry.addWorkstations(SteamingCategory.ID, EntryStacks.of(CDItems.BAMBOO_STEAMER));
+        //registry.addWorkstations(CategoryIdentifier.of("create", "draining"), EntryStacks.of(CDItems.SMART_DRAIN));
+        //registry.addWorkstations(VerticalCuttingCategory.ID, EntryStacks.of(CDItems.VERTICAL_CUTTER), depot, belt);
+        //registry.add(VerticalCuttingCategory.INSTANCE);
+        //registry.addWorkstations(PressureCookingCategory.ID, EntryStacks.of(CDItems.PRESSURE_COOKER), basin);
+        //registry.add(PressureCookingCategory.INSTANCE);
+        //registry.addWorkstations(MincingCategory.ID, EntryStacks.of(CDItems.MINCER), basin);
+        //registry.add(MincingCategory.INSTANCE);
+        //registry.addWorkstations(BakingCategory.ID, EntryStacks.of(CDItems.OVEN));
+        //registry.add(BakingCategory.INSTANCE);
 
         //        registry.add(new LootTableCategory());
 
