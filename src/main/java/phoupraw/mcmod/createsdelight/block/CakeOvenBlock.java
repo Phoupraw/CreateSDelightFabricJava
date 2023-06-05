@@ -1,7 +1,5 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import com.simibubi.create.content.contraptions.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ITE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -9,16 +7,20 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBE;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
-import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
+import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CDBETypes;
 import phoupraw.mcmod.createsdelight.registry.CDBlocks;
-import phoupraw.mcmod.createsdelight.registry.CDCakeIngredients;
 
 import java.util.Objects;
 
@@ -48,6 +50,21 @@ public BlockEntityType<? extends CakeOvenBE> getTileEntityType() {
 public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
     super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
     neighborUpdate2(state, world, pos, sourceBlock, sourcePos, notify);
+
+}
+
+public static void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+    var be = (CakeOvenBE) world.getBlockEntity(pos);
+    if (be == null) return;
+    if (!world.isReceivingRedstonePower(pos)) {
+        if (be.powered) {
+            be.powered = false;
+        }
+        return;
+    }
+    if (be.powered) return;
+    be.powered = true;
+
 }
 
 public static void neighborUpdate2(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
@@ -60,27 +77,31 @@ public static void neighborUpdate2(BlockState state, World world, BlockPos pos, 
     }
     if (be.powered) return;
     be.powered = true;
-    ListMultimap<CakeIngredient, BlockBox> content = MultimapBuilder.hashKeys().arrayListValues().build();
     final int len = 16;
-    for (int i = 1; i <= len; i++) {
-        for (int j = 1; j <= len; j++) {
-            for (int k = 1; k <= len; k++) {
-                BlockPos pos1 = pos.add(i, j, k);
-                CakeIngredient cakeIngredient = CDCakeIngredients.BLOCK.find(world,pos1,null);
-                if (cakeIngredient != null) {
-                    content.put(cakeIngredient,new BlockBox(i - 1, j - 1, k - 1, i, j, k));
-                }
-            }
-        }
-    }
-    if (content.isEmpty()) return;
+    VoxelCake cake = VoxelCake.of(world, BlockBox.create(pos.add(1, 1, 1), pos.add(len + 1, len + 1, len + 1)));
+    if (cake.getContent().isEmpty()) return;
     BlockPos pos1 = pos.up();
     if (world.setBlockState(pos1, CDBlocks.PRINTED_CAKE.getDefaultState())) {
-        PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), content.toString());
-        blockEntity.setContent(content);
-        blockEntity.setSize(new Vec3i(len, len, len));
+        PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), pos.toString());
+        blockEntity.setVoxelCake(VoxelCake.of(cake.getContent(), cake.getSize()));
         blockEntity.sendData();
     }
+}
+
+@Override
+public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    ItemStack handStack = player.getStackInHand(hand);
+    if (handStack.isOf(Items.NAME_TAG)) {
+        var be = (CakeOvenBE) world.getBlockEntity(pos);
+        if (be == null) return ActionResult.FAIL;
+        if (handStack.hasCustomName()) {
+            be.setCustomName(handStack.getName());
+        } else {
+            be.setCustomName(null);
+        }
+        return ActionResult.SUCCESS;
+    }
+    return super.onUse(state, world, pos, player, hand, hit);
 }
 
 }

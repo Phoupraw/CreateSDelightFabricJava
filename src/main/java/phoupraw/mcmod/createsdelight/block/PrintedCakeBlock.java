@@ -34,6 +34,8 @@ import java.util.*;
 
 public class PrintedCakeBlock extends Block implements ITE<PrintedCakeBE> {
 
+public static final VoxelShape MIN_SHAPE = VoxelShapes.cuboid(0.4, 0, 0.4, 0.6, 0.2, 0.6);
+
 public static @Nullable BlockBox unionBox(BlockBox box1, BlockBox box2) {
     boolean
       x = box1.getMinX() == box2.getMinX() && box1.getMaxX() == box2.getMaxX(),
@@ -116,9 +118,45 @@ public static Collection<BlockBox> unionBoxes2(Collection<BlockBox> boxes) {
             }
         }
     }
-    Collection<BlockBox> result = new HashSet<>(map.values());
-    //    CreateSDelight.LOGGER.info("unionBoxes2 size=%d c=%d size=%d".formatted(boxes.size(),c,result.size()));
-    return result;
+    return new HashSet<>(map.values());
+}
+
+public static Box block2box(BlockBox box, Vec3i size) {
+    double x = size.getX(), y = size.getY(), z = size.getZ();
+    return new Box(
+      box.getMinX() / x, box.getMinY() / y, box.getMinZ() / z,
+      box.getMaxX() / x, box.getMaxY() / y, box.getMaxZ() / z);
+}
+
+public static VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    var be = (PrintedCakeBE) world.getBlockEntity(pos);
+    VoxelShape shape = VoxelShapes.empty();
+    if (be != null) {
+        shape = be.getShape();
+        if (shape == null) {
+            var cake = be.getVoxelCake();
+            if (cake != null) {
+                shape = content2shape(cake.getContent(), cake.getSize());
+                be.setShape(shape);
+            } else {
+                shape = VoxelShapes.empty();
+            }
+        }
+    }
+    return shape;
+}
+
+public static VoxelShape content2shape(Multimap<CakeIngredient, BlockBox> content, Vec3i size) {
+    VoxelShape shape = VoxelShapes.empty();
+    for (BlockBox box : unionBoxes2(content.values())) {
+        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(block2box(box, size)));
+    }
+    return shape;
+}
+
+public static boolean canPlaceAt(WorldView world, BlockPos pos, VoxelShape shape) {
+    if (shape.isEmpty()) return false;
+    return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), shape.getFace(Direction.DOWN), BooleanBiFunction.ONLY_SECOND);
 }
 
 public PrintedCakeBlock() {
@@ -139,67 +177,6 @@ public BlockEntityType<? extends PrintedCakeBE> getTileEntityType() {
     return CDBETypes.PRINTED_CAKE;
 }
 
-@Override
-public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-    super.onPlaced(world, pos, state, placer, itemStack);
-    if (itemStack.getNbt() == null) {
-        return;
-    }
-    var be = (PrintedCakeBE) world.getBlockEntity(pos);
-    if (be == null) return;
-    if (itemStack.hasCustomName()) {
-        be.setCustomName(itemStack.getName());
-    }
-}
-
-public static Box block2box(BlockBox box, Vec3i size) {
-    double x = size.getX(), y = size.getY(), z = size.getZ();
-    return new Box(
-      box.getMinX() / x, box.getMinY() / y, box.getMinZ() / z,
-      box.getMaxX() / x, box.getMaxY() / y, box.getMaxZ() / z);
-}
-
-public static final VoxelShape MIN_SHAPE = VoxelShapes.cuboid(0.4, 0, 0.4, 0.6, 0.2, 0.6);
-
-public static VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    var blockEntity = (PrintedCakeBE) world.getBlockEntity(pos);
-    VoxelShape shape = VoxelShapes.empty();
-    if (blockEntity != null) {
-        shape = blockEntity.getShape();
-        if (shape == null) {
-            var content = blockEntity.getContent();
-            var size = blockEntity.getSize();
-            if (content != null && size != null) {
-                shape = content2shape(content, size);
-            } else {
-                shape = VoxelShapes.empty();
-            }
-        }
-    }
-    return shape;
-}
-
-public static VoxelShape content2shape(Multimap<CakeIngredient, BlockBox> content, Vec3i size) {
-    VoxelShape shape = VoxelShapes.empty();
-    for (BlockBox box : unionBoxes2(content.values())) {
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(block2box(box, size)));
-    }
-    return shape;
-}
-
-@SuppressWarnings("deprecation")
-@Override
-public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    VoxelShape shape = getShape(state, world, pos, context);
-    return shape.isEmpty() ? MIN_SHAPE : shape;
-}
-
-@SuppressWarnings("deprecation")
-@Override
-public boolean hasSidedTransparency(BlockState state) {
-    return true;
-}
-
 @SuppressWarnings("deprecation")
 @Override
 public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
@@ -217,6 +194,49 @@ public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEnt
     return super.onUse(state, world, pos, player, hand, hit);
 }
 
+@SuppressWarnings("deprecation")
+@Override
+public boolean hasSidedTransparency(BlockState state) {
+    return true;
+}
+
+@SuppressWarnings("deprecation")
+@Override
+public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    VoxelShape shape = getShape(state, world, pos, ShapeContext.absent());
+    return canPlaceAt(world, pos, shape);
+}
+
+@SuppressWarnings("deprecation")
+@Override
+public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    VoxelShape shape = getShape(state, world, pos, context);
+    return shape.isEmpty() ? MIN_SHAPE : shape;
+}
+
+@Nullable
+@Override
+public BlockState getPlacementState(ItemPlacementContext ctx) {
+    var pair = PrintedCakeBE.nbt2content(ctx.getStack());
+    if (pair == null) return null;
+    VoxelShape shape = content2shape(pair.getContent(), pair.getSize());
+    BlockState state = super.getPlacementState(ctx);
+    return state != null && canPlaceAt(ctx.getWorld(), ctx.getBlockPos(), shape) ? state : null;
+}
+
+@Override
+public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+    super.onPlaced(world, pos, state, placer, itemStack);
+    if (itemStack.getNbt() == null) {
+        return;
+    }
+    var be = (PrintedCakeBE) world.getBlockEntity(pos);
+    if (be == null) return;
+    if (itemStack.hasCustomName()) {
+        be.setCustomName(itemStack.getName());
+    }
+}
+
 /**
  总是如同按住ctrl键选取方块那样复制NBT。也复制自定义名称。 */
 @Override
@@ -229,28 +249,6 @@ public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         stack.setCustomName(be.getCustomName());
     }
     return stack;
-}
-
-@SuppressWarnings("deprecation")
-@Override
-public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-    VoxelShape shape = getShape(state, world, pos, ShapeContext.absent());
-    return canPlaceAt(world, pos, shape);
-}
-
-public static boolean canPlaceAt(WorldView world, BlockPos pos, VoxelShape shape) {
-    if (shape.isEmpty()) return false;
-    return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), shape.getFace(Direction.DOWN), BooleanBiFunction.ONLY_SECOND);
-}
-
-@Nullable
-@Override
-public BlockState getPlacementState(ItemPlacementContext ctx) {
-    var pair = PrintedCakeBE.nbt2content(ctx.getStack());
-    if (pair == null) return null;
-    VoxelShape shape = content2shape(pair.getKey(), pair.getValue());
-    BlockState state = super.getPlacementState(ctx);
-    return state != null && canPlaceAt(ctx.getWorld(), ctx.getBlockPos(), shape) ? state : null;
 }
 
 }

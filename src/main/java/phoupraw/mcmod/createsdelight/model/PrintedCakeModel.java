@@ -32,6 +32,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
+import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CDItems;
 
@@ -335,9 +336,9 @@ public static @Unmodifiable Map<Direction, BlockBox> to6Faces(BlockBox box) {
 //    }
 //    return faceContent;
 //}
-public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(Multimap<CakeIngredient, BlockBox> content, Vec3i size) {
-    Table<CakeIngredient, Direction, Collection<BlockBox>> faceContent0 = HashBasedTable.create(content.size(), Direction.values().length);
-    for (Map.Entry<CakeIngredient, BlockBox> entry : content.entries()) {
+public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake) {
+    Table<CakeIngredient, Direction, Collection<BlockBox>> faceContent0 = HashBasedTable.create(cake.getContent().size(), Direction.values().length);
+    for (Map.Entry<CakeIngredient, BlockBox> entry : cake.getContent().entries()) {
         var box = entry.getValue();
         for (var entry1 : to6Faces(box).entrySet()) {
             BlockBox face = entry1.getValue();
@@ -385,7 +386,7 @@ public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(Mu
     for (var cell : faceContent0.cellSet()) {
         List<Box> list = new LinkedList<>();
         for (BlockBox box : cell.getValue()) {
-            list.add(PrintedCakeBlock.block2box(box, size));
+            list.add(PrintedCakeBlock.block2box(box, cake.getSize()));
         }
         faceContent.put(cell.getRowKey(), cell.getColumnKey(), list);
     }
@@ -663,8 +664,8 @@ public boolean isVanillaAdapter() {
     return false;
 }
 
-public static BakedModel content2model(@NotNull Multimap<CakeIngredient, BlockBox> content, @NotNull Vec3i size) {
-    var faceContent = content2faces(content, size);
+public static BakedModel content2model(VoxelCake voxelCake) {
+    var faceContent = content2faces(voxelCake);
     ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
     var meshBuilder = IronBowlModel.getMeshBuilder();
     QuadEmitter emitter = meshBuilder.getEmitter();
@@ -714,10 +715,9 @@ public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos
     if (blockEntity == null) return;//可能还没初始化，再等等
     var bakedModel = blockEntity.getBakedModel();
     if (bakedModel == null) {//    if (blockEntity.caching) return;
-        var content = blockEntity.getContent();
-        var size = blockEntity.getSize();
-        if (content == null || size == null) return;
-        bakedModel = content2model(content, size);
+        var cake = blockEntity.getVoxelCake();
+        if (cake == null) return;
+        bakedModel = content2model(cake);
         blockEntity.setBakedModel(bakedModel);
         //    blockEntity.caching = true;
         //    new Thread(() -> blockEntity.bakedModel = content2model(content, size)).start();
@@ -725,7 +725,7 @@ public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos
     context.bakedModelConsumer().accept(bakedModel);
 }
 
-public static final Map<NbtCompound, Object> CACHING = new WeakHashMap<>();
+//public static final Map<NbtCompound, Object> CACHING = new WeakHashMap<>();
 public static final Map<NbtCompound, BakedModel> CACHE = new WeakHashMap<>();
 
 /**
@@ -738,7 +738,7 @@ public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, Rend
     if (bakedModel == null) {
         var pair = PrintedCakeBE.nbt2content(blockEntityTag);
         if (pair == null) return;
-        bakedModel = content2model(pair.getKey(), pair.getValue());
+        bakedModel = content2model(pair);
         CACHE.put(blockEntityTag, bakedModel);
     }
     context.bakedModelConsumer().accept(bakedModel);

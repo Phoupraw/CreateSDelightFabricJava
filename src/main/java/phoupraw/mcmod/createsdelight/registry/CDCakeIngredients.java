@@ -1,6 +1,9 @@
 package phoupraw.mcmod.createsdelight.registry;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -9,7 +12,8 @@ import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 
 public final class CDCakeIngredients {
 
-public static final BlockApiLookup<CakeIngredient, @Nullable Void> BLOCK = BlockApiLookup.get(CDIdentifiers.CAKE_INGREDIENT, CakeIngredient.class, Void.class);
+public static final BlockApiLookup<CakeIngredient, @Nullable Void> LOOKUP = BlockApiLookup.get(CDIdentifiers.CAKE_INGREDIENT, CakeIngredient.class, Void.class);
+public static final BiMap<Block, CakeIngredient> BLOCK = HashBiMap.create();
 
 public static final CakeIngredient HONEY = CakeIngredient.of(14.4/*从蜜渍苹果计算*/ * 4, new Identifier("block/honey_block_side"));
 public static final CakeIngredient MILK = CakeIngredient.of(4.6/*从奶油甜甜卷计算*/ * 3, CDIdentifiers.of("block/milk"));
@@ -25,12 +29,14 @@ static {
     register(CDIdentifiers.MELON, MELON);
     register(CDIdentifiers.HAY, HAY);
 
-    BLOCK.registerForBlocks(constant(HONEY), Blocks.HONEY_BLOCK);
-    BLOCK.registerForBlocks(constant(MILK), CDBlocks.MILK);
-    BLOCK.registerForBlocks(constant(CHOCOLATE), CDBlocks.CHOCOLATE);
-    BLOCK.registerForBlocks(constant(PUMPKIN), Blocks.PUMPKIN);
-    BLOCK.registerForBlocks(constant(MELON), Blocks.MELON);
-    BLOCK.registerForBlocks(constant(HAY), Blocks.HAY_BLOCK);
+    BLOCK.put(Blocks.HONEY_BLOCK, HONEY);
+    BLOCK.put(CDBlocks.MILK, MILK);
+    BLOCK.put(CDBlocks.CHOCOLATE, CHOCOLATE);
+    BLOCK.put(Blocks.PUMPKIN, PUMPKIN);
+    BLOCK.put(Blocks.MELON, MELON);
+    BLOCK.put(Blocks.HAY_BLOCK, HAY);
+
+    LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> BLOCK.get(state.getBlock()));
 }
 private static void register(Identifier id, CakeIngredient cakeIngredient) {
     Registry.register(CDRegistries.CAKE_INGREDIENT, id, cakeIngredient);

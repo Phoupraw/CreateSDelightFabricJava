@@ -96,7 +96,8 @@ public final class CDIdentifiers {
       CAKE_OVEN = of("cake_oven"),
       PUMPKIN = of("pumpkin"),
       MELON = of("melon"),
-      HAY = of("hay");
+      HAY = of("hay"),
+      PREDEFINED_CAKE = of("predefined_cake");
 
 @Contract("_ -> new")
 public static @NotNull Identifier of(String path) {
