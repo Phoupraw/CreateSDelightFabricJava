@@ -78,7 +78,7 @@ public final class Internationals {
      */
     @Contract(pure = true)
     public static @NotNull String keyOfModDescription(@NotNull String modId) {
-        return "mdmenu.descriptionTranslation." + modId;
+        return "modmenu.descriptionTranslation." + modId;
     }
 
     /**
