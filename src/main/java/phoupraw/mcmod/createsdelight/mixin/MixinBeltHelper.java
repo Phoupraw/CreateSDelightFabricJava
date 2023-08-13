@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.relays.belt.BeltHelper;
+import com.simibubi.create.content.kinetics.belt.BeltHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

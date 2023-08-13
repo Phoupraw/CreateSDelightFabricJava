@@ -3,7 +3,7 @@ package phoupraw.mcmod.createsdelight.block;
 import com.google.common.base.Predicates;
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -36,7 +36,7 @@ import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleFluidStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
 
-public class PanBlock extends Block implements ITE<PanBlockEntity> {
+public class PanBlock extends Block implements IBE<PanBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.combine(Block.createCuboidShape(1, 0, 1, 15, 4, 15), Block.createCuboidShape(2, 1, 2, 14, 4, 14), BooleanBiFunction.ONLY_FIRST);
 
     public static boolean swapItem(LivingEntity living, Hand hand, BlockingTransportedStorage blockStorage) {
@@ -118,12 +118,12 @@ public class PanBlock extends Block implements ITE<PanBlockEntity> {
     }
 
     @Override
-    public Class<PanBlockEntity> getTileEntityClass() {
+    public Class<PanBlockEntity> getBlockEntityClass() {
         return PanBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends PanBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends PanBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.PAN;
     }
 }

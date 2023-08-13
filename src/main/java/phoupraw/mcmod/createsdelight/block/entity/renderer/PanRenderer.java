@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.content.logistics.depot.DepotRenderer;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,7 +15,7 @@ import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.MyBlockEntity1;
 import phoupraw.mcmod.createsdelight.block.entity.PanBlockEntity;
 @Environment(EnvType.CLIENT)
-public class PanRenderer extends SmartTileEntityRenderer<PanBlockEntity> {
+public class PanRenderer extends SmartBlockEntityRenderer<PanBlockEntity> {
     public PanRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }

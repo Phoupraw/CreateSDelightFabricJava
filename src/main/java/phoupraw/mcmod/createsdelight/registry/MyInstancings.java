@@ -2,7 +2,7 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import com.jozufozu.flywheel.backend.instancing.InstancedRenderRegistry;
 import com.jozufozu.flywheel.backend.instancing.blockentity.SimpleBlockEntityInstancingController;
-import com.simibubi.create.content.contraptions.base.SingleRotatingInstance;
+import com.simibubi.create.content.kinetics.base.SingleRotatingInstance;
 import phoupraw.mcmod.createsdelight.block.entity.*;
 import phoupraw.mcmod.createsdelight.instance.MincerInstance;
 import phoupraw.mcmod.createsdelight.instance.PressureCookerInstance;

@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.simibubi.create.content.contraptions.base.KineticBlock;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.content.kinetics.base.KineticBlock;
+import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntityType;
@@ -13,7 +13,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 import phoupraw.mcmod.createsdelight.block.entity.SprinklerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-public class SprinklerBlock extends KineticBlock implements ITE<SprinklerBlockEntity> {
+public class SprinklerBlock extends KineticBlock implements IBE<SprinklerBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.union(createCuboidShape(0, 2, 0, 16, 16, 16), createCuboidShape(2.5, 0, 2.5, 13.5, 2, 13.5));
 
     public SprinklerBlock(Settings properties) {
@@ -26,12 +26,11 @@ public class SprinklerBlock extends KineticBlock implements ITE<SprinklerBlockEn
     }
 
     @Override
-    public Class<SprinklerBlockEntity> getTileEntityClass() {
+    public Class<SprinklerBlockEntity> getBlockEntityClass() {
         return SprinklerBlockEntity.class;
     }
 
-    @Override
-    public BlockEntityType<? extends SprinklerBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends SprinklerBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.SPRINKLER;
     }
 

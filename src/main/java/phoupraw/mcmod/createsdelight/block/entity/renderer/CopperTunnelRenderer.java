@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
-import com.simibubi.create.AllBlockPartials;
+import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.foundation.render.CachedBufferer;
 import com.simibubi.create.foundation.render.SuperByteBuffer;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import com.simibubi.create.foundation.utility.AngleHelper;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.fabricmc.api.EnvType;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d;
 import phoupraw.mcmod.createsdelight.block.CopperTunnelBlock;
 import phoupraw.mcmod.createsdelight.block.entity.CopperTunnelBlockEntity;
 @Environment(EnvType.CLIENT)
-public class CopperTunnelRenderer extends SmartTileEntityRenderer<CopperTunnelBlockEntity> {
+public class CopperTunnelRenderer extends SmartBlockEntityRenderer<CopperTunnelBlockEntity> {
     public CopperTunnelRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }
@@ -29,7 +29,7 @@ public class CopperTunnelRenderer extends SmartTileEntityRenderer<CopperTunnelBl
     protected void renderSafe(CopperTunnelBlockEntity te, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(te, partialTicks, ms, buffer, light, overlay);
 //        if (Backend.canUseInstancing(te.getWorld())) return;
-        SuperByteBuffer flapBuffer = CachedBufferer.partial(AllBlockPartials.BELT_TUNNEL_FLAP, te.getCachedState());
+        SuperByteBuffer flapBuffer = CachedBufferer.partial(AllPartialModels.BELT_TUNNEL_FLAP, te.getCachedState());
         VertexConsumer vb = buffer.getBuffer(RenderLayer.getSolid());
         Vec3d pivot = VecHelper.voxelSpace(0, 10, 1f);
         TransformStack msr = TransformStack.cast(ms);

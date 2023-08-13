@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.nhoryzon.mc.farmersdelight.registry.TagsRegistry;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.contraptions.fluids.tank.BoilerHeaters;
+import com.simibubi.create.content.fluids.tank.BoilerHeaters;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

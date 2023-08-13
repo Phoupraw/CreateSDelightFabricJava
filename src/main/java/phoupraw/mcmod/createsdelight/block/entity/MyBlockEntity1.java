@@ -1,11 +1,11 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
-import com.simibubi.create.content.contraptions.particle.RotationIndicatorParticleData;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.base.RotationIndicatorParticleData;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -31,7 +31,7 @@ import phoupraw.mcmod.createsdelight.behaviour.BlockingTransportedBehaviour;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedStorageBlockEntity, Predicate<ProcessingRecipe<?>> {
+public abstract class MyBlockEntity1 extends SmartBlockEntity implements SidedStorageBlockEntity, Predicate<ProcessingRecipe<?>> {
     public static final int FLIPPING_DURATION = 10;
     private int processedTicks;
     //    public static void renderRotaryParticle() {
@@ -50,7 +50,7 @@ public abstract class MyBlockEntity1 extends SmartTileEntity implements SidedSto
 
     @MustBeInvokedByOverriders
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         var b = new BlockingTransportedBehaviour(this) {
             @Override
             public void onFinalCommit() {

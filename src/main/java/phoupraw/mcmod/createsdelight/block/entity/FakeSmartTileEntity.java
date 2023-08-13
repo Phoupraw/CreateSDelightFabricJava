@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -16,13 +16,13 @@ import java.util.Objects;
 /**
  * @see MixinTileEntityBehaviour
  */
-public class FakeSmartTileEntity extends SmartTileEntity {
+public class FakeSmartTileEntity extends SmartBlockEntity {
 	public FakeSmartTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 
 	@Override
-	public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 
 	}
 
@@ -30,7 +30,7 @@ public class FakeSmartTileEntity extends SmartTileEntity {
 	 *
 	 * @throws NullPointerException {@code blockEntity}的{@link BlockEntity#getWorld()}返回{@code null}时
 	 */
-	public static SmartTileEntity of(BlockEntity blockEntity) {
+	public static SmartBlockEntity of(BlockEntity blockEntity) {
 		return of(Objects.requireNonNull(blockEntity.getWorld()), blockEntity.getPos(), blockEntity.getCachedState(), blockEntity.getType());
 	}
 
@@ -40,7 +40,7 @@ public class FakeSmartTileEntity extends SmartTileEntity {
 	 * @param blockState 如果为{@code null}，则调用{@link World#getBlockState(BlockPos)}获取。
 	 * @param type       如果为{@code null}，则默认为{@link BlockEntityType#BARREL}。
 	 */
-	public static SmartTileEntity of(@NotNull World world, BlockPos blockPos, @Nullable BlockState blockState, @Nullable BlockEntityType<?> type) {
+	public static SmartBlockEntity of(@NotNull World world, BlockPos blockPos, @Nullable BlockState blockState, @Nullable BlockEntityType<?> type) {
 		if (blockState == null) blockState = world.getBlockState(blockPos);
 		if (type == null) type = BlockEntityType.BARREL;
 		FakeSmartTileEntity fake = new FakeSmartTileEntity(type, blockPos, blockState);

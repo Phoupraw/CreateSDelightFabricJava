@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.google.common.base.Predicates;
-import com.simibubi.create.content.contraptions.base.RotatedPillarKineticBlock;
-import com.simibubi.create.foundation.block.ITE;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.content.kinetics.base.RotatedPillarKineticBlock;
+import com.simibubi.create.foundation.block.IBE;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
@@ -30,7 +30,7 @@ import phoupraw.mcmod.createsdelight.block.entity.IronBarSkewerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 
 import java.util.Map;
-public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements ITE<IronBarSkewerBlockEntity> {
+public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements IBE<IronBarSkewerBlockEntity> {
     public static final Map<Direction.Axis, VoxelShape> SHAPES = Map.of(
       Direction.Axis.Y, createCuboidShape(7, 0, 7, 9, 16, 9),
       Direction.Axis.X, createCuboidShape(0, 7, 7, 16, 9, 9),
@@ -51,12 +51,12 @@ public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements ITE
     }
 
     @Override
-    public Class<IronBarSkewerBlockEntity> getTileEntityClass() {
+    public Class<IronBarSkewerBlockEntity> getBlockEntityClass() {
         return IronBarSkewerBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends IronBarSkewerBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends IronBarSkewerBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.IRON_BAR_SKEWER;
     }
 
@@ -77,7 +77,7 @@ public class IronBarSkewerBlock extends RotatedPillarKineticBlock implements ITE
 //            world.setBlockState(pos, Blocks.IRON_BARS.getDefaultState());
 //        }
 
-        ITE.onRemove(oldState, world, pos, newState);
+        IBE.onRemove(oldState, world, pos, newState);
         super.onStateReplaced(oldState, world, pos, newState, moving);
     }
 

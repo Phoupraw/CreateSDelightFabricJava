@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -21,13 +21,13 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.MyFluids;
 
 import java.util.List;
-public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleInformation {
+public class BurnerBehaviour extends BlockEntityBehaviour implements IHaveGoggleInformation {
     public static final BehaviourType<BurnerBehaviour> TYPE = new BehaviourType<>("burner");
     public @Nullable Storage<ItemVariant> itemS;
     public @Nullable Storage<FluidVariant> fluidS;
     private int fuelTicks = 0;
 
-    public BurnerBehaviour(SmartTileEntity te) {
+    public BurnerBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -41,10 +41,10 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
         super.initialize();
         if (getWorld().isClient()) return;
         if (itemS == null) {
-            itemS = ItemStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null);
+            itemS = ItemStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null);
         }
         if (fluidS == null) {
-            fluidS = FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null);
+            fluidS = FluidStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null);
         }
     }
 
@@ -130,13 +130,13 @@ public class BurnerBehaviour extends TileEntityBehaviour implements IHaveGoggleI
     @ApiStatus.OverrideOnly
     @MustBeInvokedByOverriders
     public void onIgnite() {
-        tileEntity.sendData();
+        blockEntity.sendData();
     }
 
     @ApiStatus.OverrideOnly
     @MustBeInvokedByOverriders
     public void onExtinguish() {
-        tileEntity.sendData();
+        blockEntity.sendData();
     }
 
     @Override

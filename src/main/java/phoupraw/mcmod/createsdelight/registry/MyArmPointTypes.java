@@ -4,8 +4,8 @@ import com.nhoryzon.mc.farmersdelight.entity.block.CuttingBoardBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.SkilletBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.StoveBlockEntity;
 import com.nhoryzon.mc.farmersdelight.registry.BlocksRegistry;
-import com.simibubi.create.content.logistics.block.mechanicalArm.ArmInteractionPoint;
-import com.simibubi.create.content.logistics.block.mechanicalArm.ArmInteractionPointType;
+import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPoint;
+import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPointType;
 import com.simibubi.create.foundation.item.ItemHelper;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
@@ -75,7 +75,7 @@ public final class MyArmPointTypes {
                         } else {
                             nested.abort();
                             ctx.addOuterCloseCallback(result -> {
-                                TileEntityBehaviour.get(getLevel(), getPos(), BlockingTransportedBehaviour.TYPE).getStorage().getStack().getOrCreateNbt().putBoolean("flipped", true);
+                                BlockEntityBehaviour.get(getLevel(), getPos(), BlockingTransportedBehaviour.TYPE).getStorage().getStack().getOrCreateNbt().putBoolean("flipped", true);
                             });
                         }
                     }

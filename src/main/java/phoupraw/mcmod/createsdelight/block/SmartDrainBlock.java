@@ -4,8 +4,8 @@ import com.google.common.base.Predicates;
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
 import com.simibubi.create.AllShapes;
-import com.simibubi.create.content.contraptions.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
@@ -44,7 +44,7 @@ import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
-public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>, IWrenchable {
+public class SmartDrainBlock extends Block implements IBE<SmartDrainBlockEntity>, IWrenchable {
 
     public SmartDrainBlock(Settings settings) {
         super(settings);
@@ -58,12 +58,12 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
     }
 
     @Override
-    public Class<SmartDrainBlockEntity> getTileEntityClass() {
+    public Class<SmartDrainBlockEntity> getBlockEntityClass() {
         return SmartDrainBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends SmartDrainBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends SmartDrainBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.SMART_DRAIN;
     }
 
@@ -76,7 +76,7 @@ public class SmartDrainBlock extends Block implements ITE<SmartDrainBlockEntity>
     @SuppressWarnings("deprecation")
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        ITE.onRemove(state, world, pos, newState);
+        IBE.onRemove(state, world, pos, newState);
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 

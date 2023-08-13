@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.base.KineticTileEntityRenderer;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -31,8 +31,8 @@ import java.awt.*;
 @ApiStatus.Internal
 public final class MyClientModInitializer implements ClientModInitializer {
     @SuppressWarnings("unchecked")
-    public static <T extends KineticTileEntity> BlockEntityRendererFactory<T> castKineticRendererFactory() {
-        return (BlockEntityRendererFactory<T>) (BlockEntityRendererFactory<KineticTileEntity>) KineticTileEntityRenderer::new;
+    public static <T extends KineticBlockEntity> BlockEntityRendererFactory<T> castKineticRendererFactory() {
+        return KineticBlockEntityRenderer::new;
     }
 
     /**

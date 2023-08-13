@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
-import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.content.logistics.depot.DepotRenderer;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.BambooSteamerBlockEntity;@Environment(EnvType.CLIENT)
-public class BambooSteamerRenderer extends SmartTileEntityRenderer<BambooSteamerBlockEntity> {
+public class BambooSteamerRenderer extends SmartBlockEntityRenderer<BambooSteamerBlockEntity> {
     public BambooSteamerRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }

@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.content.contraptions.processing.EmptyingByBasin;
+import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,7 +19,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-public class EmptyingBehaviour extends TileEntityBehaviour {
+public class EmptyingBehaviour extends BlockEntityBehaviour {
     public static final int DURATION = 15;
     public static final BehaviourType<EmptyingBehaviour> TYPE = new BehaviourType<>("emptying");
     public int ticks;
@@ -27,7 +27,7 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
     private RollingItemBehaviour rolling;
     private @Nullable Storage<FluidVariant> target;
 
-    public EmptyingBehaviour(SmartTileEntity te) {
+    public EmptyingBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -41,7 +41,7 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
         super.initialize();
         var rb0 = getRolling();
         if (rb0 != null) {
-            rb0.inputLimit.registerFallback((stack, rb) -> EmptyingByBasin.canItemBeEmptied(getWorld(), stack) ? 1 : null);
+            rb0.inputLimit.registerFallback((stack, rb) -> GenericItemEmptying.canItemBeEmptied(getWorld(), stack) ? 1 : null);
             rb0.continueRoll.register(this::isNotEmptying);
         }
     }
@@ -67,7 +67,7 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
     @Override
     public void tick() {
         super.tick();
-        if (!EmptyingByBasin.canItemBeEmptied(getWorld(), getStack())) {
+        if (!GenericItemEmptying.canItemBeEmptied(getWorld(), getStack())) {
             ticks = -1;
             return;
         }
@@ -76,12 +76,12 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
             ticks = -1;
             return;
         }
-        var pair = EmptyingByBasin.emptyItem(getWorld(), getStack(), true);
+        var pair = GenericItemEmptying.emptyItem(getWorld(), getStack(), true);
         FluidStack fluidStack = pair.getFirst();
         if (ticks < 0) {
             fluid = fluidStack;
             ticks = DURATION;
-            tileEntity.sendData();
+            blockEntity.sendData();
             return;
         }
         if (ticks > 0) ticks--;
@@ -101,9 +101,9 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
 
     public @Nullable Storage<FluidVariant> getTarget() {
         if (target == null) {
-            setTarget(FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP));
+            setTarget(FluidStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, Direction.UP));
             if (target == null) {
-                setTarget(FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null));
+                setTarget(FluidStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null));
             }
         }
         return target;
@@ -130,7 +130,7 @@ public class EmptyingBehaviour extends TileEntityBehaviour {
 
     public RollingItemBehaviour getRolling() {
         if (rolling == null) {
-            rolling = tileEntity.getBehaviour(RollingItemBehaviour.TYPE);
+            rolling = blockEntity.getBehaviour(RollingItemBehaviour.TYPE);
         }
         return rolling;
     }

@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.recipe;
 
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
-import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
-import com.simibubi.create.foundation.utility.recipe.RecipeFinder;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeFinder;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.rei;
 
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import phoupraw.mcmod.common.api.REICreates;
 

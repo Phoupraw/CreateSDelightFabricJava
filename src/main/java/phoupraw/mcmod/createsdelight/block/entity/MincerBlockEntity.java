@@ -1,12 +1,11 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
-import com.simibubi.create.content.contraptions.components.mixer.MechanicalMixerTileEntity;
-import com.simibubi.create.content.contraptions.fluids.FluidFX;
-import com.simibubi.create.content.contraptions.processing.BasinOperatingTileEntity;
-import com.simibubi.create.content.contraptions.processing.BasinTileEntity;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
+import com.simibubi.create.content.fluids.FluidFX;
+import com.simibubi.create.content.processing.basin.BasinBlockEntity;
+import com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.item.SmartInventory;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -32,7 +31,7 @@ import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 import java.util.Objects;
 /**
  大部分都是从{@link PressureCookerBlockEntity}抄的。 */
-public class MincerBlockEntity extends BasinOperatingTileEntity implements InstanceOffset {
+public class MincerBlockEntity extends BasinOperatingBlockEntity implements InstanceOffset {
     /**
      刀片伸出的程度，范围为[0,1]。当动力正转时增加，反转时减小。
      */
@@ -178,7 +177,7 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     }
 
     /**
-     copy of {@link MechanicalMixerTileEntity#spillParticle}
+     copy of {@link com.simibubi.create.content.kinetics.mixer.MechanicalMixerBlockEntity#spillParticle}
      */
     public static void spillParticle(World world, BlockPos pos, float speed, ParticleEffect data) {
         float angle = world.random.nextFloat() * 360;
@@ -192,9 +191,9 @@ public class MincerBlockEntity extends BasinOperatingTileEntity implements Insta
     }
 
     /**
-     copy of {@link MechanicalMixerTileEntity#renderParticles()}
+     copy of {@link com.simibubi.create.content.kinetics.mixer.MechanicalMixerBlockEntity#renderParticles()}
      */
-    public static void spillParticles(BasinTileEntity basin, float speed) {
+    public static void spillParticles(BasinBlockEntity basin, float speed) {
         World world = Objects.requireNonNull(basin.getWorld());
         for (SmartInventory inv : basin.getInvs()) {
             for (int slot = 0; slot < inv.getSlots(); slot++) {

@@ -1,11 +1,11 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
-import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
@@ -34,7 +34,7 @@ import phoupraw.mcmod.createsdelight.registry.MyFluids;
 
 import java.util.List;
 import java.util.Objects;
-public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity, IHaveGoggleInformation {
+public class SmartDrainBlockEntity extends SmartBlockEntity implements SidedStorageBlockEntity, IHaveGoggleInformation {
     public SmartDrainBlockEntity(BlockPos pos, BlockState state) {this(MyBlockEntityTypes.SMART_DRAIN, pos, state);}
 
     public SmartDrainBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -42,7 +42,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         var rb = new RollingItemBehaviour(this) {
             @Override
             public ItemStack apply(TransportedItemStack transp, Direction side, boolean simulate) {
@@ -186,7 +186,7 @@ public class SmartDrainBlockEntity extends SmartTileEntity implements SidedStora
     }
 
     public static class TDepotItemBehaviour extends DepotItemBehaviour {
-        public TDepotItemBehaviour(SmartTileEntity te) {
+        public TDepotItemBehaviour(SmartBlockEntity te) {
             super(te);
         }
 

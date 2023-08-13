@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -16,12 +16,12 @@ import phoupraw.mcmod.createsdelight.recipe.PanFryingRecipe;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.Objects;
-public class PanFrierBehaviour extends TileEntityBehaviour {
+public class PanFrierBehaviour extends BlockEntityBehaviour {
     public static final BehaviourType<PanFrierBehaviour> TYPE = new BehaviourType<>("pan_frier");
     private boolean working;
     private int ticks;
 
-    public PanFrierBehaviour(SmartTileEntity te) {
+    public PanFrierBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -80,11 +80,11 @@ public class PanFrierBehaviour extends TileEntityBehaviour {
     }
 
     public Storage<ItemVariant> getItemS() {
-        return Objects.requireNonNullElse(ItemStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null), Storage.empty());
+        return Objects.requireNonNullElse(ItemStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null), Storage.empty());
     }
 
     public Storage<FluidVariant> getFluidS() {
-        return Objects.requireNonNullElse(FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null), Storage.empty());
+        return Objects.requireNonNullElse(FluidStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null), Storage.empty());
     }
 
     public boolean isWorking() {

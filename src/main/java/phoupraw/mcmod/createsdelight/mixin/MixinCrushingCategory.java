@@ -2,8 +2,8 @@ package phoupraw.mcmod.createsdelight.mixin;
 
 import com.simibubi.create.compat.rei.category.CrushingCategory;
 import com.simibubi.create.compat.rei.display.CreateDisplay;
-import com.simibubi.create.content.contraptions.components.crusher.AbstractCrushingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
+import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;

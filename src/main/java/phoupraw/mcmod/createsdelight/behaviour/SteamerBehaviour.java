@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * 从{@link GrillerBehaviour}抄了很多。
  */
-public class SteamerBehaviour extends TileEntityBehaviour {
+public class SteamerBehaviour extends BlockEntityBehaviour {
     public static final BehaviourType<SteamerBehaviour> TYPE = new BehaviourType<>("steamer");
     public @Nullable Storage<ItemVariant> itemS;
     public @Nullable Storage<FluidVariant> fluidS;
@@ -40,7 +40,7 @@ public class SteamerBehaviour extends TileEntityBehaviour {
     private @Nullable Integer size = 9;
     private double heat;
 
-    public SteamerBehaviour(SmartTileEntity te) {
+    public SteamerBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -81,9 +81,9 @@ public class SteamerBehaviour extends TileEntityBehaviour {
         List<Integer> ticksS = getTicksS();
         double heat = getHeat();
         if (heat >= 1) {
-            for (var ite = ticksS.listIterator(); ite.hasNext(); ) {
-                int ticks = ite.next();
-                if (ticks > 0) ite.set(ticks - 1);
+            for (var IBE = ticksS.listIterator(); IBE.hasNext(); ) {
+                int ticks = IBE.next();
+                if (ticks > 0) IBE.set(ticks - 1);
             }
         }
         if (getWorld().isClient()) return;
@@ -115,11 +115,11 @@ public class SteamerBehaviour extends TileEntityBehaviour {
                     bitSet.set(i);
                     if (ticksS.get(i) == -1) {
                         ticksS.set(i, (int) (recipe.getProcessingDuration() * Math.sqrt(view.getAmount())));
-                        tileEntity.sendData();
+                        blockEntity.sendData();
                     } else if (ticksS.get(i) == 0) {
                         if (onDone(view, i, recipe)) {
                             ticksS.set(i, -1);
-                            tileEntity.sendData();
+                            blockEntity.sendData();
                         }
                     }
                 }
@@ -136,11 +136,11 @@ public class SteamerBehaviour extends TileEntityBehaviour {
         if (getWorld().isClient()) return previous;
         try {
             var world = (ServerWorld) getWorld();
-            var heat = HeatSources.CACHE.get(world).find(getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP);
+            var heat = HeatSources.CACHE.get(world).find(getPos(), blockEntity.getCachedState(), blockEntity, Direction.UP);
             if (heat != null) {
                 this.heat = heat;
             } else {
-                heat = HeatSources.CACHE.get(world).find(getPos(), tileEntity.getCachedState(), tileEntity, null);
+                heat = HeatSources.CACHE.get(world).find(getPos(), blockEntity.getCachedState(), blockEntity, null);
                 if (heat != null) {
                     this.heat = heat;
                 } else {
@@ -148,7 +148,7 @@ public class SteamerBehaviour extends TileEntityBehaviour {
                     this.heat = Objects.requireNonNullElse(heat, 0.0);
                 }
             }
-            if ((previous >= 1) ^ (this.heat >= 1)) tileEntity.sendData();
+            if ((previous >= 1) ^ (this.heat >= 1)) blockEntity.sendData();
             return this.heat;
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
@@ -159,14 +159,14 @@ public class SteamerBehaviour extends TileEntityBehaviour {
      * @see GrillerBehaviour#getStorage()
      */
     public @Nullable Storage<ItemVariant> getItemS() {
-        if (itemS == null) itemS = ItemStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP);
-        if (itemS == null) itemS = ItemStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null);
+        if (itemS == null) itemS = ItemStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, Direction.UP);
+        if (itemS == null) itemS = ItemStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null);
         return itemS;
     }
 
     public @Nullable Storage<FluidVariant> getFluidS() {
-        if (fluidS == null) fluidS = FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP);
-        if (fluidS == null) fluidS = FluidStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null);
+        if (fluidS == null) fluidS = FluidStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, Direction.UP);
+        if (fluidS == null) fluidS = FluidStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null);
         return fluidS;
     }
 
@@ -192,7 +192,7 @@ public class SteamerBehaviour extends TileEntityBehaviour {
                     for (var ignored : storage) size++;
                 }
             }
-            tileEntity.sendData();
+            blockEntity.sendData();
         }
         return size;
     }

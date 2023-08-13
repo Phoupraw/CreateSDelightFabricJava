@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.fluids.actors.SpoutTileEntity;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
+import com.simibubi.create.content.fluids.spout.SpoutBlockEntity;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import phoupraw.mcmod.createsdelight.registry.MySpoutingBehaviours;
-@Mixin(value = SpoutTileEntity.class)
-public abstract class MixinSpoutTileEntity extends SmartTileEntity implements MySpoutingBehaviours.SpoutExtra {
+@Mixin(value = SpoutBlockEntity.class)
+public abstract class MixinSpoutBlockEntity extends SmartBlockEntity implements MySpoutingBehaviours.SpoutExtra {
     private double bottomY = 13 / 16.0;
 
-    public MixinSpoutTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public MixinSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

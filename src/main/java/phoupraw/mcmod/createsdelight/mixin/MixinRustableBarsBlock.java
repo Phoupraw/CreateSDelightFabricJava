@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.wrench.IWrenchable;
+import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.entity.player.PlayerEntity;

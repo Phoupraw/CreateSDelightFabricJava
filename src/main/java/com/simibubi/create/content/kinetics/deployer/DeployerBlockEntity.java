@@ -1,20 +1,22 @@
-package com.simibubi.create.content.contraptions.components.deployer;
+package com.simibubi.create.content.kinetics.deployer;
+
+import static com.simibubi.create.content.kinetics.base.DirectionalKineticBlock.FACING;
 
 import com.jozufozu.flywheel.core.PartialModel;
-import com.simibubi.create.AllBlockPartials;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.AllRecipeTypes;
-import com.simibubi.create.content.contraptions.base.IRotate.StressImpact;
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipe;
-import com.simibubi.create.content.curiosities.tools.SandPaperItem;
-import com.simibubi.create.content.curiosities.tools.SandPaperPolishingRecipe.SandPaperInv;
+import com.simibubi.create.content.equipment.sandPaper.SandPaperItem;
+import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe.SandPaperInv;
+import com.simibubi.create.content.kinetics.base.IRotate.StressImpact;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
 import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.BeltProcessingBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemStackHandlerBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.filtering.FilteringBehaviour;
 import com.simibubi.create.foundation.utility.Components;
 import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.NBTHelper;
@@ -55,9 +57,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.simibubi.create.content.contraptions.base.DirectionalKineticBlock.FACING;
 
-public class DeployerTileEntity extends KineticTileEntity implements SidedStorageBlockEntity {
+public class DeployerBlockEntity extends KineticBlockEntity implements SidedStorageBlockEntity {
 
     protected State state;
     protected Mode mode;
@@ -101,7 +102,7 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
         PUNCH, USE
     }
 
-    public DeployerTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public DeployerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
         this.state = State.WAITING;
         mode = Mode.USE;
@@ -112,7 +113,7 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         super.addBehaviours(behaviours);
         filtering = new FilteringBehaviour(this, new DeployerFilterSlot());
         behaviours.add(filtering);
@@ -136,7 +137,7 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
         if (invHandler != null)
             return;
         if (world instanceof ServerWorld sLevel) {
-            player = new DeployerFakePlayer(sLevel);
+            player = new DeployerFakePlayer(sLevel, null);
             if (deferredInventoryList != null) {
                 player.getInventory()
                   .readNbt(deferredInventoryList);
@@ -266,14 +267,14 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
 
     public boolean startFistBump(Direction facing) {
         int i = 0;
-        DeployerTileEntity partner = null;
+        DeployerBlockEntity partner = null;
 
         for (i = 2; i < 5; i++) {
             BlockPos otherDeployer = pos.offset(facing, i);
             if (!world.canSetBlock(otherDeployer))
                 return false;
             BlockEntity otherTile = world.getBlockEntity(otherDeployer);
-            if (otherTile instanceof DeployerTileEntity dpe) {
+            if (otherTile instanceof DeployerBlockEntity dpe) {
                 partner = dpe;
                 break;
             }
@@ -289,7 +290,7 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
         if (partner.getSpeed() == 0)
             return false;
 
-        for (DeployerTileEntity te : Arrays.asList(this, partner)) {
+        for (DeployerBlockEntity te : Arrays.asList(this, partner)) {
             te.fistBump = true;
             te.reach = ((i - 2)) * .5f;
             te.timer = 1000;
@@ -302,12 +303,12 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
 
     public void triggerFistBump() {
         int i = 0;
-        DeployerTileEntity deployerTile = null;
+        DeployerBlockEntity deployerTile = null;
         for (i = 2; i < 5; i++) {
             BlockPos pos = getPos().offset(getCachedState().get(FACING), i);
             if (!world.canSetBlock(pos))
                 return;
-            if (world.getBlockEntity(pos) instanceof DeployerTileEntity dpe) {
+            if (world.getBlockEntity(pos) instanceof DeployerBlockEntity dpe) {
                 deployerTile = dpe;
                 break;
             }
@@ -342,7 +343,7 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
         player.setYaw(direction.asRotation());
 
         if (direction == Direction.DOWN
-          && TileEntityBehaviour.get(world, clickedPos, TransportedItemStackHandlerBehaviour.TYPE) != null)
+          && BlockEntityBehaviour.get(world, clickedPos, TransportedItemStackHandlerBehaviour.TYPE) != null)
             return; // Belt processing handled in BeltDeployerCallbacks
 
         DeployerHandler.activate(player, center, clickedPos, movementVector, mode);
@@ -438,8 +439,8 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
 
     @Environment(EnvType.CLIENT)
     public PartialModel getHandPose() {
-        return mode == Mode.PUNCH ? AllBlockPartials.DEPLOYER_HAND_PUNCHING
-          : heldItem.isEmpty() ? AllBlockPartials.DEPLOYER_HAND_POINTING : AllBlockPartials.DEPLOYER_HAND_HOLDING;
+        return mode == Mode.PUNCH ? AllPartialModels.DEPLOYER_HAND_PUNCHING
+          : heldItem.isEmpty() ? AllPartialModels.DEPLOYER_HAND_POINTING : AllPartialModels.DEPLOYER_HAND_HOLDING;
     }
 
     @Override
@@ -528,8 +529,8 @@ public class DeployerTileEntity extends KineticTileEntity implements SidedStorag
         }
         if (state == State.RETRACTING)
             progress = (timer - partialTicks * timerSpeed) / 1000f;
-        float handLength = handPose == AllBlockPartials.DEPLOYER_HAND_POINTING ? 0
-          : handPose == AllBlockPartials.DEPLOYER_HAND_HOLDING ? 4 / 16f : 3 / 16f;
+        float handLength = handPose == AllPartialModels.DEPLOYER_HAND_POINTING ? 0
+          : handPose == AllPartialModels.DEPLOYER_HAND_HOLDING ? 4 / 16f : 3 / 16f;
         float distance = Math.min(MathHelper.clamp(progress, 0, 1) * (reach + handLength), 21 / 16f);
 
         return distance;

@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.item.SmartInventory;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
@@ -33,7 +33,7 @@ import phoupraw.mcmod.createsdelight.storage.IronBowlItemStorage;
 
 import java.util.Arrays;
 import java.util.List;
-public class OvenBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity {
+public class OvenBlockEntity extends SmartBlockEntity implements SidedStorageBlockEntity {
     public static final int SIZE = 4;
     private final SmartInventory inventory = new SmartInventory(SIZE, this);
     private final double[] countdowns = new double[SIZE];
@@ -72,7 +72,7 @@ public class OvenBlockEntity extends SmartTileEntity implements SidedStorageBloc
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 
     }
 

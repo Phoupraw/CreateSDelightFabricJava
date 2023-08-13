@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
-import com.simibubi.create.content.contraptions.processing.BasinOperatingTileEntity;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -24,7 +24,7 @@ import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 
 import java.util.Objects;
-public class PressureCookerBlockEntity extends BasinOperatingTileEntity implements InstanceOffset {
+public class PressureCookerBlockEntity extends BasinOperatingBlockEntity implements InstanceOffset {
     /**
      刀片伸出的程度，范围为[0,1]。当动力正转时增加，反转时减小。
      */

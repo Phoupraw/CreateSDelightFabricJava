@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -16,7 +16,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.BambooSteamerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockEntity> {
+public class BambooSteamerBlock extends Block implements IBE<BambooSteamerBlockEntity> {
     public static final VoxelShape SHAPE = VoxelShapes.union(
       createCuboidShape(0, 1, 0, 16, 16, 16),
       createCuboidShape(0, 0, 0, 2, 1, 2),
@@ -29,12 +29,12 @@ public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockE
     }
 
     @Override
-    public Class<BambooSteamerBlockEntity> getTileEntityClass() {
+    public Class<BambooSteamerBlockEntity> getBlockEntityClass() {
         return BambooSteamerBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends BambooSteamerBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends BambooSteamerBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.BAMBOO_STEAMER;
     }
 
@@ -57,7 +57,7 @@ public class BambooSteamerBlock extends Block implements ITE<BambooSteamerBlockE
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!newState.isOf(this)) {
-            ITE.onRemove(state,world,pos,newState);
+            IBE.onRemove(state,world,pos,newState);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }

@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
-import com.simibubi.create.content.contraptions.processing.BasinTileEntity;
+import com.simibubi.create.content.processing.basin.BasinBlockEntity;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.item.SmartInventory;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -31,7 +31,7 @@ import phoupraw.mcmod.createsdelight.registry.MyRecipeTypes;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity {
+public class BambooSteamerBlockEntity extends SmartBlockEntity implements SidedStorageBlockEntity {
     public static Vec3d getOffset(int index) {
         double x = index % 2 == 0 ? 4 / 16.0 : 12 / 16.0;
         double z = index / 2 % 2 == 0 ? 4 / 16.0 : 12 / 16.0;
@@ -51,7 +51,7 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 
     }
 
@@ -64,7 +64,7 @@ public class BambooSteamerBlockEntity extends SmartTileEntity implements SidedSt
         if (getWorld().isClient()) return workable;
         var previous = workable;
         var be0 = getWorld().getBlockEntity(getPos().down());
-        workable = be0 instanceof BasinTileEntity basin && StorageUtil.findExtractableResource(basin.getFluidStorage(null), Predicate.isEqual(FluidVariant.of(Fluids.WATER)), null) != null && getHeat() >= 1;
+        workable = be0 instanceof BasinBlockEntity basin && StorageUtil.findExtractableResource(basin.getFluidStorage(null), Predicate.isEqual(FluidVariant.of(Fluids.WATER)), null) != null && getHeat() >= 1;
         if (previous ^ workable) sendData();
         return workable;
     }

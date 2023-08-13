@@ -1,11 +1,11 @@
 package phoupraw.mcmod.createsdelight.api;
 
-import com.simibubi.create.content.logistics.block.funnel.BeltFunnelBlock;
-import com.simibubi.create.content.logistics.block.funnel.FunnelBlock;
-import com.simibubi.create.content.logistics.block.funnel.FunnelTileEntity;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.logistics.funnel.BeltFunnelBlock;
+import com.simibubi.create.content.logistics.funnel.FunnelBlock;
+import com.simibubi.create.content.logistics.funnel.FunnelBlockEntity;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -25,8 +25,8 @@ public final class AllowingBeltFunnels {
     public static final BlockApiLookup<Object, @NotNull Direction> LOOKUP = BlockApiLookup.get(new Identifier("createsdelight", "allowing_belt_funnels"), Object.class, Direction.class);
     static {
         LOOKUP.registerFallback((world, pos, state, blockEntity, side)->{
-            if (!(blockEntity instanceof SmartTileEntity smart)) return null;
-            var b = TileEntityBehaviour.get(smart, DirectBeltInputBehaviour.TYPE);
+            if (!(blockEntity instanceof SmartBlockEntity smart)) return null;
+            var b = BlockEntityBehaviour.get(smart, DirectBeltInputBehaviour.TYPE);
             if (b == null) return null;
             return b.canSupportBeltFunnels();
         });
@@ -49,13 +49,13 @@ public final class AllowingBeltFunnels {
         if (side != null && FunnelBlock.getFunnelFacing(funnelState) != side)
             return null;
         BlockEntity te = world.getBlockEntity(funnelPos);
-        if (!(te instanceof FunnelTileEntity))
+        if (!(te instanceof FunnelBlockEntity))
             return null;
         if (funnelState.get(BeltFunnelBlock.POWERED))
             return stack;
         ItemStack insert = FunnelBlock.tryInsert(world, funnelPos, stack, simulate);
         if (insert.getCount() != stack.getCount() && !simulate)
-            ((FunnelTileEntity) te).flap(true);
+            ((FunnelBlockEntity) te).flap(true);
         return insert;
     }
 }

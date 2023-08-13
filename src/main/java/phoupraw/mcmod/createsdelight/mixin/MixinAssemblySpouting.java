@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
 import com.simibubi.create.compat.rei.category.sequencedAssembly.ReiSequencedAssemblySubCategory;
-import com.simibubi.create.content.contraptions.itemAssembly.SequencedRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
 import me.shedaniel.math.Point;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import net.fabricmc.api.EnvType;

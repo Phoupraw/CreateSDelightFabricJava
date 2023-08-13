@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.simibubi.create.content.contraptions.wrench.IWrenchable;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
-import com.simibubi.create.foundation.utility.recipe.RecipeFinder;
+import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeFinder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PaneBlock;

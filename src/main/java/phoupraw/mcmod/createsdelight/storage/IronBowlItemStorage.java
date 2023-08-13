@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.storage;
 
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantItemStorage;

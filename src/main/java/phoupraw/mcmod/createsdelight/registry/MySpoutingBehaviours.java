@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import com.simibubi.create.api.behaviour.BlockSpoutingBehaviour;
-import com.simibubi.create.content.contraptions.fluids.actors.SpoutTileEntity;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.content.fluids.spout.SpoutBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -13,7 +13,7 @@ import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 public final class MySpoutingBehaviours {
     public static final BlockSpoutingBehaviour PAN = new BlockSpoutingBehaviour() {
         @Override
-        public long fillBlock(World world, BlockPos pos, SpoutTileEntity spout, FluidStack availableFluid, boolean simulate) {
+        public long fillBlock(World world, BlockPos pos, SpoutBlockEntity spout, FluidStack availableFluid, boolean simulate) {
             var blockEntity = world.getBlockEntity(pos);
             if (!(blockEntity instanceof PanBlockEntity pan)) return 0;
             try (var transaction = Transaction.openOuter()) {
@@ -27,7 +27,7 @@ public final class MySpoutingBehaviours {
     };
     public static final BlockSpoutingBehaviour SMART_DARIN = new BlockSpoutingBehaviour() {
         @Override
-        public long fillBlock(World world, BlockPos pos, SpoutTileEntity spout, FluidStack availableFluid, boolean simulate) {
+        public long fillBlock(World world, BlockPos pos, SpoutBlockEntity spout, FluidStack availableFluid, boolean simulate) {
             var blockEntity = world.getBlockEntity(pos);
             if (!(blockEntity instanceof SmartDrainBlockEntity drain)) return 0;
             try (var transaction = TransferUtil.getTransaction()) {

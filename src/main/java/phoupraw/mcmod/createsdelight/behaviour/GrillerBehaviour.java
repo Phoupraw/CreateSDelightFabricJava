@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -26,14 +26,14 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-public class GrillerBehaviour extends TileEntityBehaviour {
+public class GrillerBehaviour extends BlockEntityBehaviour {
     public static final BehaviourType<GrillerBehaviour> TYPE = new BehaviourType<>("griller");
     private @Nullable Storage<ItemVariant> storage;
     private List<@NotNull Integer> ticksS;
     private @Nullable Integer size = 9;
     private double heat;
 
-    public GrillerBehaviour(SmartTileEntity te) {
+    public GrillerBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -77,9 +77,9 @@ public class GrillerBehaviour extends TileEntityBehaviour {
         super.tick();
         List<Integer> ticksS = getTicksS();
         if (getHeat() >= 1) {
-            for (var ite = ticksS.listIterator(); ite.hasNext(); ) {
-                int ticks = ite.next();
-                if (ticks > 0) ite.set(ticks - 1);
+            for (var IBE = ticksS.listIterator(); IBE.hasNext(); ) {
+                int ticks = IBE.next();
+                if (ticks > 0) IBE.set(ticks - 1);
             }
         }
         if (getWorld().isClient()) return;
@@ -93,11 +93,11 @@ public class GrillerBehaviour extends TileEntityBehaviour {
                     bitSet.set(i);
                     if (ticksS.get(i) == -1) {
                         ticksS.set(i, (int) (recipe.getProcessingDuration() * Math.sqrt(view.getAmount())));
-                        tileEntity.sendData();
+                        blockEntity.sendData();
                     } else if (ticksS.get(i) == 0) {
                         if (onDone(view, i, recipe)) {
                             ticksS.set(i, -1);
-                            tileEntity.sendData();
+                            blockEntity.sendData();
                         }
                     }
                 }
@@ -114,11 +114,11 @@ public class GrillerBehaviour extends TileEntityBehaviour {
         if (getWorld().isClient()) return previous;
         try {
             var world = (ServerWorld) getWorld();
-            var heat = HeatSources.CACHE.get(world).find(getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP);
+            var heat = HeatSources.CACHE.get(world).find(getPos(), blockEntity.getCachedState(), blockEntity, Direction.UP);
             if (heat != null) {
                 this.heat = heat;
             } else {
-                heat = HeatSources.CACHE.get(world).find(getPos(), tileEntity.getCachedState(), tileEntity, null);
+                heat = HeatSources.CACHE.get(world).find(getPos(), blockEntity.getCachedState(), blockEntity, null);
                 if (heat != null) {
                     this.heat = heat;
                 } else {
@@ -126,7 +126,7 @@ public class GrillerBehaviour extends TileEntityBehaviour {
                     this.heat = Objects.requireNonNullElse(heat, 0.0);
                 }
             }
-            if ((previous >= 1) ^ (this.heat >= 1)) tileEntity.sendData();
+            if ((previous >= 1) ^ (this.heat >= 1)) blockEntity.sendData();
             return this.heat;
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
@@ -134,8 +134,8 @@ public class GrillerBehaviour extends TileEntityBehaviour {
     }
 
     public @Nullable Storage<ItemVariant> getStorage() {
-        if (storage == null) storage = ItemStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, Direction.UP);
-        if (storage == null) storage = ItemStorage.SIDED.find(getWorld(), getPos(), tileEntity.getCachedState(), tileEntity, null);
+        if (storage == null) storage = ItemStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, Direction.UP);
+        if (storage == null) storage = ItemStorage.SIDED.find(getWorld(), getPos(), blockEntity.getCachedState(), blockEntity, null);
         return storage;
     }
 
@@ -158,7 +158,7 @@ public class GrillerBehaviour extends TileEntityBehaviour {
                     for (var ignored : storage) size++;
                 }
             }
-            tileEntity.sendData();
+            blockEntity.sendData();
         }
         return size;
     }

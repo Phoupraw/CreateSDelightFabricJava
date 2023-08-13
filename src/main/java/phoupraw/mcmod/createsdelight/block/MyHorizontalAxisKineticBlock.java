@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.simibubi.create.content.contraptions.base.KineticBlock;
+import com.simibubi.create.content.kinetics.base.KineticBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.data.client.*;

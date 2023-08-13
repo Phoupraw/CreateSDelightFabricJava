@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.item;
 
 import com.google.common.base.Predicates;
-import com.simibubi.create.content.contraptions.components.deployer.DeployerRecipeSearchEvent;
-import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.kinetics.deployer.DeployerRecipeSearchEvent;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -48,7 +48,7 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
         DeployerRecipeSearchEvent.EVENT.register(event -> {
             ItemStack bowlStack = event.getInventory().getStack(0);
             ContainerItemContext itemContext = ContainerItemContext.withConstant(bowlStack);
-            World world = event.getTileEntity().getWorld();
+            World world = event.getBlockEntity().getWorld();
             if (!bowlStack.isOf(MyItems.IRON_BOWL) || !new IronBowlFluidStorage(itemContext, world).isResourceBlank()) return;
             var itemS = new IronBowlItemStorage(itemContext, world);
             if (!itemS.isResourceBlank()) return;

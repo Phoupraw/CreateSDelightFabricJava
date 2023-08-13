@@ -1,11 +1,11 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import phoupraw.mcmod.createsdelight.block.entity.MyBasinBlockEntity;
-public class MyBasinRenderer extends SmartTileEntityRenderer<MyBasinBlockEntity> {
+public class MyBasinRenderer extends SmartBlockEntityRenderer<MyBasinBlockEntity> {
 
     public MyBasinRenderer(BlockEntityRendererFactory.Context context) {
         super(context);

@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -29,7 +29,7 @@ import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ReplaceableStorageView;
 
 import java.util.*;
-public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {
+public class DepotItemBehaviour extends BlockEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {
     public static final BehaviourType<DepotItemBehaviour> TYPE = new BehaviourType<>("less_depot");
     private TransportedItemStack main = TransportedItemStack.EMPTY;
     private List<TransportedItemStack> incomings = new ArrayList<>();
@@ -37,7 +37,7 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
     private Map<Direction, Storage<ItemVariant>> insertions = new EnumMap<>(Direction.class);
     private Storage<ItemVariant> extraction = newExtractionStorage();
 
-    public DepotItemBehaviour(SmartTileEntity te) {
+    public DepotItemBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -114,7 +114,7 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
             incoming.stack.setCount(count);
             incoming.insertedFrom = side;
             afterInsert(incoming);
-            tileEntity.sendData();
+            blockEntity.sendData();
         }
         var remainder = transp.stack.copy();
         remainder.decrement(count);
@@ -234,7 +234,7 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         @Override
         protected void onFinalCommit() {
             super.onFinalCommit();
-            tileEntity.sendData();
+            blockEntity.sendData();
         }
 
         @Override
@@ -277,7 +277,7 @@ public class DepotItemBehaviour extends TileEntityBehaviour implements DirectBel
         @Override
         protected void onFinalCommit() {
             super.onFinalCommit();
-            tileEntity.sendData();
+            blockEntity.sendData();
         }
 
         @Override

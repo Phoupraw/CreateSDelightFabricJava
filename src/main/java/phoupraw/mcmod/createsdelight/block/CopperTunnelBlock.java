@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.simibubi.create.content.contraptions.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -29,7 +29,7 @@ import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.MyBlocks;
 
 import java.util.*;
-public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEntity>, IWrenchable {
+public class CopperTunnelBlock extends Block implements IBE<CopperTunnelBlockEntity>, IWrenchable {
     public static final VoxelShape FRAME_SHAPE = VoxelShapes.union(
       VoxelShapes.combine(
         createCuboidShape(0, 10, 0, 16, 16, 16),
@@ -63,12 +63,12 @@ public class CopperTunnelBlock extends Block implements ITE<CopperTunnelBlockEnt
     }
 
     @Override
-    public Class<CopperTunnelBlockEntity> getTileEntityClass() {
+    public Class<CopperTunnelBlockEntity> getBlockEntityClass() {
         return CopperTunnelBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends CopperTunnelBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends CopperTunnelBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.COPPER_TUNNEL;
     }
 

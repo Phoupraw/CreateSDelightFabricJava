@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.components.deployer.DeployerTileEntity;
+import com.simibubi.create.content.kinetics.deployer.DeployerBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
-@Mixin(DeployerTileEntity.class)
-public interface AccessDeployerTileEntity {
+@Mixin(DeployerBlockEntity.class)
+public interface AccessDeployerBlockEntity {
 //    @Coerce
 //    @Accessor(value = "state",remap = false)
 //    Enum<?>  getState();

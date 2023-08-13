@@ -1,8 +1,7 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
-import com.simibubi.create.content.logistics.block.belts.tunnel.BeltTunnelTileEntity;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,13 +22,13 @@ import phoupraw.mcmod.createsdelight.behaviour.RollingItemBehaviour;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 
 import java.util.*;
-public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity {
+public class CopperTunnelBlockEntity extends SmartBlockEntity implements SidedStorageBlockEntity {
     public static LerpedFloat createChasingFlap() {
         return LerpedFloat.linear().startWithValue(.25f).chase(0, .05f, LerpedFloat.Chaser.EXP);
     }
 
     /**
-     * @see BeltTunnelTileEntity#flaps
+     * @see com.simibubi.create.content.logistics.tunnel.BeltTunnelBlockEntity#flaps
      */
     @Environment(EnvType.CLIENT)
     public Map<Direction, LerpedFloat> flappings = new EnumMap<>(Direction.class);
@@ -43,7 +42,7 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
     }
 
     @Override
@@ -115,7 +114,7 @@ public class CopperTunnelBlockEntity extends SmartTileEntity implements SidedSto
     public @Nullable Storage<ItemVariant> getItemStorage(@Nullable Direction side) {
         if (side == Direction.DOWN) return null;
         if (rolling == null) {
-            rolling = TileEntityBehaviour.get(getWorld(), getPos().down(), RollingItemBehaviour.TYPE);
+            rolling = BlockEntityBehaviour.get(getWorld(), getPos().down(), RollingItemBehaviour.TYPE);
         }
         if (side == null || side == Direction.UP) return rolling.insertions.get(Direction.UP);
         return rolling.insertions.get(side);

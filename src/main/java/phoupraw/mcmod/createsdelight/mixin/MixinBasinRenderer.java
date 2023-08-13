@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.processing.BasinRenderer;
+import com.simibubi.create.content.processing.basin.BasinRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.spongepowered.asm.mixin.Mixin;

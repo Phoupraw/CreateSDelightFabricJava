@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.components.millstone.MillingRecipe;
-import com.simibubi.create.content.contraptions.components.millstone.MillstoneTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
+import com.simibubi.create.content.kinetics.millstone.MillstoneBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -20,49 +20,49 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import phoupraw.mcmod.createsdelight.inject.InjectMillstoneTileEntity;
+import phoupraw.mcmod.createsdelight.inject.InjectMillstoneBlockEntity;
 
 import java.util.List;
-@Mixin(MillstoneTileEntity.class)
-public abstract class MixinMillstoneTileEntity extends KineticTileEntity implements SidedStorageBlockEntity, InjectMillstoneTileEntity {
+@Mixin(MillstoneBlockEntity.class)
+public abstract class MixinMillstoneBlockEntity extends KineticBlockEntity implements SidedStorageBlockEntity, InjectMillstoneBlockEntity {
     @Shadow(remap = false)
     private MillingRecipe lastRecipe;
     private SmartFluidTankBehaviour tank;
-    //    private final Collection<InjectMillstoneTileEntity.FluidStream> fluidStreams = new ArrayList<>(2);
+    //    private final Collection<InjectMillstoneBlockEntity.FluidStream> fluidStreams = new ArrayList<>(2);
 //    private double outputStart=-1;
 //    private double prevOutputStart=outputStart;
 //    private double outputEnd = 0;
 //    private double prevOutputEnd = 0;
     private Direction outputSide;
 
-    public MixinMillstoneTileEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
+    public MixinMillstoneBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         super(typeIn, pos, state);
     }
 
     @Inject(method = "addBehaviours", at = @At("RETURN"), remap = false)
-    private void addBehaviours(List<TileEntityBehaviour> behaviours, CallbackInfo ci) {
-        InjectMillstoneTileEntity.addBehaviours((MillstoneTileEntity) (Object) this, behaviours, ci);
+    private void addBehaviours(List<BlockEntityBehaviour> behaviours, CallbackInfo ci) {
+        InjectMillstoneBlockEntity.addBehaviours((MillstoneBlockEntity) (Object) this, behaviours, ci);
     }
 
     @Inject(method = "process", at = @At(value = "INVOKE", target = "Lio/github/fabricators_of_create/porting_lib/transfer/item/ItemStackHandlerContainer;getStackInSlot(I)Lnet/minecraft/item/ItemStack;"), cancellable = true)
     private void fluidResult(CallbackInfo ci) {
-        InjectMillstoneTileEntity.fluidResult((MillstoneTileEntity) (Object) this, tank, lastRecipe, ci);
+        InjectMillstoneBlockEntity.fluidResult((MillstoneBlockEntity) (Object) this, tank, lastRecipe, ci);
     }
 
-    @Inject(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lcom/simibubi/create/content/contraptions/components/millstone/MillstoneTileEntity;timer:I", shift = At.Shift.BEFORE, ordinal = 0), cancellable = true)
+    @Inject(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lcom/simibubi/create/content/kinetics/millstone/MillstoneBlockEntity;timer:I", shift = At.Shift.BEFORE, ordinal = 0), cancellable = true)
     private void checkTankFull(CallbackInfo ci) {
-        InjectMillstoneTileEntity.checkTankFull((MillstoneTileEntity) (Object) this, ci);
+        InjectMillstoneBlockEntity.checkTankFull((MillstoneBlockEntity) (Object) this, ci);
     }
 
     @Override
     public void lazyTick() {
         super.lazyTick();
-        InjectMillstoneTileEntity.lazyTick((MillstoneTileEntity) (Object) this);
+        InjectMillstoneBlockEntity.lazyTick((MillstoneBlockEntity) (Object) this);
     }
 
-    @Inject(method = "tick", at = @At("HEAD"/*value = "INVOKE",target = "Lcom/simibubi/create/content/contraptions/base/KineticTileEntity;tick()V",shift = At.Shift.AFTER*/), remap = false)
+    @Inject(method = "tick", at = @At("HEAD"/*value = "INVOKE",target = "Lcom/simibubi/create/content/contraptions/base/KineticBlockEntity;tick()V",shift = At.Shift.AFTER*/), remap = false)
     private void outputFluid(CallbackInfo ci) {
-        InjectMillstoneTileEntity.outputFluid((MillstoneTileEntity) (Object) this);
+        InjectMillstoneBlockEntity.outputFluid((MillstoneBlockEntity) (Object) this);
     }
 
     @Override
@@ -118,7 +118,7 @@ public abstract class MixinMillstoneTileEntity extends KineticTileEntity impleme
     }
 
 //    @Override
-//    public Collection<InjectMillstoneTileEntity.FluidStream> getFluidStreams() {
+//    public Collection<InjectMillstoneBlockEntity.FluidStream> getFluidStreams() {
 //        return fluidStreams;
 //    }
 

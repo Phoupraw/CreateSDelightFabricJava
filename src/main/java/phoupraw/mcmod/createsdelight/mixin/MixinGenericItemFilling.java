@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.fluids.actors.GenericItemFilling;
+import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

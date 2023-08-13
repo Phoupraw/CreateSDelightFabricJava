@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder.ProcessingRecipeFactory;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
-import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeFactory;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.display.Display;
@@ -18,7 +18,7 @@ import phoupraw.mcmod.createsdelight.recipe.*;
 /**
  配方类型添加步骤：
  <ol>
- <li>在{@link phoupraw.mcmod.createsdelight.recipe}创建配方类，继承{@link ProcessingRecipe}，创建符合{@link ProcessingRecipeFactory}的构造器<br/>
+ <li>在{@link phoupraw.mcmod.createsdelight.recipe}创建配方类，继承{@link ProcessingRecipe}，创建符合{@link com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeFactory}的构造器<br/>
  <li>在{@link MyRecipeTypes}创建{@link RecipeTypeInfo}<br/>
  <li>补齐配方类的构造器中的{@link IRecipeTypeInfo}<br/>
  <li>在{@link phoupraw.mcmod.createsdelight.rei}创建显示类，继承{@link Display}，创建接受配方类对象作为唯一参数的构造器<br/>

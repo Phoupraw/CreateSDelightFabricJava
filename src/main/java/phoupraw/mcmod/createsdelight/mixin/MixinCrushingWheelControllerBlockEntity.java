@@ -1,11 +1,11 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.components.crusher.CrushingWheelControllerTileEntity;
-import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.kinetics.crusher.CrushingWheelControllerBlockEntity;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -22,43 +22,43 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import phoupraw.mcmod.createsdelight.inject.InjectCrushingWheelControllerTileEntity;
+import phoupraw.mcmod.createsdelight.inject.InjectCrushingWheelControllerBlockEntity;
 
 import java.util.List;
 import java.util.Optional;
-@Mixin(CrushingWheelControllerTileEntity.class)
-public abstract class MixinCrushingWheelControllerTileEntity extends SmartTileEntity implements InjectCrushingWheelControllerTileEntity, SidedStorageBlockEntity, IHaveGoggleInformation {
+@Mixin(CrushingWheelControllerBlockEntity.class)
+public abstract class MixinCrushingWheelControllerBlockEntity extends SmartBlockEntity implements InjectCrushingWheelControllerBlockEntity, SidedStorageBlockEntity, IHaveGoggleInformation {
     private SmartFluidTankBehaviour tank;
     private double bottom;
 
-    public MixinCrushingWheelControllerTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public MixinCrushingWheelControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
     @Inject(method = "addBehaviours", at = @At("RETURN"), remap = false)
-    private void addBehaviours(List<TileEntityBehaviour> behaviours, CallbackInfo ci) {
-        InjectCrushingWheelControllerTileEntity.addBehaviours(this, behaviours, ci);
+    private void addBehaviours(List<BlockEntityBehaviour> behaviours, CallbackInfo ci) {
+        InjectCrushingWheelControllerBlockEntity.addBehaviours(this, behaviours, ci);
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(FFF)F"), cancellable = true)
     private void checkTankEmpty(CallbackInfo ci) {
-        InjectCrushingWheelControllerTileEntity.checkTankEmpty(this, ci);
+        InjectCrushingWheelControllerBlockEntity.checkTankEmpty(this, ci);
     }
 
-    @Inject(method = "applyRecipe", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")), at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/processing/ProcessingInventory;clear()V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, remap = false)
+    @Inject(method = "applyRecipe", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")), at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/recipe/ProcessingInventory;clear()V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, remap = false)
     private void applyFluidResult(CallbackInfo ci, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ProcessingRecipe<Inventory>> recipe/*, List<ItemStack> list, int rolls*/) {
-        InjectCrushingWheelControllerTileEntity.applyFluidResult(this, recipe.orElseThrow());
+        InjectCrushingWheelControllerBlockEntity.applyFluidResult(this, recipe.orElseThrow());
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/tileEntity/SmartTileEntity;tick()V"), remap = false)
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/foundation/blockEntity/SmartBlockEntity;tick()V"), remap = false)
     private void setBottom(CallbackInfo ci) {
-        InjectCrushingWheelControllerTileEntity.setBottom(this);
+        InjectCrushingWheelControllerBlockEntity.setBottom(this);
     }
 
     @Override
     public void lazyTick() {
         super.lazyTick();
-        InjectCrushingWheelControllerTileEntity.lazyTick(this);
+        InjectCrushingWheelControllerBlockEntity.lazyTick(this);
     }
 
     @Override

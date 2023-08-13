@@ -1,16 +1,16 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
-public class BlockingTransportedBehaviour extends TileEntityBehaviour {
+public class BlockingTransportedBehaviour extends BlockEntityBehaviour {
     public static final BehaviourType<BlockingTransportedBehaviour> TYPE = new BehaviourType<>(new Identifier(CreateSDelight.MOD_ID, "blocking_transported").toString());
 
     private final BlockingTransportedStorage transported = new BlockingTransportedStorage() {
@@ -21,7 +21,7 @@ public class BlockingTransportedBehaviour extends TileEntityBehaviour {
         }
     };
 
-    public BlockingTransportedBehaviour(SmartTileEntity te) {
+    public BlockingTransportedBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -54,6 +54,6 @@ public class BlockingTransportedBehaviour extends TileEntityBehaviour {
     @ApiStatus.OverrideOnly
     @MustBeInvokedByOverriders
     public void onFinalCommit() {
-        tileEntity.sendData();
+        blockEntity.sendData();
     }
 }

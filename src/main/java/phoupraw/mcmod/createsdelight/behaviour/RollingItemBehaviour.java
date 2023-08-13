@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.BehaviourType;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.utility.BlockHelper;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.fabricmc.api.EnvType;
@@ -43,7 +43,7 @@ import java.util.function.Supplier;
 
 import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDepot;
 import static phoupraw.mcmod.createsdelight.block.entity.renderer.SmartDrainRenderer.renderLikeDrain;
-public class RollingItemBehaviour extends TileEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {
+public class RollingItemBehaviour extends BlockEntityBehaviour implements DirectBeltInputBehaviour.InsertionCallback {
     public static final float STEP = 1 / 8f;
     public static final BehaviourType<RollingItemBehaviour> TYPE = new BehaviourType<>("item_drain_item");
 
@@ -76,7 +76,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
     });
     public final ExtractionStorage extraction = new ExtractionStorage();
 
-    public RollingItemBehaviour(SmartTileEntity te) {
+    public RollingItemBehaviour(SmartBlockEntity te) {
         super(te);
     }
 
@@ -117,7 +117,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
             } else if (beltPosition < 0.5f + STEP) {
                 if (continueRoll.invoker().getAsBoolean()) {
                     transp.beltPosition += STEP;
-                    tileEntity.sendData();
+                    blockEntity.sendData();
                 }
             } else if (beltPosition < 1) {
                 transp.beltPosition += STEP;
@@ -162,7 +162,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         } else {
             transp.prevBeltPosition = transp.beltPosition = 0.5f;
         }
-        tileEntity.sendData();
+        blockEntity.sendData();
     }
 
     public @NotNull SideStorage get(@NotNull Direction side) {
@@ -191,7 +191,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         BlockPos pos = getPos();
         World world = getWorld();
         BlockPos offset = pos.offset(insertedFrom);
-        var db0 = tileEntity.getBehaviour(DirectBeltInputBehaviour.TYPE);
+        var db0 = blockEntity.getBehaviour(DirectBeltInputBehaviour.TYPE);
         if (db0 != null && db0.canSupportBeltFunnels()) {
             ItemStack remainder = db0.tryExportingToBeltFunnel(stack, insertedFrom, simulate);
             if (remainder != null) {
@@ -199,7 +199,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
                 return !stack.equals(remainder);
             }
         }
-        DirectBeltInputBehaviour db1 = TileEntityBehaviour.get(world, offset, DirectBeltInputBehaviour.TYPE);
+        DirectBeltInputBehaviour db1 = BlockEntityBehaviour.get(world, offset, DirectBeltInputBehaviour.TYPE);
         if (db1 != null) {
             ItemStack remainder = db1.handleInsertion(transp, insertedFrom, simulate);
             if (!simulate) transp.stack = remainder;
@@ -217,7 +217,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
                 entity.velocityModified = true;
                 world.spawnEntity(entity);
                 transp.stack = ItemStack.EMPTY;
-                tileEntity.sendData();
+                blockEntity.sendData();
             }
             return true;
         }
@@ -297,7 +297,7 @@ public class RollingItemBehaviour extends TileEntityBehaviour implements DirectB
         @Override
         protected void onFinalCommit() {
             super.onFinalCommit();
-            tileEntity.sendData();
+            blockEntity.sendData();
         }
     }
 }

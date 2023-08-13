@@ -1,13 +1,13 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.BeltProcessingBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemStackHandlerBehaviour;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static phoupraw.mcmod.createsdelight.instance.VerticalCutterInstance.ALTITUDE;
-public class VerticalCutterBlockEntity extends KineticTileEntity implements InstanceOffset {
+public class VerticalCutterBlockEntity extends KineticBlockEntity implements InstanceOffset {
     /**
      * 当{@link #extending}为{@code false}时，{@link #extension}至少减小到此值，才允许将{@link #extending}设为{@code true}。
      */
@@ -75,7 +75,7 @@ public class VerticalCutterBlockEntity extends KineticTileEntity implements Inst
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         super.addBehaviours(behaviours);
         behaviours.add(new BeltProcessingBehaviour(this).whenItemEnters(this::whenItemEnters).whileItemHeld(this::whileItemHeld));
     }

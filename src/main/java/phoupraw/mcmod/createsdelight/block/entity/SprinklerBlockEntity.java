@@ -1,15 +1,15 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.jozufozu.flywheel.api.MaterialManager;
-import com.simibubi.create.content.contraptions.base.HalfShaftInstance;
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
+import com.simibubi.create.content.kinetics.base.HalfShaftInstance;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.item.SmartInventory;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.BeltProcessingBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemStackHandlerBehaviour;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -38,14 +38,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-public class SprinklerBlockEntity extends KineticTileEntity implements SidedStorageBlockEntity {
+public class SprinklerBlockEntity extends KineticBlockEntity implements SidedStorageBlockEntity {
     public static @Nullable SprinklingRecipe filterRecipe(Collection<SprinklingRecipe> firstly, ItemStack held) {
         return firstly.stream().filter(r -> r.getIngredients().get(1).test(held)).findFirst().orElse(null);
     }
 
     public static class Instance extends HalfShaftInstance {
 
-        public Instance(MaterialManager modelManager, KineticTileEntity tile) {
+        public Instance(MaterialManager modelManager, KineticBlockEntity tile) {
             super(modelManager, tile);
         }
 
@@ -69,7 +69,7 @@ public class SprinklerBlockEntity extends KineticTileEntity implements SidedStor
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         super.addBehaviours(behaviours);
         behaviours.add(new BeltProcessingBehaviour(this).whenItemEnters(this::whenItemEnters).whileItemHeld(this::whileItemHeld));
     }

@@ -1,12 +1,12 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
-import com.simibubi.create.content.contraptions.particle.RotationIndicatorParticleData;
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.content.kinetics.base.RotationIndicatorParticleData;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -38,7 +38,7 @@ import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 
 import java.util.*;
 import java.util.stream.IntStream;
-public class GrillBlockEntity extends SmartTileEntity implements SidedStorageBlockEntity {
+public class GrillBlockEntity extends SmartBlockEntity implements SidedStorageBlockEntity {
     public static final int SLOTS = 4;
 
     public static Vec3d getHorizontalOffset(int index, int size) {
@@ -72,7 +72,7 @@ public class GrillBlockEntity extends SmartTileEntity implements SidedStorageBlo
     }
 
     @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         behaviours.add(new DirectBeltInputBehaviour(this));
     }
 

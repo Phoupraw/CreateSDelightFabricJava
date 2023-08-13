@@ -1,26 +1,26 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
-import com.simibubi.create.content.contraptions.components.crusher.CrushingWheelControllerTileEntity;
+import com.simibubi.create.content.kinetics.crusher.CrushingWheelControllerBlockEntity;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import phoupraw.mcmod.createsdelight.inject.InjectCrushingWheelControllerTileEntity;
+import phoupraw.mcmod.createsdelight.inject.InjectCrushingWheelControllerBlockEntity;
 @Environment(EnvType.CLIENT)
-public class CrushingWheelControllerRenderer extends SmartTileEntityRenderer<CrushingWheelControllerTileEntity> {
+public class CrushingWheelControllerRenderer extends SmartBlockEntityRenderer<CrushingWheelControllerBlockEntity> {
     public CrushingWheelControllerRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }
 
     @Override
-    protected void renderSafe(CrushingWheelControllerTileEntity tileEntityIn, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
+    protected void renderSafe(CrushingWheelControllerBlockEntity tileEntityIn, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         super.renderSafe(tileEntityIn, partialTicks, ms, buffer, light, overlay);
-        var controller = (CrushingWheelControllerTileEntity & InjectCrushingWheelControllerTileEntity) tileEntityIn;
+        var controller = (CrushingWheelControllerBlockEntity & InjectCrushingWheelControllerBlockEntity) tileEntityIn;
         double bottom = controller.getBottom();
         SmartFluidTankBehaviour tank = controller.getTank();
         if (bottom >= 0) return;

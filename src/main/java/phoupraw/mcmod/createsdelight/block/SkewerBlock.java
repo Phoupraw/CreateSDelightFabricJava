@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.contraptions.base.RotatedPillarKineticBlock;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.content.kinetics.base.RotatedPillarKineticBlock;
+import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -12,7 +12,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldView;
 import phoupraw.mcmod.createsdelight.block.entity.SkewerBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
-public class SkewerBlock extends RotatedPillarKineticBlock implements ITE<SkewerBlockEntity> {
+public class SkewerBlock extends RotatedPillarKineticBlock implements IBE<SkewerBlockEntity> {
     public SkewerBlock() {this(FabricBlockSettings.copyOf(AllBlocks.SHAFT.get()));}
 
     public SkewerBlock(Settings properties) {
@@ -26,12 +26,12 @@ public class SkewerBlock extends RotatedPillarKineticBlock implements ITE<Skewer
     }
 
     @Override
-    public Class<SkewerBlockEntity> getTileEntityClass() {
+    public Class<SkewerBlockEntity> getBlockEntityClass() {
         return SkewerBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends SkewerBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends SkewerBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.SKEWER;
     }
 

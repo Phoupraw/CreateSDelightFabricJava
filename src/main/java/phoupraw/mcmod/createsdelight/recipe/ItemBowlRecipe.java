@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.recipe;
 
-import com.simibubi.create.content.contraptions.components.deployer.DeployerRecipeSearchEvent;
+import com.simibubi.create.content.kinetics.deployer.DeployerRecipeSearchEvent;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
@@ -45,7 +45,7 @@ public class ItemBowlRecipe implements Recipe<Inventory> {
 
     @Override
     public ItemStack getOutput() {
-        var itemS = new IronBowlItemStorage(ContainerItemContext.ofSingleSlot(InventoryStorage.of(event.getInventory(), null).getSlot(0)), event.getTileEntity().getWorld());
+        var itemS = new IronBowlItemStorage(ContainerItemContext.ofSingleSlot(InventoryStorage.of(event.getInventory(), null).getSlot(0)), event.getBlockEntity().getWorld());
         TransferUtil.insertItem(itemS, event.getInventory().getStack(1));
         return event.getInventory().getStack(0).copy();
     }

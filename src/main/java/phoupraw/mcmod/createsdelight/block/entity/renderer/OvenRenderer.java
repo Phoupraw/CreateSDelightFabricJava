@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
-import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.content.logistics.depot.DepotRenderer;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import phoupraw.mcmod.createsdelight.block.entity.OvenBlockEntity;
-public class OvenRenderer extends SmartTileEntityRenderer<OvenBlockEntity> {
+public class OvenRenderer extends SmartBlockEntityRenderer<OvenBlockEntity> {
     public OvenRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }

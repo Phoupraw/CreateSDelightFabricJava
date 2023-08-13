@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.behaviour;
 
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Direction;
 import phoupraw.mcmod.createsdelight.api.DirectBeltInput;
@@ -14,7 +14,7 @@ import phoupraw.mcmod.createsdelight.mixin.MixinTileEntityBehaviour;
 public class WrappedBeltInputBehaviour extends DirectBeltInputBehaviour {
     private final DirectBeltInput.InsertionHandler insertionHandler;
 
-    public WrappedBeltInputBehaviour(SmartTileEntity te, DirectBeltInput.InsertionHandler insertionHandler) {
+    public WrappedBeltInputBehaviour(SmartBlockEntity te, DirectBeltInput.InsertionHandler insertionHandler) {
         super(te);
         this.insertionHandler = insertionHandler;
     }

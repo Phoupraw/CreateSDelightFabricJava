@@ -1,13 +1,14 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
-import com.simibubi.create.content.contraptions.fluids.actors.ItemDrainRenderer;
-import com.simibubi.create.content.contraptions.relays.belt.BeltHelper;
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
+import com.simibubi.create.content.fluids.drain.ItemDrainBlockEntity;
+import com.simibubi.create.content.fluids.drain.ItemDrainRenderer;
+import com.simibubi.create.content.kinetics.belt.BeltHelper;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.content.logistics.depot.DepotRenderer;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
 import com.simibubi.create.foundation.utility.VecHelper;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
@@ -30,9 +31,9 @@ import phoupraw.mcmod.createsdelight.block.entity.SmartDrainBlockEntity;
 import phoupraw.mcmod.createsdelight.mixin.AccessLerpedFloat;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 @Environment(EnvType.CLIENT)
-public class SmartDrainRenderer extends SmartTileEntityRenderer<SmartDrainBlockEntity> {
+public class SmartDrainRenderer extends SmartBlockEntityRenderer<SmartDrainBlockEntity> {
     /**
-     * @see ItemDrainRenderer#renderItem
+     * @see ItemDrainRenderer#renderItem(ItemDrainBlockEntity, float, MatrixStack, VertexConsumerProvider, int, int)
      */
     public static void renderLikeDrain(@NotNull TransportedItemStack transp, BlockPos blockPos, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
         if (transp.stack.isEmpty()) return;

@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.mixin;
 
-import com.simibubi.create.content.contraptions.processing.BasinRecipe;
+import com.simibubi.create.content.processing.basin.BasinRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(BasinRecipe.class)

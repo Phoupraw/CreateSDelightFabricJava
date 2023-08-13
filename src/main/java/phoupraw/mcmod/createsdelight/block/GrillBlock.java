@@ -3,7 +3,7 @@ package phoupraw.mcmod.createsdelight.block;
 import com.google.common.base.Predicates;
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
 import com.nhoryzon.mc.farmersdelight.registry.SoundsRegistry;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
@@ -32,7 +32,7 @@ import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.storage.BlockingTransportedStorage;
 import phoupraw.mcmod.createsdelight.storage.ConstantSingleItemStorage;
 
-public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
+public class GrillBlock extends Block implements IBE<GrillBlockEntity> {
     public static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
 
     public GrillBlock(Settings settings) {
@@ -40,12 +40,12 @@ public class GrillBlock extends Block implements ITE<GrillBlockEntity> {
     }
 
     @Override
-    public Class<GrillBlockEntity> getTileEntityClass() {
+    public Class<GrillBlockEntity> getBlockEntityClass() {
         return GrillBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends GrillBlockEntity> getTileEntityType() {
+    public BlockEntityType<? extends GrillBlockEntity> getBlockEntityType() {
         return MyBlockEntityTypes.GRILL;
     }
 

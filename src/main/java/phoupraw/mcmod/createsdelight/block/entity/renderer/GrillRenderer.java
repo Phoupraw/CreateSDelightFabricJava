@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.block.entity.renderer;
 
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.content.logistics.block.depot.DepotRenderer;
-import com.simibubi.create.foundation.tileEntity.renderer.SmartTileEntityRenderer;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.content.logistics.depot.DepotRenderer;
+import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -17,7 +17,7 @@ import phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity;
 
 import static phoupraw.mcmod.createsdelight.block.entity.GrillBlockEntity.getHorizontalOffset;
 @Environment(EnvType.CLIENT)
-public class GrillRenderer extends SmartTileEntityRenderer<GrillBlockEntity> {
+public class GrillRenderer extends SmartBlockEntityRenderer<GrillBlockEntity> {
     public GrillRenderer(BlockEntityRendererFactory.Context context) {
         super(context);
     }

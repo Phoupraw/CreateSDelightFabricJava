@@ -1,10 +1,10 @@
 package phoupraw.mcmod.createsdelight.inject;
 
 import com.simibubi.create.compat.rei.display.CreateDisplay;
-import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipe;
-import com.simibubi.create.content.contraptions.itemAssembly.SequencedRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingOutput;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;

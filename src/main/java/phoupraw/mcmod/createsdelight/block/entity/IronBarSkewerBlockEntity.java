@@ -1,8 +1,8 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.nhoryzon.mc.farmersdelight.registry.ParticleTypesRegistry;
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleItemStorage;
@@ -33,7 +33,7 @@ import phoupraw.mcmod.createsdelight.registry.MyBlockEntityTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-public class IronBarSkewerBlockEntity extends KineticTileEntity implements SidedStorageBlockEntity {
+public class IronBarSkewerBlockEntity extends KineticBlockEntity implements SidedStorageBlockEntity {
     public static final int SIZE = 2;
 
     public static @NotNull NbtList toNbt(double @NotNull [] array) {

@@ -1,11 +1,11 @@
 package phoupraw.mcmod.createsdelight.recipe;
 
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
-import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.world.World;
-public abstract class DeprecatedMatchesRecipe extends ProcessingRecipe<Inventory>{
+public abstract class DeprecatedMatchesRecipe extends ProcessingRecipe<Inventory> {
     public DeprecatedMatchesRecipe(IRecipeTypeInfo typeInfo, ProcessingRecipeBuilder.ProcessingRecipeParams params) {
         super(typeInfo, params);
     }

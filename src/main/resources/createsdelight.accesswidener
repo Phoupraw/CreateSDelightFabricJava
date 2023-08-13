@@ -1,15 +1,15 @@
 accessWidener v2 named
-#accessible class com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$State
-#accessible class com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$Mode
+#accessible class com/simibubi/create/content/contraptions/components/deployer/DeployerBlockEntity$State
+#accessible class com/simibubi/create/content/contraptions/components/deployer/DeployerBlockEntity$Mode
 accessible field net/minecraft/loot/entry/ItemEntry item Lnet/minecraft/item/Item;
 accessible field net/minecraft/loot/entry/TagEntry name Lnet/minecraft/tag/TagKey;
 accessible field net/minecraft/loot/entry/CombinedEntry children [Lnet/minecraft/loot/entry/LootPoolEntry;
 accessible field net/minecraft/loot/LootManager GSON Lcom/google/gson/Gson;
-#accessible field com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity state Lcom/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$State;
-#accessible field com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity mode Lcom/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity$Mode;
+#accessible field com/simibubi/create/content/contraptions/components/deployer/DeployerBlockEntity state Lcom/simibubi/create/content/contraptions/components/deployer/DeployerBlockEntity$State;
+#accessible field com/simibubi/create/content/contraptions/components/deployer/DeployerBlockEntity mode Lcom/simibubi/create/content/contraptions/components/deployer/DeployerBlockEntity$Mode;
 accessible method net/minecraft/item/ItemUsageContext getHitResult ()Lnet/minecraft/util/hit/BlockHitResult;
 #accessible field com/simibubi/create/content/logistics/block/depot/DepotBehaviour heldItem Lcom/simibubi/create/content/contraptions/relays/belt/transport/TransportedItemStack;
 #accessible method net/minecraft/item/BucketItem playEmptyingSound (Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;)V
 #accessible	method	net/minecraft/block/Blocks	never	(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityType;)Ljava/lang/Boolean;
 #accessible field com/simibubi/create/content/logistics/block/depot DepotBehaviour heldItem
-#accessible method com/simibubi/create/content/contraptions/processing/BasinTileEntity getOperator ()Ljava/util/Optional;
+#accessible method com/simibubi/create/content/contraptions/processing/BasinBlockEntity getOperator ()Ljava/util/Optional;

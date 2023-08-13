@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.rei;
 
 import com.simibubi.create.compat.rei.category.animations.AnimatedBlazeBurner;
-import com.simibubi.create.content.contraptions.processing.HeatCondition;
+import com.simibubi.create.content.processing.recipe.HeatCondition;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
