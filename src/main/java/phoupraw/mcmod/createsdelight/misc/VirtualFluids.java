@@ -107,32 +107,6 @@ public final class VirtualFluids {
     }
 
     /**
-     如果流体的纹理是<code>assets/namespace/textures/block/path.png</code>，则可以用此方法快捷注册纹理。
-     <p>
-     执行的注册：<code>
-     FluidRenderHandlerRegistry.INSTANCE.register<br/>
-     ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register
-     </code>
-     @param fluids 流体
-     //@see Lambdas#addingTextures
-     @see SimpleFluidRenderHandler#SimpleFluidRenderHandler(Identifier, Identifier)
-     @since 1.0.0
-     */
-    @Contract(value = "_ -> fail", pure = true)
-    @Environment(EnvType.CLIENT)
-    public static void registerTexture(Fluid... fluids) {
-        //Identifier[] textures = new Identifier[fluids.length];
-        //for (int i = 0; i < fluids.length; i++) {
-        //    var fluid = fluids[i];
-        //    var texture = Registries2.prefixBlock(Registry.FLUID.getId(fluid));
-        //    textures[i] = texture;
-        //    FluidRenderHandlerRegistry.INSTANCE.register(fluid, new SimpleFluidRenderHandler(texture, texture));
-        //}
-        //ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(textures));
-        throw new IllegalStateException("被原版机制替代");
-    }
-
-    /**
      如果一个流体的流动纹理和静止纹理相同，可以用此方法快捷创建{@link SimpleFluidRenderHandler}。
      @param textureId 纹理路径，具体写法可以参考{@link SimpleFluidRenderHandler#WATER_STILL}等。
      @param tint 用于给纹理染色的RGB颜色，忽略透明度。

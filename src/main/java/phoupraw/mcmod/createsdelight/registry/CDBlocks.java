@@ -62,8 +62,8 @@ public final class CDBlocks {
         //register(CDIdentifiers.CHOCOLATE_ANTHEMY_CAKE, CHOCOLATE_ANTHEMY_CAKE);
         register(CDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
 
-        //register(CDIdentifiers.MILK, MILK);
-        //register(CDIdentifiers.CHOCOLATE, CHOCOLATE);
+        register(CDIdentifiers.MILK, MILK);
+        register(CDIdentifiers.CHOCOLATE, CHOCOLATE);
     }
 
     private static <T extends Block> void register(Identifier id, T block) {

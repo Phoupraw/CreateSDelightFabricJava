@@ -16,8 +16,7 @@ public final class CSDDataGeneratorEntrypoint implements DataGeneratorEntrypoint
         pack.addProvider(CDRecipeProvider::new);
         pack.addProvider(CDBlockLootTableProvider::new);
         pack.addProvider(CDItemTagProvider::new);
-        pack.addProvider(CDRecipeProvider::new);
-        pack.addProvider(CDBlockLootTableProvider::new);
+        pack.addProvider(CDBlockTagProvider::new);
         pack.addProvider(CDFluidTagProvider::new);
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             pack.addProvider(CDChineseProvider::new);

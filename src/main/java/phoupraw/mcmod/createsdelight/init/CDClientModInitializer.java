@@ -6,16 +6,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 import phoupraw.mcmod.createsdelight.misc.StatusEffectsTooltipComponent;
 import phoupraw.mcmod.createsdelight.misc.StatusEffectsTooltipData;
-import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 import phoupraw.mcmod.createsdelight.model.PrintedCakeModel;
-import phoupraw.mcmod.createsdelight.registry.CDFluids;
 import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 
 @Environment(EnvType.CLIENT)
-@ApiStatus.Internal
 public final class CDClientModInitializer implements ClientModInitializer {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -57,7 +53,7 @@ public final class CDClientModInitializer implements ClientModInitializer {
         //FluidRenderHandlerRegistry.INSTANCE.register(CDFluids.BEETROOT_SOUP, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.DULL_RED.color));
         //FluidRenderHandlerRegistry.INSTANCE.register(CDFluids.POPPY_RUSSIAN_SOUP, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.DARK_RED.color));
         //FluidRenderHandlerRegistry.INSTANCE.register(CDFluids.MASHED_POTATO, VirtualFluids.newSimpleFluidRenderHandler(turbid, MapColor.PALE_YELLOW.color));
-        VirtualFluids.registerTexture(CDFluids.EGG_LIQUID/*, CDFluids.ICED_MELON_JUICE, CDFluids.THICK_HOT_COCOA, CDFluids.WHEAT_BLACK_TEA, CDFluids.ROSE_MILK_TEA, CDFluids.VEGETABLE_BIG_STEW*/);
+        //VirtualFluids.registerTexture(CDFluids.EGG_LIQUID/*, CDFluids.ICED_MELON_JUICE, CDFluids.THICK_HOT_COCOA, CDFluids.WHEAT_BLACK_TEA, CDFluids.ROSE_MILK_TEA, CDFluids.VEGETABLE_BIG_STEW*/);
         //BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), CDFluids.SUNFLOWER_OIL, /*CDFluids.VEGETABLE_BIG_STEW, CDFluids.ROSE_MILK_TEA, */CDFluids.BEETROOT_SOUP, CDFluids.TOMATO_SAUCE, /*CDFluids.POPPY_RUSSIAN_SOUP, CDFluids.WHEAT_BLACK_TEA,*/ CDFluids.PUMPKIN_OIL);
 
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> {

@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -50,14 +49,11 @@ public final class CDItems {
     public static final Item EGG_SHELL = new Item(newSettings());
     public static final Item EGG_DOUGH = new Item(newSettings());
 
-    //序列装配中间体
-    public static final SequencedAssemblyItem JELLY_BEANS_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_S_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem RAW_BASQUE_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem BROWNIE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem APPLE_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
-    public static final SequencedAssemblyItem CARROT_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    //public static final SequencedAssemblyItem SWEET_BERRIES_CAKE_S_0 = new SequencedAssemblyItem(newSettings());
+    //public static final SequencedAssemblyItem RAW_BASQUE_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    //public static final SequencedAssemblyItem BROWNIE_0 = new SequencedAssemblyItem(newSettings());
+    //public static final SequencedAssemblyItem APPLE_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
+    //public static final SequencedAssemblyItem CARROT_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
 
     //蛋糕材料
     public static final BlockItem MILK = new BlockItem(CDBlocks.MILK, newSettings());
@@ -86,8 +82,8 @@ public final class CDItems {
 
         //register(CDIdentifiers.BUCKETED_SUNFLOWER_OIL, BUCKETED_SUNFLOWER_OIL);
         //register(CDIdentifiers.BOTTLED_SUNFLOWER_OIL, BOTTLED_SUNFLOWER_OIL);
-        //register(CDIdentifiers.EGG_SHELL, EGG_SHELL);
-        //register(CDIdentifiers.EGG_DOUGH, EGG_DOUGH);
+        register(CDIdentifiers.EGG_SHELL, EGG_SHELL);
+        register(CDIdentifiers.EGG_DOUGH, EGG_DOUGH);
         //register(CDIdentifiers.RAW_BASQUE_CAKE, RAW_BASQUE_CAKE);
         //register(CDIdentifiers.BUCKETED_PUMPKIN_OIL, BUCKETED_PUMPKIN_OIL);
         //register(CDIdentifiers.IRON_BOWL, IRON_BOWL);
@@ -103,8 +99,8 @@ public final class CDItems {
         //register(CDIdentifiers.APPLE_CREAM_CAKE_0, APPLE_CREAM_CAKE_0);
         //register(CDIdentifiers.CARROT_CREAM_CAKE_0, CARROT_CREAM_CAKE_0);
         //
-        //register(CDIdentifiers.MILK, MILK);
-        //register(CDIdentifiers.CHOCOLATE, CHOCOLATE);
+        register(CDIdentifiers.MILK, MILK);
+        register(CDIdentifiers.CHOCOLATE, CHOCOLATE);
         //
         //register(CDIdentifiers.SUNFLOWER_KERNELS, SUNFLOWER_KERNELS);
     }
