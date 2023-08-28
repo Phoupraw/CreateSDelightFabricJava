@@ -5,6 +5,7 @@ import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +29,6 @@ import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.registry.CDBETypes;
-import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 
 import java.util.*;
 
@@ -160,7 +160,7 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
     }
 
     public PrintedCakeBlock() {
-        this(FabricBlockSettings.copyOf(CDBlocks.JELLY_BEANS_CAKE).dynamicBounds());
+        this(FabricBlockSettings.copyOf(Blocks.CAKE).dynamicBounds());
     }
 
     public PrintedCakeBlock(Settings settings) {

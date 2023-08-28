@@ -1,12 +1,9 @@
 package phoupraw.mcmod.createsdelight.item;
 
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -27,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 import java.util.List;
-import java.util.Optional;
 public class StatusEffectsBlockItem extends BlockItem {
 
     public static boolean apply(LivingEntity object, StatusEffectInstance effect) {
@@ -83,15 +79,15 @@ public class StatusEffectsBlockItem extends BlockItem {
         super(block, settings);
     }
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        return StatusEffectsItem.finishUsing(this, stack, world, user);
-    }
+    //@Override
+    //public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+    //    return StatusEffectsItem.finishUsing(this, stack, world, user);
+    //}
 
-    @Environment(EnvType.CLIENT)
-    @Override
-    public Optional<TooltipData> getTooltipData(ItemStack stack) {
-        return StatusEffectsItem.getTooltipData(this, stack);
-    }
+    //@Environment(EnvType.CLIENT)
+    //@Override
+    //public Optional<TooltipData> getTooltipData(ItemStack stack) {
+    //    return StatusEffectsItem.getTooltipData(this, stack);
+    //}
 
 }

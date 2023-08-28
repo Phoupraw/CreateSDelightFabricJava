@@ -3,6 +3,7 @@ package phoupraw.mcmod.createsdelight.registry;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.renderer.SmartBlockEntityRenderer;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.Factory;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,7 +14,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.common.api.Registries2;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBE;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
 import phoupraw.mcmod.createsdelight.datagen.CDBlockLootTableProvider;
@@ -22,6 +22,7 @@ import phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
+import phoupraw.mcmod.createsdelight.init.CDClientModInitializer;
 
 /**
  * 方块实体及其方块编写流程：
@@ -50,8 +51,8 @@ import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
  */
 public final class CDBETypes {
 
-    public static final BlockEntityType<PrintedCakeBE> PRINTED_CAKE = Registries2.of(PrintedCakeBE::new, CDBlocks.PRINTED_CAKE);
-    public static final BlockEntityType<CakeOvenBE> CAKE_OVEN = Registries2.of(CakeOvenBE::new, CDBlocks.CAKE_OVEN);
+    public static final BlockEntityType<PrintedCakeBE> PRINTED_CAKE = of(PrintedCakeBE::new, CDBlocks.PRINTED_CAKE);
+    public static final BlockEntityType<CakeOvenBE> CAKE_OVEN = of(CakeOvenBE::new, CDBlocks.CAKE_OVEN);
     static {
         register(CDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CDIdentifiers.CAKE_OVEN, CAKE_OVEN);
@@ -60,6 +61,14 @@ public final class CDBETypes {
     @Contract("_, _ -> param2")
     public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, blockEntityType);
+    }
+
+    /**
+     * @since 1.0.0
+     */
+    @Contract(value = "_,_->new", pure = true)
+    public static <T extends BlockEntity> BlockEntityType<T> of(Factory<T> factory, Block... blocks) {
+        return FabricBlockEntityTypeBuilder.create(factory, blocks).build();
     }
 
     private CDBETypes() {

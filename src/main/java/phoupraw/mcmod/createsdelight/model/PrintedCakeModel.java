@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.model;
 
 import com.google.common.collect.*;
 import io.github.tropheusj.milk.Milk;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
@@ -666,7 +667,7 @@ public boolean isVanillaAdapter() {
 public static BakedModel content2model(VoxelCake voxelCake) {
     var faceContent = content2faces(voxelCake);
     ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
-    var meshBuilder = IronBowlModel.getMeshBuilder();
+    var meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
     QuadEmitter emitter = meshBuilder.getEmitter();
     for (var cell : faceContent.cellSet()) {
         Sprite sprite = getSprite(cell.getRowKey());

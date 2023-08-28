@@ -4,7 +4,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.storage.RegionBasedStorage;
 import net.minecraft.world.storage.RegionFile;
-import phoupraw.mcmod.createsdelight.exp.JsonNbtConvertions;
 
 import java.io.File;
 import java.io.FileReader;
@@ -39,7 +38,7 @@ public class Test04 {
         System.out.println("mca time = " + (System.currentTimeMillis() - time));
         File jsonFile = new File("D:\\CCC\\Documents\\03_other/test04.json");
         try (var writer = new FileWriter(jsonFile)) {
-            writer.append(JsonNbtConvertions.convert(chunks).toString());
+            //writer.append(JsonNbtConvertions.convert(chunks).toString());
         }
         time = System.currentTimeMillis();
         new Gson().fromJson(new FileReader(jsonFile), JsonObject.class);

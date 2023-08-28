@@ -3,46 +3,12 @@
   "package": "phoupraw.mcmod.createsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AccessDeployerTileEntity",
-    "AccessLerpedFloat",
-    "AccessRecipeManager",
-    "MixinAllTileEntities",
-    "MixinBasinRecipe",
-    "MixinBasinTileEntity",
-    "MixinBeltHelper",
-    "MixinBlock",
-    "MixinBlocks",
-    "MixinCreate",
-    "MixinCreateDisplay",
-    "MixinCrushingWheelControllerTileEntity",
-    "MixinDeployerTileEntity",
-    "MixinDirectBeltInputBehaviour",
-    "MixinFillingBySpout",
-    "MixinGenericItemFilling",
-    "MixinLivingEntity",
-    "MixinMillingRecipe",
-    "MixinMillstoneTileEntity",
-    "MixinPlayerContainerItemContext",
-    "MixinRecipeManager",
-    "MixinSectionedEntityCache",
-    "MixinSequencedAssemblyRecipe",
-    "MixinSpoutTileEntity",
-    "MixinTileEntityBehaviour"
+
   ],
   "client": [
-    "ClientMixinAllTileEntities",
-    "MixinAssemblySpouting",
-    "MixinBasinCategory",
-    "MixinBasinRenderer",
-    "MixinCrushingCategory",
-    "MixinDepotRenderer",
-    "MixinMillingCategory",
-    "MixinMillstoneRenderer",
-    "MixinMinecraftClient",
-    "MixinSpoutRenderer"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "phoupraw.mcmod.createsdelight.registry.CDMixinConfigPlugin"
+  "plugin": "phoupraw.mcmod.createsdelight.init.CDMixinConfigPlugin"
 }
