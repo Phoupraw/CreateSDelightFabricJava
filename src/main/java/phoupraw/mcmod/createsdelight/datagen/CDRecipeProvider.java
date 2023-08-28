@@ -3,10 +3,10 @@ package phoupraw.mcmod.createsdelight.datagen;
 import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.content.contraptions.itemAssembly.SequencedAssemblyRecipeBuilder;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipeBuilder;
 import io.github.tropheusj.milk.Milk;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
@@ -14,12 +14,10 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.api.LambdasC;
-import phoupraw.mcmod.createsdelight.recipe.VerticalCuttingRecipe;
 import phoupraw.mcmod.createsdelight.registry.CDFluidTags;
 import phoupraw.mcmod.createsdelight.registry.CDFluids;
 import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
@@ -27,17 +25,20 @@ import phoupraw.mcmod.createsdelight.registry.CDItems;
 
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
+
 public final class CDRecipeProvider extends FabricRecipeProvider {
-    public CDRecipeProvider(FabricDataGenerator dataGenerator) {
-        super(dataGenerator);
+
+
+    public CDRecipeProvider(FabricDataOutput output) {
+        super(output);
     }
 
     @Override
-    protected void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
-        offerStonecuttingRecipe(exporter, CDItems.CAKE_BLUEPRINT, AllItems.SCHEMATIC.get(), 1);
-        offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 10, Items.DRIED_KELP, CDItems.KELP_ASH, 0.2f);
-        offerCookingRecipe(exporter, "smoking", RecipeSerializer.SMOKING, 20 * 10, CDItems.RAW_BASQUE_CAKE, CDItems.BASQUE_CAKE, 2f);
-        ShapedRecipeJsonBuilder.create(CDItems.SWEET_BERRIES_CAKE)
+    public void generate(Consumer<RecipeJsonProvider> exporter) {
+        offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, CDItems.CAKE_BLUEPRINT, AllItems.SCHEMATIC.get(), 1);
+        //offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 10, Items.DRIED_KELP, CDItems.KELP_ASH, 0.2f);
+        //offerCookingRecipe(exporter, "smoking", RecipeSerializer.SMOKING, 20 * 10, CDItems.RAW_BASQUE_CAKE, CDItems.BASQUE_CAKE, 2f);
+        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, CDItems.SWEET_BERRIES_CAKE)
           .pattern("A")
           .pattern("B")
           .pattern("C")
@@ -46,7 +47,7 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .input('C', CDItems.CAKE_BASE_SLICE)
           .criterion("stupidMojang", conditionsFromItem(Items.CRAFTING_TABLE))
           .offerTo(exporter);
-        ShapedRecipeJsonBuilder.create(CDItems.IRON_BOWL)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, CDItems.IRON_BOWL)
           .pattern("A A")
           .pattern(" A ")
           .input('A', AllItems.IRON_SHEET.get())
@@ -57,140 +58,6 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET / 2)
           .output(ItemsRegistry.CHOCOLATE_PIE.get())
           .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.CAKE_SLICE.get()))
-          .withKnives(3)
-          .require(Items.CAKE)
-          .output(ItemsRegistry.CAKE_SLICE.get(), 7)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.SWEET_BERRY_CHEESECAKE_SLICE.get()))
-          .withKnives(2)
-          .require(ItemsRegistry.SWEET_BERRY_CHEESECAKE.get())
-          .output(ItemsRegistry.SWEET_BERRY_CHEESECAKE_SLICE.get(), 4)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.CHOCOLATE_PIE_SLICE.get()))
-          .withKnives(2)
-          .require(ItemsRegistry.CHOCOLATE_PIE.get())
-          .output(ItemsRegistry.CHOCOLATE_PIE_SLICE.get(), 4)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.APPLE_PIE_SLICE.get()))
-          .withKnives(2)
-          .require(ItemsRegistry.APPLE_PIE.get())
-          .output(ItemsRegistry.APPLE_PIE_SLICE.get(), 4)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(Items.PORKCHOP))
-          .withKnives(2)
-          .require(ItemsRegistry.HAM.get())
-          .output(Items.PORKCHOP, 2)
-          .output(Items.BONE)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(Items.COOKED_PORKCHOP))
-          .withKnives(2)
-          .require(ItemsRegistry.SMOKED_HAM.get())
-          .output(Items.COOKED_PORKCHOP, 2)
-          .output(Items.BONE)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.SALMON_SLICE.get()))
-          .withKnives(2)
-          .require(Items.SALMON)
-          .output(ItemsRegistry.SALMON_SLICE.get(), 2)
-          .output(Items.BONE_MEAL)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_SALMON_SLICE.get()))
-          .withKnives(2)
-          .require(Items.COOKED_SALMON)
-          .output(ItemsRegistry.COOKED_SALMON_SLICE.get(), 2)
-          .output(Items.BONE_MEAL)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COD_SLICE.get()))
-          .withKnives(2)
-          .require(Items.COOKED_COD)
-          .output(ItemsRegistry.COD_SLICE.get(), 2)
-          .output(Items.BONE_MEAL)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_COD_SLICE.get()))
-          .withKnives(2)
-          .require(Items.COD)
-          .output(ItemsRegistry.COOKED_COD_SLICE.get(), 2)
-          .output(Items.BONE_MEAL)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.BACON.get()))
-          .withKnives(1)
-          .require(Items.PORKCHOP)
-          .output(ItemsRegistry.BACON.get(), 2)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.MUTTON_CHOPS.get()))
-          .withKnives(1)
-          .require(Items.MUTTON)
-          .output(ItemsRegistry.MUTTON_CHOPS.get(), 2)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_MUTTON_CHOPS.get()))
-          .withKnives(1)
-          .require(Items.COOKED_MUTTON)
-          .output(ItemsRegistry.COOKED_MUTTON_CHOPS.get(), 2)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.CHICKEN_CUTS.get()))
-          .withKnives(1)
-          .require(Items.CHICKEN)
-          .output(ItemsRegistry.CHICKEN_CUTS.get(), 2)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.COOKED_CHICKEN_CUTS.get()))
-          .withKnives(1)
-          .require(Items.COOKED_CHICKEN)
-          .output(ItemsRegistry.COOKED_CHICKEN_CUTS.get(), 2)
-          .build(exporter);
-        new VerticalCuttingRecipe.Builder(Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
-          .withKnives(16)
-          .require(Items.BEEF)
-          .output(ItemsRegistry.MINCED_BEEF.get(), 2)
-          .build(exporter);
-        //new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), CDIdentifiers.VEGETABLE_BIG_STEW)
-        //  .require(Items.CARROT)
-        //  .require(Items.POTATO)
-        //  .require(Items.BEETROOT)
-        //  .require(ItemsRegistry.TOMATO.get())
-        //  .require(ItemsRegistry.CABBAGE_LEAF.get())
-        //  .require(ItemsRegistry.ONION.get())
-        //  .require(ItemsRegistry.PUMPKIN_SLICE.get())
-        //  //          .require(Items.SUGAR)
-        //  .require(Fluids.WATER, FluidConstants.BUCKET / 2)
-        //  .output(CDFluids.VEGETABLE_BIG_STEW, FluidConstants.BUCKET / 2)
-        //  .duration(20 * 15)
-        //  .requiresHeat(HeatCondition.HEATED)
-        //  .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), Registry.ITEM.getId(ItemsRegistry.MINCED_BEEF.get()))
-          .require(Items.BEEF)
-          .output(ItemsRegistry.MINCED_BEEF.get(), 2)
-          .averageProcessingDuration()
-          .build(exporter);
-        //new ProcessingRecipeBuilder<>(LambdasC.newingPressureCooking(), CDIdentifiers.ROSE_MILK_TEA)
-        //  .require(Items.ROSE_BUSH)
-        //  .require(Items.SUGAR)
-        //  .require(ItemTags.LEAVES)
-        //  .require(Milk.STILL_MILK, FluidConstants.BOTTLE)
-        //  .output(CDFluids.ROSE_MILK_TEA, FluidConstants.BOTTLE)
-        //  .averageProcessingDuration()
-        //  .requiresHeat(HeatCondition.HEATED)
-        //  .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), CDIdentifiers.TOMATO_SAUCE)
-          .require(ItemsRegistry.TOMATO.get())
-          .output(CDFluids.TOMATO_SAUCE, FluidConstants.BUCKET / 8)
-          .averageProcessingDuration()
-          .build(exporter);
-        //new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), CDIdentifiers.POPPY_RUSSIAN_SOUP)
-        //  .require(Items.POPPY)
-        //  .require(Items.POPPY)
-        //  .require(Items.POPPY)
-        //  .require(Items.CARROT)
-        //  .require(Items.BAKED_POTATO)
-        //  .require(ItemsRegistry.MINCED_BEEF.get())
-        //  .require(ItemsRegistry.CABBAGE_LEAF.get())
-        //  .require(CDFluids.TOMATO_SAUCE, FluidConstants.BOTTLE)
-        //  .require(Milk.STILL_MILK, FluidConstants.BOTTLE / 3)
-        //  .require(CDFluids.BEETROOT_SOUP, FluidConstants.BOTTLE * 2 / 3)
-        //  .output(CDFluids.POPPY_RUSSIAN_SOUP, FluidConstants.BOTTLE * 2)
-        //  .duration(20 * 15)
-        //  .requiresHeat(HeatCondition.HEATED)
-        //  .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), CDIdentifiers.EGG_DOUGH)
           .require(AllItems.DOUGH.get())
           .require(Items.SUGAR)
@@ -198,15 +65,6 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .require(CDFluidTags.OIL, FluidConstants.BOTTLE / 2)
           .output(CDItems.EGG_DOUGH)
           .averageProcessingDuration()
-          .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingMincingRecipe(), CDIdentifiers.MELON_JUICE)
-          .require(Items.MELON_SLICE)
-          .require(Items.MELON_SLICE)
-          .require(Items.MELON_SLICE)
-          .require(Items.MELON_SLICE)
-          .require(Items.SUGAR)
-          .averageProcessingDuration()
-          .output(CDFluids.MELON_JUICE, FluidConstants.BOTTLE)
           .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), CDIdentifiers.JELLY_BEANS)
           .require(Items.SUGAR)
@@ -271,16 +129,6 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .require(Items.BUCKET)
           .output(CDItems.IRON_BOWL)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingBaking(), CDIdentifiers.CAKE_BASE)
-          .require(CDFluids.PASTE, FluidConstants.BUCKET / 2)
-          .duration(20 * 10)
-          .output(CDItems.CAKE_BASE)
-          .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingBaking(), CDIdentifiers.APPLE_CAKE)
-          .require(CDFluids.APPLE_PASTE, FluidConstants.BUCKET / 2)
-          .duration(20 * 10)
-          .output(CDItems.APPLE_CAKE)
-          .build(exporter);
         new ProcessingRecipeBuilder<>(LambdasC.newingMixing(), CDIdentifiers.CHOCOLATE_PASTE)
           .require(CDFluids.PASTE, FluidConstants.BOTTLE)
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BOTTLE)
@@ -290,11 +138,6 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .require(Items.SUGAR)
           .averageProcessingDuration()
           .output(CDFluids.CHOCOLATE_PASTE, FluidConstants.BUCKET)
-          .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingBaking(), CDIdentifiers.CHOCOLATE_CAKE_BASE)
-          .require(CDFluids.CHOCOLATE_PASTE, FluidConstants.BUCKET / 2)
-          .duration(20 * 10)
-          .output(CDItems.CHOCOLATE_CAKE_BASE)
           .build(exporter);
 
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -411,15 +254,17 @@ public final class CDRecipeProvider extends FabricRecipeProvider {
           .build(exporter);
 
         //蛋糕材料
-        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(),CDIdentifiers.MILK)
-          .require(Milk.STILL_MILK,FluidConstants.BUCKET)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), CDIdentifiers.MILK)
+          .require(Milk.STILL_MILK, FluidConstants.BUCKET)
           .output(CDItems.MILK)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(),CDIdentifiers.CHOCOLATE)
+        new ProcessingRecipeBuilder<>(LambdasC.newingCompacting(), CDIdentifiers.CHOCOLATE)
           .require(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET)
           .output(CDItems.CHOCOLATE)
           .build(exporter);
-        offerStonecuttingRecipe(exporter,AllItems.BAR_OF_CHOCOLATE.get(), CDItems.CHOCOLATE,3);
+        offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, AllItems.BAR_OF_CHOCOLATE.get(), CDItems.CHOCOLATE, 3);
 
     }
+
+
 }

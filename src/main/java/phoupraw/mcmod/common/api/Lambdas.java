@@ -1,8 +1,5 @@
 package phoupraw.mcmod.common.api;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -13,7 +10,6 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,21 +87,22 @@ public final class Lambdas {
         return context -> new EmptyItemFluidStorage(context, fullItem, fluid, amount);
     }
 
-    /**
-     @param textures 纹理路径，例如<code>minecraft:block/stone</code>
-     @return 用于在 {@link  ClientSpriteRegistryCallback#event} 注册的lambda表达式
-     @see VirtualFluids#registerTexture
-     @since 1.0.0
-     如果想在{@link ClientSpriteRegistryCallback}简单添加几张纹理而不想引入额外的lambda表达式，可以用此方法。
-     @since 0.1.0-pre9
-     */
-    @Contract(pure = true, value = "_->new")
-    @Environment(EnvType.CLIENT)
-    public static @NotNull ClientSpriteRegistryCallback addingTextures(Identifier... textures) {
-        return (atlasTexture, registry) -> {
-            for (Identifier texture : textures) registry.register(texture);
-        };
-    }
+    ///**
+    // @param textures 纹理路径，例如<code>minecraft:block/stone</code>
+    // @return 用于在 {@link  ClientSpriteRegistryCallback#event} 注册的lambda表达式
+    // @see VirtualFluids#registerTexture
+    // @since 1.0.0
+    // 如果想在{@link ClientSpriteRegistryCallback}简单添加几张纹理而不想引入额外的lambda表达式，可以用此方法。
+    // @since 0.1.0-pre9
+    // */
+    //@Contract(pure = true, value = "_->new")
+    //@Environment(EnvType.CLIENT)
+    //public static @NotNull ClientSpriteRegistryCallback addingTextures(Identifier... textures) {
+    //    return (atlasTexture, registry) -> {
+    //        for (Identifier texture : textures) registry.register(texture);
+    //    };
+    //}
 
     private Lambdas() {}
+
 }

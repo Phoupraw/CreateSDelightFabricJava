@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.inject;
 
-import com.simibubi.create.content.contraptions.components.deployer.DeployerTileEntity;
+import com.simibubi.create.content.kinetics.deployer.DeployerBlockEntity;
 
 import java.lang.reflect.Field;
 public interface InjectDeployerTileEntity {
@@ -37,7 +37,7 @@ public interface InjectDeployerTileEntity {
         }
     }
     static void tickBeforeCheckSpeed(Object subject) {
-        var deployer = (DeployerTileEntity & InjectDeployerTileEntity) subject;
+        var deployer = (DeployerBlockEntity & InjectDeployerTileEntity) subject;
 //        deployer.setState(deployer.getState());
     }
     Enum<?> getState();

@@ -140,7 +140,7 @@ public final class Internationals {
         if (m != 0 || !trim) b.append(m);
         if (s != 0 || !trim) b.append(s);
         if (t != 0 || !trim) b.append(t);
-        return b.toString();
+        return b.toString();//FIXME 没有单位
     }
 
     private Internationals() {}

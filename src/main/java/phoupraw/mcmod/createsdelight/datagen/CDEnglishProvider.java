@@ -2,39 +2,41 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.common.api.Internationals;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 import phoupraw.mcmod.createsdelight.registry.*;
+
 @Environment(EnvType.CLIENT)
 public final class CDEnglishProvider extends FabricLanguageProvider {
-    public CDEnglishProvider(FabricDataGenerator dataGenerator) {
+
+    public CDEnglishProvider(FabricDataOutput dataGenerator) {
         super(dataGenerator);
     }
 
     @Override
     public void generateTranslations(TranslationBuilder b) {
         b.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
-          Mainly add interaction between create and farmer's delight and unique food processing.
-          """);
+                                                                         Mainly add interaction between create and farmer's delight and unique food processing.
+                                                                         """);
         b.add(Internationals.keyOfItemGroup(CDIdentifiers.ITEM_GROUP), "Create'S Delight");
         b.add(VirtualFluids.getTranslationKey(CDFluids.SUNFLOWER_OIL), "Sunflower Seed Oil");
         b.add(CDItems.BUCKETED_SUNFLOWER_OIL, "Bucketed Sunflower Seed Oil");
         b.add(CDItems.BOTTLED_SUNFLOWER_OIL, "Bottled Sunflower Seed Oil");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.PAN_FRYING.getId()), "Pan Frying");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.PAN_FRYING.getId()), "Pan Frying");
         b.add(CDStatusEffects.SATIATION, "Satiation");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.GRILLING.getId()), "Grilling");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.GRILLING.getId()), "Grilling");
         b.add("empty", "Empty");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.SPRINKLING.getId()), "Sprinkling Flavour");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.STEAMING.getId()), "Steaming");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.SPRINKLING.getId()), "Sprinkling Flavour");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.STEAMING.getId()), "Steaming");
         b.add("burn_time", "Fuel Time: %s");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.VERTICAL_CUTTING.getId()), "Vertical Cutting");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.PRESSURE_COOKING.getId()), "Pressure Cooking");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.VERTICAL_CUTTING.getId()), "Vertical Cutting");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.PRESSURE_COOKING.getId()), "Pressure Cooking");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.VEGETABLE_BIG_STEW), "Vegetable Big Stew");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.MINCING.getId()), "Mincing");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.MINCING.getId()), "Mincing");
         b.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "Create's Delight");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.ROSE_MILK_TEA), "Rose Milk Tea");
         b.add(VirtualFluids.getTranslationKey(CDFluids.BEETROOT_SOUP), "Beetroot Soup");
@@ -75,7 +77,7 @@ public final class CDEnglishProvider extends FabricLanguageProvider {
         b.add(CDItems.CARROT_CREAM_CAKE_0, "Incomplete Carrot Craem Cake");
         b.add(CDItems.IRON_BOWL, "Iron Bowl");
         b.add(IronBowlItem.getSuffixKey(), "%s (%s)");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.BAKING.getId()), "Baking");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.BAKING.getId()), "Baking");
         b.add(CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, "Small Chocolate Cream Cake");
         b.add(CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, "Medium Chocolate Cream Cake");
         b.add(CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, "Big Chocolate Cream Cake");

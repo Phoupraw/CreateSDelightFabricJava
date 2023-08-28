@@ -6,10 +6,10 @@ import com.nhoryzon.mc.farmersdelight.entity.block.CuttingBoardBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.SkilletBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.StoveBlockEntity;
 import com.nhoryzon.mc.farmersdelight.registry.BlockEntityTypesRegistry;
-import com.simibubi.create.content.contraptions.relays.belt.transport.TransportedItemStack;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.belt.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
@@ -34,8 +34,8 @@ public final class DirectBeltInput {
     public static final BlockApiLookup<Insert, @Nullable Direction> SIDED = BlockApiLookup.get(CDIdentifiers.of("direct_belt_input_2"), Insert.class, Direction.class);
     static {
         LOOKUP.registerFallback((world, pos, state, blockEntity, v) -> {
-            if (!(blockEntity instanceof SmartTileEntity smart)) return null;
-            var behaviour = TileEntityBehaviour.get(smart, DirectBeltInputBehaviour.TYPE);
+            if (!(blockEntity instanceof SmartBlockEntity smart)) return null;
+            var behaviour = BlockEntityBehaviour.get(smart, DirectBeltInputBehaviour.TYPE);
             if (behaviour == null) return null;
             return (InsertionHandler) behaviour;
         });

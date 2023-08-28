@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.simibubi.create.content.contraptions.wrench.IWrenchable;
-import com.simibubi.create.foundation.block.ITE;
+import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -24,84 +24,84 @@ import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 
 import java.util.Objects;
 
-public class CakeOvenBlock extends Block implements ITE<CakeOvenBE>, IWrenchable {
+public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable {
 
 
-public CakeOvenBlock() {
-    this(FabricBlockSettings.copyOf(Blocks.COPPER_BLOCK));
-}
-
-public CakeOvenBlock(Settings settings) {
-    super(settings);
-}
-
-@Override
-public Class<CakeOvenBE> getTileEntityClass() {
-    return CakeOvenBE.class;
-}
-
-@Override
-public BlockEntityType<? extends CakeOvenBE> getTileEntityType() {
-    return CDBETypes.CAKE_OVEN;
-}
-
-@SuppressWarnings("deprecation")
-@Override
-public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-    super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
-    neighborUpdate2(state, world, pos, sourceBlock, sourcePos, notify);
-
-}
-
-public static void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-    var be = (CakeOvenBE) world.getBlockEntity(pos);
-    if (be == null) return;
-    if (!world.isReceivingRedstonePower(pos)) {
-        if (be.powered) {
-            be.powered = false;
-        }
-        return;
+    public CakeOvenBlock() {
+        this(FabricBlockSettings.copyOf(Blocks.COPPER_BLOCK));
     }
-    if (be.powered) return;
-    be.powered = true;
 
-}
-
-public static void neighborUpdate2(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-    var be = Objects.requireNonNull((CakeOvenBE) world.getBlockEntity(pos), world + " " + pos);
-    if (!world.isReceivingRedstonePower(pos)) {
-        if (be.powered) {
-            be.powered = false;
-        }
-        return;
+    public CakeOvenBlock(Settings settings) {
+        super(settings);
     }
-    if (be.powered) return;
-    be.powered = true;
-    final int len = 16;
-    VoxelCake cake = VoxelCake.of(world, BlockBox.create(pos.add(1, 1, 1), pos.add(len + 1, len + 1, len + 1)));
-    if (cake.getContent().isEmpty()) return;
-    BlockPos pos1 = pos.up();
-    if (world.setBlockState(pos1, CDBlocks.PRINTED_CAKE.getDefaultState())) {
-        PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), pos.toString());
-        blockEntity.setVoxelCake(VoxelCake.of(cake.getContent(), cake.getSize()));
-        blockEntity.sendData();
-    }
-}
 
-@Override
-public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    ItemStack handStack = player.getStackInHand(hand);
-    if (handStack.isOf(Items.NAME_TAG)) {
+    @Override
+    public Class<CakeOvenBE> getBlockEntityClass() {
+        return CakeOvenBE.class;
+    }
+
+    @Override
+    public BlockEntityType<? extends CakeOvenBE> getBlockEntityType() {
+        return CDBETypes.CAKE_OVEN;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+        neighborUpdate2(state, world, pos, sourceBlock, sourcePos, notify);
+
+    }
+
+    public static void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         var be = (CakeOvenBE) world.getBlockEntity(pos);
-        if (be == null) return ActionResult.FAIL;
-        if (handStack.hasCustomName()) {
-            be.setCustomName(handStack.getName());
-        } else {
-            be.setCustomName(null);
+        if (be == null) return;
+        if (!world.isReceivingRedstonePower(pos)) {
+            if (be.powered) {
+                be.powered = false;
+            }
+            return;
         }
-        return ActionResult.SUCCESS;
+        if (be.powered) return;
+        be.powered = true;
+
     }
-    return super.onUse(state, world, pos, player, hand, hit);
-}
+
+    public static void neighborUpdate2(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        var be = Objects.requireNonNull((CakeOvenBE) world.getBlockEntity(pos), world + " " + pos);
+        if (!world.isReceivingRedstonePower(pos)) {
+            if (be.powered) {
+                be.powered = false;
+            }
+            return;
+        }
+        if (be.powered) return;
+        be.powered = true;
+        final int len = 16;
+        VoxelCake cake = VoxelCake.of(world, BlockBox.create(pos.add(1, 1, 1), pos.add(len + 1, len + 1, len + 1)));
+        if (cake.getContent().isEmpty()) return;
+        BlockPos pos1 = pos.up();
+        if (world.setBlockState(pos1, CDBlocks.PRINTED_CAKE.getDefaultState())) {
+            PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), pos.toString());
+            blockEntity.setVoxelCake(VoxelCake.of(cake.getContent(), cake.getSize()));
+            blockEntity.sendData();
+        }
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack handStack = player.getStackInHand(hand);
+        if (handStack.isOf(Items.NAME_TAG)) {
+            var be = (CakeOvenBE) world.getBlockEntity(pos);
+            if (be == null) return ActionResult.FAIL;
+            if (handStack.hasCustomName()) {
+                be.setCustomName(handStack.getName());
+            } else {
+                be.setCustomName(null);
+            }
+            return ActionResult.SUCCESS;
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
 
 }

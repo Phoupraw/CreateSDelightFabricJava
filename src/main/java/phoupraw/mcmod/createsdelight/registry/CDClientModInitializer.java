@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.base.KineticTileEntityRenderer;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -10,15 +10,12 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.MapColor;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.StatusEffectsTooltipComponent;
 import phoupraw.mcmod.common.api.StatusEffectsTooltipData;
 import phoupraw.mcmod.common.api.VirtualFluids;
@@ -26,12 +23,14 @@ import phoupraw.mcmod.createsdelight.model.IronBowlModel;
 import phoupraw.mcmod.createsdelight.model.PrintedCakeModel;
 
 import java.awt.*;
+
 @Environment(EnvType.CLIENT)
 @ApiStatus.Internal
 public final class CDClientModInitializer implements ClientModInitializer {
+
     @SuppressWarnings("unchecked")
-    public static <T extends KineticTileEntity> BlockEntityRendererFactory<T> castKineticRendererFactory() {
-        return (BlockEntityRendererFactory<T>) (BlockEntityRendererFactory<KineticTileEntity>) KineticTileEntityRenderer::new;
+    public static <T extends KineticBlockEntity> BlockEntityRendererFactory<T> castKineticRendererFactory() {
+        return KineticBlockEntityRenderer::new;
     }
 
     /**
@@ -95,7 +94,8 @@ public final class CDClientModInitializer implements ClientModInitializer {
             if (resourceId.equals(PrintedCakeModel.BLOCK_ID) || resourceId.equals(PrintedCakeModel.ITEM_ID)) return new PrintedCakeModel.Unbaked();
             return null;
         });
-        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(turbid));
+        //ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(turbid));
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
     }
+
 }

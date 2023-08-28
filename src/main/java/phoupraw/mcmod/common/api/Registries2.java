@@ -11,21 +11,24 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
 /**
- 一些快捷注册的静态方法
- @since 1.0.0 */
-public final class Registries {
+ * 一些快捷注册的静态方法
+ * @since 1.0.0
+ */
+public final class Registries2 {
 
     /**
-     @since 1.0.0
+     * @since 1.0.0
      */
     @Contract("_, _ -> param2")
     public static <T extends Entity> EntityType<T> register(Identifier id, EntityType<T> entityType) {
-        return Registry.register(Registry.ENTITY_TYPE, id, entityType);
+        return Registry.register(Registries.ENTITY_TYPE, id, entityType);
     }
 
     /**
@@ -33,7 +36,7 @@ public final class Registries {
      */
     @Contract("_, _ -> param2")
     public static <T extends Fluid> T register(Identifier id, T fluid) {
-        return Registry.register(Registry.FLUID, id, fluid);
+        return Registry.register(Registries.FLUID, id, fluid);
     }
 
     /**
@@ -41,7 +44,7 @@ public final class Registries {
      */
     @Contract("_, _ -> param2")
     public static <T extends EntityAttribute> T register(Identifier id, T attribute) {
-        return Registry.register(Registry.ATTRIBUTE, id, attribute);
+        return Registry.register(Registries.ATTRIBUTE, id, attribute);
     }
 
     /**
@@ -49,7 +52,7 @@ public final class Registries {
      */
     @Contract("_, _ -> param2")
     public static <T extends Enchantment> T register(Identifier id, T enchantment) {
-        return Registry.register(Registry.ENCHANTMENT, id, enchantment);
+        return Registry.register(Registries.ENCHANTMENT, id, enchantment);
     }
 
     /**
@@ -57,7 +60,7 @@ public final class Registries {
      */
     @Contract("_, _ -> param2")
     public static <T extends RecipeSerializer<R>, R extends Recipe<?>> T register(Identifier id, T serializer) {
-        return Registry.register(Registry.RECIPE_SERIALIZER, id, serializer);
+        return Registry.register(Registries.RECIPE_SERIALIZER, id, serializer);
     }
 
     /**
@@ -78,7 +81,7 @@ public final class Registries {
         return new Identifier(blockId.getNamespace(), "block/" + blockId.getPath());
     }
 
-    private Registries() {
+    private Registries2() {
 
     }
 }

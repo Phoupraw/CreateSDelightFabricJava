@@ -2,39 +2,41 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.common.api.Internationals;
 import phoupraw.mcmod.common.api.VirtualFluids;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.item.IronBowlItem;
 import phoupraw.mcmod.createsdelight.registry.*;
+
 @Environment(EnvType.CLIENT)
 public final class CDChineseProvider extends FabricLanguageProvider {
-    public CDChineseProvider(FabricDataGenerator dataGenerator) {
+
+    public CDChineseProvider(FabricDataOutput dataGenerator) {
         super(dataGenerator, "zh_cn");
     }
 
     @Override
     public void generateTranslations(TranslationBuilder b) {
         b.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID, """
-          主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
-          """);
+                                                                         主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
+                                                                         """);
         b.add(Internationals.keyOfItemGroup(CDIdentifiers.ITEM_GROUP), "机械动力乐事");
         b.add(VirtualFluids.getTranslationKey(CDFluids.SUNFLOWER_OIL), "葵花籽油");
         b.add(CDItems.BUCKETED_SUNFLOWER_OIL, "桶装葵花籽油");
         b.add(CDItems.BOTTLED_SUNFLOWER_OIL, "瓶装葵花籽油");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.PAN_FRYING.getId()), "煎");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.PAN_FRYING.getId()), "煎");
         b.add(CDStatusEffects.SATIATION, "饱食");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.GRILLING.getId()), "烤");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.GRILLING.getId()), "烤");
         b.add("empty", "空");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.SPRINKLING.getId()), "撒料");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.STEAMING.getId()), "蒸");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.SPRINKLING.getId()), "撒料");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.STEAMING.getId()), "蒸");
         b.add("burn_time", "燃料时间：%s");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.VERTICAL_CUTTING.getId()), "纵切");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.PRESSURE_COOKING.getId()), "压煮");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.VERTICAL_CUTTING.getId()), "纵切");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.PRESSURE_COOKING.getId()), "压煮");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.VEGETABLE_BIG_STEW), "蔬菜大乱炖");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.MINCING.getId()), "绞肉");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.MINCING.getId()), "绞肉");
         b.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "机械动力乐事");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.ROSE_MILK_TEA), "玫瑰奶茶");
         b.add(VirtualFluids.getTranslationKey(CDFluids.BEETROOT_SOUP), "甜菜汤");
@@ -75,7 +77,7 @@ public final class CDChineseProvider extends FabricLanguageProvider {
         b.add(CDItems.CARROT_CREAM_CAKE_0, "制作中的胡萝卜奶油蛋糕");
         b.add(CDItems.IRON_BOWL, "铁碗");
         b.add(IronBowlItem.getSuffixKey(), "%s（%s）");
-        b.add(Internationals.keyOfCategory(CDRecipeTypes.BAKING.getId()), "烘焙");
+        //b.add(Internationals.keyOfCategory(CDRecipeTypes.BAKING.getId()), "烘焙");
         b.add(CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, "小巧克力奶油蛋糕");
         b.add(CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, "中巧克力奶油蛋糕");
         b.add(CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, "大巧克力奶油蛋糕");

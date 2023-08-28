@@ -3,17 +3,14 @@ package phoupraw.mcmod.common.api;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.transfer.v1.fluid.*;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.common.impl.BucketedVirtualFluid;
@@ -56,7 +53,7 @@ public final class VirtualFluids {
      给再{@link #ATTRIBUTE_HANDLER}注册的流体生成本地化键。
      */
     public static String getTranslationKey(Fluid fluid) {
-        Identifier id = Registry.FLUID.getId(fluid);
+        Identifier id = Registries.FLUID.getId(fluid);
         return "fluid" + "." + id.getNamespace() + "." + id.getPath().replace('/', '.');
     }
 
@@ -115,21 +112,22 @@ public final class VirtualFluids {
      ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register
      </code>
      @param fluids 流体
-     @see Lambdas#addingTextures
+     //@see Lambdas#addingTextures
      @see SimpleFluidRenderHandler#SimpleFluidRenderHandler(Identifier, Identifier)
      @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
+    @Contract(value = "_ -> fail", pure = true)
     @Environment(EnvType.CLIENT)
     public static void registerTexture(Fluid... fluids) {
-        Identifier[] textures = new Identifier[fluids.length];
-        for (int i = 0; i < fluids.length; i++) {
-            var fluid = fluids[i];
-            var texture = Registries.prefixBlock(Registry.FLUID.getId(fluid));
-            textures[i] = texture;
-            FluidRenderHandlerRegistry.INSTANCE.register(fluid, new SimpleFluidRenderHandler(texture, texture));
-        }
-        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(textures));
+        //Identifier[] textures = new Identifier[fluids.length];
+        //for (int i = 0; i < fluids.length; i++) {
+        //    var fluid = fluids[i];
+        //    var texture = Registries2.prefixBlock(Registry.FLUID.getId(fluid));
+        //    textures[i] = texture;
+        //    FluidRenderHandlerRegistry.INSTANCE.register(fluid, new SimpleFluidRenderHandler(texture, texture));
+        //}
+        //ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(Lambdas.addingTextures(textures));
+        throw new IllegalStateException("被原版机制替代");
     }
 
     /**

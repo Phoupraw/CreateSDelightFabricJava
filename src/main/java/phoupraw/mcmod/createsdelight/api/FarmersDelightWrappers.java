@@ -5,8 +5,8 @@ import com.nhoryzon.mc.farmersdelight.entity.block.BasketBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.CuttingBoardBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.SkilletBlockEntity;
 import com.nhoryzon.mc.farmersdelight.entity.block.StoveBlockEntity;
-import com.simibubi.create.foundation.utility.recipe.RecipeConditions;
-import com.simibubi.create.foundation.utility.recipe.RecipeFinder;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeFinder;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -41,7 +41,7 @@ public class FarmersDelightWrappers {
     }
 
     public static Storage<ItemVariant> storageOf(CuttingBoardBlockEntity board) {
-        return InventoryStorage.of(board.getInventory(), null);
+        return InventoryStorage.of(board, null);
     }
 
     public static Storage<ItemVariant> sidedStorageOf(BasketBlockEntity basket, Direction side) {

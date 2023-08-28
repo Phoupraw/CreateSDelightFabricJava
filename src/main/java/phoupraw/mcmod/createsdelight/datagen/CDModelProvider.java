@@ -2,7 +2,7 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.*;
@@ -40,7 +40,7 @@ public final class CDModelProvider extends FabricModelProvider {
         generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(map));
     }
 
-    public CDModelProvider(FabricDataGenerator dataGenerator) {
+    public CDModelProvider(FabricDataOutput dataGenerator) {
         super(dataGenerator);
     }
 

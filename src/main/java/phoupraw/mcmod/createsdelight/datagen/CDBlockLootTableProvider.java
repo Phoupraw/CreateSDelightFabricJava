@@ -1,9 +1,9 @@
 package phoupraw.mcmod.createsdelight.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
-import net.minecraft.data.server.BlockLootTableGenerator;
+import net.minecraft.data.server.loottable.BlockLootTableGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -43,21 +43,22 @@ public final class CDBlockLootTableProvider extends FabricBlockLootTableProvider
           .with(alternative)));
     }
 
-    public CDBlockLootTableProvider(FabricDataGenerator dataGenerator) {
-        super(dataGenerator);
+    public CDBlockLootTableProvider(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
+
     @Override
-    protected void generateBlockLootTables() {
+    public void generate() {
         addDrop(CDBlocks.PRINTED_CAKE, LootTable.builder().pool(new LootPool.Builder()
           .rolls(ConstantLootNumberProvider.create(1))
           .with(ItemEntry.builder(CDItems.PRINTED_CAKE)
             .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
             .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
-              .withOperation("content","BlockEntityTag.content"))
+              .withOperation("content", "BlockEntityTag.content"))
             .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
-              .withOperation("size","BlockEntityTag.size")))));
-        for (Block block : new Block[]{ CDBlocks.JELLY_BEANS, CDBlocks.BROWNIE, CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE,CDBlocks.MILK,CDBlocks.CHOCOLATE,CDBlocks.CAKE_OVEN}) {
+              .withOperation("size", "BlockEntityTag.size")))));
+        for (Block block : new Block[]{CDBlocks.JELLY_BEANS, CDBlocks.BROWNIE, CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, CDBlocks.MILK, CDBlocks.CHOCOLATE, CDBlocks.CAKE_OVEN}) {
             addDrop(block);
         }
         addDropAge3(this, CDBlocks.JELLY_BEANS_CAKE, CDItems.JELLY_BEANS, 1);

@@ -1,9 +1,9 @@
 package phoupraw.mcmod.common.api;
 
 import com.simibubi.create.compat.rei.category.CreateRecipeCategory;
-import com.simibubi.create.content.contraptions.itemAssembly.SequencedRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingOutput;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.utility.Pair;

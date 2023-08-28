@@ -1,13 +1,11 @@
 package phoupraw.mcmod.createsdelight.item;
 
-import com.nhoryzon.mc.farmersdelight.item.ConsumableItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -16,11 +14,13 @@ import net.minecraft.world.World;
 import phoupraw.mcmod.common.api.StatusEffectsTooltipData;
 
 import java.util.Optional;
+
 public class StatusEffectsItem extends ConsumableItem {
+
     public static ItemStack finishUsing(Item self, ItemStack stack, World world, LivingEntity user) {
-//        if (!world.isClient()) {
-//            self.affectConsumer(stack, world, user);
-//        }
+        //        if (!world.isClient()) {
+        //            self.affectConsumer(stack, world, user);
+        //        }
 
         ItemStack container = new ItemStack(stack.getItem().getRecipeRemainder());
         PlayerEntity player;
@@ -54,8 +54,7 @@ public class StatusEffectsItem extends ConsumableItem {
 
     @Environment(EnvType.CLIENT)
     public static Optional<TooltipData> getTooltipData(Item self, ItemStack stack) {
-        FoodComponent foodComponent = self.getFoodComponent();
-        return foodComponent != null && !foodComponent.getStatusEffects().isEmpty() ? Optional.of(new StatusEffectsTooltipData(foodComponent.getStatusEffects())) : Optional.empty();
+        return Optional.ofNullable(StatusEffectsTooltipData.ofFood(stack));
     }
 
     public StatusEffectsItem(Settings settings) {

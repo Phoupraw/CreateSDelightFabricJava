@@ -3,7 +3,7 @@
 //file:noinspection GradlePackageVersionRange
 //file:noinspection GroovyUnusedAssignment
 plugins {
-    id "fabric-loom" version "1.0.+"
+    id "fabric-loom" version "1.3-SNAPSHOT"
     id "io.github.juuxel.loom-quiltflower" version "1.+" // Quiltflower, a better decompiler
     id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
     id "maven-publish"
@@ -19,6 +19,7 @@ group = project.maven_group
 repositories {
     mavenLocal()
     mavenCentral()
+    gradlePluginPortal()
     maven { url = "https://mvn.devos.one/snapshots/" }
     maven { url = "https://mvn.devos.one/#/snapshots/" }// Create, Porting Lib, Forge Tags, Milk Lib, Registrate
     maven { url = "https://maven.quiltmc.org/repository/release" }
@@ -31,9 +32,7 @@ repositories {
     maven { url = "https://storage.googleapis.com/devan-maven/" }
     maven { url = "https://maven.shedaniel.me/" }// Cloth Config, REI
     maven { url = "https://aperlambda.github.io/maven" }
-    maven { url = "https://ladysnake.jfrog.io/artifactory/mods" }
     maven { url = "https://maven.kotlindiscord.com/repository/terraformers/" }
-    maven { url = "https://maven.terraformersmc.com/" }// Mod Menu
     maven { url = "https://maven.cafeteria.dev/releases/" }
     maven { url = "https://jitpack.io/" }// Mixin Extras, Fabric ASM
     maven { url = "https://maven.gegy.dev" }
@@ -44,53 +43,90 @@ repositories {
     maven { url = "https://maven.kyrptonaught.dev/" }
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }// Reach Entity Attributes
     maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+    maven { url = 'https://maven.nova-committee.cn/releases' }
+    maven { url = "https://server.bbkr.space/artifactory/libs-release/" }
+    maven {
+        name = "firstdarkMavenSnapshots"
+        url = "https://maven.firstdarkdev.xyz/snapshots/"
+    } // gtceu, LDLib
     maven {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }// Forge Config Api Port
+    maven {
+        name = "Nyan Maven"
+        url = "https://maven.hendrixshen.top"
+    }
+    maven {
+        name "Modmaven"
+        url "https://modmaven.dev/"
+        // For Gradle 5.1 and above, limit it to just AE2
+        content {
+            includeGroup 'appeng'
+        }
+    }//AE2
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://maven.ladysnake.org/releases'
+    }//Trinkets
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }// Mod Menu, Trinkets
 }
 
 dependencies {
     // Setup
     minecraft("com.mojang:minecraft:${minecraft_version}")
-    mappings("net.fabricmc:yarn:${YARN_MAPPINGS}:v2")
+    mappings loom.layered() {
+        it.mappings(file("src/main/resources/my_mappings.txt"))
+        it.mappings("net.fabricmc:yarn:${yarn_mappings}:v2")
+        it.mappings(file("src/main/resources/my_mappings.txt"))
+    }
+//    mappings("net.fabricmc:yarn:${yarn_mappings}:v2")
     modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+//    modCompileOnly("dev.emi:emi-fabric:${emi_version}:api")
+//    modLocalRuntime("dev.emi:emi-fabric:${emi_version}")
+    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}")
+    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}")
+    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
 
     // 真是不知道ForgeConfigAPIPort出了什么鸟问题。
-    modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}") {
-        exclude(Map.of("module", "forge-config-api-port-fabric-547434"))
-    }
-    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
-    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\core-3.6.5.jar"))
-    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\toml-3.6.5.jar"))
-
-//    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:${forgeconfigapiport}"
-//    modCompileOnly("maven.modrinth:lazydfu:${lazydfu_version}")
-//    modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
-    modImplementation("curse.maven:farmersdelightfabric-482834:${farmersdelight_version}")//这句是从https://github.com/ianm1647/expandeddelight/blob/1.19/build.gradle抄的。
-    // Recipe Viewers - Create Fabric supports JEI, REI, and EMI.
-    // See root gradle.properties to choose which to use at runtime.
-//    switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
-//        case "jei": modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
-//        case "rei": modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
-//        case "emi": modCompileOnly("dev.emi:emi:${emi_version}"); break
-//            // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
+    modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")// {
+//        exclude(Map.of("module", "forge-config-api-port-fabric-547434"))
 //    }
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
-//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
-//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
-//    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\cloth-config-8.2.88-fabric.jar"))
-//    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
-    modCompileOnly("dev.emi:emi:${emi_version}:api")
-//    modLocalRuntime("dev.emi:emi:${emi_version}")
-    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\enchlevel-langpatch-1.2.3.jar"))
-    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\lazydfu-0.1.3.jar"))
-//    var common = include("phoupraw.mcmod:PhouprawSCommon:${common_version}")
-//    modCompileOnly(common)
-//    modLocalRuntime(common)
-//    include(modImplementation("phoupraw.mcmod:PhouprawSCommon:${common_version}"))
-//    modImplementation(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
-//    modImplementation(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
+//    modCompileOnlyApi("curse.maven:farmersdelightfabric-482834:${farmersdelight_version}")//这句是从https://github.com/ianm1647/expandeddelight/blob/1.19/build.gradle抄的。
+    modCompileOnlyApi(files("D:\\CCC\\Documents\\local_maven\\farmers-delight-fabric-mc${farmersdelight_version}.jar"))
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\ForgeConfigAPIPort-v4.2.10-1.19.2-Fabric.jar"))
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\core-3.6.5.jar"))
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\toml-3.6.5.jar"))
+//
+////    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:${forgeconfigapiport}"
+////    modCompileOnly("maven.modrinth:lazydfu:${lazydfu_version}")
+////    modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
+////    // Recipe Viewers - Create Fabric supports JEI, REI, and EMI.
+////    // See root gradle.properties to choose which to use at runtime.
+//////    switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
+//////        case "jei": modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
+//////        case "rei": modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
+//////        case "emi": modCompileOnly("dev.emi:emi:${emi_version}"); break
+//////            // default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
+//////    }
+////    modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\cloth-config-8.2.88-fabric.jar"))
+////    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
+////    modLocalRuntime("dev.emi:emi:${emi_version}")
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\enchlevel-langpatch-1.2.3.jar"))
+////    modLocalRuntime(files("D:\\CCC\\Documents\\local_maven\\lazydfu-0.1.3.jar"))
+////    var common = include("phoupraw.mcmod:PhouprawSCommon:${common_version}")
+////    modCompileOnly(common)
+////    modLocalRuntime(common)
+////    include(modImplementation("phoupraw.mcmod:PhouprawSCommon:${common_version}"))
+////    modImplementation(files("D:\\CCC\\Documents\\local_maven\\RoughlyEnoughItems-9.1.580.jar"))
+////    modImplementation(files("D:\\CCC\\Documents\\local_maven\\architectury-6.4.62-fabric.jar"))
 }
 
 processResources {

@@ -1,6 +1,6 @@
 package phoupraw.mcmod.createsdelight.exp;
 
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;

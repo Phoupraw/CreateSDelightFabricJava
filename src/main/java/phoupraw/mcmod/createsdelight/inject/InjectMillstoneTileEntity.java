@@ -3,14 +3,14 @@ package phoupraw.mcmod.createsdelight.inject;
 import com.google.common.base.Predicates;
 import com.jozufozu.flywheel.util.transform.TransformStack;
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.contraptions.base.KineticTileEntity;
-import com.simibubi.create.content.contraptions.components.millstone.MillingRecipe;
-import com.simibubi.create.content.contraptions.components.millstone.MillstoneTileEntity;
-import com.simibubi.create.content.contraptions.processing.BasinTileEntity;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
+import com.simibubi.create.content.kinetics.millstone.MillstoneBlockEntity;
+import com.simibubi.create.content.processing.basin.BasinBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.fluid.FluidRenderer;
 import com.simibubi.create.foundation.fluid.SmartFluidTank;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
-import com.simibubi.create.foundation.tileEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.utility.BlockHelper;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
@@ -31,17 +31,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import phoupraw.mcmod.createsdelight.mixin.MixinMillstoneTileEntity;
 
 import java.util.List;
+
 /**
- @see MixinMillstoneTileEntity */
+ * @see MixinMillstoneTileEntity
+ */
 @ApiStatus.Internal
 public interface InjectMillstoneTileEntity {
-    static void addBehaviours(MillstoneTileEntity millstone0, List<TileEntityBehaviour> behaviours, CallbackInfo ci) {
-        var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) millstone0;
+
+    static void addBehaviours(MillstoneBlockEntity millstone0, List<BlockEntityBehaviour> behaviours, CallbackInfo ci) {
+        var millstone = (MillstoneBlockEntity & InjectMillstoneTileEntity) millstone0;
         var tank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.OUTPUT, millstone, 1, FluidConstants.BUCKET, false);
         behaviours.add(tank);
         millstone.setTank(tank);
     }
-    static void fluidResult(MillstoneTileEntity millstone, SmartFluidTankBehaviour tank, MillingRecipe lastRecipe, CallbackInfo ci) {
+    static void fluidResult(MillstoneBlockEntity millstone, SmartFluidTankBehaviour tank, MillingRecipe lastRecipe, CallbackInfo ci) {
         try (var transa = TransferUtil.getTransaction()) {
             for (FluidStack fluidResult : lastRecipe.getFluidResults()) {
                 if (tank.getCapability().insert(fluidResult.getType(), fluidResult.getAmount(), transa) != fluidResult.getAmount()) {
@@ -53,52 +56,52 @@ public interface InjectMillstoneTileEntity {
         }
     }
 
-    static void lazyTick(MillstoneTileEntity millstone0) {
-        var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) millstone0;
-//        CreateSDelight.LOGGER.info(millstone.getOutputProgress());
-//        if (millstone.getOutputEnd() < 1) return;
+    static void lazyTick(MillstoneBlockEntity millstone0) {
+        var millstone = (MillstoneBlockEntity & InjectMillstoneTileEntity) millstone0;
+        //        CreateSDelight.LOGGER.info(millstone.getOutputProgress());
+        //        if (millstone.getOutputEnd() < 1) return;
         World world = millstone.getWorld();
         //noinspection ConstantConditions
         if (world.isClient() || millstone.getOutputSide() == null) return;
-        var basin = (BasinTileEntity) world.getBlockEntity(millstone.getPos().down().offset(millstone.getOutputSide()));
+        var basin = (BasinBlockEntity) world.getBlockEntity(millstone.getPos().down().offset(millstone.getOutputSide()));
         //noinspection ConstantConditions
         StorageUtil.move(millstone.getTank().getCapability(), basin.inputTank.getCapability(), Predicates.alwaysTrue(), FluidConstants.INGOT, null);
     }
 
-    static void outputFluid(MillstoneTileEntity millstone0) {
-        var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) millstone0;
-//        for (FluidStream fluidStream : millstone.getFluidStreams()) {
-//            fluidStream.start().tickChaser();
-//            fluidStream.end().tickChaser();
-//        }
+    static void outputFluid(MillstoneBlockEntity millstone0) {
+        var millstone = (MillstoneBlockEntity & InjectMillstoneTileEntity) millstone0;
+        //        for (FluidStream fluidStream : millstone.getFluidStreams()) {
+        //            fluidStream.start().tickChaser();
+        //            fluidStream.end().tickChaser();
+        //        }
         World world = millstone.getWorld();
-//        double flowSpeed = 30.0 / FluidVariantAttributes.getViscosity(millstone.getTank().getPrimaryHandler().getResource(), world);
-//        millstone.setPrevOutputEnd(millstone.getOutputEnd());
-//        millstone.setPrevOutputStart(millstone.getOutputStart());
-//        if (millstone.getOutputStart() >= 0 && millstone.getOutputStart() < 1) {
-//            millstone.setOutputStart(millstone.getOutputStart() + flowSpeed);
-//        }
+        //        double flowSpeed = 30.0 / FluidVariantAttributes.getViscosity(millstone.getTank().getPrimaryHandler().getResource(), world);
+        //        millstone.setPrevOutputEnd(millstone.getOutputEnd());
+        //        millstone.setPrevOutputStart(millstone.getOutputStart());
+        //        if (millstone.getOutputStart() >= 0 && millstone.getOutputStart() < 1) {
+        //            millstone.setOutputStart(millstone.getOutputStart() + flowSpeed);
+        //        }
         boolean b = false;
         for (Direction direction : Direction.Type.HORIZONTAL) {
             BlockPos pos1 = millstone.getPos().offset(direction);
             BlockPos pos2 = pos1.down();
             //noinspection ConstantConditions
             if (!world.getBlockState(pos2).isOf(AllBlocks.BASIN.get()) || BlockHelper.hasBlockSolidSide(world.getBlockState(pos1), world, pos1, Direction.DOWN)) continue;
-//            if (millstone.getOutputEnd() < 1) {
-//                millstone.setOutputEnd(millstone.getOutputEnd() + flowSpeed);
-//            }
+            //            if (millstone.getOutputEnd() < 1) {
+            //                millstone.setOutputEnd(millstone.getOutputEnd() + flowSpeed);
+            //            }
             millstone.setOutputSide(direction);
             b = true;
             break;
         }
         if (!b) {
             millstone.setOutputSide(null);
-//            millstone.setPrevOutputEnd(0);
-//            millstone.setOutputEnd(0);
+            //            millstone.setPrevOutputEnd(0);
+            //            millstone.setOutputEnd(0);
         }
     }
-    static void checkTankFull(MillstoneTileEntity millstone0, CallbackInfo ci) {
-        var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) millstone0;
+    static void checkTankFull(MillstoneBlockEntity millstone0, CallbackInfo ci) {
+        var millstone = (MillstoneBlockEntity & InjectMillstoneTileEntity) millstone0;
         SmartFluidTank primaryHandler = millstone.getTank().getPrimaryHandler();
         if (primaryHandler.getAmount() == primaryHandler.getCapacity()) {
             ci.cancel();
@@ -108,8 +111,8 @@ public interface InjectMillstoneTileEntity {
         FluidRenderer.renderFluidBox(fluidStack, (float) box.minX, (float) box.minY, (float) box.minZ, (float) box.maxX, (float) box.maxY, (float) box.maxZ, buffer, ms, light, true);
     }
     @Environment(EnvType.CLIENT)
-    static void renderSafe(KineticTileEntity te, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
-        var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) te;
+    static void renderSafe(KineticBlockEntity te, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
+        var millstone = (MillstoneBlockEntity & InjectMillstoneTileEntity) te;
         var outputSide = millstone.getOutputSide();
         if (outputSide == null) return;
         SmartFluidTankBehaviour tank = millstone.getTank();
@@ -146,28 +149,28 @@ public interface InjectMillstoneTileEntity {
         ts.popPose();
     }
     //    @Environment(EnvType.CLIENT)
-//    static void renderSafe1(KineticTileEntity te, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
-//        var millstone = (MillstoneTileEntity & InjectMillstoneTileEntity) te;
-//        var progress = MathHelper.lerp(partialTicks, millstone.getPrevOutputEnd(), millstone.getOutputEnd());
-//        var outputSide = millstone.getOutputSide();
-//        if (progress <= 0||outputSide==null) return;
-//        var tank = millstone.getTank();
-//        var fluidStack = tank.getPrimaryTank().getRenderedFluid();
-//        float angle = outputSide.asRotation();
-//        TransformStack ts = TransformStack.cast(ms)
-//          .pushPose()
-//          .translate(0.5, 0, 0.5)
-//          .rotateY(angle);
-//        double p = 1 / 16.0;
-//        double width = 2 * p;
-//        double margin = 4 * p;
-//        double height = 6 * p;
-//        double depth = 14 * p;
-//        double valve1 = 0.2, valve2 = 0.5;
-//        Vec3d v11 = new Vec3d(-width, height, 0.5 + p - margin);
-//        Vec3d v12 = new Vec3d(width, height + p, 0.5 + p - margin + margin * Math.min(progress, valve1) / valve1);
-//        Box b1 = new Box(v11, v12);
-//        FluidRenderer.renderFluidBox(fluidStack, (float) b1.minX, (float) b1.minY, (float) b1.minZ, (float) b1.maxX, (float) b1.maxY, (float) b1.maxZ, buffer, ms, light, true);
+    //    static void renderSafe1(KineticBlockEntity te, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer, int light, int overlay) {
+    //        var millstone = (MillstoneBlockEntity & InjectMillstoneBlockEntity) te;
+    //        var progress = MathHelper.lerp(partialTicks, millstone.getPrevOutputEnd(), millstone.getOutputEnd());
+    //        var outputSide = millstone.getOutputSide();
+    //        if (progress <= 0||outputSide==null) return;
+    //        var tank = millstone.getTank();
+    //        var fluidStack = tank.getPrimaryTank().getRenderedFluid();
+    //        float angle = outputSide.asRotation();
+    //        TransformStack ts = TransformStack.cast(ms)
+    //          .pushPose()
+    //          .translate(0.5, 0, 0.5)
+    //          .rotateY(angle);
+    //        double p = 1 / 16.0;
+    //        double width = 2 * p;
+    //        double margin = 4 * p;
+    //        double height = 6 * p;
+    //        double depth = 14 * p;
+    //        double valve1 = 0.2, valve2 = 0.5;
+    //        Vec3d v11 = new Vec3d(-width, height, 0.5 + p - margin);
+    //        Vec3d v12 = new Vec3d(width, height + p, 0.5 + p - margin + margin * Math.min(progress, valve1) / valve1);
+    //        Box b1 = new Box(v11, v12);
+    //        FluidRenderer.renderFluidBox(fluidStack, (float) b1.minX, (float) b1.minY, (float) b1.minZ, (float) b1.maxX, (float) b1.maxY, (float) b1.maxZ, buffer, ms, light, true);
 //        if (progress >= valve1) {
 //            Vec3d v21 = new Vec3d(-width, height, 0.5);
 //            Vec3d v22 = new Vec3d(width, height * (1 - (Math.min(progress, valve2) - valve1) / (valve2 - valve1)), 0.5 + p);

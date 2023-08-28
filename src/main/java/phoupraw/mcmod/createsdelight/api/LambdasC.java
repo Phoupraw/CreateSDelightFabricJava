@@ -1,15 +1,15 @@
 package phoupraw.mcmod.createsdelight.api;
 
 import com.nhoryzon.mc.farmersdelight.recipe.CuttingBoardRecipe;
-import com.simibubi.create.content.contraptions.components.deployer.DeployerApplicationRecipe;
-import com.simibubi.create.content.contraptions.components.millstone.MillingRecipe;
-import com.simibubi.create.content.contraptions.components.mixer.CompactingRecipe;
-import com.simibubi.create.content.contraptions.components.mixer.MixingRecipe;
-import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
-import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
-import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
+import com.simibubi.create.content.fluids.transfer.FillingRecipe;
+import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
+import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
+import com.simibubi.create.content.kinetics.mixer.CompactingRecipe;
+import com.simibubi.create.content.kinetics.mixer.MixingRecipe;
+import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.kinetics.saw.CuttingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -19,13 +19,13 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.createsdelight.recipe.*;
 
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+
 public final class LambdasC {
 
     @Contract(pure = true)
@@ -41,7 +41,7 @@ public final class LambdasC {
     public static @NotNull Predicate<Recipe<?>> matchingTool(ItemStack tool) {
         return recipe -> {
             if (recipe instanceof CuttingRecipe cutting) return cutting.getIngredients().get(1).test(tool);
-            if (recipe instanceof CuttingBoardRecipe cutting) return cutting.getTool().test(tool);
+            //if (recipe instanceof CuttingBoardRecipe cutting) return cutting.getTool().test(tool);
             return false;
         };
     }
@@ -102,34 +102,16 @@ public final class LambdasC {
     }
 
     @Contract(pure = true)
-    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<CuttingRecipe> newingCutting() {
-        return CuttingRecipe::new;
+    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<com.simibubi.create.content.kinetics.saw.CuttingRecipe> newingCutting() {
+        return com.simibubi.create.content.kinetics.saw.CuttingRecipe::new;
     }
 
-    @Contract(pure = true)
-    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<PanFryingRecipe> newingPanFrying() {
-        return PanFryingRecipe::new;
-    }
 
     @Contract(pure = true)
     public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<CompactingRecipe> newingCompacting() {
         return CompactingRecipe::new;
     }
 
-    @Contract(pure = true)
-    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<SprinklingRecipe> newingSprinkling() {
-        return SprinklingRecipe::new;
-    }
-
-    @Contract(pure = true)
-    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<PressureCookingRecipe> newingPressureCooking() {
-        return PressureCookingRecipe::new;
-    }
-
-    @Contract(pure = true)
-    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<MincingRecipe> newingMincingRecipe() {
-        return MincingRecipe::new;
-    }
 
     @Contract(pure = true)
     public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<MixingRecipe> newingMixing() {
@@ -147,11 +129,6 @@ public final class LambdasC {
     }
 
     @Contract(pure = true)
-    public static ProcessingRecipeBuilder.@NotNull ProcessingRecipeFactory<BakingRecipe> newingBaking() {
-        return BakingRecipe::new;
-    }
-
-    @Contract(pure = true)
     public static <T> @NotNull UnaryOperator<T> combine(@NotNull UnaryOperator<T> first, @NotNull UnaryOperator<T> second) {
         return t -> second.apply(first.apply(t));
     }
@@ -166,5 +143,7 @@ public final class LambdasC {
         return r0 -> r0 instanceof ProcessingRecipe<?> r && !r.getFluidIngredients().isEmpty() && r.getFluidIngredients().get(0).test(new FluidStack(fluid, amount));
     }
 
-    private LambdasC() {}
+    private LambdasC() {
+    }
+
 }
