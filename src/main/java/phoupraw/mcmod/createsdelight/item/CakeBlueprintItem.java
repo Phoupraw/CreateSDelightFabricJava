@@ -9,9 +9,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.*;
 import phoupraw.mcmod.createsdelight.registry.CDItems;
 
@@ -46,7 +46,7 @@ public class CakeBlueprintItem extends Item {
                 Box parsedBox = nbt2box(box);
                 parsedBoxes.add(parsedBox);
             }
-            parsedContent.put(FluidVariant.of(Registry.FLUID.get(new Identifier(key))), parsedBoxes);
+            parsedContent.put(FluidVariant.of(Registries.FLUID.get(new Identifier(key))), parsedBoxes);
         }
         return parsedContent;
     }
@@ -70,7 +70,7 @@ public class CakeBlueprintItem extends Item {
                 NbtList nbtBox = box2nbt(box);
                 nbtBoxes.add(nbtBox);
             }
-            nbtContent.put(Registry.FLUID.getId(fluidVariant.getFluid()).toString(), nbtBoxes);
+            nbtContent.put(Registries.FLUID.getId(fluidVariant.getFluid()).toString(), nbtBoxes);
         }
         root.put("content", nbtContent);
     }

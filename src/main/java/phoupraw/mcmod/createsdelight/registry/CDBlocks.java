@@ -3,13 +3,17 @@ package phoupraw.mcmod.createsdelight.registry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import phoupraw.mcmod.createsdelight.block.*;
-import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.datagen.CDBlockLootTableProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDBlockTagProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
+
 /**
  方块编写流程：
  <ol>
@@ -50,7 +54,7 @@ public final class CDBlocks {
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
 
     //蛋糕材料
-    public static final Block MILK = new Block(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.WHITE).breakInstantly());
+    public static final Block MILK = new Block(FabricBlockSettings.create().breakInstantly());
     public static final Block CHOCOLATE = new Block(FabricBlockSettings.copyOf(MILK));
     static {
         register(CDIdentifiers.CAKE_OVEN, CAKE_OVEN);
@@ -75,7 +79,7 @@ public final class CDBlocks {
     }
 
     private static <T extends Block> void register(Identifier id, T block) {
-        Registry.register(Registry.BLOCK, id, block);
+        Registry.register(Registries.BLOCK, id, block);
     }
 
     private CDBlocks() {

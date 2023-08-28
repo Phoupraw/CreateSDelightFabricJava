@@ -1,18 +1,18 @@
-package phoupraw.mcmod.createsdelight.registry;
+package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
-import org.jetbrains.annotations.ApiStatus;
-import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
 
-@ApiStatus.Internal
-public final class CDDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
+public final class CSDDataGeneratorEntrypoint implements DataGeneratorEntrypoint {
 
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {
-        var pack = generator.createPack();
+        FabricDataGenerator.Pack pack = generator.createPack();
         pack.addProvider(CDRecipeProvider::new);
         pack.addProvider(CDBlockLootTableProvider::new);
         pack.addProvider(CDItemTagProvider::new);

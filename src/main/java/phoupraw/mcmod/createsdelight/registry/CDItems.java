@@ -11,7 +11,11 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.datagen.CDItemTagProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
 import phoupraw.mcmod.createsdelight.item.*;
 
 import java.util.List;

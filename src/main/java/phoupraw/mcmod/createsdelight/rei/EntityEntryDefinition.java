@@ -9,10 +9,10 @@ import me.shedaniel.rei.api.common.entry.type.EntryType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.CDEntryTypes;
 
@@ -42,7 +42,7 @@ public class EntityEntryDefinition implements EntryDefinition<EntityType<?>> {
 
     @Override
     public @Nullable Identifier getIdentifier(EntryStack<EntityType<?>> entry, EntityType<?> value) {
-        return Registry.ENTITY_TYPE.getId(value);
+        return Registries.ENTITY_TYPE.getId(value);
     }
 
     @Override

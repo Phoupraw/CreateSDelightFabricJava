@@ -16,7 +16,12 @@ import org.jetbrains.annotations.Contract;
 import phoupraw.mcmod.common.api.Registries2;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBE;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
-import phoupraw.mcmod.createsdelight.datagen.*;
+import phoupraw.mcmod.createsdelight.datagen.CDBlockLootTableProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDBlockTagProvider;
+import phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
 
 /**
  * 方块实体及其方块编写流程：

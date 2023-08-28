@@ -5,8 +5,8 @@ import com.google.common.collect.HashBiMap;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 

@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.model;
 
-import com.mojang.datafixers.util.Pair;
 import com.simibubi.create.AllBlocks;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
@@ -25,13 +24,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.CDItems;
 import phoupraw.mcmod.createsdelight.storage.IronBowlFluidStorage;
@@ -39,8 +37,6 @@ import phoupraw.mcmod.createsdelight.storage.IronBowlItemStorage;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 @SuppressWarnings("ClassCanBeRecord")
@@ -56,10 +52,10 @@ public class IronBowlModel implements BakedModel, FabricBakedModel {
 
     @Contract(mutates = "param", value = "_->true")
     public static boolean transformBlock(MutableQuadView quad) {
-        Vec3f pos = new Vec3f();
+        Vector3f pos = new Vector3f();
         for (int i = 0; i < 4; i++) {
             quad.copyPos(i, pos);
-            pos.scale(14 / 16f);
+            pos.mul(14 / 16f);
             pos.add(1 / 16f, 1 / 16f, 1 / 16f);
             quad.pos(i, pos);
         }
@@ -68,12 +64,13 @@ public class IronBowlModel implements BakedModel, FabricBakedModel {
 
     @Contract(mutates = "param", value = "_->true")
     public static boolean transformItem(MutableQuadView quad) {
-        Vec3f pos = new Vec3f();
+        Vector3f pos = new Vector3f();
         for (int i = 0; i < 4; i++) {
             quad.copyPos(i, pos);
-            pos.rotate(new Quaternion(Direction.DOWN.getUnitVector(), 45f, true));
+            pos.rotateAxis(45, 0, -1, 0);
+            //pos.rotate(new Quaternionf(Direction.DOWN.getUnitVector(), 45f, true));
             pos.add(0, 0, -0.70710678118654752440084436210485f);
-            pos.scale(14 / 12f);
+            pos.mul(14 / 12f);
             pos.add(0.5f, 1 / 16f, 0.5f);
             quad.pos(i, pos);
         }
@@ -236,14 +233,14 @@ public class IronBowlModel implements BakedModel, FabricBakedModel {
         }
 
         @Override
-        public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<Pair<String, String>> unresolvedTextureReferences) {
-            return List.of();
+        public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
+
         }
 
         @Nullable
         @Override
-        public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
-            return new IronBowlModel(Objects.requireNonNull(loader.getOrLoadModel(BOWL).bake(loader, textureGetter, rotationContainer, modelId)));
+        public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+            return new IronBowlModel(baker.getOrLoadModel(BOWL).bake(baker, textureGetter, rotationContainer, modelId));
         }
 
     }

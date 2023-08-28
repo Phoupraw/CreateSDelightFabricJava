@@ -22,7 +22,7 @@ public class SkilletStorage extends SingleStackStorage {
 
     @Override
     protected void setStack(ItemStack stack) {
-        skillet.getInventory().setStack(0, stack);
+        skillet.setStack(0, stack);
     }
 
     @Override

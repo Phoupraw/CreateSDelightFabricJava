@@ -3,7 +3,8 @@ package phoupraw.mcmod.createsdelight.rei;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Contract;
 /**
@@ -44,21 +45,23 @@ public class DecimalCountSlot extends EntryWidget {
     }
 
     @Override
-    protected void drawExtra(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.drawExtra(matrices, mouseX, mouseY, delta);
-        if(count==1) return;
+    protected void drawExtra(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.drawExtra(context, mouseX, mouseY, delta);
+        var matrices = context.getMatrices();
+        if (count == 1) return;
         matrices.push();
         String decimal = shortDecimal(count);
         Text text = Text.literal(decimal);
         int width = font.getWidth(text);
-        if (decimal.length()<=3) {
+        if (decimal.length() <= 3) {
             matrices.translate(getBounds().getX() + 19 - width, getBounds().getY() + 11, 200);
-        }else{
+        } else {
             float scale = 0.8f;
             matrices.translate(getBounds().getX() + 19 - width * scale, getBounds().getY() + 12, 200);
             matrices.scale(scale, scale, 1);
         }
-        drawTextWithShadow(matrices, font, text, 0, 0, 0xffffffff);
+        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, text, 0, 0, 0xffffffff);
+        //drawTextWithShadow(context, font, text, 0, 0, 0xffffffff);
         matrices.pop();
     }
 }

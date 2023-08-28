@@ -15,28 +15,26 @@ import net.minecraft.util.Identifier;
 import phoupraw.mcmod.common.api.Lambdas;
 import phoupraw.mcmod.common.api.Registries2;
 import phoupraw.mcmod.common.api.VirtualFluids;
-import phoupraw.mcmod.createsdelight.datagen.CDChineseProvider;
-import phoupraw.mcmod.createsdelight.datagen.CDEnglishProvider;
-import phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider;
 /**
- 虚拟流体创建流程：
- <ol>
- <li>在{@link CDIdentifiers}创建{@link Identifier}。<br/>
- <li>在{@link CDFluids}用{@link VirtualFluids#of}创建流体<b>并注册</b>。<br/>
- <li>若要装有该流体桶、瓶或其它物品，则在{@link CDItems}按照创建物品的流程创建物品。</li>
- <li>若有桶，则补齐{@link VirtualFluids#of(Item)}的参数。<br/>
- <li>在{@link CDChineseProvider}和{@link CDEnglishProvider}用{@link VirtualFluids#getTranslationKey}添加翻译。<br/>
- <li>在{@link CDRecipeProvider}添加配方。<br/>
- <li>运行数据生成器。<br/>
- <li>在{@code src/main/resources/assets/createsdelight/textures/block}创建流体的纹理。<br/>
- <li>若有装有该流体桶、瓶或其它物品，在{@link CDModInitializer#initializeAfterCreate()}用{@link Lambdas#emptyProviderOf}和{@link Lambdas#fullProviderOf}在{@link FluidStorage#combinedItemApiProvider}注册流体物品转运。<br/>
- <li>在{@link CDModInitializer#initializeAfterCreate()}用{@link VirtualFluids#ATTRIBUTE_HANDLER}在{@link FluidVariantAttributes#register}注册属性。<br/>
- <li>在{@link CDClientModInitializer#onInitializeClient()}用{@link SimpleFluidRenderHandler#coloredWater}或其它{@link FluidRenderHandler}在{@link FluidRenderHandlerRegistry#register(Fluid, FluidRenderHandler)}注册贴图。<br/>
- <li>若流体半透明，则在{@link CDClientModInitializer#onInitializeClient()}用{@link RenderLayer#getTranslucent()}在{@link BlockRenderLayerMap#putFluids}注册。<br/>
- <li>运行客户端，检查流体效果是否如预期。<br/>
- <li>在{@code ChangeLog.md}添加更新日志。<br/>
- <li>提交git。
- </ol> */
+ * 虚拟流体创建流程：
+ * <ol>
+ * <li>在{@link CDIdentifiers}创建{@link Identifier}。<br/>
+ * <li>在{@link CDFluids}用{@link VirtualFluids#of}创建流体<b>并注册</b>。<br/>
+ * <li>若要装有该流体桶、瓶或其它物品，则在{@link CDItems}按照创建物品的流程创建物品。</li>
+ * <li>若有桶，则补齐{@link VirtualFluids#of(Item)}的参数。<br/>
+ * <li>在{@link phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider}和{@link phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider}用{@link VirtualFluids#getTranslationKey}添加翻译。<br/>
+ * <li>在{@link phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider}添加配方。<br/>
+ * <li>运行数据生成器。<br/>
+ * <li>在{@code src/main/resources/assets/createsdelight/textures/block}创建流体的纹理。<br/>
+ * <li>若有装有该流体桶、瓶或其它物品，在{@link CDModInitializer#initializeAfterCreate()}用{@link Lambdas#emptyProviderOf}和{@link Lambdas#fullProviderOf}在{@link FluidStorage#combinedItemApiProvider}注册流体物品转运。<br/>
+ * <li>在{@link CDModInitializer#initializeAfterCreate()}用{@link VirtualFluids#ATTRIBUTE_HANDLER}在{@link FluidVariantAttributes#register}注册属性。<br/>
+ * <li>在{@link CDClientModInitializer#onInitializeClient()}用{@link SimpleFluidRenderHandler#coloredWater}或其它{@link FluidRenderHandler}在{@link FluidRenderHandlerRegistry#register(Fluid, FluidRenderHandler)}注册贴图。<br/>
+ * <li>若流体半透明，则在{@link CDClientModInitializer#onInitializeClient()}用{@link RenderLayer#getTranslucent()}在{@link BlockRenderLayerMap#putFluids}注册。<br/>
+ * <li>运行客户端，检查流体效果是否如预期。<br/>
+ * <li>在{@code ChangeLog.md}添加更新日志。<br/>
+ * <li>提交git。
+ * </ol>
+ */
 public final class CDFluids {
     public static final Fluid SUNFLOWER_OIL = VirtualFluids.of(CDItems.BUCKETED_SUNFLOWER_OIL);
     //public static final Fluid VEGETABLE_BIG_STEW = VirtualFluids.of(CDItems.VEGETABLE_BIG_STEW);

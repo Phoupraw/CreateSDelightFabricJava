@@ -7,8 +7,6 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantItemStorage;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.api.LambdasC;
-import phoupraw.mcmod.createsdelight.recipe.BakingRecipe;
 public class IronBowlFluidStorage extends SingleVariantItemStorage<FluidVariant> {
     public final ContainerItemContext itemContext;
     public final @Nullable World world;
@@ -63,7 +61,7 @@ public class IronBowlFluidStorage extends SingleVariantItemStorage<FluidVariant>
     protected boolean canInsert(FluidVariant resource) {
         if (!new IronBowlItemStorage(itemContext, world).isResourceBlank()) return false;
         if (!isAmnesty() && world != null) {
-            return BakingRecipe.findFirst(world, LambdasC.firstIngredientMatching(resource.getFluid())) != null;
+            //return BakingRecipe.findFirst(world, LambdasC.firstIngredientMatching(resource.getFluid())) != null;
         }
         return super.canInsert(resource);
     }

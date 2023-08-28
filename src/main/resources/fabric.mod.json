@@ -20,11 +20,10 @@
   "environment": "*",
   "entrypoints": {
     "main": ["phoupraw.mcmod.createsdelight.registry.CDModInitializer"],
-    "fabric-datagen": ["phoupraw.mcmod.createsdelight.registry.CDDataGeneratorEntrypoint"],
+    "fabric-datagen": ["phoupraw.mcmod.createsdelight.datagen.CSDDataGeneratorEntrypoint"],
     "client": ["phoupraw.mcmod.createsdelight.registry.CDClientModInitializer"],
     "rei_client": ["phoupraw.mcmod.createsdelight.registry.CDREIClientPlugin"],
-    "rei_server": ["phoupraw.mcmod.createsdelight.registry.CDREIServerPlugin"],
-    "emi": ["phoupraw.mcmod.createsdelight.registry.CDEmiPlugin"]
+    "rei_server": ["phoupraw.mcmod.createsdelight.registry.CDREIServerPlugin"]
   },
   "mixins": ["createsdelight.mixins.json"],
   "accessWidener": "createsdelight.accesswidener",

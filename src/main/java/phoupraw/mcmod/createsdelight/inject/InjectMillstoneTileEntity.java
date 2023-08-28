@@ -28,13 +28,12 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import phoupraw.mcmod.createsdelight.mixin.MixinMillstoneTileEntity;
 
 import java.util.List;
 
-/**
- * @see MixinMillstoneTileEntity
- */
+///**
+// * @see MixinMillstoneTileEntity
+// */
 @ApiStatus.Internal
 public interface InjectMillstoneTileEntity {
 

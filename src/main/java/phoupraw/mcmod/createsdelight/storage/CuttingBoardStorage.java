@@ -20,6 +20,6 @@ public class CuttingBoardStorage extends SingleStackStorage {
 
     @Override
     protected void setStack(ItemStack stack) {
-        board.getInventory().setStack(0, stack);
+        board.setStack(0, stack);
     }
 }

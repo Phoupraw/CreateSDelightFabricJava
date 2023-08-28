@@ -1,8 +1,7 @@
 package phoupraw.mcmod.createsdelight.item;
 
 import com.google.common.base.Predicates;
-import com.simibubi.create.content.contraptions.components.deployer.DeployerRecipeSearchEvent;
-import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -33,27 +32,25 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.api.GetWorld;
 import phoupraw.mcmod.createsdelight.api.GetWorldContainerItemContext;
 import phoupraw.mcmod.createsdelight.api.ItemStorage2;
-import phoupraw.mcmod.createsdelight.recipe.ItemBowlRecipe;
 import phoupraw.mcmod.createsdelight.registry.CDFluids;
 import phoupraw.mcmod.createsdelight.registry.CDItems;
 import phoupraw.mcmod.createsdelight.storage.IronBowlFluidStorage;
 import phoupraw.mcmod.createsdelight.storage.IronBowlItemStorage;
 
 import java.util.List;
-import java.util.Optional;
 public class IronBowlItem extends Item implements IHaveGoggleInformation {
     public static void onInitialize() {
         ItemStorage2.ITEM.registerForItems((itemStack, context) -> new IronBowlItemStorage(context, GetWorld.getOrNull(context)), CDItems.IRON_BOWL);
         FluidStorage.ITEM.registerForItems((itemStack, context) -> new IronBowlFluidStorage(context, GetWorld.getOrNull(context)), CDItems.IRON_BOWL);
-        DeployerRecipeSearchEvent.EVENT.register(event -> {
-            ItemStack bowlStack = event.getInventory().getStack(0);
-            ContainerItemContext itemContext = ContainerItemContext.withConstant(bowlStack);
-            World world = event.getTileEntity().getWorld();
-            if (!bowlStack.isOf(CDItems.IRON_BOWL) || !new IronBowlFluidStorage(itemContext, world).isResourceBlank()) return;
-            var itemS = new IronBowlItemStorage(itemContext, world);
-            if (!itemS.isResourceBlank()) return;
-            event.addRecipe(() -> Optional.of(new ItemBowlRecipe(event)), 200);
-        });
+        //DeployerRecipeSearchEvent.EVENT.register(event -> {
+        //    ItemStack bowlStack = event.getInventory().getStack(0);
+        //    ContainerItemContext itemContext = ContainerItemContext.withConstant(bowlStack);
+        //    World world = event.getBlockEntity().getWorld();
+        //    if (!bowlStack.isOf(CDItems.IRON_BOWL) || !new IronBowlFluidStorage(itemContext, world).isResourceBlank()) return;
+        //    var itemS = new IronBowlItemStorage(itemContext, world);
+        //    if (!itemS.isResourceBlank()) return;
+        //    event.addRecipe(() -> Optional.of(new ItemBowlRecipe(event)), 200);
+        //});
     }
 
     @Contract(pure = true)
@@ -144,9 +141,9 @@ public class IronBowlItem extends Item implements IHaveGoggleInformation {
         return InventoryStorage.of(slot.inventory, null).getSlot(slot.getIndex());
     }
 
-    @Override
+    //@Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        super.appendStacks(group, stacks);
+        //super.appendStacks(group, stacks);
         if (group == CDItems.ITEM_GROUP) {
             ItemStack ironBowl = getDefaultStack();
             var fluidS = new IronBowlFluidStorage(GetWorldContainerItemContext.of(ironBowl), null);

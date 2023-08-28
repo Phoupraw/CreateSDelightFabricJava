@@ -3,9 +3,9 @@ package phoupraw.mcmod.createsdelight.registry;
 import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.Create;
-import com.simibubi.create.content.contraptions.components.millstone.MillingRecipe;
-import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
-import com.simibubi.create.foundation.block.BlockStressDefaults;
+import com.simibubi.create.content.kinetics.BlockStressDefaults;
+import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -105,11 +105,11 @@ private static void loadClasses() {
     CDBETypes.PRINTED_CAKE.hashCode();
     CDItems.ITEM_GROUP.hashCode();
     CDFluids.SUNFLOWER_OIL.hashCode();
-    CDRecipeTypes.PAN_FRYING.hashCode();
+    //CDRecipeTypes.PAN_FRYING.hashCode();
     CDStatusEffects.SATIATION.hashCode();
 
     //机械
-    CDArmPointTypes.BASKET.hashCode();
+    //CDArmPointTypes.BASKET.hashCode();
     //CDSpoutingBehaviours.PAN.hashCode();
 
     //我

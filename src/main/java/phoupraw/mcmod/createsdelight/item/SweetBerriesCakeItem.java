@@ -5,12 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.CDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CDItems;
 import phoupraw.mcmod.createsdelight.registry.CDStatusEffects;
@@ -37,14 +33,14 @@ public class SweetBerriesCakeItem extends StatusEffectsBlockItem {
         return super.useOnBlock(context);
     }
 
-    @Nullable
-    @Override
-    public ItemPlacementContext getPlacementContext(ItemPlacementContext context) {
-        BlockPos blockPos = context.getHitResult().getBlockPos();
-        while (true) {
-            var blockState = context.getWorld().getBlockState(blockPos);
-            if (!blockState.isOf(CDBlocks.SWEET_BERRIES_CAKE) || blockState.get(Properties.AGE_3) < Properties.AGE_3_MAX) return new ItemPlacementContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), context.getHitResult().withBlockPos(blockPos));
-            blockPos = blockPos.up();
-        }
-    }
+    //@Nullable
+    //@Override
+    //public ItemPlacementContext getPlacementContext(ItemPlacementContext context) {
+    //    BlockPos blockPos = context.getHitResult().getBlockPos();
+    //    while (true) {
+    //        var blockState = context.getWorld().getBlockState(blockPos);
+    //        if (!blockState.isOf(CDBlocks.SWEET_BERRIES_CAKE) || blockState.get(Properties.AGE_3) < Properties.AGE_3_MAX) return new ItemPlacementContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), context.getHitResult().withBlockPos(blockPos));
+    //        blockPos = blockPos.up();
+    //    }
+    //}
 }

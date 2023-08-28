@@ -23,7 +23,7 @@ public class PrintedCakeItem extends StatusEffectsBlockItem{
     public PrintedCakeItem(Block block, Settings settings) {
         super(block, settings);
     }
-    @Override
+    //@Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 //        super.appendStacks(group, stacks);
         var stack = getDefaultStack();

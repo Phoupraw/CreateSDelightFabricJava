@@ -88,8 +88,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
 //    modCompileOnly("dev.emi:emi-fabric:${emi_version}:api")
 //    modLocalRuntime("dev.emi:emi-fabric:${emi_version}")
-    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}")
-    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}")
+    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
+//    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}")
     modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
 
     // 真是不知道ForgeConfigAPIPort出了什么鸟问题。

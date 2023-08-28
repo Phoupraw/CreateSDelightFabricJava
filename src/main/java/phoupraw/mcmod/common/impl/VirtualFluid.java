@@ -12,6 +12,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.ApiStatus;
@@ -61,12 +62,17 @@ public class VirtualFluid extends FlowableFluid {
     }
 
     @Override
+    protected boolean isInfinite(World world) {
+        return false;
+    }
+
+    @Override
     public BlockState toBlockState(FluidState state) {
         return Blocks.AIR.getDefaultState();
     }
 
     /**
-     @return whether the given fluid an instance of this fluid
+     * @return whether the given fluid an instance of this fluid
      */
     @Override
     public boolean matchesType(Fluid fluid) {
@@ -76,14 +82,6 @@ public class VirtualFluid extends FlowableFluid {
     @Override
     public Fluid getFlowing() {
         return this;
-    }
-
-    /**
-     @return whether the fluid is infinite like water
-     */
-    @Override
-    public boolean isInfinite() {
-        return false;
     }
 
     /**

@@ -1,7 +1,6 @@
 package phoupraw.mcmod.createsdelight.model;
 
 import com.google.common.collect.*;
-import com.mojang.datafixers.util.Pair;
 import io.github.tropheusj.milk.Milk;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
@@ -794,15 +793,14 @@ public static final class Unbaked implements UnbakedModel {
     }
 
     @Override
-    public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<Pair<String, String>> unresolvedTextureReferences) {
-        return List.of();
+    public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
+
     }
 
     @Override
-    public @NotNull BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+    public @NotNull BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
         return new PrintedCakeModel();
     }
-
 }
 
 public static final class Baked implements BakedModel {

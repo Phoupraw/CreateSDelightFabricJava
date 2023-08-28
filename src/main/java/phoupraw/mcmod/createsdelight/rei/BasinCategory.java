@@ -1,7 +1,7 @@
 package phoupraw.mcmod.createsdelight.rei;
 
 import com.simibubi.create.compat.rei.category.animations.AnimatedBlazeBurner;
-import com.simibubi.create.content.contraptions.processing.HeatCondition;
+import com.simibubi.create.content.processing.recipe.HeatCondition;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
@@ -52,12 +52,13 @@ public abstract class BasinCategory<T extends BasinDisplay> implements DisplayCa
         widgets.add(Widgets.createLabel(new Point(arrow.getX(), arrow.getY() - 6), Text.translatable("category.rei.campfire.time", new DecimalFormat("###.##").format(duration / 20.0))).leftAligned());
         HeatCondition heat = display.recipe.getRequiredHeat();
         if (heat != HeatCondition.NONE) {
-            widgets.add(Widgets.createDrawableWidget((helper, matrices, mouseX, mouseY, partialTick) -> {
+            widgets.add(Widgets.createDrawableWidget((context, mouseX, mouseY, partialTick) -> {
+                var matrices = context.getMatrices();
                 matrices.push();
                 matrices.translate(arrow.getX(), arrow.getY() + 2, 0);
                 float scale = 0.8f;
                 matrices.scale(scale, scale, 1);
-                (heat == HeatCondition.HEATED ? HEATED : SUPERHEATED).draw(matrices, 0, 0);
+                (heat == HeatCondition.HEATED ? HEATED : SUPERHEATED).draw(context, 0, 0);
                 matrices.pop();
             }));
         }
