@@ -46,7 +46,7 @@ public static int cake2structure(CommandContext<ServerCommandSource> context) th
         VoxelCake voxelCake = be.getVoxelCake();
         SchematicWorld sw = new SchematicWorld(context.getSource().getWorld());
         for (Map.Entry<CakeIngredient, BlockBox> entry : voxelCake.getContent().entries()) {
-            BlockState blockState = CDCakeIngredients.BLOCK.inverse().get(entry.getKey()).getDefaultState();
+            BlockState blockState = CSDCakeIngredients.BLOCK.inverse().get(entry.getKey()).getDefaultState();
             BlockBox box = entry.getValue();
             for (int i = box.getMinX(); i < box.getMaxX(); i++) {
                 for (int j = box.getMinY(); j < box.getMaxY(); j++) {

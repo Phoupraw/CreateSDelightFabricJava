@@ -13,8 +13,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Box;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.CDBlocks;
-import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class PrintedCakeItem extends StatusEffectsBlockItem {
     }
 
     public PrintedCakeItem() {
-        this(CDBlocks.PRINTED_CAKE, CDItems.newSettings());
+        this(CSDBlocks.PRINTED_CAKE, CSDItems.newSettings());
     }
 
     public PrintedCakeItem(Block block, Settings settings) {

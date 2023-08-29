@@ -12,7 +12,7 @@ import phoupraw.mcmod.createsdelight.model.PrintedCakeModel;
 import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 
 @Environment(EnvType.CLIENT)
-public final class CDClientModInitializer implements ClientModInitializer {
+public final class CSDClientModInitializer implements ClientModInitializer {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {

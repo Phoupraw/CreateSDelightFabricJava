@@ -5,9 +5,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 
-public final class CDChineseProvider extends FabricLanguageProvider {
+public final class CSDChineseProvider extends FabricLanguageProvider {
 
-    public CDChineseProvider(FabricDataOutput dataGenerator) {
+    public CSDChineseProvider(FabricDataOutput dataGenerator) {
         super(dataGenerator, "zh_cn");
     }
 

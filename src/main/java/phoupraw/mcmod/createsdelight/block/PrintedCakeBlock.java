@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
-import phoupraw.mcmod.createsdelight.registry.CDBETypes;
+import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
 
@@ -174,7 +174,7 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
 
     @Override
     public BlockEntityType<? extends PrintedCakeBE> getBlockEntityType() {
-        return CDBETypes.PRINTED_CAKE;
+        return CSDBlockEntityTypes.PRINTED_CAKE;
     }
 
     @SuppressWarnings("deprecation")

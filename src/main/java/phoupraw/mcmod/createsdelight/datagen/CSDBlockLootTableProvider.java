@@ -9,9 +9,10 @@ import net.minecraft.loot.function.CopyNameLootFunction;
 import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.loot.provider.nbt.ContextLootNbtProvider;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import phoupraw.mcmod.createsdelight.registry.CDBlocks;
-import phoupraw.mcmod.createsdelight.registry.CDItems;
-public final class CDBlockLootTableProvider extends FabricBlockLootTableProvider {
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDItems;
+
+public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     //public static void addDropAge3(BlockLootTableGenerator generator, Block block, Item item, int count) {
     //    var alternative = AlternativeEntry.builder(
@@ -29,16 +30,16 @@ public final class CDBlockLootTableProvider extends FabricBlockLootTableProvider
     //      .with(alternative)));
     //}
 
-    public CDBlockLootTableProvider(FabricDataOutput dataOutput) {
+    public CSDBlockLootTableProvider(FabricDataOutput dataOutput) {
         super(dataOutput);
     }
 
 
     @Override
     public void generate() {
-        addDrop(CDBlocks.PRINTED_CAKE, LootTable.builder().pool(new LootPool.Builder()
+        addDrop(CSDBlocks.PRINTED_CAKE, LootTable.builder().pool(new LootPool.Builder()
           .rolls(ConstantLootNumberProvider.create(1))
-          .with(ItemEntry.builder(CDItems.PRINTED_CAKE)
+          .with(ItemEntry.builder(CSDItems.PRINTED_CAKE)
             .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
             .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
               .withOperation("content", "BlockEntityTag.content"))

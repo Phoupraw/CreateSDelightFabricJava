@@ -6,9 +6,9 @@ import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 
 
-public final class CDEnglishProvider extends FabricLanguageProvider {
+public final class CSDEnglishProvider extends FabricLanguageProvider {
 
-    public CDEnglishProvider(FabricDataOutput dataGenerator) {
+    public CSDEnglishProvider(FabricDataOutput dataGenerator) {
         super(dataGenerator);
     }
 

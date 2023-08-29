@@ -10,5 +10,5 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "phoupraw.mcmod.createsdelight.init.CDMixinConfigPlugin"
+  "plugin": "phoupraw.mcmod.createsdelight.init.CSDMixinConfigPlugin"
 }

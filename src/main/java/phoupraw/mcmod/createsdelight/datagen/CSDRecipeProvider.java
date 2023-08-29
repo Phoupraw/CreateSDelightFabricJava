@@ -6,10 +6,10 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider;
 
 import java.util.function.Consumer;
 
-public final class CDRecipeProvider extends FabricRecipeProvider {
+public final class CSDRecipeProvider extends FabricRecipeProvider {
 
 
-    public CDRecipeProvider(FabricDataOutput output) {
+    public CSDRecipeProvider(FabricDataOutput output) {
         super(output);
     }
 

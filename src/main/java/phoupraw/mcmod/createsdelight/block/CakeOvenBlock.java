@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBE;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.registry.CDBETypes;
-import phoupraw.mcmod.createsdelight.registry.CDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.Objects;
 
@@ -42,7 +42,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
 
     @Override
     public BlockEntityType<? extends CakeOvenBE> getBlockEntityType() {
-        return CDBETypes.CAKE_OVEN;
+        return CSDBlockEntityTypes.CAKE_OVEN;
     }
 
     @SuppressWarnings("deprecation")
@@ -81,7 +81,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
         VoxelCake cake = VoxelCake.of(world, BlockBox.create(pos.add(1, 1, 1), pos.add(len + 1, len + 1, len + 1)));
         if (cake.getContent().isEmpty()) return;
         BlockPos pos1 = pos.up();
-        if (world.setBlockState(pos1, CDBlocks.PRINTED_CAKE.getDefaultState())) {
+        if (world.setBlockState(pos1, CSDBlocks.PRINTED_CAKE.getDefaultState())) {
             PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), pos.toString());
             blockEntity.setVoxelCake(VoxelCake.of(cake.getContent(), cake.getSize()));
             blockEntity.sendData();

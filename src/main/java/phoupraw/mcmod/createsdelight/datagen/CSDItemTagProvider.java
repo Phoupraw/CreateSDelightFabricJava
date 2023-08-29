@@ -6,9 +6,9 @@ import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
 
-public final class CDItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public final class CSDItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
-    public CDItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+    public CSDItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
     }
 

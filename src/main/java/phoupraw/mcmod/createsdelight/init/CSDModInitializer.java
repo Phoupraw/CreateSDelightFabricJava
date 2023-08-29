@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * </ol>
  */
 
-public final class CDModInitializer implements ModInitializer {
+public final class CSDModInitializer implements ModInitializer {
 
     public static void initializeAfterCreate() {
 
@@ -89,9 +89,9 @@ public final class CDModInitializer implements ModInitializer {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
         //原版
-        CDBlocks.PRINTED_CAKE.hashCode();
-        CDBETypes.PRINTED_CAKE.hashCode();
-        CDItems.ITEM_GROUP.hashCode();
+        CSDBlocks.PRINTED_CAKE.hashCode();
+        CSDBlockEntityTypes.PRINTED_CAKE.hashCode();
+        CSDItems.ITEM_GROUP.hashCode();
         //CDFluids.SUNFLOWER_OIL.hashCode();
         //CDRecipeTypes.PAN_FRYING.hashCode();
         CDStatusEffects.SATIATION.hashCode();
@@ -101,7 +101,7 @@ public final class CDModInitializer implements ModInitializer {
         //CDSpoutingBehaviours.PAN.hashCode();
 
         //我
-        CDCakeIngredients.MILK.hashCode();
+        CSDCakeIngredients.MILK.hashCode();
     }
 
     private static void checkCreateVersion() {
@@ -128,7 +128,7 @@ public final class CDModInitializer implements ModInitializer {
         //});
         CDCommands.register();
         loadClasses();
-        FluidStorage.combinedItemApiProvider(Items.EGG).register(VirtualFluids.fullProviderOf(CDItems.EGG_SHELL, FluidVariant.of(CDFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
+        FluidStorage.combinedItemApiProvider(Items.EGG).register(VirtualFluids.fullProviderOf(CSDItems.EGG_SHELL, FluidVariant.of(CSDFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
 
     }
 

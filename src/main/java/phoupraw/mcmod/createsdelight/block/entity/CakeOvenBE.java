@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.registry.CDBETypes;
+import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +22,7 @@ public class CakeOvenBE extends SmartBlockEntity implements Nameable {
     public boolean powered;
 
     public CakeOvenBE(BlockPos pos, BlockState state) {
-        this(CDBETypes.CAKE_OVEN, pos, state);
+        this(CSDBlockEntityTypes.CAKE_OVEN, pos, state);
     }
 
     public CakeOvenBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {

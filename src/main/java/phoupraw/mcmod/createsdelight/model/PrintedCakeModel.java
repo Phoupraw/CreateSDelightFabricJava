@@ -33,8 +33,8 @@ import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.registry.CDBlocks;
-import phoupraw.mcmod.createsdelight.registry.CDItems;
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -44,18 +44,18 @@ import java.util.function.Supplier;
 
 public final class PrintedCakeModel implements BakedModel, FabricBakedModel {
 
-public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CDBlocks.PRINTED_CAKE);
-public static final Identifier ITEM_ID = ModelIds.getItemModelId(CDItems.PRINTED_CAKE);
-//public static final Map<UUID, List<BakedQuad>> CACHE = new HashMap<>();
+    public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
+    public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
+    //public static final Map<UUID, List<BakedQuad>> CACHE = new HashMap<>();
 
-//public static @NotNull List<BakedQuad> toBakedQuads(@Nullable Map<FluidVariant, Collection<Box>> content) {
-//    if (content == null) return List.of();
-//    List<BakedQuad> quads = new ArrayList<>();
-//    var builder = IronBowlModel.getMeshBuilder();
-//    QuadEmitter emitter = builder.getEmitter();
-//    for (Map.Entry<FluidVariant, Collection<Box>> entry : content.entrySet()) {
-//        Sprite sprite = FluidVariantRendering.getSprite(entry.getKey());
-//        int color = FluidVariantRendering.getColor(entry.getKey());
+    //public static @NotNull List<BakedQuad> toBakedQuads(@Nullable Map<FluidVariant, Collection<Box>> content) {
+    //    if (content == null) return List.of();
+    //    List<BakedQuad> quads = new ArrayList<>();
+    //    var builder = IronBowlModel.getMeshBuilder();
+    //    QuadEmitter emitter = builder.getEmitter();
+    //    for (Map.Entry<FluidVariant, Collection<Box>> entry : content.entrySet()) {
+    //        Sprite sprite = FluidVariantRendering.getSprite(entry.getKey());
+    //        int color = FluidVariantRendering.getColor(entry.getKey());
 //        for (Box box : entry.getValue()) {
 //            float minX = (float) box.minX;
 //            float minY = (float) box.minY;

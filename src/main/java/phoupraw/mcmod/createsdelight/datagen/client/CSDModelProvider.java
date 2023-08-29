@@ -8,7 +8,7 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 
 @Environment(EnvType.CLIENT)
-public final class CDModelProvider extends FabricModelProvider {
+public final class CSDModelProvider extends FabricModelProvider {
     //public static void horizontalAxis(BlockStateModelGenerator generator, Block block, Identifier modelId) {
     //    generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
     //      .coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_AXIS)
@@ -31,7 +31,7 @@ public final class CDModelProvider extends FabricModelProvider {
     //    generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(map));
     //}
 
-    public CDModelProvider(FabricDataOutput dataGenerator) {
+    public CSDModelProvider(FabricDataOutput dataGenerator) {
         super(dataGenerator);
     }
 

@@ -7,41 +7,47 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.createsdelight.datagen.CDItemTagProvider;
-import phoupraw.mcmod.createsdelight.datagen.CDRecipeProvider;
-import phoupraw.mcmod.createsdelight.datagen.client.CDChineseProvider;
-import phoupraw.mcmod.createsdelight.datagen.client.CDEnglishProvider;
-import phoupraw.mcmod.createsdelight.datagen.client.CDModelProvider;
+import phoupraw.mcmod.createsdelight.datagen.CSDItemTagProvider;
+import phoupraw.mcmod.createsdelight.datagen.CSDRecipeProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
+import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
 
 /**
- 物品编写流程：
- <ol>
- <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br/>
- <li>在{@link CDIdentifiers}创建{@link Identifier}。<br/>
- <li>在{@link CDItems}创建物品<b>并注册</b>。<br/>
- <li>若不为{@link BlockItem}，则在{@link CDChineseProvider}和{@link CDEnglishProvider}添加翻译。<br/>
- <li>若不为{@link BlockItem}，则在{@link CDModelProvider}添加模型。<br/>
- <li>在{@link CDRecipeProvider}添加配方。<br/>
- <li>在{@link CDItemTagProvider}添加标签。<br/>
- <li>运行数据生成器。<br/>
- <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br/>
- <li>运行客户端，检查物品效果是否如预期。<br/>
- <li>在{@code ChangeLog.md}添加更新日志。<br/>
- <li>提交git。
- </ol> */
-public final class CDItems {
+ * 物品编写流程：
+ * <ol>
+ * <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br/>
+ * <li>在{@link CDIdentifiers}创建{@link Identifier}。<br/>
+ * <li>在{@link CSDItems}创建物品<b>并注册</b>。<br/>
+ * <li>若不为{@link BlockItem}，则在{@link CSDChineseProvider}和{@link CSDEnglishProvider}添加翻译。<br/>
+ * <li>若不为{@link BlockItem}，则在{@link CSDModelProvider}添加模型。<br/>
+ * <li>在{@link CSDRecipeProvider}添加配方。<br/>
+ * <li>在{@link CSDItemTagProvider}添加标签。<br/>
+ * <li>运行数据生成器。<br/>
+ * <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br/>
+ * <li>运行客户端，检查物品效果是否如预期。<br/>
+ * <li>在{@code ChangeLog.md}添加更新日志。<br/>
+ * <li>提交git。
+ * </ol>
+ */
+public final class CSDItems {
 
     public static final ItemGroup ITEM_GROUP = ItemGroup.create(ItemGroup.Row.TOP, 0)
-      .icon(CDItems::stupidJavaCompiler)
-      //.appendItems(CDItems::appendItems)
+      .icon(CSDItems::stupidJavaCompiler)
+      .entries((displayContext, entries) -> {
+          entries.add(CSDItems.CAKE_OVEN);
+          entries.add(CSDItems.MILK);
+          entries.add(CSDItems.CHOCOLATE);
+          entries.add(CSDItems.EGG_SHELL);
+      })
       .build();
     static {
         Registry.register(Registries.ITEM_GROUP, CDIdentifiers.ITEM_GROUP, ITEM_GROUP);
 
     }
     //方块
-    public static final BlockItem CAKE_OVEN = new BlockItem(CDBlocks.CAKE_OVEN, newSettings());
+    public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.CAKE_OVEN, newSettings());
 
     public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
 
@@ -56,8 +62,8 @@ public final class CDItems {
     //public static final SequencedAssemblyItem CARROT_CREAM_CAKE_0 = new SequencedAssemblyItem(newSettings());
 
     //蛋糕材料
-    public static final BlockItem MILK = new BlockItem(CDBlocks.MILK, newSettings());
-    public static final BlockItem CHOCOLATE = new BlockItem(CDBlocks.CHOCOLATE, newSettings());
+    public static final BlockItem MILK = new BlockItem(CSDBlocks.MILK, newSettings());
+    public static final BlockItem CHOCOLATE = new BlockItem(CSDBlocks.CHOCOLATE, newSettings());
     static {
 
         //register(CDIdentifiers.KELP_ASH, KELP_ASH);
@@ -132,7 +138,7 @@ public final class CDItems {
         return Registry.register(Registries.ITEM, id, item);
     }
 
-    private CDItems() {
+    private CSDItems() {
     }
 
 }

@@ -22,8 +22,8 @@ import net.minecraft.util.shape.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.registry.CDBETypes;
 import phoupraw.mcmod.createsdelight.registry.CDRegistries;
+import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.Comparator;
 import java.util.List;
@@ -110,7 +110,7 @@ public class PrintedCakeBE extends SmartBlockEntity implements Nameable {
     //private @Nullable Multimap<CakeIngredient, BlockBox> content;
 
     public PrintedCakeBE(BlockPos pos, BlockState state) {
-        this(CDBETypes.PRINTED_CAKE, pos, state);
+        this(CSDBlockEntityTypes.PRINTED_CAKE, pos, state);
     }
 
     public PrintedCakeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
