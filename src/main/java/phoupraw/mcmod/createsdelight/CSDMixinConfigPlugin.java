@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.init;
+package phoupraw.mcmod.createsdelight;
 
 import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.Nullable;

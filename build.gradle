@@ -8,14 +8,11 @@ plugins {
     id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
     id "maven-publish"
 }
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
-
+base {
+    archivesBaseName = project.archives_base_name
+}
 repositories {
     mavenLocal()
     mavenCentral()
@@ -74,7 +71,27 @@ repositories {
         url = "https://maven.terraformersmc.com/"
     }// Mod Menu, Trinkets
 }
-
+loom {
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+    splitEnvironmentSourceSets()
+    mods {
+        "${project.mod_id}" {
+            sourceSet(sourceSets.main)
+            sourceSet(sourceSets.client)
+        }
+    }
+    runs {
+        // This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
+        datagenClient {
+            inherit client
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=${mod_id}"
+            runDir "build/datagen"
+        }
+    }
+}
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
     mappings loom.layered() {
@@ -102,32 +119,31 @@ dependencies {
         modCompileOnly(f)
     }
 }
-
 processResources {
-    // require dependencies to be the version compiled against or newer
-    Map<String, String> properties = new HashMap<>()
-    properties.put("version", version)
-
-    properties.forEach((k, v) -> inputs.property(k, v))
-
-    filesMatching("fabric.mod.json") { expand properties }
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
 }
-
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = Integer.parseInt(sourceCompatibility)
+    it.options.release = 17
 }
-
 java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
     withSourcesJar()
-}
 
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
-    exclude("com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity.class", "com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity\$State.class", "com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity\$Mode.class", "com/simibubi/create/content/contraptions/components/deployer/DeployerTileEntity\$1.class")
 }
 
+// configure the maven publication
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -137,26 +153,10 @@ publishing {
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        mavenLocal()
         // Add repositories to publish to here.
         // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
-    }
-}
-loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-    runs {
-        // This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
-        datagenClient {
-            inherit client
-            name "Data Generation"
-            vmArg "-Dfabric-api.datagen"
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-            vmArg "-Dfabric-api.datagen.modid=${mod_id}"
-
-            runDir "build/datagen"
-        }
+        // The repositories here will be used for publishing your artifact, not for retrieving dependencies.
+        mavenLocal()
     }
 }
 

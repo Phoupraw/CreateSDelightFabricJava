@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.init;
+package phoupraw.mcmod.createsdelight;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -9,11 +9,6 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.block.entity.renderer.MovingCakeRenderer;
-import phoupraw.mcmod.createsdelight.block.entity.renderer.ShrinkingCakeRenderer;
-import phoupraw.mcmod.createsdelight.misc.StatusEffectsTooltipComponent;
-import phoupraw.mcmod.createsdelight.misc.StatusEffectsTooltipData;
-import phoupraw.mcmod.createsdelight.model.PrintedCakeModel;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDFluids;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
@@ -34,8 +29,8 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         Identifier textureId = CSDIdentifiers.EGG_LIQUID.withPrefixedPath("block/");
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.EGG_LIQUID, new SimpleFluidRenderHandler(textureId, textureId));
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> {
-            //if (resourceId.equals(IronBowlModel.Unbaked.ID)) return new IronBowlModel.Unbaked();
-            if (resourceId.equals(PrintedCakeModel.BLOCK_ID) || resourceId.equals(PrintedCakeModel.ITEM_ID)) return new PrintedCakeModel.Unbaked();
+            if (resourceId.equals(ReadyCakeModel.ID)) return new ConstUnbakedModel(new ReadyCakeModel());
+            if (resourceId.equals(PrintedCakeModel.BLOCK_ID) || resourceId.equals(PrintedCakeModel.ITEM_ID)) return new ConstUnbakedModel(new PrintedCakeModel());
             return null;
         });
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);

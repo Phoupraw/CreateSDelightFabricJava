@@ -19,9 +19,9 @@
   "icon": "assets/createsdelight/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["phoupraw.mcmod.createsdelight.init.CSDModInitializer"],
+    "main": ["phoupraw.mcmod.createsdelight.CreateSDelight"],
     "fabric-datagen": ["phoupraw.mcmod.createsdelight.datagen.CSDDataGeneratorEntrypoint"],
-    "client": ["phoupraw.mcmod.createsdelight.init.CSDClientModInitializer"],
+    "client": ["phoupraw.mcmod.createsdelight.CSDClientModInitializer"],
     "rei_client": ["phoupraw.mcmod.createsdelight.rei.CDREIClientPlugin"],
     "rei_server": ["phoupraw.mcmod.createsdelight.rei.CDREIServerPlugin"]
   },

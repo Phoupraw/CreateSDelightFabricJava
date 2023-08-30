@@ -1,43 +1,31 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
-import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.createsdelight.datagen.CSDRecipeProvider;
-import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
-import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
-import phoupraw.mcmod.createsdelight.init.CSDClientModInitializer;
-import phoupraw.mcmod.createsdelight.init.CSDModInitializer;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 
-/**
- * 虚拟流体创建流程：
- * <ol>
- * <li>在{@link CSDIdentifiers}创建{@link Identifier}。<br/>
- * <li>在{@link CSDFluids}用{@link VirtualFluids#of}创建流体<b>并注册</b>。<br/>
- * <li>若要装有该流体桶、瓶或其它物品，则在{@link CSDItems}按照创建物品的流程创建物品。</li>
- * <li>若有桶，则补齐{@link VirtualFluids#of(Item)}的参数。<br/>
- * <li>在{@link CSDChineseProvider}和{@link CSDEnglishProvider}添加翻译。<br/>
- * <li>在{@link CSDRecipeProvider}添加配方。<br/>
- * <li>运行数据生成器。<br/>
- * <li>在{@code src/main/resources/assets/createsdelight/textures/block}创建流体的纹理。<br/>
- * <li>若有装有该流体桶、瓶或其它物品，在{@link CSDModInitializer#initializeAfterCreate()}用{@link VirtualFluids#emptyProviderOf}和{@link VirtualFluids#fullProviderOf}在{@link FluidStorage#combinedItemApiProvider}注册流体物品转运。<br/>
- * <li>在{@link CSDClientModInitializer#onInitializeClient()}用{@link SimpleFluidRenderHandler#coloredWater}或其它{@link FluidRenderHandler}在{@link FluidRenderHandlerRegistry#register(Fluid, FluidRenderHandler)}注册贴图。<br/>
- * <li>若流体半透明，则在{@link CSDClientModInitializer#onInitializeClient()}用{@link RenderLayer#getTranslucent()}在{@link BlockRenderLayerMap#putFluids}注册。<br/>
- * <li>运行客户端，检查流体效果是否如预期。<br/>
- * <li>在{@code ChangeLog.md}添加更新日志。<br/>
- * <li>提交git。
- * </ol>
- */
+///**
+// * 虚拟流体创建流程：
+// * <ol>
+// * <li>在{@link CSDIdentifiers}创建{@link Identifier}。<br/>
+// * <li>在{@link CSDFluids}用{@link VirtualFluids#of}创建流体<b>并注册</b>。<br/>
+// * <li>若要装有该流体桶、瓶或其它物品，则在{@link CSDItems}按照创建物品的流程创建物品。</li>
+// * <li>若有桶，则补齐{@link VirtualFluids#of(Item)}的参数。<br/>
+// * <li>在{@link CSDChineseProvider}和{@link CSDEnglishProvider}添加翻译。<br/>
+// * <li>在{@link CSDRecipeProvider}添加配方。<br/>
+// * <li>运行数据生成器。<br/>
+// * <li>在{@code src/main/resources/assets/createsdelight/textures/block}创建流体的纹理。<br/>
+// * <li>若有装有该流体桶、瓶或其它物品，用{@link VirtualFluids#emptyProviderOf}和{@link VirtualFluids#fullProviderOf}在{@link FluidStorage#combinedItemApiProvider}注册流体物品转运。<br/>
+// * <li>在{@link CSDClientModInitializer#onInitializeClient()}用{@link SimpleFluidRenderHandler#coloredWater}或其它{@link FluidRenderHandler}在{@link FluidRenderHandlerRegistry#register(Fluid, FluidRenderHandler)}注册贴图。<br/>
+// * <li>若流体半透明，则在{@link CSDClientModInitializer#onInitializeClient()}用{@link RenderLayer#getTranslucent()}在{@link BlockRenderLayerMap#putFluids}注册。<br/>
+// * <li>运行客户端，检查流体效果是否如预期。<br/>
+// * <li>在{@code ChangeLog.md}添加更新日志。<br/>
+// * <li>提交git。
+// * </ol>
+// */
 public final class CSDFluids {
 
     //public static final Fluid SUNFLOWER_OIL = VirtualFluids.of(CDItems.BUCKETED_SUNFLOWER_OIL);

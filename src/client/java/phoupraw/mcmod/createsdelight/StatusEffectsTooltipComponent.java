@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.misc;
+package phoupraw.mcmod.createsdelight;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;

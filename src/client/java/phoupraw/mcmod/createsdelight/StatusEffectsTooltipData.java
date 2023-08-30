@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight.misc;
+package phoupraw.mcmod.createsdelight;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,11 +24,6 @@ import java.util.List;
  */
 @Environment(EnvType.CLIENT)
 public record StatusEffectsTooltipData(List<Pair<StatusEffectInstance, Float>> statusEffects) implements TooltipData {
-
-    //public static @NotNull Optional<StatusEffectsTooltipData> optionalOf(@NotNull ItemStack itemStack) {
-    //    StatusEffectsTooltipData tooltipData = itemStack.getItem() instanceof PotionItem ? ofPotion(itemStack) : ofFood(itemStack.getItem());
-    //    return tooltipData.statusEffects().isEmpty() ? Optional.empty() : Optional.of(tooltipData);
-    //}
 
     /**
      * @param potion 药水
