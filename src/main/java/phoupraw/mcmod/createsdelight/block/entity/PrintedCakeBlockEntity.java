@@ -10,9 +10,9 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtByteArray;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtIntArray;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Nameable;
@@ -29,7 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-public class PrintedCakeBE extends SmartBlockEntity implements Nameable {
+public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable {
 
     public static final Comparator<BlockBox> BLOCK_BOX_COMPARATOR = Comparator
       .comparingInt(BlockBox::getMinY)
@@ -52,11 +52,11 @@ public class PrintedCakeBE extends SmartBlockEntity implements Nameable {
         return VoxelCake.of(blockEntityTag.getCompound("voxelCake"));
     }
 
-    public static BlockBox nbt2box(int[] ar) {
-        return new BlockBox(ar[0], ar[1], ar[2], ar[3], ar[4], ar[5]);
+    public static BlockBox array2box(byte[] arBox) {
+        return new BlockBox(arBox[0], arBox[1], arBox[2], arBox[3], arBox[4], arBox[5]);
     }
 
-    public static void writeContent(PrintedCakeBE be, NbtCompound tag, boolean clientPacket) {
+    public static void writeContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
         Identifier predefined = be.predefined;
         if (predefined != null) {
             tag.putString("predefined", predefined.toString());
@@ -80,11 +80,11 @@ public class PrintedCakeBE extends SmartBlockEntity implements Nameable {
         //tag.putIntArray("size", new int[]{size.getX(), size.getY(), size.getZ()});
     }
 
-    public static NbtIntArray box2nbt(BlockBox box) {
-        return new NbtIntArray(new int[]{box.getMinX(), box.getMinY(), box.getMinZ(), box.getMaxX(), box.getMaxY(), box.getMaxZ()});
+    public static NbtByteArray box2nbt(BlockBox box) {
+        return new NbtByteArray(new byte[]{(byte) box.getMinX(), (byte) box.getMinY(), (byte) box.getMinZ(), (byte) box.getMaxX(), (byte) box.getMaxY(), (byte) box.getMaxZ()});
     }
 
-    public static void readContent(PrintedCakeBE be, NbtCompound tag, boolean clientPacket) {
+    public static void readContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
         be.setVoxelCake(nbt2content(tag));
         be.setShape(null);
         var world = be.getWorld();
@@ -109,11 +109,11 @@ public class PrintedCakeBE extends SmartBlockEntity implements Nameable {
     //
     //private @Nullable Multimap<CakeIngredient, BlockBox> content;
 
-    public PrintedCakeBE(BlockPos pos, BlockState state) {
+    public PrintedCakeBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.PRINTED_CAKE, pos, state);
     }
 
-    public PrintedCakeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public PrintedCakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

@@ -1,10 +1,12 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-public final class CDIdentifiers {
+
+public final class CSDIdentifiers {
 
     public static final Identifier
       PAN = of("pan"),
@@ -91,20 +93,27 @@ public final class CDIdentifiers {
       PRINTED_CAKE = of("printed_cake"),
       MILK = of("milk"),
       CAKE_INGREDIENT = of("cake_ingredient"),
-      CHOCOLATE = of("chocolate"),
+      CHOCOLATE_BLOCK = of("chocolate_block"),
       HONEY = of("honey"),
       CAKE_OVEN = of("cake_oven"),
       PUMPKIN = of("pumpkin"),
       MELON = of("melon"),
       HAY = of("hay"),
-      PREDEFINED_CAKE = of("predefined_cake");
+      PREDEFINED_CAKE = of("predefined_cake"),
+      CHOCOLATE = of("chocolate"),
+      BUCKETED_EGG_LIQUID = of("bucketed_egg_liquid"),
+      BOTTLED_EGG_LIQUID = of("bottled_egg_liquid"),
+      READY_CAKE = of("ready_cake"),
+      SHRINKING_CAKE = of("shrinking_cake"),
+      MOVING_CAKE = of("moving_cake");
 
-@Contract("_ -> new")
-public static @NotNull Identifier of(String path) {
-    return new Identifier(CreateSDelight.MOD_ID, path);
-}
+    @Contract("_ -> new")
+    @ApiStatus.Internal
+    public static @NotNull Identifier of(String path) {
+        return new Identifier(CreateSDelight.MOD_ID, path);
+    }
 
-private CDIdentifiers() {
-}
+    private CSDIdentifiers() {
+    }
 
 }

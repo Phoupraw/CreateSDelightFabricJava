@@ -7,8 +7,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
-import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
+import phoupraw.mcmod.createsdelight.block.*;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockTagProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
@@ -20,7 +19,7 @@ import phoupraw.mcmod.createsdelight.init.CSDClientModInitializer;
  * 方块编写流程：
  * <ol>
  * <li>若自定义方块，则在{@link phoupraw.mcmod.createsdelight.block}创建方块类，继承{@link Block}；推荐重载无参构造器。<br/>
- * <li>在{@link CDIdentifiers}创建{@link Identifier}。<br/>
+ * <li>在{@link CSDIdentifiers}创建{@link Identifier}。<br/>
  * <li>在{@link CSDBlocks}创建方块<b>并注册</b>。<br/>
  * <li>在{@link CSDItems}按照创建物品的流程创建{@link BlockItem}或自定义物品<b>并注册</b>。<br/>
  * <li>在{@link CSDChineseProvider}和{@link CSDEnglishProvider}添加翻译。<br/>
@@ -40,32 +39,22 @@ public final class CSDBlocks {
 
     //机器
     public static final Block CAKE_OVEN = new CakeOvenBlock();
-
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
+    public static final Block READY_CAKE = new ReadyCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
+    public static final Block SHRINKING_CAKE = new ShrinkingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
+    public static final Block MOVING_CAKE = new MovingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
 
     //蛋糕材料
     public static final Block MILK = new Block(FabricBlockSettings.create().breakInstantly());
-    public static final Block CHOCOLATE = new Block(FabricBlockSettings.copyOf(MILK));
+    public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.copyOf(MILK));
     static {
-        register(CDIdentifiers.CAKE_OVEN, CAKE_OVEN);
-
-        //register(CDIdentifiers.JELLY_BEANS, JELLY_BEANS);
-        //register(CDIdentifiers.JELLY_BEANS_CAKE, JELLY_BEANS_CAKE);
-        //register(CDIdentifiers.SWEET_BERRIES_CAKE, SWEET_BERRIES_CAKE);
-        //register(CDIdentifiers.BASQUE_CAKE, BASQUE_CAKE);
-        //register(CDIdentifiers.SWEET_BERRIES_CAKE_S, SWEET_BERRIES_CAKE_S);
-        //register(CDIdentifiers.BROWNIE, BROWNIE);
-        //register(CDIdentifiers.APPLE_CREAM_CAKE, APPLE_CREAM_CAKE);
-        //register(CDIdentifiers.APPLE_CAKE, APPLE_CAKE);
-        //register(CDIdentifiers.CARROT_CREAM_CAKE, CARROT_CREAM_CAKE);
-        //register(CDIdentifiers.SMALL_CHOCOLATE_CREAM_CAKE, SMALL_CHOCOLATE_CREAM_CAKE);
-        //register(CDIdentifiers.MEDIUM_CHOCOLATE_CREAM_CAKE, MEDIUM_CHOCOLATE_CREAM_CAKE);
-        //register(CDIdentifiers.BIG_CHOCOLATE_CREAM_CAKE, BIG_CHOCOLATE_CREAM_CAKE);
-        //register(CDIdentifiers.CHOCOLATE_ANTHEMY_CAKE, CHOCOLATE_ANTHEMY_CAKE);
-        register(CDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
-
-        register(CDIdentifiers.MILK, MILK);
-        register(CDIdentifiers.CHOCOLATE, CHOCOLATE);
+        register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
+        register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
+        register(CSDIdentifiers.READY_CAKE, READY_CAKE);
+        register(CSDIdentifiers.SHRINKING_CAKE, SHRINKING_CAKE);
+        register(CSDIdentifiers.MOVING_CAKE, MOVING_CAKE);
+        register(CSDIdentifiers.MILK, MILK);
+        register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
     }
 
     private static <T extends Block> void register(Identifier id, T block) {

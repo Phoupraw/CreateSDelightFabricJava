@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
+import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
@@ -711,7 +711,7 @@ public static BakedModel content2model(VoxelCake voxelCake) {
 
 @Override
 public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-    var blockEntity = (PrintedCakeBE) blockView.getBlockEntity(pos);
+    var blockEntity = (PrintedCakeBlockEntity) blockView.getBlockEntity(pos);
     if (blockEntity == null) return;//可能还没初始化，再等等
     var bakedModel = blockEntity.getBakedModel();
     if (bakedModel == null) {//    if (blockEntity.caching) return;
@@ -736,7 +736,7 @@ public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, Rend
     if (blockEntityTag == null) return;
     var bakedModel = CACHE.get(blockEntityTag);
     if (bakedModel == null) {
-        var pair = PrintedCakeBE.nbt2content(blockEntityTag);
+        var pair = PrintedCakeBlockEntity.nbt2content(blockEntityTag);
         if (pair == null) return;
         bakedModel = content2model(pair);
         CACHE.put(blockEntityTag, bakedModel);

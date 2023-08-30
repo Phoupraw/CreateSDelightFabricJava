@@ -3,26 +3,36 @@ package phoupraw.mcmod.createsdelight.datagen.client;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
+import phoupraw.mcmod.createsdelight.registry.CSDItems;
+import phoupraw.mcmod.createsdelight.registry.CSDStatusEffects;
 
 public final class CSDChineseProvider extends FabricLanguageProvider {
 
-    public CSDChineseProvider(FabricDataOutput dataGenerator) {
-        super(dataGenerator, "zh_cn");
+    public CSDChineseProvider(FabricDataOutput dataOutput) {
+        super(dataOutput, "zh_cn");
     }
 
     @Override
     public void generateTranslations(TranslationBuilder b) {
+        b.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "机械动力乐事");
         b.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID,
           """
-          主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。
+          添加了各式蛋糕和自定义蛋糕。
           """);
-        b.add(CDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup"), "机械动力乐事");
+        b.add(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup"), "机械动力乐事");
+        b.add(CSDBlocks.PRINTED_CAKE, "蓝图蛋糕");
+        b.add(CSDBlocks.CHOCOLATE_BLOCK, "巧克力块");
+        b.add(CSDBlocks.CAKE_OVEN, "蛋糕烤箱");
+        b.add(CSDItems.EGG_SHELL, "鸡蛋壳");
+        b.add(CSDItems.BUCKETED_EGG_LIQUID, "桶装鸡蛋液");
+        b.add(CSDIdentifiers.EGG_LIQUID.toTranslationKey("block"), "鸡蛋液");
+        b.add(CSDStatusEffects.SATIATION, "饱食");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.SUNFLOWER_OIL), "葵花籽油");
         //b.add(CDItems.BUCKETED_SUNFLOWER_OIL, "桶装葵花籽油");
         //b.add(CDItems.BOTTLED_SUNFLOWER_OIL, "瓶装葵花籽油");
         ////b.add(Internationals.keyOfCategory(CDRecipeTypes.PAN_FRYING.getId()), "煎");
-        //b.add(CDStatusEffects.SATIATION, "饱食");
         ////b.add(Internationals.keyOfCategory(CDRecipeTypes.GRILLING.getId()), "烤");
         //b.add("empty", "空");
         ////b.add(Internationals.keyOfCategory(CDRecipeTypes.SPRINKLING.getId()), "撒料");
@@ -37,8 +47,6 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         //b.add(VirtualFluids.getTranslationKey(CDFluids.BEETROOT_SOUP), "甜菜汤");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.TOMATO_SAUCE), "番茄酱");
         ////b.add(VirtualFluids.getTranslationKey(CDFluids.POPPY_RUSSIAN_SOUP), "虞美人红菜汤");
-        //b.add(VirtualFluids.getTranslationKey(CDFluids.EGG_LIQUID), "鸡蛋液");
-        //b.add(CDItems.EGG_SHELL, "鸡蛋壳");
         //b.add(CDItems.EGG_DOUGH, "鸡蛋面团");
         ////b.add(VirtualFluids.getTranslationKey(CDFluids.WHEAT_BLACK_TEA), "麦籽黑茶");
         ////b.add(VirtualFluids.getTranslationKey(CDFluids.ICED_MELON_JUICE), "冰镇西瓜汁");
@@ -82,10 +90,7 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         //b.add(Internationals.SECONDS, "%s秒");
         //b.add(Internationals.MST, "%s分%s秒%s刻");
         //b.add(CDItems.CAKE_BLUEPRINT, "蛋糕蓝图");
-        //b.add(CDBlocks.PRINTED_CAKE, "蓝图蛋糕");
         //b.add(CDBlocks.MILK, "固态牛奶块");
-        //b.add(CDBlocks.CHOCOLATE, "巧克力块");
-        //b.add(CDBlocks.CAKE_OVEN, "蛋糕烤箱");
     }
 
 }

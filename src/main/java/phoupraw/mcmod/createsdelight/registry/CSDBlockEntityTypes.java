@@ -14,8 +14,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBE;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
+import phoupraw.mcmod.createsdelight.block.entity.*;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockTagProvider;
 import phoupraw.mcmod.createsdelight.datagen.CSDRecipeProvider;
@@ -30,7 +29,7 @@ import phoupraw.mcmod.createsdelight.init.CSDClientModInitializer;
  * <li>在{@link phoupraw.mcmod.createsdelight.block.entity}创建方块实体类类（继承{@link SmartBlockEntity}），创建符合{@link Factory}的构造器<br/>
  * <li>在{@link phoupraw.mcmod.createsdelight.block}创建方块类，继承{@link Block}，实现{@link IBE}<br/>
  * <li>在{@link phoupraw.mcmod.createsdelight.block.entity.renderer}创建方块实体渲染器类（继承{@link SmartBlockEntityRenderer}）
- * <li>在{@link CDIdentifiers}创建{@link Identifier}<br/>
+ * <li>在{@link CSDIdentifiers}创建{@link Identifier}<br/>
  * <li>在{@link CSDBlocks}创建{@link Block}<b>并注册</b><br/>
  * <li>在{@link CSDItems}创建{@link BlockItem}<b>并注册</b><br/>
  * <li>在{@link CSDBlockEntityTypes}创建包含{@link Block}的{@link BlockEntityType}<b>并注册</b><br/>
@@ -51,11 +50,17 @@ import phoupraw.mcmod.createsdelight.init.CSDClientModInitializer;
  */
 public final class CSDBlockEntityTypes {
 
-    public static final BlockEntityType<PrintedCakeBE> PRINTED_CAKE = of(PrintedCakeBE::new, CSDBlocks.PRINTED_CAKE);
-    public static final BlockEntityType<CakeOvenBE> CAKE_OVEN = of(CakeOvenBE::new, CSDBlocks.CAKE_OVEN);
+    public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE);
+    public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN);
+    public static final BlockEntityType<ReadyCakeBlockEntity> READY_CAKE = of(ReadyCakeBlockEntity::new, CSDBlocks.READY_CAKE);
+    public static final BlockEntityType<ShrinkingCakeBlockEntity> SHRINKING_CAKE = of(ShrinkingCakeBlockEntity::new, CSDBlocks.SHRINKING_CAKE);
+    public static final BlockEntityType<MovingCakeBlockEntity> MOVING_CAKE = of(MovingCakeBlockEntity::new, CSDBlocks.MOVING_CAKE);
     static {
-        register(CDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
-        register(CDIdentifiers.CAKE_OVEN, CAKE_OVEN);
+        register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
+        register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
+        register(CSDIdentifiers.READY_CAKE, READY_CAKE);
+        register(CSDIdentifiers.SHRINKING_CAKE, SHRINKING_CAKE);
+        register(CSDIdentifiers.MOVING_CAKE, MOVING_CAKE);
     }
 
     @Contract("_, _ -> param2")

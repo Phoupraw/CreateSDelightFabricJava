@@ -1,11 +1,7 @@
 package phoupraw.mcmod.createsdelight.init;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.item.Items;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 import phoupraw.mcmod.createsdelight.registry.*;
@@ -94,7 +90,7 @@ public final class CSDModInitializer implements ModInitializer {
         CSDItems.ITEM_GROUP.hashCode();
         //CDFluids.SUNFLOWER_OIL.hashCode();
         //CDRecipeTypes.PAN_FRYING.hashCode();
-        CDStatusEffects.SATIATION.hashCode();
+        CSDStatusEffects.SATIATION.hashCode();
 
         //机械
         //CDArmPointTypes.BASKET.hashCode();
@@ -128,8 +124,8 @@ public final class CSDModInitializer implements ModInitializer {
         //});
         CDCommands.register();
         loadClasses();
-        FluidStorage.combinedItemApiProvider(Items.EGG).register(VirtualFluids.fullProviderOf(CSDItems.EGG_SHELL, FluidVariant.of(CSDFluids.EGG_LIQUID), FluidConstants.BOTTLE / 2));
-
+        VirtualFluids.registerBucketStorage(CSDFluids.EGG_LIQUID, CSDItems.BUCKETED_EGG_LIQUID);
+        //FluidVariantAttributes.register(CSDFluids.EGG_LIQUID,VirtualFluids.ATTRIBUTE_HANDLER);
     }
 
 }

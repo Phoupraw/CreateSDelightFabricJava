@@ -4,8 +4,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.item.Item;
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 @Environment(EnvType.CLIENT)
 public final class CSDModelProvider extends FabricModelProvider {
@@ -31,18 +35,24 @@ public final class CSDModelProvider extends FabricModelProvider {
     //    generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(map));
     //}
 
-    public CSDModelProvider(FabricDataOutput dataGenerator) {
-        super(dataGenerator);
+    public CSDModelProvider(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        //for (Block block : new Block[]{ CDBlocks.JELLY_BEANS, CDBlocks.BROWNIE, CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, CDBlocks.PRINTED_CAKE,CDBlocks.CAKE_OVEN}) {
-        //    generator.registerSimpleState(block);//该方法会生成方块状态、物品模型。
-        //}
-        //for (Block block : new Block[]{ CDBlocks.MILK,CDBlocks.CHOCOLATE}) {
-        //    generator.registerSimpleCubeAll(block);//该方法会生成方块状态、方块模型、物品模型。
-        //}
+        for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.CAKE_OVEN}) {
+            generator.registerSimpleState(block);//该方法会生成方块状态、物品模型。
+        }
+        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK}) {
+            generator.registerSimpleCubeAll(block);//该方法会生成方块状态、方块模型、物品模型。
+        }
+        for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE}) {
+            generator.excludeFromSimpleItemModelGeneration(block);//设置不需要生成物品模型的方块
+        }
+        for (Item item : new Item[]{CSDItems.EGG_SHELL, CSDItems.BUCKETED_EGG_LIQUID}) {
+            generator.registerItemModel(item);//生成平面物品模型
+        }
         //intProperty(generator, CDBlocks.JELLY_BEANS_CAKE, Properties.AGE_3);
         //intProperty(generator, CDBlocks.SWEET_BERRIES_CAKE, Properties.AGE_3);
         //intProperty(generator, CDBlocks.BASQUE_CAKE, Properties.AGE_3);
@@ -53,12 +63,6 @@ public final class CSDModelProvider extends FabricModelProvider {
         //intProperty(generator, CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
         //intProperty(generator, CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, Properties.AGE_3);
         //intProperty(generator, CDBlocks.CHOCOLATE_ANTHEMY_CAKE, Properties.AGE_3);
-        //for (Block block : new Block[]{ CDBlocks.JELLY_BEANS, CDBlocks.JELLY_BEANS_CAKE, CDBlocks.SWEET_BERRIES_CAKE, CDBlocks.BASQUE_CAKE,  CDBlocks.PRINTED_CAKE}) {
-        //    generator.excludeFromSimpleItemModelGeneration(block);
-        //}
-        //for (Item item : new Item[]{CDItems.BUCKETED_SUNFLOWER_OIL, CDItems.BOTTLED_SUNFLOWER_OIL,   CDItems.EGG_SHELL, CDItems.EGG_DOUGH, CDItems.KELP_ASH, CDItems.JELLY_BEANS,CDItems.CAKE_BASE, CDItems.CAKE_BASE_SLICE, CDItems.SUNFLOWER_KERNELS, CDItems.BUCKETED_PUMPKIN_OIL, CDItems.JELLY_BEANS_CAKE, CDItems.SWEET_BERRIES_CAKE, CDItems.BASQUE_CAKE, CDItems.CHOCOLATE_CAKE_BASE, CDItems.CAKE_BLUEPRINT}) {
-        //    generator.registerItemModel(item);
-        //}
     }
 
     @Override

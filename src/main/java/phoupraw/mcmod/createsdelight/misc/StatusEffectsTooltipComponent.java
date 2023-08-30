@@ -42,7 +42,7 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
     public static final String SECOND = "text.time.second";
     public static final String TICK = "text.time.tick";
     public static final Set<StatusEffect> NO_AMPLIFIER = new HashSet<>(List.of(StatusEffects.NIGHT_VISION, StatusEffects.BLINDNESS, StatusEffects.NAUSEA, StatusEffects.FIRE_RESISTANCE, StatusEffects.WATER_BREATHING, StatusEffects.INVISIBILITY, StatusEffects.GLOWING, StatusEffects.SLOW_FALLING, StatusEffects.DOLPHINS_GRACE));
-    public static final int BREADTH = 13;
+    public static final int BREADTH = 9;
     public static boolean gradientColor = false;
     public static boolean gradientColor2 = false;
     public static boolean outline = true;

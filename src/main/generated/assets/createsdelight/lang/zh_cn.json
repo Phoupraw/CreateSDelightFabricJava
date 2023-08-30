@@ -1,4 +1,13 @@
 {
+  "block.createsdelight.cake_oven": "蛋糕烤箱",
+  "block.createsdelight.chocolate_block": "巧克力块",
+  "block.createsdelight.printed_cake": "蓝图蛋糕",
+  "effect.createsdelight.satiation": "饱食",
+  "fluid.createsdelight.egg_liquid": "鸡蛋液",
+  "item.createsdelight.bottled_egg_liquid": "瓶装鸡蛋液",
+  "item.createsdelight.bucketed_egg_liquid": "桶装鸡蛋液",
+  "item.createsdelight.egg_shell": "鸡蛋壳",
   "itemGroup.createsdelight.item_group": "机械动力乐事",
-  "modmenu.descriptionTranslation.createsdelight": "主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。\n"
+  "modmenu.descriptionTranslation.createsdelight": "主要为机械动力和农夫乐事添加联动，以及独特的沉浸式食材加工。\n",
+  "modmenu.nameTranslation.createsdelight": "机械动力乐事"
 }

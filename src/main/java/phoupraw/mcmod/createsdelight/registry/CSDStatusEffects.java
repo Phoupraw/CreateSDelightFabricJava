@@ -6,11 +6,13 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import phoupraw.mcmod.createsdelight.effect.SatiationStatusEffect;
-public final class CDStatusEffects {
+public final class CSDStatusEffects {
+
     public static final StatusEffect SATIATION = new SatiationStatusEffect(StatusEffectCategory.BENEFICIAL, StatusEffects.SATURATION.getColor());
     static {
-        Registry.register(Registries.STATUS_EFFECT, CDIdentifiers.SATIATION, SATIATION);
+        Registry.register(Registries.STATUS_EFFECT, CSDIdentifiers.SATIATION, SATIATION);
     }
-    private CDStatusEffects() {
+    private CSDStatusEffects() {
     }
+
 }

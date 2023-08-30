@@ -11,8 +11,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -21,16 +19,6 @@ import org.jetbrains.annotations.NotNull;
  快捷创建虚拟流体及其相关静态方法。
  @since 1.0.0 */
 public final class VirtualFluids {
-
-    /**
-     用{@link #getTranslationKey}本地化。
-     */
-    public static final FluidVariantAttributeHandler ATTRIBUTE_HANDLER = new FluidVariantAttributeHandler() {
-        @Override
-        public Text getName(FluidVariant fluidVariant) {
-            return Text.translatable(getTranslationKey(fluidVariant.getFluid()));
-        }
-    };
 
     /**
      @return 新的虚拟流体
@@ -49,14 +37,6 @@ public final class VirtualFluids {
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull Fluid of(@NotNull Item bucketItem) {
         return new BucketedVirtualFluid(bucketItem);
-    }
-
-    /**
-     给再{@link #ATTRIBUTE_HANDLER}注册的流体生成本地化键。
-     */
-    public static String getTranslationKey(Fluid fluid) {
-        Identifier id = Registries.FLUID.getId(fluid);
-        return "fluid" + "." + id.getNamespace() + "." + id.getPath().replace('/', '.');
     }
 
     /**

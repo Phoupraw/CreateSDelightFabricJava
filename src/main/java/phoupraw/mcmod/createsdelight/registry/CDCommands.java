@@ -12,7 +12,7 @@ import net.minecraft.structure.StructureTemplate;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
+import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 
@@ -34,7 +34,7 @@ public static void register() {
 //}
 public static int cake2structure(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
     BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
-    if (context.getSource().getWorld().getBlockEntity(pos) instanceof PrintedCakeBE be) {
+    if (context.getSource().getWorld().getBlockEntity(pos) instanceof PrintedCakeBlockEntity be) {
         if (be.predefined != null) {
             context.getSource().sendError(Text.of("此蛋糕已经是预定义的！"));
             return 0;

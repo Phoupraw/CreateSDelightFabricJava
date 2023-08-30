@@ -2,23 +2,21 @@ package phoupraw.mcmod.createsdelight.datagen.client;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.registry.CDIdentifiers;
 
 
 public final class CSDEnglishProvider extends FabricLanguageProvider {
 
-    public CSDEnglishProvider(FabricDataOutput dataGenerator) {
-        super(dataGenerator);
+    public CSDEnglishProvider(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
     @Override
     public void generateTranslations(TranslationBuilder b) {
-        b.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID,
-          """
-          Mainly add interaction between create and farmer's delight and unique food processing.
-          """);
-        b.add(CDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup"), "Create'S Delight");
+        //b.add("modmenu.descriptionTranslation." + CreateSDelight.MOD_ID,
+        //  """
+        //  Mainly add interaction between create and farmer's delight and unique food processing.
+        //  """);
+        //b.add(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup"), "Create'S Delight");
         //b.add(VirtualFluids.getTranslationKey(CDFluids.SUNFLOWER_OIL), "Sunflower Seed Oil");
         //b.add(CDItems.BUCKETED_SUNFLOWER_OIL, "Bucketed Sunflower Seed Oil");
         //b.add(CDItems.BOTTLED_SUNFLOWER_OIL, "Bottled Sunflower Seed Oil");

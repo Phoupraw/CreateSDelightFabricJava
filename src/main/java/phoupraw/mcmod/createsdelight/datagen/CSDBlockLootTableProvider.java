@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.minecraft.block.Block;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
@@ -45,9 +46,9 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
               .withOperation("content", "BlockEntityTag.content"))
             .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
               .withOperation("size", "BlockEntityTag.size")))));
-        //for (Block block : new Block[]{CDBlocks.JELLY_BEANS, CDBlocks.BROWNIE, CDBlocks.SMALL_CHOCOLATE_CREAM_CAKE, CDBlocks.MILK, CDBlocks.CHOCOLATE, CDBlocks.CAKE_OVEN}) {
-        //    addDrop(block);
-        //}
+        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CAKE_OVEN}) {
+            addDrop(block);//方块无条件掉落自身
+        }
         //addDropAge3(this, CDBlocks.JELLY_BEANS_CAKE, CDItems.JELLY_BEANS, 1);
         //addDropAge3(this, CDBlocks.BASQUE_CAKE, Items.AIR, 0);
         //addDropAge3(this, CDBlocks.SWEET_BERRIES_CAKE_S, CDItems.SWEET_BERRIES_CAKE, 3);

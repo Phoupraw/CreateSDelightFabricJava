@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 3,
+  "ingredient": {
+    "item": "createsdelight:chocolate_block"
+  },
+  "result": "create:bar_of_chocolate"
+}

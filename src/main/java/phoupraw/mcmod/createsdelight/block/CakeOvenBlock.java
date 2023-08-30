@@ -16,15 +16,15 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBE;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
+import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.Objects;
 
-public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable {
+public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IWrenchable {
 
 
     public CakeOvenBlock() {
@@ -36,12 +36,12 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
     }
 
     @Override
-    public Class<CakeOvenBE> getBlockEntityClass() {
-        return CakeOvenBE.class;
+    public Class<CakeOvenBlockEntity> getBlockEntityClass() {
+        return CakeOvenBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends CakeOvenBE> getBlockEntityType() {
+    public BlockEntityType<? extends CakeOvenBlockEntity> getBlockEntityType() {
         return CSDBlockEntityTypes.CAKE_OVEN;
     }
 
@@ -54,7 +54,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
     }
 
     public static void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        var be = (CakeOvenBE) world.getBlockEntity(pos);
+        var be = (CakeOvenBlockEntity) world.getBlockEntity(pos);
         if (be == null) return;
         if (!world.isReceivingRedstonePower(pos)) {
             if (be.powered) {
@@ -68,7 +68,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
     }
 
     public static void neighborUpdate2(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        var be = Objects.requireNonNull((CakeOvenBE) world.getBlockEntity(pos), world + " " + pos);
+        var be = Objects.requireNonNull((CakeOvenBlockEntity) world.getBlockEntity(pos), world + " " + pos);
         if (!world.isReceivingRedstonePower(pos)) {
             if (be.powered) {
                 be.powered = false;
@@ -82,7 +82,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
         if (cake.getContent().isEmpty()) return;
         BlockPos pos1 = pos.up();
         if (world.setBlockState(pos1, CSDBlocks.PRINTED_CAKE.getDefaultState())) {
-            PrintedCakeBE blockEntity = Objects.requireNonNull((PrintedCakeBE) world.getBlockEntity(pos1), pos.toString());
+            PrintedCakeBlockEntity blockEntity = Objects.requireNonNull((PrintedCakeBlockEntity) world.getBlockEntity(pos1), pos.toString());
             blockEntity.setVoxelCake(VoxelCake.of(cake.getContent(), cake.getSize()));
             blockEntity.sendData();
         }
@@ -92,7 +92,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBE>, IWrenchable
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack handStack = player.getStackInHand(hand);
         if (handStack.isOf(Items.NAME_TAG)) {
-            var be = (CakeOvenBE) world.getBlockEntity(pos);
+            var be = (CakeOvenBlockEntity) world.getBlockEntity(pos);
             if (be == null) return ActionResult.FAIL;
             if (handStack.hasCustomName()) {
                 be.setCustomName(handStack.getName());

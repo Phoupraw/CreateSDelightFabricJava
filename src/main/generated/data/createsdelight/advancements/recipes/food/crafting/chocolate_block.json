@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createsdelight:crafting/chocolate_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "stupidMojang": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "create:bar_of_chocolate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "stupidMojang",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createsdelight:crafting/chocolate_block"
+    ]
+  },
+  "sends_telemetry_event": false
+}

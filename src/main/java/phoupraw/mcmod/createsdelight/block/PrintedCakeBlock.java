@@ -26,13 +26,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBE;
+import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
 
-public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
+public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBlockEntity> {
 
     public static final VoxelShape MIN_SHAPE = VoxelShapes.cuboid(0.4, 0, 0.4, 0.6, 0.2, 0.6);
 
@@ -129,7 +129,7 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
     }
 
     public static VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        var be = (PrintedCakeBE) world.getBlockEntity(pos);
+        var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
         VoxelShape shape = VoxelShapes.empty();
         if (be != null) {
             shape = be.getShape();
@@ -168,12 +168,12 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
     }
 
     @Override
-    public Class<PrintedCakeBE> getBlockEntityClass() {
-        return PrintedCakeBE.class;
+    public Class<PrintedCakeBlockEntity> getBlockEntityClass() {
+        return PrintedCakeBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends PrintedCakeBE> getBlockEntityType() {
+    public BlockEntityType<? extends PrintedCakeBlockEntity> getBlockEntityType() {
         return CSDBlockEntityTypes.PRINTED_CAKE;
     }
 
@@ -217,7 +217,7 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        var pair = PrintedCakeBE.nbt2content(ctx.getStack());
+        var pair = PrintedCakeBlockEntity.nbt2content(ctx.getStack());
         if (pair == null) return null;
         VoxelShape shape = content2shape(pair.getContent(), pair.getSize());
         BlockState state = super.getPlacementState(ctx);
@@ -230,7 +230,7 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
         if (itemStack.getNbt() == null) {
             return;
         }
-        var be = (PrintedCakeBE) world.getBlockEntity(pos);
+        var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
         if (be == null) return;
         if (itemStack.hasCustomName()) {
             be.setCustomName(itemStack.getName());
@@ -243,7 +243,7 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBE> {
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack stack = super.getPickStack(world, pos, state);
-        var be = (PrintedCakeBE) world.getBlockEntity(pos);
+        var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
         if (be != null) {//从MinecraftClient.addBlockEntityNbt复制的
             NbtCompound nbtCompound = be.createNbtWithIdentifyingData();
             BlockItem.setBlockEntityNbt(stack, be.getType(), nbtCompound);

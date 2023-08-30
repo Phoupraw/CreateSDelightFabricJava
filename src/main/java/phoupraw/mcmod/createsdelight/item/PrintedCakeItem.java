@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.item;
 
 import io.github.tropheusj.milk.Milk;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
@@ -14,7 +15,6 @@ import net.minecraft.util.math.Box;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
-import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class PrintedCakeItem extends StatusEffectsBlockItem {
     }
 
     public PrintedCakeItem() {
-        this(CSDBlocks.PRINTED_CAKE, CSDItems.newSettings());
+        this(CSDBlocks.PRINTED_CAKE, new FabricItemSettings());
     }
 
     public PrintedCakeItem(Block block, Settings settings) {

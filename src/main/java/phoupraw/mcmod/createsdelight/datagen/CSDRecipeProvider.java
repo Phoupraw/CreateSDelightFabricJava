@@ -1,8 +1,18 @@
 package phoupraw.mcmod.createsdelight.datagen;
 
+import com.simibubi.create.AllItems;
+import com.simibubi.create.content.fluids.transfer.EmptyingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.item.Items;
+import net.minecraft.recipe.book.RecipeCategory;
+import phoupraw.mcmod.createsdelight.registry.CSDFluids;
+import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
+import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.function.Consumer;
 
@@ -15,6 +25,25 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter) {
+        offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, AllItems.BAR_OF_CHOCOLATE.get(), CSDItems.CHOCOLATE_BLOCK, 3);
+        new ShapedRecipeJsonBuilder(RecipeCategory.FOOD, CSDItems.CHOCOLATE_BLOCK, 3)
+          .input('A', AllItems.BAR_OF_CHOCOLATE.get())
+          .pattern("AAA")
+          .pattern("AAA")
+          .pattern("AAA")
+          .criterion("stupidMojang", conditionsFromItem(AllItems.BAR_OF_CHOCOLATE.get()))
+          .offerTo(exporter, CSDIdentifiers.CHOCOLATE_BLOCK.withPrefixedPath("crafting/"));
+        //new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.CHOCOLATE_BLOCK)
+        //  .require(AllItems.BAR_OF_CHOCOLATE.get())
+        //  .require(AllItems.BAR_OF_CHOCOLATE.get())
+        //  .require(AllItems.BAR_OF_CHOCOLATE.get())
+        //  .output(CSDItems.CHOCOLATE_BLOCK)
+        //  .build(exporter);
+        new ProcessingRecipeBuilder<>(EmptyingRecipe::new, CSDIdentifiers.EGG_LIQUID)
+          .require(Items.EGG)
+          .output(CSDItems.EGG_SHELL)
+          .output(CSDFluids.EGG_LIQUID, FluidConstants.BOTTLE / 2)
+          .build(exporter);
         //offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, CDItems.CAKE_BLUEPRINT, AllItems.SCHEMATIC.get(), 1);
         ////offerCookingRecipe(exporter, "cooking", RecipeSerializer.SMELTING, 20 * 10, Items.DRIED_KELP, CDItems.KELP_ASH, 0.2f);
         ////offerCookingRecipe(exporter, "smoking", RecipeSerializer.SMOKING, 20 * 10, CDItems.RAW_BASQUE_CAKE, CDItems.BASQUE_CAKE, 2f);
@@ -242,7 +271,6 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
         //  .require(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET)
         //  .output(CDItems.CHOCOLATE)
         //  .build(exporter);
-        //offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, AllItems.BAR_OF_CHOCOLATE.get(), CDItems.CHOCOLATE, 3);
 
     }
 
