@@ -45,14 +45,8 @@ public final class PrintedCakeModel implements BakedModel {
 
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
     public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
-    public static final Map<PrintedCakeBlockEntity, BakedModel> BLOCK_CACHE = new WeakHashMap<>();
+    public static final Map<VoxelCake, BakedModel> BLOCK_CACHE = new WeakHashMap<>();
     public static final Map<NbtCompound, BakedModel> ITEM_CACHE = new WeakHashMap<>();
-
-    public static @Nullable BakedModel makeModel(PrintedCakeBlockEntity blockEntity) {
-        VoxelCake cake = blockEntity.getVoxelCake();
-        if (cake == null) return null;
-        return content2model(cake);
-    }
 
     public static BakedModel content2model(VoxelCake voxelCake) {
         var faceContent = content2faces(voxelCake);
@@ -266,12 +260,12 @@ public final class PrintedCakeModel implements BakedModel {
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         if (blockView.getBlockEntity(pos) instanceof PrintedCakeBlockEntity blockEntity) {
-            BakedModel bakedModel = BLOCK_CACHE.get(blockEntity);
+            VoxelCake cake = blockEntity.getVoxelCake();
+            if (cake == null) return;
+            BakedModel bakedModel = BLOCK_CACHE.get(cake);
             if (bakedModel == null) {
-                VoxelCake cake = blockEntity.getVoxelCake();
-                if (cake == null) return;
                 bakedModel = content2model(cake);
-                BLOCK_CACHE.put(blockEntity, bakedModel);
+                BLOCK_CACHE.put(cake, bakedModel);
             }
             bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         }

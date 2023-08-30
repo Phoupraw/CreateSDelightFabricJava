@@ -17,14 +17,14 @@ import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 
 import java.util.Map;
 
-public final class CDCommands {
+public final class CSDCommands {
 
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(CommandManager.literal("createsdelight")
               .then(CommandManager.literal("cake2structure")
                 .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
-                  .executes(CDCommands::cake2structure))));
+                  .executes(CSDCommands::cake2structure))));
         });
     }
 
@@ -58,7 +58,7 @@ public final class CDCommands {
         return 0;
     }
 
-    private CDCommands() {
+    private CSDCommands() {
     }
 
 }

@@ -28,7 +28,7 @@ public final class CreateSDelight implements ModInitializer {
     @Override
     public void onInitialize() {
         loadClasses();
-        CDCommands.register();
+        CSDCommands.register();
         VirtualFluids.registerBucketStorage(CSDFluids.EGG_LIQUID, CSDItems.BUCKETED_EGG_LIQUID);
     }
 
