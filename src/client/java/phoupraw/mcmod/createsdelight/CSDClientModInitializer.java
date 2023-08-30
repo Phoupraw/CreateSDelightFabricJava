@@ -4,17 +4,34 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDFluids;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
 @Environment(EnvType.CLIENT)
 public final class CSDClientModInitializer implements ClientModInitializer {
+
+    /**
+     * 如果一个流体的流动纹理和静止纹理相同，可以用此方法快捷创建{@link SimpleFluidRenderHandler}。
+     * @param textureId 纹理路径，具体写法可以参考{@link SimpleFluidRenderHandler#WATER_STILL}等。
+     * @param tint 用于给纹理染色的RGB颜色，忽略透明度。
+     * @return {@link SimpleFluidRenderHandler}
+     * @see SimpleFluidRenderHandler#SimpleFluidRenderHandler(Identifier, Identifier, int)
+     * @since 1.0.0
+     */
+    @Contract(value = "_, _ -> new", pure = true)
+    @Environment(EnvType.CLIENT)
+    public static @NotNull FluidRenderHandler newSimpleFluidRenderHandler(Identifier textureId, int tint) {
+        return new SimpleFluidRenderHandler(textureId, textureId, tint);
+    }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {

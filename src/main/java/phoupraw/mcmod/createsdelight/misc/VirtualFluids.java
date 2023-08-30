@@ -1,9 +1,5 @@
 package phoupraw.mcmod.createsdelight.misc;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
-import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.*;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage;
@@ -11,7 +7,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,20 +79,6 @@ public final class VirtualFluids {
     public static void registerStorage(Item emptyItem, Item fullItem, Fluid fluid, long amount) {
         FluidStorage.combinedItemApiProvider(emptyItem).register(emptyProviderOf(fullItem, fluid, amount));
         FluidStorage.combinedItemApiProvider(fullItem).register(fullProviderOf(emptyItem, FluidVariant.of(fluid), amount));
-    }
-
-    /**
-     如果一个流体的流动纹理和静止纹理相同，可以用此方法快捷创建{@link SimpleFluidRenderHandler}。
-     @param textureId 纹理路径，具体写法可以参考{@link SimpleFluidRenderHandler#WATER_STILL}等。
-     @param tint 用于给纹理染色的RGB颜色，忽略透明度。
-     @return {@link SimpleFluidRenderHandler}
-     @see SimpleFluidRenderHandler#SimpleFluidRenderHandler(Identifier, Identifier, int)
-     @since 1.0.0
-     */
-    @Contract(value = "_, _ -> new", pure = true)
-    @Environment(EnvType.CLIENT)
-    public static @NotNull FluidRenderHandler newSimpleFluidRenderHandler(Identifier textureId, int tint) {
-        return new SimpleFluidRenderHandler(textureId, textureId, tint);
     }
 
     /**

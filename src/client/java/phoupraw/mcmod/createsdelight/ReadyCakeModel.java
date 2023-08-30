@@ -1,5 +1,8 @@
 package phoupraw.mcmod.createsdelight;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -32,6 +35,23 @@ import java.util.function.Supplier;
 public class ReadyCakeModel implements BakedModel {
 
     public static final Identifier ID = ModelIds.getBlockModelId(CSDBlocks.READY_CAKE);
+    public static final LoadingCache<ReadyCakeBlockEntity, BakedModel> CACHE = CacheBuilder.newBuilder().build(CacheLoader.from(ReadyCakeModel::makeModel));
+
+    public static BakedModel makeModel(ReadyCakeBlockEntity ready) {
+        Sprite sprite = PrintedCakeModel.getSprite(ready.cakeIngredient);
+        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        QuadEmitter emitter = meshBuilder.getEmitter();
+        ListMultimap<Direction, BakedQuad> faces2quads = MultimapBuilder.hashKeys().linkedListValues().build();
+        for (Direction nominalFace : Direction.values()) {
+            BakedQuad quad = emitter
+              .square(nominalFace, 1, 1, 1, 1, 0)
+              .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
+              .color(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff)
+              .toBakedQuad(sprite);
+            faces2quads.put(nominalFace, quad);
+        }
+        return new SimpleBakedModel(faces2quads, sprite);
+    }
 
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
@@ -75,25 +95,8 @@ public class ReadyCakeModel implements BakedModel {
 
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-        if (!(blockView.getBlockEntity(pos) instanceof ReadyCakeBlockEntity ready)) {return;}
-        BakedModel bakedModel = ready.bakedModel;
-        if (bakedModel == null) {
-            Sprite sprite = PrintedCakeModel.getSprite(ready.cakeIngredient);
-            MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
-            QuadEmitter emitter = meshBuilder.getEmitter();
-            ListMultimap<Direction, BakedQuad> faces2quads = MultimapBuilder.hashKeys().linkedListValues().build();
-            for (Direction nominalFace : Direction.values()) {
-                BakedQuad quad = emitter
-                  .square(nominalFace, 1, 1, 1, 1, 0)
-                  .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
-                  .color(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff)
-                  .toBakedQuad(sprite);
-                faces2quads.put(nominalFace, quad);
-            }
-            bakedModel = new SimpleBakedModel(faces2quads, sprite);
-            ready.bakedModel = bakedModel;
-        }
-        bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        if (!(blockView.getBlockEntity(pos) instanceof ReadyCakeBlockEntity ready)) return;
+        CACHE.getUnchecked(ready).emitBlockQuads(blockView, state, pos, randomSupplier, context);
     }
 
 }

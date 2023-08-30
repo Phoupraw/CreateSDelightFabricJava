@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtByteArray;
@@ -89,9 +88,6 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
         be.setShape(null);
         var world = be.getWorld();
         if (world == null) return;
-        if (world.isClient()) {
-            be.setBakedModel(null);
-        }
         world.updateListeners(be.getPos(), be.getCachedState(), be.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
 
@@ -101,9 +97,8 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     private @Nullable Text customName;
 
     private @Nullable VoxelShape shape = null;
-    @Environment(EnvType.CLIENT)
 
-    private @Nullable BakedModel bakedModel;
+    @Environment(EnvType.CLIENT)
 
     //private @Nullable Vec3i size;
     //
@@ -186,14 +181,6 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
 
     public void setShape(@Nullable VoxelShape shape) {
         this.shape = shape;
-    }
-
-    public @Nullable BakedModel getBakedModel() {
-        return bakedModel;
-    }
-
-    public void setBakedModel(@Nullable BakedModel bakedModel) {
-        this.bakedModel = bakedModel;
     }
 
     public @Nullable VoxelCake getVoxelCake() {
