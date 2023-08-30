@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockBox;
@@ -22,6 +23,25 @@ public final class CSDCommands {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(CommandManager.literal("createsdelight")
+              .then(CommandManager.literal("placeCakeBlock")
+                .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
+                  .then(CommandManager.argument("vertex1", BlockPosArgumentType.blockPos())
+                    .then(CommandManager.argument("vertex2", BlockPosArgumentType.blockPos())
+                      .executes(context -> {
+                          BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
+                          BlockPos vertex1 = BlockPosArgumentType.getBlockPos(context, "vertex1");
+                          BlockPos vertex2 = BlockPosArgumentType.getBlockPos(context, "vertex2");
+                          BlockBox bound = BlockBox.create(vertex1, vertex2);
+                          ServerWorld world = context.getSource().getWorld();
+                          VoxelCake cake = VoxelCake.of(world, bound);
+                          if (world.setBlockState(pos, CSDBlocks.PRINTED_CAKE.getDefaultState())) {
+                              PrintedCakeBlockEntity blockEntity = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
+                              blockEntity.setVoxelCake(cake);
+                              blockEntity.sendData();
+                              return 1;
+                          }
+                          return 0;
+                      })))))
               .then(CommandManager.literal("cake2structure")
                 .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
                   .executes(CSDCommands::cake2structure))));

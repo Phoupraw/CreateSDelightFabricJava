@@ -50,21 +50,6 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
         neighborUpdate2(state, world, pos, sourceBlock, sourcePos, notify);
-
-    }
-
-    public static void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        var be = (CakeOvenBlockEntity) world.getBlockEntity(pos);
-        if (be == null) return;
-        if (!world.isReceivingRedstonePower(pos)) {
-            if (be.powered) {
-                be.powered = false;
-            }
-            return;
-        }
-        if (be.powered) return;
-        be.powered = true;
-
     }
 
     public static void neighborUpdate2(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
@@ -83,7 +68,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
         BlockPos pos1 = pos.up();
         if (world.setBlockState(pos1, CSDBlocks.PRINTED_CAKE.getDefaultState())) {
             PrintedCakeBlockEntity blockEntity = Objects.requireNonNull((PrintedCakeBlockEntity) world.getBlockEntity(pos1), pos.toString());
-            blockEntity.setVoxelCake(VoxelCake.of(cake.getContent(), cake.getSize()));
+            blockEntity.setVoxelCake(cake);
             blockEntity.sendData();
         }
     }

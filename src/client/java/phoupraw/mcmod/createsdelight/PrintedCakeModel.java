@@ -5,6 +5,7 @@ import io.github.tropheusj.milk.Milk;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;
@@ -51,12 +52,12 @@ public final class PrintedCakeModel implements BakedModel {
     public static BakedModel content2model(VoxelCake voxelCake) {
         var faceContent = content2faces(voxelCake);
         ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
-        var meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         for (var cell : faceContent.cellSet()) {
             Sprite sprite = getSprite(cell.getRowKey());
             Direction norminalFace = cell.getColumnKey();
-            var boxes = cell.getValue();
+            Collection<Box> boxes = cell.getValue();
             switch (norminalFace) {
                 case WEST -> {
                     for (Box face : boxes) {
@@ -285,7 +286,7 @@ public final class PrintedCakeModel implements BakedModel {
             bakedModel = content2model(pair);
             ITEM_CACHE.put(blockEntityTag, bakedModel);
         }
-        context.bakedModelConsumer().accept(bakedModel);
+        bakedModel.emitItemQuads(stack, randomSupplier, context);
     }
 
     /**
