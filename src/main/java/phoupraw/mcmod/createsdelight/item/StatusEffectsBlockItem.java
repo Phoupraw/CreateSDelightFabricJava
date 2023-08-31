@@ -78,16 +78,4 @@ public class StatusEffectsBlockItem extends BlockItem {
     public StatusEffectsBlockItem(Block block, Settings settings) {
         super(block, settings);
     }
-
-    //@Override
-    //public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-    //    return StatusEffectsItem.finishUsing(this, stack, world, user);
-    //}
-
-    //@Environment(EnvType.CLIENT)
-    //@Override
-    //public Optional<TooltipData> getTooltipData(ItemStack stack) {
-    //    return StatusEffectsItem.getTooltipData(this, stack);
-    //}
-
 }

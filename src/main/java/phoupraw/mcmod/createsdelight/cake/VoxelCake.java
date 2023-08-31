@@ -8,7 +8,6 @@ import com.simibubi.create.content.schematics.SchematicWorld;
 import net.minecraft.nbt.NbtByteArray;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.util.Identifier;
@@ -29,23 +28,21 @@ public interface VoxelCake {
         return new VoxelCakeRecord(content, size);
     }
     static @Nullable VoxelCake of(NbtCompound nbt) {
-        if (!nbt.contains("content", NbtElement.COMPOUND_TYPE)
-            || !nbt.contains("size", NbtElement.BYTE_ARRAY_TYPE)) {
+        if (!nbt.contains("content", NbtElement.COMPOUND_TYPE) || !nbt.contains("size", NbtElement.BYTE_ARRAY_TYPE)) {
             return null;
         }
         NbtCompound nbtContent = nbt.getCompound("content");
         Multimap<CakeIngredient, BlockBox> content = HashMultimap.create(nbtContent.getSize(), 16);
         for (String key : nbtContent.getKeys()) {
             CakeIngredient cakeIngredient = CDRegistries.CAKE_INGREDIENT.get(new Identifier(key));
-            NbtList nbtBoxes = nbtContent.getList(key, NbtElement.BYTE_ARRAY_TYPE);
-            for (NbtElement nbtBox : nbtBoxes) {
-                if (nbtBox instanceof NbtByteArray nbtByteArray) {
-                    content.put(cakeIngredient, PrintedCakeBlockEntity.array2box(nbtByteArray.getByteArray()));
-                }
+            byte[] bytesBoxes = nbtContent.getByteArray(key);
+            int c = bytesBoxes.length / 6;
+            for (int i = 0; i < c; i++) {
+                content.put(cakeIngredient, new BlockBox(bytesBoxes[i * 6], bytesBoxes[i * 6 + 1], bytesBoxes[i * 6 + 2], bytesBoxes[i * 6 + 3], bytesBoxes[i * 6 + 4], bytesBoxes[i * 6 + 5]));
             }
         }
-        int[] nbtSize = nbt.getIntArray("size");
-        var size = new BlockPos(nbtSize[0], nbtSize[1], nbtSize[2]);
+        byte[] nbtSize = nbt.getByteArray("size");
+        Vec3i size = new Vec3i(nbtSize[0], nbtSize[1], nbtSize[2]);
         return VoxelCake.of(content, size);
     }
     static VoxelCake of(StructureTemplate st, World world) {
@@ -56,7 +53,7 @@ public interface VoxelCake {
     }
     static VoxelCake of(World world, BlockBox bound) {
         ListMultimap<CakeIngredient, BlockBox> content = MultimapBuilder.hashKeys().arrayListValues().build();
-        Vec3i size = bound.getDimensions();
+        Vec3i size = bound.getDimensions().add(1, 1, 1);
         BlockPos pos0 = new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ());
         for (int i = 0; i < size.getX(); i++) {
             for (int j = 0; j < size.getY(); j++) {
@@ -69,8 +66,8 @@ public interface VoxelCake {
                 }
             }
         }
-        for (CakeIngredient ci : content.keySet()) {
-            content.get(ci).sort(PrintedCakeBlockEntity.BLOCK_BOX_COMPARATOR);
+        for (CakeIngredient cakeIngredient : content.keySet()) {
+            content.get(cakeIngredient).sort(PrintedCakeBlockEntity.BLOCK_BOX_COMPARATOR);
         }
         return of(content, size);
     }
@@ -82,33 +79,21 @@ public interface VoxelCake {
         if (getContent() == null || size == null) return nbt;
         NbtCompound nbtContent = new NbtCompound();
         for (var entry : getContent().asMap().entrySet()) {
-            NbtList nbtBoxes = new NbtList();
+            byte[] bytesBoxes = new byte[entry.getValue().size() * 6];
+            int i = 0;
             for (BlockBox box : entry.getValue()) {
-                nbtBoxes.add(PrintedCakeBlockEntity.box2nbt(box));
+                bytesBoxes[i * 6] = (byte) box.getMinX();
+                bytesBoxes[i * 6 + 1] = (byte) box.getMinY();
+                bytesBoxes[i * 6 + 2] = (byte) box.getMinZ();
+                bytesBoxes[i * 6 + 3] = (byte) box.getMaxX();
+                bytesBoxes[i * 6 + 4] = (byte) box.getMaxY();
+                bytesBoxes[i * 6 + 5] = (byte) box.getMaxZ();
+                i++;
             }
-            nbtContent.put(Objects.requireNonNull(CDRegistries.CAKE_INGREDIENT.getId(entry.getKey()), entry.toString()).toString(), nbtBoxes);
+            nbtContent.put(Objects.requireNonNull(CDRegistries.CAKE_INGREDIENT.getId(entry.getKey()), entry.toString()).toString(), new NbtByteArray(bytesBoxes));
         }
         nbt.put("content", nbtContent);
         nbt.putByteArray("size", new byte[]{(byte) size.getX(), (byte) size.getY(), (byte) size.getZ()});
         return nbt;
     }
-    //default StructureTemplate toStructure() {
-    //   var result= new StructureTemplate();
-    //
-    //   return result;
-    //}
-    //default String toJavaLiteral() {
-    //    StringBuilder sb = new StringBuilder("VoxelCake.of(");
-    //    MultimapBuilder.hashKeys().arrayListValues().build();
-    //    sb
-    //      .append(",new Vec3i(")
-    //      .append(getSize().getX())
-    //      .append(",")
-    //      .append(getSize().getY())
-    //      .append(",")
-    //      .append(getSize().getZ())
-    //      .append("))");
-    //    return sb.toString();
-    //}
-
 }

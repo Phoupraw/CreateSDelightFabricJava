@@ -8,10 +8,11 @@ plugins {
     id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
     id "maven-publish"
 }
-version = project.mod_version
-group = project.maven_group
+String mod_id = project["mod_id"]
+version = project["mod_version"]
+group = project["maven_group"]
 base {
-    archivesBaseName = project.archives_base_name
+    archivesBaseName = project["archives_base_name"]
 }
 repositories {
     mavenLocal()
@@ -72,14 +73,14 @@ repositories {
     }// Mod Menu, Trinkets
 }
 loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
     splitEnvironmentSourceSets()
     mods {
-        "${project.mod_id}" {
-            sourceSet(sourceSets.main)
-            sourceSet(sourceSets.client)
+        it.create(mod_id) {
+            sourceSet(sourceSets["main"])
+            sourceSet(sourceSets["client"])
         }
     }
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
     runs {
         // This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
         datagenClient {
@@ -87,42 +88,42 @@ loom {
             name "Data Generation"
             vmArg "-Dfabric-api.datagen"
             vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-            vmArg "-Dfabric-api.datagen.modid=${mod_id}"
+            vmArg "-Dfabric-api.datagen.modid=${project["mod_id"]}"
             runDir "build/datagen"
         }
     }
 }
 dependencies {
-    minecraft("com.mojang:minecraft:${minecraft_version}")
+    minecraft("com.mojang:minecraft:${project["minecraft_version"]}")
     mappings loom.layered() {
         it.mappings(file("src/main/resources/my_mappings.txt"))
-        it.mappings("net.fabricmc:yarn:${yarn_mappings}:v2")
+        it.mappings("net.fabricmc:yarn:${project["yarn_mappings"]}:v2")
         it.mappings(file("src/main/resources/my_mappings.txt"))
     }
     for (f in [
-      "net.fabricmc:fabric-loader:${fabric_loader_version}",
-      "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}",
-      "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}",
+      "net.fabricmc:fabric-loader:${project["fabric_loader_version"]}",
+      "net.fabricmc.fabric-api:fabric-api:${project["fabric_api_version"]}",
+      "com.simibubi.create:create-fabric-${project["minecraft_version"]}:${project["create_version"]}",
     ]) {
         modImplementation(f)
     }
     for (f in [
-      "dev.emi:emi-fabric:${emi_version}",
-      "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}",
+      "me.shedaniel:RoughlyEnoughItems-fabric:${project["rei_version"]}",
     ]) {
         modCompileOnly(f)
         modLocalRuntime(f)
     }
     for (f in [
-      files("D:\\CCC\\Documents\\local_maven\\farmers-delight-fabric-mc${farmersdelight_version}.jar"),
+      "dev.emi:emi-fabric:${project["emi_version"]}",
+      files("D:\\CCC\\Documents\\local_maven\\farmers-delight-fabric-mc${project["farmersdelight_version"]}.jar"),
     ]) {
         modCompileOnly(f)
     }
 }
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", project["version"]
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": project["version"]
     }
 }
 tasks.withType(JavaCompile).configureEach {
@@ -139,7 +140,7 @@ java {
 }
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${base.archivesBaseName}" }
     }
 }
 

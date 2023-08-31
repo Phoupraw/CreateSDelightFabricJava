@@ -2,14 +2,11 @@ package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtByteArray;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.Text;
@@ -18,6 +15,7 @@ import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
@@ -45,14 +43,9 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     public static @Nullable VoxelCake nbt2content(NbtCompound blockEntityTag) {
         if (blockEntityTag.contains("predefined", NbtElement.STRING_TYPE)) {
             Identifier id = new Identifier(blockEntityTag.getString("predefined"));
-            //StructureTemplate st =
             return CDRegistries.PREDEFINED_CAKE.get(id);
         }
         return VoxelCake.of(blockEntityTag.getCompound("voxelCake"));
-    }
-
-    public static BlockBox array2box(byte[] arBox) {
-        return new BlockBox(arBox[0], arBox[1], arBox[2], arBox[3], arBox[4], arBox[5]);
     }
 
     public static void writeContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
@@ -64,45 +57,20 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
         if (be.getVoxelCake() != null) {
             tag.put("voxelCake", be.getVoxelCake().toNbt());
         }
-        //var content = be.getContent();
-        //Vec3i size = be.getSize();
-        //if (content == null || size == null) return;
-        //NbtCompound nbtContent = new NbtCompound();
-        //for (var entry : content.asMap().entrySet()) {
-        //    NbtList nbtBoxes = new NbtList();
-        //    for (BlockBox box : entry.getValue()) {
-        //        nbtBoxes.add(box2nbt(box));
-        //    }
-        //    nbtContent.put(Objects.requireNonNull(CDRegistries.CAKE_INGREDIENT.getId(entry.getKey()), entry.toString()).toString(), nbtBoxes);
-        //}
-        //tag.put("content", nbtContent);
-        //tag.putIntArray("size", new int[]{size.getX(), size.getY(), size.getZ()});
-    }
-
-    public static NbtByteArray box2nbt(BlockBox box) {
-        return new NbtByteArray(new byte[]{(byte) box.getMinX(), (byte) box.getMinY(), (byte) box.getMinZ(), (byte) box.getMaxX(), (byte) box.getMaxY(), (byte) box.getMaxZ()});
     }
 
     public static void readContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
         be.setVoxelCake(nbt2content(tag));
         be.setShape(null);
-        var world = be.getWorld();
+        World world = be.getWorld();
         if (world == null) return;
         world.updateListeners(be.getPos(), be.getCachedState(), be.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
 
     public @Nullable Identifier predefined;
-    @Nullable
-    private VoxelCake voxelCake;
+    private @Nullable VoxelCake voxelCake;
     private @Nullable Text customName;
-
-    private @Nullable VoxelShape shape = null;
-
-    @Environment(EnvType.CLIENT)
-
-    //private @Nullable Vec3i size;
-    //
-    //private @Nullable Multimap<CakeIngredient, BlockBox> content;
+    private @Nullable VoxelShape shape;
 
     public PrintedCakeBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.PRINTED_CAKE, pos, state);
@@ -151,29 +119,6 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
             setCustomName(null);
         }
     }
-
-    //public @Nullable Multimap<CakeIngredient, BlockBox> getContent() {
-    //    return content;
-    //}
-    //
-    //public void setContent(@Nullable Multimap<CakeIngredient, BlockBox> content) {
-    //    this.content = content;
-    //    if (content == null) return;
-    //    for (CakeIngredient key : content.keySet()) {
-    //        if (content.get(key) instanceof List<BlockBox> list) {
-    //            list.sort(BLOCK_BOX_COMPARATOR);
-    //        }
-    //    }
-    //    sendData();
-    //}
-    //
-    //public @Nullable Vec3i getSize() {
-    //    return size;
-    //}
-    //
-    //public void setSize(@Nullable Vec3i size) {
-    //    this.size = size;
-    //}
 
     public @Nullable VoxelShape getShape() {
         return shape;

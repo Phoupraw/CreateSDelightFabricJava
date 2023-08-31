@@ -11,9 +11,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -202,26 +200,9 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBlockEntit
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        VoxelShape shape = getShape(state, world, pos, ShapeContext.absent());
-        return canPlaceAt(world, pos, shape);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape shape = getShape(state, world, pos, context);
         return shape.isEmpty() ? MIN_SHAPE : shape;
-    }
-
-    @Nullable
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        var pair = PrintedCakeBlockEntity.nbt2content(ctx.getStack());
-        if (pair == null) return null;
-        VoxelShape shape = content2shape(pair.getContent(), pair.getSize());
-        BlockState state = super.getPlacementState(ctx);
-        return state != null && canPlaceAt(ctx.getWorld(), ctx.getBlockPos(), shape) ? state : null;
     }
 
     @Override
@@ -244,10 +225,11 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBlockEntit
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack stack = super.getPickStack(world, pos, state);
         var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
-        if (be != null) {//从MinecraftClient.addBlockEntityNbt复制的
-            NbtCompound nbtCompound = be.createNbtWithIdentifyingData();
-            BlockItem.setBlockEntityNbt(stack, be.getType(), nbtCompound);
-            stack.setCustomName(be.getCustomName());
+        if (be != null) {
+            BlockItem.setBlockEntityNbt(stack, be.getType(), be.createNbt());
+            if (be.getCustomName() != null) {
+                stack.setCustomName(be.getCustomName());
+            }
         }
         return stack;
     }
