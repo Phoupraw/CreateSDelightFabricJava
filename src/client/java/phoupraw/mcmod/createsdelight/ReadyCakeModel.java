@@ -27,6 +27,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.entity.ReadyCakeBlockEntity;
+import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.List;
@@ -35,10 +36,10 @@ import java.util.function.Supplier;
 public class ReadyCakeModel implements BakedModel {
 
     public static final Identifier ID = ModelIds.getBlockModelId(CSDBlocks.READY_CAKE);
-    public static final LoadingCache<ReadyCakeBlockEntity, BakedModel> CACHE = CacheBuilder.newBuilder().build(CacheLoader.from(ReadyCakeModel::makeModel));
+    public static final LoadingCache<CakeIngredient, BakedModel> CACHE = CacheBuilder.newBuilder().build(CacheLoader.from(ReadyCakeModel::makeModel));
 
-    public static BakedModel makeModel(ReadyCakeBlockEntity ready) {
-        Sprite sprite = PrintedCakeModel.getSprite(ready.cakeIngredient);
+    public static BakedModel makeModel(CakeIngredient cakeIngredient) {
+        Sprite sprite = PrintedCakeModel.getSprite(cakeIngredient);
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         ListMultimap<Direction, BakedQuad> faces2quads = MultimapBuilder.hashKeys().linkedListValues().build();
@@ -50,7 +51,7 @@ public class ReadyCakeModel implements BakedModel {
               .toBakedQuad(sprite);
             faces2quads.put(nominalFace, quad);
         }
-        return new SimpleBakedModel(faces2quads, sprite);
+        return new SimpleBakedBlockModel(faces2quads, sprite);
     }
 
     @Override
@@ -96,7 +97,9 @@ public class ReadyCakeModel implements BakedModel {
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         if (!(blockView.getBlockEntity(pos) instanceof ReadyCakeBlockEntity ready)) return;
-        CACHE.getUnchecked(ready).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        CakeIngredient cakeIngredient = ready.cakeIngredient;
+        if (cakeIngredient == null) return;
+        CACHE.getUnchecked(cakeIngredient).emitBlockQuads(blockView, state, pos, randomSupplier, context);
     }
 
 }

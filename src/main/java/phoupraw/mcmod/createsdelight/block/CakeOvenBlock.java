@@ -7,9 +7,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.enums.RailShape;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -26,6 +29,7 @@ import java.util.Objects;
 
 public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IWrenchable {
 
+    public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, RailShape.NORTH_EAST, RailShape.NORTH_WEST, RailShape.SOUTH_EAST, RailShape.SOUTH_WEST);
 
     public CakeOvenBlock() {
         this(FabricBlockSettings.copyOf(Blocks.COPPER_BLOCK));
@@ -33,6 +37,12 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
 
     public CakeOvenBlock(Settings settings) {
         super(settings);
+        //setDefaultState(getDefaultState().with(FACING, RailShape.NORTH_EAST));
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Override

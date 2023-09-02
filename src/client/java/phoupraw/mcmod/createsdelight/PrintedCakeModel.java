@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
@@ -28,6 +29,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
@@ -47,16 +49,34 @@ public final class PrintedCakeModel implements BakedModel {
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
     public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
     public static final Map<VoxelCake, BakedModel> BLOCK_CACHE = new WeakHashMap<>();
+    public static final Map<VoxelCake, Map<Direction, BakedModel>> BLOCK_CACHE_2 = new WeakHashMap<>();
     public static final Map<NbtCompound, BakedModel> ITEM_CACHE = new WeakHashMap<>();
 
-    public static BakedModel content2model(VoxelCake voxelCake) {
+    public static @NotNull Map<Direction, BakedModel> BLOCK_CACHE_get(VoxelCake voxelCake) {
+        var map = BLOCK_CACHE_2.get(voxelCake);
+        if (map == null) {
+            map = new EnumMap<>(Direction.class);
+            BLOCK_CACHE_2.put(voxelCake, map);
+        }
+        return map;
+    }
+
+    public static @Nullable BakedModel BLOCK_CACHE_get(VoxelCake voxelCake, Direction facing) {
+        return BLOCK_CACHE_get(voxelCake).get(facing);
+    }
+
+    public static @Nullable BakedModel BLOCK_CACHE_put(VoxelCake voxelCake, Direction facing, BakedModel bakedModel) {
+        return BLOCK_CACHE_get(voxelCake).put(facing, bakedModel);
+    }
+
+    public static BakedModel content2model(VoxelCake voxelCake, Direction facing) {
         var faceContent = content2faces(voxelCake);
         ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         for (var cell : faceContent.cellSet()) {
             Sprite sprite = getSprite(cell.getRowKey());
-            Direction norminalFace = cell.getColumnKey();
+            Direction norminalFace = Direction.fromHorizontal(cell.getColumnKey().getHorizontal() + facing.getHorizontal());
             Collection<Box> boxes = cell.getValue();
             switch (norminalFace) {
                 case WEST -> {
@@ -91,7 +111,7 @@ public final class PrintedCakeModel implements BakedModel {
                 }
             }
         }
-        return new SimpleBakedModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
+        return new SimpleBakedBlockModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
     }
 
     public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake) {
@@ -263,10 +283,11 @@ public final class PrintedCakeModel implements BakedModel {
         if (blockView.getBlockEntity(pos) instanceof PrintedCakeBlockEntity blockEntity) {
             VoxelCake cake = blockEntity.getVoxelCake();
             if (cake == null) return;
-            BakedModel bakedModel = BLOCK_CACHE.get(cake);
+            Direction facing = state.get(HorizontalFacingBlock.FACING);
+            BakedModel bakedModel = BLOCK_CACHE_get(cake, facing);
             if (bakedModel == null) {
-                bakedModel = content2model(cake);
-                BLOCK_CACHE.put(cake, bakedModel);
+                bakedModel = content2model(cake, facing);
+                BLOCK_CACHE_put(cake, facing, bakedModel);
             }
             bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         }
@@ -283,7 +304,7 @@ public final class PrintedCakeModel implements BakedModel {
         if (bakedModel == null) {
             var pair = PrintedCakeBlockEntity.nbt2content(blockEntityTag);
             if (pair == null) return;
-            bakedModel = content2model(pair);
+            bakedModel = content2model(pair, Direction.SOUTH);
             ITEM_CACHE.put(blockEntityTag, bakedModel);
         }
         bakedModel.emitItemQuads(stack, randomSupplier, context);

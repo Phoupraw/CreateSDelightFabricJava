@@ -57,10 +57,10 @@ public final class CSDCommands {
                         if (player == null) return 0;
                         player.getInventory().offerOrDrop(itemStack);
                         return 1;
-                    })))
-                .then(CommandManager.literal("cake2structure")
-                  .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
-                    .executes(CSDCommands::cake2structure)))));
+                    }))))
+              .then(CommandManager.literal("cake2structure")
+                .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
+                  .executes(CSDCommands::cake2structure))));
         });
     }
 

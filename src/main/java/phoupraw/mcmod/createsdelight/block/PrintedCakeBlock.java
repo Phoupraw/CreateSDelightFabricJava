@@ -3,15 +3,14 @@ package phoupraw.mcmod.createsdelight.block;
 import com.google.common.collect.Multimap;
 import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -30,7 +29,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
 
-public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBlockEntity> {
+public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<PrintedCakeBlockEntity> {
 
     public static final VoxelShape MIN_SHAPE = VoxelShapes.cuboid(0.4, 0, 0.4, 0.6, 0.2, 0.6);
 
@@ -163,6 +162,12 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBlockEntit
 
     public PrintedCakeBlock(Settings settings) {
         super(settings);
+        setDefaultState(getDefaultState().with(FACING, Direction.SOUTH));
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Override
@@ -232,6 +237,11 @@ public class PrintedCakeBlock extends Block implements IBE<PrintedCakeBlockEntit
             }
         }
         return stack;
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
 }

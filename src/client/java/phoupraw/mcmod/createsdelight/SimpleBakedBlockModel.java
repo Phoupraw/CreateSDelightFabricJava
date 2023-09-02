@@ -15,12 +15,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public final class SimpleBakedModel implements BakedModel {
+public final class SimpleBakedBlockModel implements BakedModel {
 
     private final ListMultimap<@Nullable Direction, BakedQuad> faces2quads;
     private final Sprite particleSprite;
 
-    public SimpleBakedModel(ListMultimap<@Nullable Direction, BakedQuad> faces2quads, @NotNull Sprite particleSprite) {
+    public SimpleBakedBlockModel(ListMultimap<@Nullable Direction, BakedQuad> faces2quads, @NotNull Sprite particleSprite) {
         this.faces2quads = faces2quads;
         this.particleSprite = particleSprite;
     }
