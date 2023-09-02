@@ -31,7 +31,7 @@ public class CakeOvenBlockEntity extends SmartBlockEntity implements Nameable {
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-
+        //behaviours.add(new ScrollValueBehaviour(Text.of("label"),this,null));TODO
     }
 
     @Override

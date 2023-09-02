@@ -40,8 +40,6 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
 public final class PrintedCakeModel implements BakedModel {
@@ -70,43 +68,43 @@ public final class PrintedCakeModel implements BakedModel {
     }
 
     public static BakedModel content2model(VoxelCake voxelCake, Direction facing) {
-        var faceContent = content2faces(voxelCake);
+        var faceContent = content2faces(voxelCake, facing);
         ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         for (var cell : faceContent.cellSet()) {
             Sprite sprite = getSprite(cell.getRowKey());
-            Direction norminalFace = Direction.fromHorizontal(cell.getColumnKey().getHorizontal() + facing.getHorizontal());
+            Direction norminalFace = cell.getColumnKey();
             Collection<Box> boxes = cell.getValue();
             switch (norminalFace) {
                 case WEST -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minZ, face.minY, face.maxZ, face.maxY, face.minX, sprite, faces2quads);
+                        square(emitter, norminalFace, face.minZ, face.minY, face.maxZ, face.maxY, face.minX, sprite, faces2quads, facing);
                     }
                 }
                 case EAST -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, 1 - face.maxZ, face.minY, 1 - face.minZ, face.maxY, 1 - face.maxX, sprite, faces2quads);
+                        square(emitter, norminalFace, 1 - face.maxZ, face.minY, 1 - face.minZ, face.maxY, 1 - face.maxX, sprite, faces2quads, facing);
                     }
                 }
                 case DOWN -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, face.minZ, face.maxX, face.maxZ, face.minY, sprite, faces2quads);
+                        square(emitter, norminalFace, face.minX, face.minZ, face.maxX, face.maxZ, face.minY, sprite, faces2quads, facing);
                     }
                 }
                 case UP -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, 1 - face.maxZ, face.maxX, 1 - face.minZ, 1 - face.maxY, sprite, faces2quads);
+                        square(emitter, norminalFace, face.minX, 1 - face.maxZ, face.maxX, 1 - face.minZ, 1 - face.maxY, sprite, faces2quads, facing);
                     }
                 }
                 case NORTH -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, 1 - face.maxX, face.minY, 1 - face.minX, face.maxY, face.minZ, sprite, faces2quads);
+                        square(emitter, norminalFace, 1 - face.maxX, face.minY, 1 - face.minX, face.maxY, face.minZ, sprite, faces2quads, facing);
                     }
                 }
                 case SOUTH -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, face.minY, face.maxX, face.maxY, 1 - face.maxZ, sprite, faces2quads);
+                        square(emitter, norminalFace, face.minX, face.minY, face.maxX, face.maxY, 1 - face.maxZ, sprite, faces2quads, facing);
                     }
                 }
             }
@@ -114,7 +112,7 @@ public final class PrintedCakeModel implements BakedModel {
         return new SimpleBakedBlockModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
     }
 
-    public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake) {
+    public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake, Direction facing) {
         Table<CakeIngredient, Direction, Collection<BlockBox>> faceContent0 = HashBasedTable.create(cake.getContent().size(), Direction.values().length);
         for (Map.Entry<CakeIngredient, BlockBox> entry : cake.getContent().entries()) {
             var box = entry.getValue();
@@ -161,12 +159,17 @@ public final class PrintedCakeModel implements BakedModel {
             }
         }
         Table<CakeIngredient, Direction, Collection<Box>> faceContent = HashBasedTable.create();
+        Vec3i cakeSize = cake.getSize();
         for (var cell : faceContent0.cellSet()) {
             List<Box> list = new LinkedList<>();
-            for (BlockBox box : cell.getValue()) {
-                list.add(PrintedCakeBlock.block2box(box, cake.getSize()));
+            Direction face = cell.getColumnKey();
+            if (face.getAxis().isHorizontal()) {
+                face = Direction.fromHorizontal(face.getHorizontal() + facing.getHorizontal());
             }
-            faceContent.put(cell.getRowKey(), cell.getColumnKey(), list);
+            for (BlockBox box : cell.getValue()) {
+                list.add(PrintedCakeBlock.block2box(PrintedCakeBlock.rotate(box, cakeSize, facing), cakeSize));
+            }
+            faceContent.put(cell.getRowKey(), face, list);
         }
         return faceContent;
     }
@@ -176,13 +179,31 @@ public final class PrintedCakeModel implements BakedModel {
         return MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(cakeIngredient.getTextureId());
     }
 
-    public static void square(QuadEmitter emitter, Direction nominalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, @Nullable Multimap<@Nullable Direction, BakedQuad> faces2quads) {
-        final int color = 0xffffff;
-        Direction face = depth < QuadEmitter.CULL_FACE_EPSILON ? nominalFace : null;
+    public static void square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, @Nullable Multimap<@Nullable Direction, BakedQuad> faces2quads, Direction facing) {
+        int bakeFlags;
+        if (norminalFace.getAxis().isHorizontal()) {
+            //norminalFace = Direction.fromHorizontal(norminalFace.getHorizontal() + facing.getHorizontal());
+            bakeFlags = MutableQuadView.BAKE_LOCK_UV;
+        } else {
+            //var leftBottom = new Vector3d()
+            //  .set(left - 0.5, 0, bottom - 0.5)
+            //  .rotateAxis(Math.PI * facing.getHorizontal() / 2, 0, 1, 0)
+            //  .add(0.5, 0, 0.5);
+            //left = leftBottom.x;
+            //bottom = leftBottom.z;
+            //var rightTop = new Vector3d()
+            //  .set(right - 0.5, 0, top - 0.5)
+            //  .rotateAxis(Math.PI * facing.getHorizontal() / 2, 0, 1, 0)
+            //  .add(0.5, 0, 0.5);
+            //right = rightTop.x;
+            //top = rightTop.z;
+            bakeFlags = facing.getHorizontal();
+        }
+        Direction face = depth < QuadEmitter.CULL_FACE_EPSILON ? norminalFace : null;
         BakedQuad quad = emitter
-          .square(nominalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth)
+          .square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth)
           .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
-          .color(color, color, color, color)
+          .color(-1, -1, -1, -1)
           .toBakedQuad(sprite);
         if (faces2quads != null) {
             faces2quads.put(face, quad);
@@ -202,75 +223,6 @@ public final class PrintedCakeModel implements BakedModel {
 
     public static boolean approx(double a, double b) {
         return Math.abs(a - b) < QuadEmitter.CULL_FACE_EPSILON;
-    }
-
-    public static Table<CakeIngredient, Direction, Collection<Box>> content2faces2(Multimap<CakeIngredient, BlockBox> content, Vec3i size) {
-        Table<CakeIngredient, Direction, Collection<BlockBox>> faceContent0 = HashBasedTable.create(content.size(), Direction.values().length);
-        ReadWriteLock lock = new ReentrantReadWriteLock();
-        content.entries().parallelStream().forEach(entry -> {
-            var box = entry.getValue();
-            for (var entry1 : to6Faces(box).entrySet()) {
-                BlockBox face = entry1.getValue();
-                boolean b = true;
-                lock.readLock().lock();
-                for (var cell : faceContent0.cellSet()) {
-                    var faces = cell.getValue();
-                    if (faces.contains(face)) {
-                        faces.remove(face);
-                        b = false;
-                        break;
-                    }
-                }
-                lock.readLock().unlock();
-                if (b) {
-                    Collection<BlockBox> faces;
-                    while (true) {
-                        lock.readLock().lock();
-                        faces = faceContent0.get(entry.getKey(), entry1.getKey());
-                        if (faces != null) break;
-                        lock.readLock().unlock();
-                        if (lock.writeLock().tryLock()) {
-                            faces = Collections.synchronizedCollection(new HashSet<>());
-                            faceContent0.put(entry.getKey(), entry1.getKey(), faces);
-                            lock.writeLock().unlock();
-                            break;
-                        }
-                    }
-                    faces.add(face);
-                }
-            }
-        });
-        faceContent0.cellSet().parallelStream().forEach(cell -> {
-            Queue<BlockBox> faces = new ArrayDeque<>(cell.getValue());
-            faceContent0.put(cell.getRowKey(), cell.getColumnKey(), faces);
-            int none = 0;
-            while (faces.size() > 1 && none < faces.size() * 2) {
-                none++;
-                BlockBox face = faces.poll();
-                for (var iterator = faces.iterator(); iterator.hasNext(); ) {
-                    BlockBox face1 = iterator.next();
-                    BlockBox face0 = PrintedCakeBlock.unionBox(face, face1);
-                    if (face0 != null) {
-                        iterator.remove();
-                        faces.offer(face0);
-                        none = 0;
-                        break;
-                    }
-                }
-                if (none > 0) {
-                    faces.offer(face);
-                }
-            }
-        });
-        Table<CakeIngredient, Direction, Collection<Box>> faceContent = HashBasedTable.create();
-        for (var cell : faceContent0.cellSet()) {
-            List<Box> list = new LinkedList<>();
-            for (BlockBox box : cell.getValue()) {
-                list.add(PrintedCakeBlock.block2box(box, size));
-            }
-            faceContent.put(cell.getRowKey(), cell.getColumnKey(), list);
-        }
-        return faceContent;
     }
 
     @Override
