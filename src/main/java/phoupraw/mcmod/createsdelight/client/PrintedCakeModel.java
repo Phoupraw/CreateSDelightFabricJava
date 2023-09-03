@@ -47,15 +47,15 @@ public class PrintedCakeModel implements BakedModel {
 
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
     public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
-    public static final Map<VoxelCake, BakedModel> BLOCK_CACHE = new WeakHashMap<>();
-    public static final Map<VoxelCake, Map<Direction, BakedModel>> BLOCK_CACHE_2 = new WeakHashMap<>();
+    public static final Map<VoxelCake, Map<Direction, BakedModel>> BLOCK_CACHE = new WeakHashMap<>();
     public static final Map<NbtCompound, BakedModel> ITEM_CACHE = new WeakHashMap<>();
+    public static final Map<CakeIngredient, Sprite> SPRITE_CACHE = new WeakHashMap<>();
 
     public static @NotNull Map<Direction, BakedModel> BLOCK_CACHE_get(VoxelCake voxelCake) {
-        var map = BLOCK_CACHE_2.get(voxelCake);
+        var map = BLOCK_CACHE.get(voxelCake);
         if (map == null) {
             map = new EnumMap<>(Direction.class);
-            BLOCK_CACHE_2.put(voxelCake, map);
+            BLOCK_CACHE.put(voxelCake, map);
         }
         return map;
     }
@@ -111,7 +111,7 @@ public class PrintedCakeModel implements BakedModel {
             }
         }
         //noinspection ConstantConditions
-        return new SimpleBakedBlockModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
+        return new SimpleBlockBakedModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
     }
 
     public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake, Direction facing) {
@@ -177,8 +177,13 @@ public class PrintedCakeModel implements BakedModel {
     }
 
     @Environment(EnvType.CLIENT)
-    public static Sprite getSprite(CakeIngredient cakeIngredient) {
-        return MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(cakeIngredient.getTextureId());
+    public static @NotNull Sprite getSprite(CakeIngredient cakeIngredient) {
+        Sprite sprite = SPRITE_CACHE.get(cakeIngredient);
+        if (sprite == null) {
+            sprite = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(cakeIngredient.getTextureId());
+            SPRITE_CACHE.put(cakeIngredient, sprite);
+        }
+        return sprite;
     }
 
     public static void square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, @Nullable Multimap<@Nullable Direction, BakedQuad> faces2quads, Direction facing) {

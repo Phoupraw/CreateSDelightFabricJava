@@ -3,18 +3,21 @@ package phoupraw.mcmod.createsdelight.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.model.UnbakedModel;
+import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDFluids;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Environment(EnvType.CLIENT)
 public final class CSDClientModInitializer implements ClientModInitializer {
@@ -40,6 +43,14 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.SHRINKING_CAKE, ShrinkingCakeRenderer::new);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.MOVING_CAKE, MovingCakeRenderer::new);
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> CompletableFuture
+          .completedFuture(null)
+          .thenCompose(synchronizer::whenPrepared)
+          .thenRunAsync(() -> {
+              PrintedCakeModel.BLOCK_CACHE.clear();
+              PrintedCakeModel.ITEM_CACHE.clear();
+              PrintedCakeModel.SPRITE_CACHE.clear();
+          }, applyExecutor)));
     }
 
 }

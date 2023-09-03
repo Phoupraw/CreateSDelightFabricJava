@@ -51,7 +51,7 @@ public class ReadyCakeModel implements BakedModel {
               .toBakedQuad(sprite);
             faces2quads.put(nominalFace, quad);
         }
-        return new SimpleBakedBlockModel(faces2quads, sprite);
+        return new SimpleBlockBakedModel(faces2quads, sprite);
     }
 
     @Override
