@@ -47,7 +47,7 @@ public class ReadyCakeModel implements BakedModel {
             BakedQuad quad = emitter
               .square(nominalFace, 1, 1, 1, 1, 0)
               .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
-              .color(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff)
+              .color(-1, -1, -1, -1)
               .toBakedQuad(sprite);
             faces2quads.put(nominalFace, quad);
         }

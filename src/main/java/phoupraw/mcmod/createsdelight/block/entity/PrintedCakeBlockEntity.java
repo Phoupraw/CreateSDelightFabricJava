@@ -5,8 +5,6 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.Text;
@@ -33,37 +31,12 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
       .thenComparingInt(BlockBox::getMinX)
       .thenComparingInt(BlockBox::getMinZ);
 
-    public static @Nullable VoxelCake nbt2content(ItemStack itemStack) {
-        NbtCompound blockEntityTag = BlockItem.getBlockEntityNbt(itemStack);
-        if (blockEntityTag == null) return null;
-        return nbt2content(blockEntityTag);
-    }
-
     public static @Nullable VoxelCake nbt2content(NbtCompound blockEntityTag) {
         if (blockEntityTag.contains("predefined", NbtElement.STRING_TYPE)) {
             Identifier id = new Identifier(blockEntityTag.getString("predefined"));
             return CDRegistries.PREDEFINED_CAKE.get(id);
         }
         return VoxelCake.of(blockEntityTag.getCompound("voxelCake"));
-    }
-
-    public static void writeContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
-        Identifier predefined = be.predefined;
-        if (predefined != null) {
-            tag.putString("predefined", predefined.toString());
-            return;
-        }
-        if (be.getVoxelCake() != null) {
-            tag.put("voxelCake", be.getVoxelCake().toNbt());
-        }
-    }
-
-    public static void readContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
-        be.setVoxelCake(nbt2content(tag));
-        be.shapes.clear();
-        World world = be.getWorld();
-        if (world == null) return;
-        world.updateListeners(be.getPos(), be.getCachedState(), be.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
 
     public @Nullable Identifier predefined;
@@ -102,7 +75,12 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
-        writeContent(this, tag, clientPacket);
+        Identifier predefined = this.predefined;
+        if (predefined != null) {
+            tag.putString("predefined", predefined.toString());
+        } else if (getVoxelCake() != null) {
+            tag.put("voxelCake", getVoxelCake().toNbt());
+        }
         if (getCustomName() != null) {
             tag.putString("CustomName", Text.Serializer.toJson(getCustomName()));
         }
@@ -111,12 +89,16 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     @Override
     protected void read(NbtCompound tag, boolean clientPacket) {
         super.read(tag, clientPacket);
-        readContent(this, tag, clientPacket);
         if (tag.contains("CustomName", NbtElement.STRING_TYPE)) {
             setCustomName(Text.Serializer.fromJson(tag.getString("CustomName")));
         } else {
             setCustomName(null);
         }
+        setVoxelCake(nbt2content(tag));
+        shapes.clear();
+        World world1 = getWorld();
+        if (world1 == null) return;
+        world1.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
 
     public @Nullable VoxelCake getVoxelCake() {

@@ -14,6 +14,8 @@ import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockBox;
@@ -98,6 +100,50 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
             return ActionResult.SUCCESS;
         }
         return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.with(FACING, rotate(state.get(FACING), rotation));
+    }
+
+    public static RailShape rotate(RailShape facing, BlockRotation rotation) {
+        int offset = RailShape.SOUTH_EAST.ordinal();
+        if (facing.ordinal() < offset) throw new IllegalArgumentException(facing.toString());
+        int addend = switch (rotation) {
+            case NONE -> 0;
+            case CLOCKWISE_90 -> 1;
+            case CLOCKWISE_180 -> 2;
+            case COUNTERCLOCKWISE_90 -> 3;
+        };
+        return RailShape.values()[(facing.ordinal() - offset + addend) % 4 + offset];
+    }
+
+    public static RailShape mirror(RailShape facing, BlockMirror mirror) {
+        return switch (mirror) {
+            case NONE -> facing;
+            case FRONT_BACK -> switch (facing) {
+                case SOUTH_EAST -> RailShape.SOUTH_WEST;
+                case SOUTH_WEST -> RailShape.SOUTH_EAST;
+                case NORTH_EAST -> RailShape.NORTH_WEST;
+                case NORTH_WEST -> RailShape.NORTH_EAST;
+                default -> throw new IllegalArgumentException(facing.toString());
+            };
+            case LEFT_RIGHT -> switch (facing) {
+                case SOUTH_EAST -> RailShape.NORTH_EAST;
+                case SOUTH_WEST -> RailShape.NORTH_WEST;
+                case NORTH_EAST -> RailShape.SOUTH_EAST;
+                case NORTH_WEST -> RailShape.SOUTH_WEST;
+                default -> throw new IllegalArgumentException(facing.toString());
+            };
+        };
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.with(FACING, mirror(state.get(FACING), mirror));
     }
 
 }
