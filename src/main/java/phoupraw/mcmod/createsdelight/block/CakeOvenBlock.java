@@ -2,7 +2,7 @@ package phoupraw.mcmod.createsdelight.block;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumHashBiMap;
-import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -14,7 +14,6 @@ import net.minecraft.block.enums.RailShape;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
@@ -27,6 +26,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
@@ -40,9 +40,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IWrenchable {
+public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, ICogWheel {
 
-    public static final BiMap<RailShape, Set<Direction>> RAIL_SHAPE_MAP = EnumHashBiMap.create(Map.of(
+    public static final BiMap<RailShape, Set<Direction>> BI_DIRECTION = EnumHashBiMap.create(Map.of(
       RailShape.EAST_WEST, EnumSet.of(Direction.EAST, Direction.WEST),
       RailShape.NORTH_SOUTH, EnumSet.of(Direction.NORTH, Direction.SOUTH),
       RailShape.SOUTH_EAST, EnumSet.of(Direction.SOUTH, Direction.EAST),
@@ -53,14 +53,17 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
 
     public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, RailShape.NORTH_EAST, RailShape.NORTH_WEST, RailShape.SOUTH_EAST, RailShape.SOUTH_WEST);
 
+    public static RailShape rotate(RailShape facing, BlockRotation rotation) {
+        return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(rotation::rotate).collect(Collectors.toSet()));
+    }
+
+    public static RailShape mirror(RailShape facing, BlockMirror mirror) {
+        return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(mirror::apply).collect(Collectors.toSet()));
+    }
+
     public CakeOvenBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, RailShape.NORTH_WEST));
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
     }
 
     public CakeOvenBlock() {
@@ -101,14 +104,6 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
         }
     }
 
-    public static RailShape rotate(RailShape facing, BlockRotation rotation) {
-        return RAIL_SHAPE_MAP.inverse().get(RAIL_SHAPE_MAP.get(facing).stream().map(rotation::rotate).collect(Collectors.toSet()));
-    }
-
-    public static RailShape mirror(RailShape facing, BlockMirror mirror) {
-        return RAIL_SHAPE_MAP.inverse().get(RAIL_SHAPE_MAP.get(facing).stream().map(mirror::apply).collect(Collectors.toSet()));
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -126,7 +121,6 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
-
     @SuppressWarnings("deprecation")
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
@@ -140,23 +134,39 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
     }
 
     @Override
-    public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
-        return IWrenchable.super.onWrenched(state, context.getSide() == Direction.UP ? context : new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(context.getHitPos(), Direction.UP, context.getBlockPos(), context.hitsInsideBlock())));
+    public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
+        return originalState.rotate(BlockRotation.CLOCKWISE_90);
+        //return switch (targetedFace) {
+        //    case UP -> originalState.rotate(BlockRotation.CLOCKWISE_90);
+        //    case DOWN -> originalState.rotate(BlockRotation.COUNTERCLOCKWISE_90);
+        //    default -> originalState;
+        //};
     }
 
-    @Override
-    public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
-        return switch (targetedFace) {
-            case UP -> originalState.rotate(BlockRotation.CLOCKWISE_90);
-            case DOWN -> originalState.rotate(BlockRotation.COUNTERCLOCKWISE_90);
-            default -> originalState;
-        };
-    }
+    //@Override
+    //public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
+    //    return IWrenchable.super.onWrenched(state, context.getSide() == Direction.UP ? context : new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(context.getHitPos(), Direction.UP, context.getBlockPos(), context.hitsInsideBlock())));
+    //}
 
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return getDefaultState().rotate(BlockRotation.values()[Direction.fromRotation(ctx.getPlayerYaw() + 225).getHorizontal()]);
+    }
+
+    @Override
+    public boolean hasShaftTowards(WorldView world, BlockPos pos, BlockState state, Direction face) {
+        return false;
+    }
+
+    @Override
+    public Direction.Axis getRotationAxis(BlockState state) {
+        return Direction.Axis.Y;
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
 }

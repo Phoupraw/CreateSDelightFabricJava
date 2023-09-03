@@ -50,18 +50,31 @@ public class MovingCakeBlockEntity extends BlockEntity {
         return this.createNbt();
     }
 
+    @Override
+    public String toString() {
+        return "MakingCakeBlockEntity{" +
+               "voxelCake=" + voxelCake +
+               ", direction=" + direction +
+               ", progress=" + progress +
+               ", ovenPos=" + ovenPos +
+               ", pos=" + pos +
+               '}';
+    }
+
     public void tick() {
         progress = Math.min(1, progress + 1.0 / 4);
         if (progress >= 1) {
             BlockPos pos = getPos();
             BlockPos pos1 = pos.offset(direction);
             World world = getWorld();
+            //noinspection ConstantConditions
             if (world.getBlockEntity(pos1) instanceof MovingCakeBlockEntity combined) {
                 combined.voxelCake = combineSame(this.voxelCake, combined.voxelCake);
                 combined.setDirection();
             } else if (world.getBlockState(pos1).isAir()) {
                 world.setBlockState(pos1, getCachedState());
                 MovingCakeBlockEntity copy = (MovingCakeBlockEntity) world.getBlockEntity(pos1);
+                //noinspection ConstantConditions
                 copy.voxelCake = this.voxelCake;
                 copy.setDirection();
             } else {
@@ -69,6 +82,17 @@ public class MovingCakeBlockEntity extends BlockEntity {
             }
         }
     }
+
+    //@Override
+    //public String toString() {
+    //    return "MakingCakeBlockEntity{" +
+    //           "voxelCake=" + voxelCake +
+    //           ", direction=" + direction +
+    //           ", progress=" + progress +
+    //           ", ovenPos=" + ovenPos +
+    //           ", pos=" + pos +
+    //           '}';
+    //}
 
     public void setDirection() {
         BlockPos pos = getPos();
@@ -85,28 +109,6 @@ public class MovingCakeBlockEntity extends BlockEntity {
         } else {
             direction = Direction.UP;
         }
-    }
-
-    //@Override
-    //public String toString() {
-    //    return "MakingCakeBlockEntity{" +
-    //           "voxelCake=" + voxelCake +
-    //           ", direction=" + direction +
-    //           ", progress=" + progress +
-    //           ", ovenPos=" + ovenPos +
-    //           ", pos=" + pos +
-    //           '}';
-    //}
-
-    @Override
-    public String toString() {
-        return "MakingCakeBlockEntity{" +
-               "voxelCake=" + voxelCake +
-               ", direction=" + direction +
-               ", progress=" + progress +
-               ", ovenPos=" + ovenPos +
-               ", pos=" + pos +
-               '}';
     }
 
 }

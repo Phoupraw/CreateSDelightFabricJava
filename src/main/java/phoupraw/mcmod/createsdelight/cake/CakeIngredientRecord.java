@@ -1,7 +1,9 @@
 package phoupraw.mcmod.createsdelight.cake;
 
 import net.minecraft.util.Identifier;
+
 public final class CakeIngredientRecord implements CakeIngredient {
+
     private final double hungerPerBucket;
     private final Identifier textureId;
 
@@ -23,8 +25,8 @@ public final class CakeIngredientRecord implements CakeIngredient {
     @Override
     public String toString() {
         return "CakeIngredientRecord[" +
-          "hungerPerBucket=" + hungerPerBucket + ", " +
-          "textureId=" + textureId + ']';
+               "hungerPerBucket=" + hungerPerBucket + ", " +
+               "textureId=" + textureId + ']';
     }
 
 }

@@ -3,8 +3,10 @@ package phoupraw.mcmod.createsdelight.rei;
 import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.plugins.REIServerPlugin;
 import org.jetbrains.annotations.ApiStatus;
+
 @ApiStatus.Internal
 public final class CDREIServerPlugin implements REIServerPlugin {
+
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
         //registry.register(LootTableCategory.ID, new DisplaySerializer<>() {

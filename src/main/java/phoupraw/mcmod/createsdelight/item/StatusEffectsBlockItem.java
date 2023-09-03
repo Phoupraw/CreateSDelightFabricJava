@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 import java.util.List;
+
 public class StatusEffectsBlockItem extends BlockItem {
 
     public static boolean apply(LivingEntity object, StatusEffectInstance effect) {
@@ -36,7 +37,7 @@ public class StatusEffectsBlockItem extends BlockItem {
     }
 
     /**
-     @see LivingEntity#spawnItemParticles(ItemStack, int)
+     * @see LivingEntity#spawnItemParticles(ItemStack, int)
      */
     public static void particle(Entity entity, ItemStack stack, int count) {
         World world = entity.getWorld();
@@ -78,4 +79,5 @@ public class StatusEffectsBlockItem extends BlockItem {
     public StatusEffectsBlockItem(Block block, Settings settings) {
         super(block, settings);
     }
+
 }

@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.registry;
 
 public final class CDSpoutingBehaviours {
+
     //public static final BlockSpoutingBehaviour PAN = new BlockSpoutingBehaviour() {
     //    @Override
     //    public long fillBlock(World world, BlockPos pos, SpoutTileEntity spout, FluidStack availableFluid, boolean simulate) {
@@ -37,7 +38,10 @@ public final class CDSpoutingBehaviours {
     }
 
     public interface SpoutExtra {
+
         double getBottomY();
         void setBottomY(double y);
+
     }
+
 }

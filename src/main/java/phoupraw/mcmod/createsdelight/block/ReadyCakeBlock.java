@@ -30,6 +30,21 @@ public class ReadyCakeBlock extends Block implements BlockEntityProvider {
         return new ReadyCakeBlockEntity(pos, state);
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (player.isCreative()) {
+            world.scheduleBlockTick(pos, this, 0);
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.PASS;
+    }
+
+    //@Override
+    //public BlockRenderType getRenderType(BlockState state) {
+    //    return BlockRenderType.INVISIBLE;
+    //}
+    @SuppressWarnings("deprecation")
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         ReadyCakeBlockEntity ready = (ReadyCakeBlockEntity) world.getBlockEntity(pos);
@@ -42,20 +57,6 @@ public class ReadyCakeBlock extends Block implements BlockEntityProvider {
         world.setBlockState(pos, CSDBlocks.SHRINKING_CAKE.getDefaultState());
         ShrinkingCakeBlockEntity shrinking = (ShrinkingCakeBlockEntity) world.getBlockEntity(pos);
         //shrinking
-    }
-
-    //@Override
-    //public BlockRenderType getRenderType(BlockState state) {
-    //    return BlockRenderType.INVISIBLE;
-    //}
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (player.isCreative()) {
-            world.scheduleBlockTick(pos, this, 0);
-            return ActionResult.SUCCESS;
-        }
-        return ActionResult.PASS;
     }
 
 }

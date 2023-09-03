@@ -37,8 +37,8 @@ public class CakeOvenBlockEntity extends SmartBlockEntity implements Nameable {
         TWO_SHAPE.put(RailShape.SOUTH_EAST, Direction.SOUTH);
         TWO_SHAPE.put(RailShape.SOUTH_EAST, Direction.EAST);
     }
-    private @Nullable Text customName;
     public boolean powered;
+    private @Nullable Text customName;
 
     public CakeOvenBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.CAKE_OVEN, pos, state);

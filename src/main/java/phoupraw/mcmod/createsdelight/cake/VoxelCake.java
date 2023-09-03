@@ -71,8 +71,6 @@ public interface VoxelCake {
         }
         return of(content, size);
     }
-    Multimap<CakeIngredient, BlockBox> getContent();
-    Vec3i getSize();
     default NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();
         Vec3i size = getSize();
@@ -96,4 +94,7 @@ public interface VoxelCake {
         nbt.putByteArray("size", new byte[]{(byte) size.getX(), (byte) size.getY(), (byte) size.getZ()});
         return nbt;
     }
+    Multimap<CakeIngredient, BlockBox> getContent();
+    Vec3i getSize();
+
 }

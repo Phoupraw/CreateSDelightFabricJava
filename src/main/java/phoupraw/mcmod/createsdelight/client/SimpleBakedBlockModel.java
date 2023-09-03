@@ -65,10 +65,6 @@ public class SimpleBakedBlockModel implements BakedModel {
         return ModelOverrideList.EMPTY;
     }
 
-    public ListMultimap<Direction, BakedQuad> getFaces2quads() {
-        return faces2quads;
-    }
-
     @Override
     public String toString() {
         return "SimpleBakedModel{" +
@@ -76,5 +72,8 @@ public class SimpleBakedBlockModel implements BakedModel {
                "particle=" + particleSprite + '}';
     }
 
+    public ListMultimap<Direction, BakedQuad> getFaces2quads() {
+        return faces2quads;
+    }
 
 }

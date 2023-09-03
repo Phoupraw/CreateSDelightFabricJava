@@ -50,7 +50,6 @@ public final class CSDBlockEntityTypes {
         register(CSDIdentifiers.SHRINKING_CAKE, SHRINKING_CAKE);
         register(CSDIdentifiers.MOVING_CAKE, MOVING_CAKE);
     }
-
     @Contract("_, _ -> param2")
     public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, blockEntityType);
@@ -66,6 +65,5 @@ public final class CSDBlockEntityTypes {
 
     private CSDBlockEntityTypes() {
     }
-
 
 }

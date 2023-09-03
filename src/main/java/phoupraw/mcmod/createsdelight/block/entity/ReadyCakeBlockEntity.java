@@ -21,5 +21,4 @@ public class ReadyCakeBlockEntity extends BlockEntity {
         super(type, pos, state);
     }
 
-
 }

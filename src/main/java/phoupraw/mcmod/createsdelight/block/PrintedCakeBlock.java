@@ -214,18 +214,19 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     }
 
     @Override
-    public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
-        return IWrenchable.super.onWrenched(state, context.getSide() == Direction.UP ? context : new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(context.getHitPos(), Direction.UP, context.getBlockPos(), context.hitsInsideBlock())));
-    }
-
-    @Override
     public ActionResult onSneakWrenched(BlockState state, ItemUsageContext context) {
-        return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
+        return IWrenchable.super.onSneakWrenched(state, context);
+        //return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
     }
 
     @Override
     public void playRotateSound(World world, BlockPos pos) {
         world.playSound(null, pos, this.soundGroup.getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
+    }
+
+    @Override
+    public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
+        return originalState.rotate(BlockRotation.CLOCKWISE_90);
     }
 
     @Override
@@ -266,6 +267,5 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
-
 
 }

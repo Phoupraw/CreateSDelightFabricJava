@@ -47,4 +47,5 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDItems.CREAM_BLOCK)
           .build(exporter);
     }
+
 }

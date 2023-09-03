@@ -40,8 +40,8 @@ public final class CDRecipeTypes {
     }
 
     /**
-     <b>不要注册！</b>已在构造器中注册。
-     @param <R> 配方
+     * <b>不要注册！</b>已在构造器中注册。
+     * @param <R> 配方
      */
     public static final class RecipeTypeInfo<R extends ProcessingRecipe<?>> implements IRecipeTypeInfo {
 
@@ -50,10 +50,10 @@ public final class CDRecipeTypes {
         private final RecipeType<R> type;
 
         /**
-         @param id 用于注册序列化器和配方类型
-         @param serializer 未注册的序列化器
-         @param type 未注册的配方类型
-         @throws IllegalStateException 若{@code serializer}或{@code type}已注册
+         * @param id 用于注册序列化器和配方类型
+         * @param serializer 未注册的序列化器
+         * @param type 未注册的配方类型
+         * @throws IllegalStateException 若{@code serializer}或{@code type}已注册
          */
         public RecipeTypeInfo(Identifier id, ProcessingRecipeSerializer<R> serializer, RecipeType<R> type) {
             this.id = id;
@@ -82,8 +82,8 @@ public final class CDRecipeTypes {
         }
 
         /**
-         我不知道为什么simibubi要搞个泛型方法，很不好用。
-         @see #getRecipeType()
+         * 我不知道为什么simibubi要搞个泛型方法，很不好用。
+         * @see #getRecipeType()
          */
         @SuppressWarnings("unchecked")
         @Override

@@ -9,14 +9,14 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public class ShrinkingCakeBlockEntity extends BlockEntity {
 
+    public VoxelCake voxelCake;
+    public BlockPos ovenPos;
+    public CakeOvenBlockEntity oven;
+
     public ShrinkingCakeBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.SHRINKING_CAKE, pos, state);}
 
     public ShrinkingCakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
-
-    public VoxelCake voxelCake;
-    public BlockPos ovenPos;
-    public CakeOvenBlockEntity oven;
 
 }

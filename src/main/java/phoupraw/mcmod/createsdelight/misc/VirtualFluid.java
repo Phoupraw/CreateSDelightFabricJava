@@ -16,8 +16,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.ApiStatus;
+
 /**
- @since 0.1.0-pre7 */
+ * @since 0.1.0-pre7
+ */
 public class VirtualFluid extends FlowableFluid {
 
     @ApiStatus.Internal
@@ -25,35 +27,9 @@ public class VirtualFluid extends FlowableFluid {
 
     }
 
-    /**
-     Water and Lava both return 100.0F.
-     */
     @Override
-    public float getBlastResistance() {
-        return 100.0F;
-    }
-
-    @Override
-    public boolean isStill(FluidState state) {
-        return true;
-    }
-
-    /**
-     Lava returns true if it's FluidState is above a certain height and the
-     Fluid is Water.
-     @return whether the given Fluid can flow into this FluidState
-     */
-    @Override
-    public boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
-        return false;
-    }
-
-    /**
-     Water returns 5. Lava returns 30 in the Overworld and 10 in the Nether.
-     */
-    @Override
-    public int getTickRate(WorldView worldView) {
-        return 5;
+    public Fluid getFlowing() {
+        return this;
     }
 
     @Override
@@ -66,27 +42,9 @@ public class VirtualFluid extends FlowableFluid {
         return false;
     }
 
-    @Override
-    public BlockState toBlockState(FluidState state) {
-        return Blocks.AIR.getDefaultState();
-    }
-
     /**
-     * @return whether the given fluid an instance of this fluid
-     */
-    @Override
-    public boolean matchesType(Fluid fluid) {
-        return fluid == getStill() || fluid == getFlowing();
-    }
-
-    @Override
-    public Fluid getFlowing() {
-        return this;
-    }
-
-    /**
-     Perform actions when the fluid flows into a replaceable block. Water drops
-     the block's loot table. Lava plays the "block.lava.extinguish" sound.
+     * Perform actions when the fluid flows into a replaceable block. Water drops
+     * the block's loot table. Lava plays the "block.lava.extinguish" sound.
      */
     @Override
     public void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state) {
@@ -95,8 +53,8 @@ public class VirtualFluid extends FlowableFluid {
     }
 
     /**
-     Possibly related to the distance checks for flowing into nearby holes?
-     Water returns 4. Lava returns 2 in the Overworld and 4 in the Nether.
+     * Possibly related to the distance checks for flowing into nearby holes?
+     * Water returns 4. Lava returns 2 in the Overworld and 4 in the Nether.
      */
     @Override
     public int getFlowSpeed(WorldView worldView) {
@@ -104,7 +62,7 @@ public class VirtualFluid extends FlowableFluid {
     }
 
     /**
-     Water returns 1. Lava returns 2 in the Overworld and 1 in the Nether.
+     * Water returns 1. Lava returns 2 in the Overworld and 1 in the Nether.
      */
     @Override
     public int getLevelDecreasePerBlock(WorldView worldView) {
@@ -117,11 +75,56 @@ public class VirtualFluid extends FlowableFluid {
     }
 
     /**
-     默认返回空气。
-     @since 0.1.0-pre8
+     * 默认返回空气。
+     * @since 0.1.0-pre8
      */
     @Override
     public Item getBucketItem() {
         return Items.AIR;
     }
+
+    /**
+     * Lava returns true if it's FluidState is above a certain height and the
+     * Fluid is Water.
+     * @return whether the given Fluid can flow into this FluidState
+     */
+    @Override
+    public boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
+        return false;
+    }
+
+    /**
+     * Water returns 5. Lava returns 30 in the Overworld and 10 in the Nether.
+     */
+    @Override
+    public int getTickRate(WorldView worldView) {
+        return 5;
+    }
+
+    /**
+     * Water and Lava both return 100.0F.
+     */
+    @Override
+    public float getBlastResistance() {
+        return 100.0F;
+    }
+
+    @Override
+    public BlockState toBlockState(FluidState state) {
+        return Blocks.AIR.getDefaultState();
+    }
+
+    @Override
+    public boolean isStill(FluidState state) {
+        return true;
+    }
+
+    /**
+     * @return whether the given fluid an instance of this fluid
+     */
+    @Override
+    public boolean matchesType(Fluid fluid) {
+        return fluid == getStill() || fluid == getFlowing();
+    }
+
 }

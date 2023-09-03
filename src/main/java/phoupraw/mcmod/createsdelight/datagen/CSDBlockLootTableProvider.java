@@ -35,7 +35,6 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
         super(dataOutput);
     }
 
-
     @Override
     public void generate() {
         addDrop(CSDBlocks.PRINTED_CAKE, LootTable.builder().pool(new LootPool.Builder()
@@ -71,4 +70,5 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
         //      .with(AlternativeEntry.builder(list.toArray(new LootPoolEntry.Builder[0])))));
         //}
     }
+
 }

@@ -38,11 +38,10 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
         }
         return VoxelCake.of(blockEntityTag.getCompound("voxelCake"));
     }
-
+    public final Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
     public @Nullable Identifier predefined;
     private @Nullable VoxelCake voxelCake;
     private @Nullable Text customName;
-    public final Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
 
     public PrintedCakeBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.PRINTED_CAKE, pos, state);

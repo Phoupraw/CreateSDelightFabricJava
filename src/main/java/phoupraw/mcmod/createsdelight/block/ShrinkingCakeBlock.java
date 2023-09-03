@@ -23,14 +23,16 @@ public class ShrinkingCakeBlock extends Block implements BlockEntityProvider {
         return new ShrinkingCakeBlockEntity(pos, state);
     }
 
-    @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-
-    }
-
+    @SuppressWarnings("deprecation")
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.INVISIBLE;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+
     }
 
 }

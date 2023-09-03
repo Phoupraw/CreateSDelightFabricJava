@@ -39,12 +39,13 @@ public final class CSDCakeIngredients {
 
         LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> BLOCK.get(state.getBlock()));
     }
-private static void register(Identifier id, CakeIngredient cakeIngredient) {
-    Registry.register(CDRegistries.CAKE_INGREDIENT, id, cakeIngredient);
-}
 
-public static BlockApiLookup.BlockApiProvider<CakeIngredient, @Nullable Void> constant(CakeIngredient theConst) {
-    return (world, pos, state, blockEntity, context) -> theConst;
-}
+    public static BlockApiLookup.BlockApiProvider<CakeIngredient, @Nullable Void> constant(CakeIngredient theConst) {
+        return (world, pos, state, blockEntity, context) -> theConst;
+    }
+
+    private static void register(Identifier id, CakeIngredient cakeIngredient) {
+        Registry.register(CDRegistries.CAKE_INGREDIENT, id, cakeIngredient);
+    }
 
 }

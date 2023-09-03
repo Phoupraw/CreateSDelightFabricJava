@@ -6,7 +6,9 @@ import net.minecraft.entity.effect.InstantStatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
+
 public class SatiationStatusEffect extends InstantStatusEffect {
+
     public static float apply(LivingEntity target, int amplifier) {
         float recovered = 0;
         if (target instanceof PlayerEntity player) {
@@ -32,12 +34,13 @@ public class SatiationStatusEffect extends InstantStatusEffect {
     }
 
     @Override
-    public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
+    public void applyUpdateEffect(LivingEntity target, int amplifier) {
         apply(target, amplifier);
     }
 
     @Override
-    public void applyUpdateEffect(LivingEntity target, int amplifier) {
+    public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
         apply(target, amplifier);
     }
+
 }

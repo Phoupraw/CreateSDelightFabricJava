@@ -12,9 +12,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
+
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
 public final class CDREIClientPlugin implements REIClientPlugin {
+
     @Override
     public void registerCategories(CategoryRegistry registry) {
         EntryStack<ItemStack> depot = EntryStacks.of(AllBlocks.DEPOT.get()), belt = EntryStacks.of(AllBlocks.BELT.get()), basin = EntryStacks.of(AllBlocks.BASIN.get());
@@ -61,13 +63,14 @@ public final class CDREIClientPlugin implements REIClientPlugin {
         //            @Override
         //            public Optional<List<LootTableDisplay>> getUsageFor(EntryStack<?> entry) {
         //                return DynamicDisplayGenerator.super.getUsageFor(entry);
-//            }
-//
-//            @Override
-//            public Optional<List<LootTableDisplay>> generate(ViewSearchBuilder builder) {
-//
-//                return DynamicDisplayGenerator.super.generate(builder);
-//            }
-//        });
+        //            }
+        //
+        //            @Override
+        //            public Optional<List<LootTableDisplay>> generate(ViewSearchBuilder builder) {
+        //
+        //                return DynamicDisplayGenerator.super.generate(builder);
+        //            }
+        //        });
     }
+
 }
