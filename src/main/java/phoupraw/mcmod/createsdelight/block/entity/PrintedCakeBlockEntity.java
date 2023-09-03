@@ -16,10 +16,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.registry.CDRegistries;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 
 import java.util.*;
 
@@ -34,13 +33,13 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     public static @Nullable VoxelCake nbt2content(NbtCompound blockEntityTag) {
         if (blockEntityTag.contains("predefined", NbtElement.STRING_TYPE)) {
             Identifier id = new Identifier(blockEntityTag.getString("predefined"));
-            return CDRegistries.PREDEFINED_CAKE.get(id);
+            return CSDRegistries.PREDEFINED_CAKE.get(id);
         }
         return VoxelCake.of(blockEntityTag.getCompound("voxelCake"));
     }
     public final Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
     public @Nullable Identifier predefined;
-    private @Nullable VoxelCake voxelCake;
+    private @Nullable VoxelCake voxelCake = VoxelCake.empty();
     private @Nullable Text customName;
 
     public PrintedCakeBlockEntity(BlockPos pos, BlockState state) {
@@ -95,9 +94,9 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
         }
         setVoxelCake(nbt2content(tag));
         shapes.clear();
-        World world1 = getWorld();
-        if (world1 == null) return;
-        world1.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
+        World world = getWorld();
+        if (world == null) return;
+        world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
 
     public @Nullable VoxelCake getVoxelCake() {
@@ -107,11 +106,11 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     public void setVoxelCake(@Nullable VoxelCake voxelCake) {
         this.voxelCake = voxelCake;
         if (voxelCake == null) return;
-        for (CakeIngredient key : voxelCake.getContent().keySet()) {
-            if (voxelCake.getContent().get(key) instanceof List<BlockBox> list) {
-                list.sort(BLOCK_BOX_COMPARATOR);
-            }
-        }
+        //for (CakeIngredient key : voxelCake.getContent().keySet()) {
+        //    if (voxelCake.getContent().get(key) instanceof List<BlockBox> list) {
+        //        list.sort(BLOCK_BOX_COMPARATOR);
+        //    }
+        //}
         sendData();
     }
 

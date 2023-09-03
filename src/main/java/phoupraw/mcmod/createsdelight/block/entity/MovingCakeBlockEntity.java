@@ -14,6 +14,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
+import phoupraw.mcmod.createsdelight.cake.VoxelCakeRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public class MovingCakeBlockEntity extends BlockEntity {
@@ -25,7 +26,7 @@ public class MovingCakeBlockEntity extends BlockEntity {
         }
         var content1 = HashMultimap.create(cake1.getContent());
         content1.putAll(cake2.getContent());
-        return VoxelCake.of(content1, size1);
+        return VoxelCakeRecord.of(content1, size1);
     }
 
     public VoxelCake voxelCake;

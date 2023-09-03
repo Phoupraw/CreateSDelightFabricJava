@@ -45,7 +45,7 @@ public final class CSDCakeIngredients {
     }
 
     private static void register(Identifier id, CakeIngredient cakeIngredient) {
-        Registry.register(CDRegistries.CAKE_INGREDIENT, id, cakeIngredient);
+        Registry.register(CSDRegistries.CAKE_INGREDIENT, id, cakeIngredient);
     }
 
 }

@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
@@ -206,6 +207,12 @@ public class PrintedCakeModel implements BakedModel {
     public static boolean approx(double a, double b) {
         return Math.abs(a - b) < QuadEmitter.CULL_FACE_EPSILON;
     }
+    public static boolean negativeUv(MutableQuadView quad) {
+        for (int i = 0; i < 4; i++) {
+            quad.spriteBake(MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite(), MutableQuadView.BAKE_LOCK_UV);
+        }
+        return true;
+    }
 
     @Override
     public boolean isVanillaAdapter() {
@@ -216,15 +223,20 @@ public class PrintedCakeModel implements BakedModel {
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         if (blockView.getBlockEntity(pos) instanceof PrintedCakeBlockEntity blockEntity) {
             VoxelCake cake = blockEntity.getVoxelCake();
-            if (cake == null) return;
-            Direction facing = state.get(HorizontalFacingBlock.FACING);
-            BakedModel bakedModel = BLOCK_CACHE_get(cake, facing);
-            if (bakedModel == null) {
-                bakedModel = content2model(cake, facing);
-                BLOCK_CACHE_put(cake, facing, bakedModel);
+            if (cake != null) {
+                Direction facing = state.get(HorizontalFacingBlock.FACING);
+                BakedModel bakedModel = BLOCK_CACHE_get(cake, facing);
+                if (bakedModel == null) {
+                    bakedModel = content2model(cake, facing);
+                    BLOCK_CACHE_put(cake, facing, bakedModel);
+                }
+                bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
+                return;
             }
-            bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         }
+        context.pushTransform(PrintedCakeModel::negativeUv);
+        MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        context.popTransform();
     }
 
     /**
@@ -232,16 +244,25 @@ public class PrintedCakeModel implements BakedModel {
      */
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        var blockEntityTag = BlockItem.getBlockEntityNbt(stack);
-        if (blockEntityTag == null) return;
-        var bakedModel = ITEM_CACHE.get(blockEntityTag);
-        if (bakedModel == null) {
-            var pair = PrintedCakeBlockEntity.nbt2content(blockEntityTag);
-            if (pair == null) return;
-            bakedModel = content2model(pair, Direction.SOUTH);
-            ITEM_CACHE.put(blockEntityTag, bakedModel);
+        NbtCompound blockEntityTag = BlockItem.getBlockEntityNbt(stack);
+        BakedModel bakedModel = null;
+        if (blockEntityTag != null) {
+            bakedModel = ITEM_CACHE.get(blockEntityTag);
+            if (bakedModel == null) {
+                VoxelCake voxelCake = PrintedCakeBlockEntity.nbt2content(blockEntityTag);
+                if (voxelCake != null) {
+                    bakedModel = content2model(voxelCake, Direction.SOUTH);
+                    ITEM_CACHE.put(blockEntityTag, bakedModel);
+                }
+            }
         }
-        bakedModel.emitItemQuads(stack, randomSupplier, context);
+        if (bakedModel != null) {
+            bakedModel.emitItemQuads(stack, randomSupplier, context);
+        } else {
+            context.pushTransform(PrintedCakeModel::negativeUv);
+            MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitItemQuads(stack, randomSupplier, context);
+            context.popTransform();
+        }
     }
 
     /**

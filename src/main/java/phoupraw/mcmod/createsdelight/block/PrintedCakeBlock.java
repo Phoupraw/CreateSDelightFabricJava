@@ -210,13 +210,16 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape shape = getShape(state, world, pos, context);
-        return shape.isEmpty() ? MIN_SHAPE : shape;
+        return shape.isEmpty() ? Blocks.CAKE.getDefaultState().getOutlineShape(world, pos, context) : shape;
     }
-
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return getShape(state, world, pos, context);
+    }
     @Override
     public ActionResult onSneakWrenched(BlockState state, ItemUsageContext context) {
-        return IWrenchable.super.onSneakWrenched(state, context);
-        //return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
+        return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
     }
 
     @Override

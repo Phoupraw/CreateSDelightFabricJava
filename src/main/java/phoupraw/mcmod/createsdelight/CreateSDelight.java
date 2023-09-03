@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight;
 
+import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +31,7 @@ public final class CreateSDelight implements ModInitializer {
         loadClasses();
         CSDCommands.register();
         VirtualFluids.registerBucketStorage(CSDFluids.EGG_LIQUID, CSDItems.BUCKETED_EGG_LIQUID);
+        BlockStressDefaults.setDefaultImpact(CSDIdentifiers.CAKE_OVEN, 3);
     }
 
 }

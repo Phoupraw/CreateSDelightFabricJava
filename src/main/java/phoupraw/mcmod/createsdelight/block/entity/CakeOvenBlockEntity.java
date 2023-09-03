@@ -92,7 +92,7 @@ public class CakeOvenBlockEntity extends SmartBlockEntity implements Nameable {
 
         @Override
         protected Vec3d getSouthLocation() {
-            return VecHelper.voxelSpace(8, 13, 16);
+            return VecHelper.voxelSpace(8, 13, 15.5);
         }
 
         @Override
