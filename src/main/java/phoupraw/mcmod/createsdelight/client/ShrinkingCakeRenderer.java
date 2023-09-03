@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight;
+package phoupraw.mcmod.createsdelight.client;
 
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;

@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight;
+package phoupraw.mcmod.createsdelight.client;
 
 import com.google.common.collect.ListMultimap;
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;

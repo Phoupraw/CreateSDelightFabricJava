@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight;
+package phoupraw.mcmod.createsdelight.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -105,7 +105,7 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
             MutableText line = Text.literal("").formatted(categoryColor);
             int amplifier = instance.getAmplifier();
             int rgb1 = effect.getColor();
-            int rgb2 = categoryColor.getColorValue();
+            @SuppressWarnings("ConstantConditions") int rgb2 = categoryColor.getColorValue();
             MutableText name = ((MutableText) effect.getName());
             if (gradientColor2) {
                 name = verbatimRgb(name, rgb1, rgb2);
@@ -170,8 +170,9 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
         int i = 0;
         int x1 = x + BREADTH;
         for (var text : getLines()) {
-            int y1 = y + i * BREADTH + (BREADTH - fontHeight) / 2;
+            @SuppressWarnings("ConstantConditions") int y1 = y + i * BREADTH + (BREADTH - fontHeight) / 2;
             if (outline) {
+                //noinspection ConstantConditions
                 textRenderer.drawWithOutline(text.asOrderedText(), x1, y1, 0xffffffff, 0x3f000000 | getChancedEffects().get(i).getLeft().getEffectType().getCategory().getFormatting().getColorValue(), matrix, vertexConsumers, LightmapTextureManager.MAX_LIGHT_COORDINATE);
             } else {
                 textRenderer.draw(text, x1, y1, 0xffffffff, false, matrix, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);

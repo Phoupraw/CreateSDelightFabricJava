@@ -12,6 +12,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
@@ -28,38 +29,73 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
+import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
 
 public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<PrintedCakeBlockEntity>, IWrenchable {
 
-    @Override
-    public ActionResult onSneakWrenched(BlockState state, ItemUsageContext context) {
-        return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
-    }
-
     public static final VoxelShape MIN_SHAPE = VoxelShapes.cuboid(0.4, 0, 0.4, 0.6, 0.2, 0.6);
 
-    public static @Nullable BlockBox unionBox(BlockBox box1, BlockBox box2) {
-        boolean
-          x = box1.getMinX() == box2.getMinX() && box1.getMaxX() == box2.getMaxX(),
-          y = box1.getMinY() == box2.getMinY() && box1.getMaxY() == box2.getMaxY(),
-          z = box1.getMinZ() == box2.getMinZ() && box1.getMaxZ() == box2.getMaxZ();
-        if (box1.getMinX() < box2.getMaxX() && box1.getMaxX() == box2.getMinX() && y && z
-            || box1.getMinY() < box2.getMaxY() && box1.getMaxY() == box2.getMinY() && x && z
-            || box1.getMinZ() < box2.getMaxZ() && box1.getMaxZ() == box2.getMinZ() && x && y) {
-            return BlockBox.encompass(List.of(box1, box2)).orElseThrow();
+    public static boolean canPlaceAt(WorldView world, BlockPos pos, VoxelShape shape) {
+        if (shape.isEmpty()) return false;
+        return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), shape.getFace(Direction.DOWN), BooleanBiFunction.ONLY_SECOND);
+    }
+
+    public static VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
+        VoxelShape shape = VoxelShapes.empty();
+        if (be != null) {
+            Direction facing = state.get(FACING);
+            shape = be.shapes.get(facing);
+            if (shape == null) {
+                VoxelCake cake = be.getVoxelCake();
+                if (cake != null) {
+                    shape = content2shape(cake.getContent(), cake.getSize(), facing);
+                    be.shapes.put(facing, shape);
+                } else {
+                    shape = VoxelShapes.empty();
+                }
+            }
         }
-        var temp = box1;
-        box1 = box2;
-        box2 = temp;
-        if (box1.getMinX() < box2.getMaxX() && box1.getMaxX() == box2.getMinX() && y && z
-            || box1.getMinY() < box2.getMaxY() && box1.getMaxY() == box2.getMinY() && x && z
-            || box1.getMinZ() < box2.getMaxZ() && box1.getMaxZ() == box2.getMinZ() && x && y) {
-            return BlockBox.encompass(List.of(box1, box2)).orElseThrow();
+        return shape;
+    }
+
+    public static VoxelShape content2shape(Multimap<CakeIngredient, BlockBox> content, Vec3i size, Direction facing) {
+        VoxelShape shape = VoxelShapes.empty();
+        Collection<BlockBox> boxes = new ArrayList<>();
+        for (BlockBox box : content.values()) {
+            boxes.add(rotate(box, size, facing));
         }
-        return null;
+        for (BlockBox box : unionBoxes(boxes)) {
+            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(block2box(box, size)));
+        }
+        return shape;
+    }
+
+    public static BlockBox rotate(BlockBox box, Vec3i size, Direction facing) {
+        //BlockBox rotated = BlockBox.rotated(
+        //  0, 0, 0,
+        //  box.getMinX(), box.getMinY(), box.getMinZ(),
+        //  box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ(),
+        //  facing);
+        //rotated.offset(facing.getOffsetX() * size.getX(), 0, facing.getOffsetZ() * size.getZ());
+        //return rotated;
+        double offsetX = size.getX() / 2.0, offsetZ = size.getZ() / 2.0;
+        double angle = -facing.getHorizontal() * Math.PI / 2;
+        var min = new Vector3d()
+          .set(box.getMinX() - offsetX, box.getMinY(), box.getMinZ() - offsetZ)
+          .rotateY(angle)
+          .add(offsetX, 0, offsetZ);
+        var max = new Vector3d()
+          .set(box.getMaxX() - offsetX, box.getMaxY(), box.getMaxZ() - offsetZ)
+          .rotateY(angle)
+          .add(offsetX, 0, offsetZ);
+        return BlockBox.create(
+          new Vec3i((int) Math.round(min.x()), (int) Math.round(min.y()), (int) Math.round(min.z())),
+          new Vec3i((int) Math.round(max.x()), (int) Math.round(max.y()), (int) Math.round(max.z()))
+        );
     }
 
     public static Collection<BlockBox> unionBoxes(Collection<BlockBox> boxes) {
@@ -100,70 +136,32 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
         return new HashSet<>(map.values());
     }
 
+    public static @Nullable BlockBox unionBox(BlockBox box1, BlockBox box2) {
+        boolean
+          x = box1.getMinX() == box2.getMinX() && box1.getMaxX() == box2.getMaxX(),
+          y = box1.getMinY() == box2.getMinY() && box1.getMaxY() == box2.getMaxY(),
+          z = box1.getMinZ() == box2.getMinZ() && box1.getMaxZ() == box2.getMaxZ();
+        if (box1.getMinX() < box2.getMaxX() && box1.getMaxX() == box2.getMinX() && y && z
+            || box1.getMinY() < box2.getMaxY() && box1.getMaxY() == box2.getMinY() && x && z
+            || box1.getMinZ() < box2.getMaxZ() && box1.getMaxZ() == box2.getMinZ() && x && y) {
+            return BlockBox.encompass(List.of(box1, box2)).orElseThrow();
+        }
+        var temp = box1;
+        box1 = box2;
+        box2 = temp;
+        if (box1.getMinX() < box2.getMaxX() && box1.getMaxX() == box2.getMinX() && y && z
+            || box1.getMinY() < box2.getMaxY() && box1.getMaxY() == box2.getMinY() && x && z
+            || box1.getMinZ() < box2.getMaxZ() && box1.getMaxZ() == box2.getMinZ() && x && y) {
+            return BlockBox.encompass(List.of(box1, box2)).orElseThrow();
+        }
+        return null;
+    }
+
     public static Box block2box(BlockBox box, Vec3i size) {
         double x = size.getX(), y = size.getY(), z = size.getZ();
         return new Box(
           box.getMinX() / x, box.getMinY() / y, box.getMinZ() / z,
           box.getMaxX() / x, box.getMaxY() / y, box.getMaxZ() / z);
-    }
-
-    public static VoxelShape getShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
-        VoxelShape shape = VoxelShapes.empty();
-        if (be != null) {
-            shape = be.getShape();
-            if (shape == null) {
-                var cake = be.getVoxelCake();
-                if (cake != null) {
-                    shape = content2shape(cake.getContent(), cake.getSize(), state.get(FACING));
-                    be.setShape(shape);
-                } else {
-                    shape = VoxelShapes.empty();
-                }
-            }
-        }
-        return shape;
-    }
-
-    public static BlockBox rotate(BlockBox box, Vec3i size, Direction facing) {
-        //BlockBox rotated = BlockBox.rotated(
-        //  0, 0, 0,
-        //  box.getMinX(), box.getMinY(), box.getMinZ(),
-        //  box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ(),
-        //  facing);
-        //rotated.offset(facing.getOffsetX() * size.getX(), 0, facing.getOffsetZ() * size.getZ());
-        //return rotated;
-        double offsetX = size.getX() / 2.0, offsetZ = size.getZ() / 2.0;
-        double angle = -facing.getHorizontal() * Math.PI / 2;
-        var min = new Vector3d()
-          .set(box.getMinX() - offsetX, box.getMinY(), box.getMinZ() - offsetZ)
-          .rotateY(angle)
-          .add(offsetX, 0, offsetZ);
-        var max = new Vector3d()
-          .set(box.getMaxX() - offsetX, box.getMaxY(), box.getMaxZ() - offsetZ)
-          .rotateY(angle)
-          .add(offsetX, 0, offsetZ);
-        return BlockBox.create(
-          new Vec3i((int) Math.round(min.x()), (int) Math.round(min.y()), (int) Math.round(min.z())),
-          new Vec3i((int) Math.round(max.x()), (int) Math.round(max.y()), (int) Math.round(max.z()))
-        );
-    }
-
-    public static VoxelShape content2shape(Multimap<CakeIngredient, BlockBox> content, Vec3i size, Direction facing) {
-        VoxelShape shape = VoxelShapes.empty();
-        Collection<BlockBox> boxes = new ArrayList<>();
-        for (BlockBox box : content.values()) {
-            boxes.add(rotate(box, size, facing));
-        }
-        for (BlockBox box : unionBoxes(boxes)) {
-            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(block2box(box, size)));
-        }
-        return shape;
-    }
-
-    public static boolean canPlaceAt(WorldView world, BlockPos pos, VoxelShape shape) {
-        if (shape.isEmpty()) return false;
-        return !VoxelShapes.matchesAnywhere(world.getBlockState(pos.down()).getSidesShape(world, pos.down()).getFace(Direction.UP), shape.getFace(Direction.DOWN), BooleanBiFunction.ONLY_SECOND);
     }
 
     public PrintedCakeBlock() {
@@ -173,11 +171,6 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     public PrintedCakeBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, Direction.SOUTH));
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
     }
 
     @Override
@@ -221,6 +214,26 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     }
 
     @Override
+    public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
+        return IWrenchable.super.onWrenched(state, context.getSide() == Direction.UP ? context : new ItemUsageContext(context.getWorld(), context.getPlayer(), context.getHand(), context.getStack(), new BlockHitResult(context.getHitPos(), Direction.UP, context.getBlockPos(), context.hitsInsideBlock())));
+    }
+
+    @Override
+    public ActionResult onSneakWrenched(BlockState state, ItemUsageContext context) {
+        return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
+    }
+
+    @Override
+    public void playRotateSound(World world, BlockPos pos) {
+        world.playSound(null, pos, this.soundGroup.getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+    }
+
+    @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         super.onPlaced(world, pos, state, placer, itemStack);
         if (itemStack.getNbt() == null) {
@@ -250,8 +263,9 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
+
 
 }

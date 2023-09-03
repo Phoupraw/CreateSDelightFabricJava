@@ -73,11 +73,11 @@ repositories {
     }// Mod Menu, Trinkets
 }
 loom {
-    splitEnvironmentSourceSets()
+//    splitEnvironmentSourceSets()
     mods {
         it.create(mod_id) {
             sourceSet(sourceSets["main"])
-            sourceSet(sourceSets["client"])
+//            sourceSet(sourceSets["client"])
         }
     }
     accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
@@ -96,9 +96,8 @@ loom {
 dependencies {
     minecraft("com.mojang:minecraft:${project["minecraft_version"]}")
     mappings loom.layered() {
-        it.mappings(file("src/main/resources/my_mappings.txt"))
         it.mappings("net.fabricmc:yarn:${project["yarn_mappings"]}:v2")
-        it.mappings(file("src/main/resources/my_mappings.txt"))
+        it.mappings(file("my_mappings.txt"))
     }
     for (f in [
       "net.fabricmc:fabric-loader:${project["fabric_loader_version"]}",

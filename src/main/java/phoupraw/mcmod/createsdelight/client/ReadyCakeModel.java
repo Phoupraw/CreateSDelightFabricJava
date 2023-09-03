@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight;
+package phoupraw.mcmod.createsdelight.client;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -40,7 +40,7 @@ public class ReadyCakeModel implements BakedModel {
 
     public static BakedModel makeModel(CakeIngredient cakeIngredient) {
         Sprite sprite = PrintedCakeModel.getSprite(cakeIngredient);
-        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        @SuppressWarnings("ConstantConditions") MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         ListMultimap<Direction, BakedQuad> faces2quads = MultimapBuilder.hashKeys().linkedListValues().build();
         for (Direction nominalFace : Direction.values()) {

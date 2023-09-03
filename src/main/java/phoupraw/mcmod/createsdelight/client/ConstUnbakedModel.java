@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight;
+package phoupraw.mcmod.createsdelight.client;
 
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.Baker;

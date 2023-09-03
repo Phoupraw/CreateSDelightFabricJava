@@ -1,4 +1,4 @@
-package phoupraw.mcmod.createsdelight;
+package phoupraw.mcmod.createsdelight.client;
 
 import com.google.common.collect.*;
 import io.github.tropheusj.milk.Milk;
@@ -70,7 +70,7 @@ public final class PrintedCakeModel implements BakedModel {
     public static BakedModel content2model(VoxelCake voxelCake, Direction facing) {
         var faceContent = content2faces(voxelCake, facing);
         ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
-        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        @SuppressWarnings("ConstantConditions") MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         for (var cell : faceContent.cellSet()) {
             Sprite sprite = getSprite(cell.getRowKey());
@@ -109,6 +109,7 @@ public final class PrintedCakeModel implements BakedModel {
                 }
             }
         }
+        //noinspection ConstantConditions
         return new SimpleBakedBlockModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
     }
 
@@ -180,25 +181,6 @@ public final class PrintedCakeModel implements BakedModel {
     }
 
     public static void square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, @Nullable Multimap<@Nullable Direction, BakedQuad> faces2quads, Direction facing) {
-        int bakeFlags;
-        if (norminalFace.getAxis().isHorizontal()) {
-            //norminalFace = Direction.fromHorizontal(norminalFace.getHorizontal() + facing.getHorizontal());
-            bakeFlags = MutableQuadView.BAKE_LOCK_UV;
-        } else {
-            //var leftBottom = new Vector3d()
-            //  .set(left - 0.5, 0, bottom - 0.5)
-            //  .rotateAxis(Math.PI * facing.getHorizontal() / 2, 0, 1, 0)
-            //  .add(0.5, 0, 0.5);
-            //left = leftBottom.x;
-            //bottom = leftBottom.z;
-            //var rightTop = new Vector3d()
-            //  .set(right - 0.5, 0, top - 0.5)
-            //  .rotateAxis(Math.PI * facing.getHorizontal() / 2, 0, 1, 0)
-            //  .add(0.5, 0, 0.5);
-            //right = rightTop.x;
-            //top = rightTop.z;
-            bakeFlags = facing.getHorizontal();
-        }
         Direction face = depth < QuadEmitter.CULL_FACE_EPSILON ? norminalFace : null;
         BakedQuad quad = emitter
           .square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth)

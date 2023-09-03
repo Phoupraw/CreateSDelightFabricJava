@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -22,9 +23,7 @@ import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CDRegistries;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable {
 
@@ -61,7 +60,7 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
 
     public static void readContent(PrintedCakeBlockEntity be, NbtCompound tag, boolean clientPacket) {
         be.setVoxelCake(nbt2content(tag));
-        be.setShape(null);
+        be.shapes.clear();
         World world = be.getWorld();
         if (world == null) return;
         world.updateListeners(be.getPos(), be.getCachedState(), be.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
@@ -70,7 +69,7 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     public @Nullable Identifier predefined;
     private @Nullable VoxelCake voxelCake;
     private @Nullable Text customName;
-    private @Nullable VoxelShape shape;
+    public final Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
 
     public PrintedCakeBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.PRINTED_CAKE, pos, state);
@@ -118,14 +117,6 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
         } else {
             setCustomName(null);
         }
-    }
-
-    public @Nullable VoxelShape getShape() {
-        return shape;
-    }
-
-    public void setShape(@Nullable VoxelShape shape) {
-        this.shape = shape;
     }
 
     public @Nullable VoxelCake getVoxelCake() {

@@ -37,7 +37,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
 
     public CakeOvenBlock(Settings settings) {
         super(settings);
-        //setDefaultState(getDefaultState().with(FACING, RailShape.NORTH_EAST));
+        setDefaultState(getDefaultState().with(FACING, RailShape.NORTH_WEST));
     }
 
     @Override
@@ -83,6 +83,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IW
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack handStack = player.getStackInHand(hand);
