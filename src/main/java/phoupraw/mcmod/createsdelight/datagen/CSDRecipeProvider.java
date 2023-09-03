@@ -16,10 +16,10 @@ import phoupraw.mcmod.createsdelight.registry.CSDFluids;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public final class CSDRecipeProvider extends FabricRecipeProvider {
-
 
     public CSDRecipeProvider(FabricDataOutput output) {
         super(output);
@@ -27,6 +27,8 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter) {
+        offerSmelting(exporter, List.of(Items.DRIED_KELP), RecipeCategory.FOOD, CSDItems.KELP_ASH, 0.2f, 200, null);
+        offerBlasting(exporter, List.of(Items.DRIED_KELP), RecipeCategory.FOOD, CSDItems.KELP_ASH, 0.2f, 100, null);
         offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, AllItems.BAR_OF_CHOCOLATE.get(), CSDItems.CHOCOLATE_BLOCK, 3);
         new ShapedRecipeJsonBuilder(RecipeCategory.FOOD, CSDItems.CHOCOLATE_BLOCK, 3)
           .input('A', AllItems.BAR_OF_CHOCOLATE.get())
@@ -45,6 +47,4 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDItems.CREAM_BLOCK)
           .build(exporter);
     }
-
-
 }
