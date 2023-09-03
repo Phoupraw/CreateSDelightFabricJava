@@ -1,4 +1,13 @@
 {
-  "itemGroup.createsdelight.item_group": "Create'S Delight",
-  "modmenu.descriptionTranslation.createsdelight": "Mainly add interaction between create and farmer's delight and unique food processing.\n"
+  "block.createsdelight.cake_oven": "蛋糕烤箱",
+  "block.createsdelight.chocolate_block": "巧克力块",
+  "block.createsdelight.cream_block": "奶油块",
+  "block.createsdelight.egg_liquid": "鸡蛋液",
+  "block.createsdelight.printed_cake": "蓝图蛋糕",
+  "effect.createsdelight.satiation": "饱食",
+  "item.createsdelight.bucketed_egg_liquid": "桶装鸡蛋液",
+  "item.createsdelight.egg_shell": "鸡蛋壳",
+  "itemGroup.createsdelight.item_group": "机械动力乐事",
+  "modmenu.descriptionTranslation.createsdelight": "添加了各式蛋糕和自定义蛋糕。\n",
+  "modmenu.nameTranslation.createsdelight": "机械动力乐事"
 }

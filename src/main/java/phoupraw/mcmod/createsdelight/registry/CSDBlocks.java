@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.registry;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.MapColor;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -37,16 +38,16 @@ public final class CSDBlocks {
     public static final Block MOVING_CAKE = new MovingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
 
     //蛋糕材料
-    public static final Block MILK = new Block(FabricBlockSettings.create().breakInstantly());
-    public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.copyOf(MILK));
+    public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
+    public static final Block CREAM_BLOCK = new Block(FabricBlockSettings.create().breakInstantly().mapColor(MapColor.WHITE));
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.READY_CAKE, READY_CAKE);
         register(CSDIdentifiers.SHRINKING_CAKE, SHRINKING_CAKE);
         register(CSDIdentifiers.MOVING_CAKE, MOVING_CAKE);
-        register(CSDIdentifiers.MILK, MILK);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
+        register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
     }
 
     private static <T extends Block> void register(Identifier id, T block) {

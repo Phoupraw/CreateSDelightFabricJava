@@ -18,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.List;
@@ -51,7 +50,9 @@ public class CakeOvenBlockEntity extends SmartBlockEntity implements Nameable {
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(new ScrollValueBehaviour(Text.of("label"), this, new InWorldSlot()).between(1, 64));
+        ScrollValueBehaviour scroll = new ScrollValueBehaviour(Text.of("蛋糕边长"), this, new InWorldSlot()).between(1, 64);
+        behaviours.add(scroll);
+        scroll.setValue(1);
     }
 
     @Override
@@ -91,12 +92,12 @@ public class CakeOvenBlockEntity extends SmartBlockEntity implements Nameable {
 
         @Override
         protected Vec3d getSouthLocation() {
-            return VecHelper.voxelSpace(8, 8, 16.05);
+            return VecHelper.voxelSpace(8, 13, 16);
         }
 
         @Override
         protected boolean isSideActive(BlockState state, Direction direction) {
-            return TWO_SHAPE.get(state.get(CakeOvenBlock.FACING)).contains(direction.getOpposite());
+            return direction.getAxis().isHorizontal();
         }
 
     }

@@ -22,7 +22,7 @@ public final class CreateSDelight implements ModInitializer {
         CSDStatusEffects.SATIATION.hashCode();
 
         //我
-        CSDCakeIngredients.MILK.hashCode();
+        CSDCakeIngredients.CREAM_BLOCK.hashCode();
     }
 
     @Override

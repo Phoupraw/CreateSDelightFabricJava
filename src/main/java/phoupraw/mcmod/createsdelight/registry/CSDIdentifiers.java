@@ -91,7 +91,7 @@ public final class CSDIdentifiers {
       CHOCOLATE_ANTHEMY_CAKE = of("chocolate_anthemy_cake"),
       CAKE_BLUEPRINT = of("cake_blueprint"),
       PRINTED_CAKE = of("printed_cake"),
-      MILK = of("milk"),
+      CREAM_BLOCK = of("cream_block"),
       CAKE_INGREDIENT = of("cake_ingredient"),
       CHOCOLATE_BLOCK = of("chocolate_block"),
       HONEY = of("honey"),

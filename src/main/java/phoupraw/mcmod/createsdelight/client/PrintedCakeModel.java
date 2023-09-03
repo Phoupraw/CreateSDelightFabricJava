@@ -42,7 +42,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDItems;
 import java.util.*;
 import java.util.function.Supplier;
 
-public final class PrintedCakeModel implements BakedModel {
+public class PrintedCakeModel implements BakedModel {
 
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
     public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
