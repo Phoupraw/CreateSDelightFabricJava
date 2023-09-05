@@ -17,8 +17,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.*;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
@@ -29,7 +31,6 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
@@ -48,7 +49,21 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IC
       RailShape.NORTH_WEST, EnumSet.of(Direction.NORTH, Direction.WEST),
       RailShape.NORTH_EAST, EnumSet.of(Direction.NORTH, Direction.EAST)
     ));
-
+    public static final BiMap<RailShape, Map<Direction.Axis, Direction>> BI_DIRECTION_MAP = EnumHashBiMap.create(Map.of(
+      RailShape.SOUTH_EAST, Map.of(Direction.Axis.Z, Direction.SOUTH, Direction.Axis.X, Direction.EAST),
+      RailShape.SOUTH_WEST, Map.of(Direction.Axis.Z, Direction.SOUTH, Direction.Axis.X, Direction.WEST),
+      RailShape.NORTH_WEST, Map.of(Direction.Axis.Z, Direction.NORTH, Direction.Axis.X, Direction.WEST),
+      RailShape.NORTH_EAST, Map.of(Direction.Axis.Z, Direction.NORTH, Direction.Axis.X, Direction.EAST)
+    ));
+    static {
+        var BI_DIRECTION_MAP_ = BI_DIRECTION.entrySet().stream().collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> entry
+          .getValue()
+          .stream()
+          .collect(Collectors.groupingBy(Direction::getAxis))
+          .entrySet()
+          .stream()
+          .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry1 -> entry1.getValue().get(0)))));
+    }
     public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, RailShape.NORTH_EAST, RailShape.NORTH_WEST, RailShape.SOUTH_EAST, RailShape.SOUTH_WEST);
 
     public static RailShape rotate(RailShape facing, BlockRotation rotation) {
@@ -105,23 +120,28 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IC
     }
     public void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         if (!(world.getBlockEntity(pos) instanceof CakeOvenBlockEntity be)) return;
-        if (!world.isReceivingRedstonePower(pos)) {
-            if (be.powered) {
-                be.powered = false;
+        if (world.isReceivingRedstonePower(pos)) {
+            if (be.timeBegin == -1) {//be.powered = true;
+                //int offset = be.getBehaviour(ScrollValueBehaviour.TYPE).getValue() - 1;
+                //RailShape facing = state.get(FACING);
+                //Set<Direction> directions = BI_DIRECTION.get(facing);
+                //Box bound0 = new Box(pos.up(), pos.up(offset + 1));
+                //for (Direction direction : directions) {
+                //    bound0 = CakeOvenBlockEntity.expanded(bound0, direction, offset);
+                //}
+                //BlockBox bound = CakeOvenBlockEntity.toBlockBox(bound0);
+                //be.bound = bound;
+                //VoxelCake voxelCake = VoxelCake.of(world, bound);
+                //ItemStack itemStack = PrintedCakeItem.of(voxelCake);
+                //ItemScatterer.spawn(world, pos, DefaultedList.ofSize(1, itemStack));
+                be.timeBegin = world.getTime();
             }
+        } else {
+            //if (be.powered) {
+            //    be.powered = false;
+            //}
             return;
         }
-        if (be.powered) return;
-        be.powered = true;
-        int offset = be.getBehaviour(ScrollValueBehaviour.TYPE).getValue() - 1;
-        RailShape facing = state.get(FACING);
-        Set<Direction> directions = BI_DIRECTION.get(facing);
-        int dx = directions.contains(Direction.WEST) ? -offset : offset;
-        int dz = directions.contains(Direction.NORTH) ? -offset : offset;
-        BlockBox bound = BlockBox.create(pos.up(), pos.add(dx, offset + 1, dz));
-        VoxelCake voxelCake = VoxelCake.of(world, bound);
-        ItemStack itemStack = PrintedCakeItem.of(voxelCake);
-        ItemScatterer.spawn(world, pos, DefaultedList.ofSize(1, itemStack));
     }
 
     @SuppressWarnings("deprecation")
