@@ -44,11 +44,14 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             case SOUTH -> box.withMaxZ(box.maxZ + value);
         };
     }
+    public static BlockBox expanded(BlockBox box, Direction direction, double value) {
+        return toBlockBox(expanded(toBox(box), direction, value));
+    }
     public static <T> @UnmodifiableView Iterable<T> appended(Iterable<T> first, T second) {
         return Iterables.concat(first, List.of(second));
     }
     private @Nullable Text customName;
-    public long timeBegin;
+    public long timeBegin = -1;
 
     public CakeOvenBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.CAKE_OVEN, pos, state);
@@ -66,52 +69,52 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
     @Override
     public void tick() {
         super.tick();
-        if (timeBegin == -1) return;
+        if (!isWorking()) return;
         World world = getWorld();
         int elapsed = (int) (world.getTime() - timeBegin);
         int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
         Set<Direction> biDirection = CakeOvenBlock.BI_DIRECTION.get(getCachedState().get(CakeOvenBlock.FACING));
-        Box outline = new Box(getPos().up());
+        BlockBox bound = new BlockBox(getPos().up());
         Direction highlightFace = null;
-        if (elapsed < edgeLen) {
-            outline = new Box(getPos().up());
+        int elapsed1 = elapsed - 1;
+        if (elapsed1 <= 0) {
+
+        } else if (elapsed1 <= edgeLen) {
             for (Direction direction : appended(biDirection, Direction.UP)) {
-                outline = expanded(outline, direction, elapsed - 1);
+                bound = expanded(bound, direction, elapsed1 - 1);
             }
         } else {
-            int elapsed1 = (elapsed - edgeLen) / 5;
-            if (edgeLen - elapsed1 > 0) {
+            int elapsed2 = (elapsed1 - edgeLen) / 5;
+            int edgeLen1 = edgeLen - 1;
+            if (edgeLen1 - elapsed2 >= 0) {
                 highlightFace = Direction.UP;
-                outline = new Box(getPos().up());
                 for (Direction direction : biDirection) {
-                    outline = expanded(outline, direction, elapsed - 1);
+                    bound = expanded(bound, direction, edgeLen1);
                 }
-                outline = expanded(outline, Direction.UP, edgeLen - elapsed1);
-            } else if (edgeLen * 2 - elapsed1 > 0) {
+                bound = expanded(bound, Direction.UP, edgeLen1 - elapsed2);
+            } else if (edgeLen1 * 2 - elapsed2 >= 0) {
                 for (Direction direction : biDirection) {
                     if (direction.getAxis() == Direction.Axis.X) {
-                        outline = expanded(outline, direction, edgeLen * 2 - elapsed1);
+                        bound = expanded(bound, direction, edgeLen1 * 2 - elapsed2);
                         highlightFace = direction;
                     } else {
-                        outline = expanded(outline, direction, edgeLen);
+                        bound = expanded(bound, direction, edgeLen1);
                     }
                 }
-            } else if (edgeLen * 3 - elapsed1 > 0) {
+            } else if (edgeLen1 * 3 - elapsed2 >= 0) {
                 for (Direction direction : biDirection) {
                     if (direction.getAxis() == Direction.Axis.Z) {
-                        outline = expanded(outline, direction, edgeLen * 3 - elapsed1);
+                        bound = expanded(bound, direction, edgeLen1 * 3 - elapsed2);
                         highlightFace = direction;
                     }
                 }
-            } else if (edgeLen * 3 - elapsed1 > 1) {
-                //停一停，维持一会儿只有一格大小的框
             } else {
                 timeBegin = -1;
                 return;
             }
         }
         CreateClient.OUTLINER
-          .chaseAABB(this, outline)
+          .chaseAABB(this, Box.from(bound))
           .withFaceTextures(AllSpecialTextures.CHECKERED, AllSpecialTextures.HIGHLIGHT_CHECKERED)
           .colored(0xffaa00)
           .lineWidth(1 / 16f)
@@ -121,8 +124,8 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         ScrollValueBehaviour scroll = new ScrollValueBehaviour(Text.of("蛋糕边长"), this, new InWorldSlot())
-          .between(1, 64)/*
-          .withCallback(integer -> height=integer)*/;
+          .between(1, 64)
+          .onlyActiveWhen(this::isWorking);
         behaviours.add(scroll);
         scroll.setValue(1);
     }
@@ -158,6 +161,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
     public void setCustomName(@Nullable Text customName) {
         this.customName = customName;
     }
+    public boolean isWorking() {return timeBegin != -1;}
 
     public static class InWorldSlot extends ValueBoxTransform.Sided {
 
