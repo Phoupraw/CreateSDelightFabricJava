@@ -4,7 +4,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumHashBiMap;
 import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,17 +21,13 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
-import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.EnumSet;
 import java.util.Map;
@@ -98,49 +93,12 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IC
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
         neighborUpdate3(state, world, pos, sourceBlock, sourcePos, notify);
     }
-    public void neighborUpdate2(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        if (!(world.getBlockEntity(pos) instanceof CakeOvenBlockEntity be)) return;
-        if (!world.isReceivingRedstonePower(pos)) {
-            if (be.powered) {
-                be.powered = false;
-            }
-            return;
-        }
-        if (be.powered) return;
-        be.powered = true;
-        int len = be.getBehaviour(ScrollValueBehaviour.TYPE).getValue();
-        VoxelCake cake = VoxelCake.of(world, BlockBox.create(pos.add(1, 1, 1), pos.add(len, len, len)));
-        if (cake.getContent().isEmpty()) return;
-        BlockPos pos1 = pos.up();
-        if (world.setBlockState(pos1, CSDBlocks.PRINTED_CAKE.getDefaultState())) {
-            PrintedCakeBlockEntity blockEntity = (PrintedCakeBlockEntity) world.getBlockEntity(pos1);
-            //noinspection ConstantConditions
-            blockEntity.setVoxelCake(cake);
-        }
-    }
     public void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         if (!(world.getBlockEntity(pos) instanceof CakeOvenBlockEntity be)) return;
         if (world.isReceivingRedstonePower(pos)) {
-            if (be.timeBegin == -1) {//be.powered = true;
-                //int offset = be.getBehaviour(ScrollValueBehaviour.TYPE).getValue() - 1;
-                //RailShape facing = state.get(FACING);
-                //Set<Direction> directions = BI_DIRECTION.get(facing);
-                //Box bound0 = new Box(pos.up(), pos.up(offset + 1));
-                //for (Direction direction : directions) {
-                //    bound0 = CakeOvenBlockEntity.expanded(bound0, direction, offset);
-                //}
-                //BlockBox bound = CakeOvenBlockEntity.toBlockBox(bound0);
-                //be.bound = bound;
-                //VoxelCake voxelCake = VoxelCake.of(world, bound);
-                //ItemStack itemStack = PrintedCakeItem.of(voxelCake);
-                //ItemScatterer.spawn(world, pos, DefaultedList.ofSize(1, itemStack));
+            if (be.timeBegin == -1) {
                 be.timeBegin = world.getTime();
             }
-        } else {
-            //if (be.powered) {
-            //    be.powered = false;
-            //}
-            return;
         }
     }
 

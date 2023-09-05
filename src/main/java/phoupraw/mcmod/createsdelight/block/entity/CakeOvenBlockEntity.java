@@ -28,20 +28,6 @@ import java.util.Set;
 
 //TODO 像结构方块那样，用两个名称相同的方块作为长方体的体对角线端点，以此只要两个方块就能确定一个长方体。内部可储存燃料，但是不会自动燃烧，而是在接收到红石信号后开始燃烧。有GUI，用于编辑名称，名称在挖掘后会保留，放置后会保留。可以被扳手潜行右键拆卸，会掉落内部的燃料。燃料的消耗是瞬间的，概率的，一次燃烧开始时，蛋糕就已经烘焙完毕，燃料也消耗完毕，只是动画效果持续。手持扳手右键任一角点时，会出现一个类似于蓝图的框（但是是黄色的）来指示烘焙范围，如果同名角点数量不为2，则不会显示框，而是会用红色框高亮自身，并在消息栏报告错误。可以用剪贴板复制粘贴名字。动画效果：两个角点向中心喷撒火焰粒子和蒸汽粒子，粒子数量与持续时间与框的大小成正相关。
 public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable {
-    //public static Box expand(Box box, Direction direction, double value) {
-    //    double
-    //      minX = box.minX, minY = box.minY, minZ = box.minZ,
-    //      maxX = box.maxX, maxY = box.maxY, maxZ = box.maxZ;
-    //    switch (direction) {
-    //        case WEST -> minX -= value;
-    //        case EAST -> maxX += value;
-    //        case DOWN -> minY -= value;
-    //        case UP -> maxY += value;
-    //        case NORTH -> minZ -= value;
-    //        case SOUTH -> maxZ += value;
-    //    }
-    //    return new Box(minX, minY, minZ, maxX, maxY, maxZ);
-    //}
     public static BlockBox toBlockBox(Box box) {
         return new BlockBox((int) box.minX, (int) box.minY, (int) box.minZ, (int) box.maxX, (int) box.maxY, (int) box.maxZ);
     }
@@ -61,9 +47,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
     public static <T> @UnmodifiableView Iterable<T> appended(Iterable<T> first, T second) {
         return Iterables.concat(first, List.of(second));
     }
-    public boolean powered;
     private @Nullable Text customName;
-    //public BlockBox bound;
     public long timeBegin;
 
     public CakeOvenBlockEntity(BlockPos pos, BlockState state) {
