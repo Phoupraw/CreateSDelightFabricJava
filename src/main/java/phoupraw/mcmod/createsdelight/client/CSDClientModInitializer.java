@@ -29,8 +29,8 @@ public final class CSDClientModInitializer implements ClientModInitializer {
     );
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        CSDInstancings.IN_PROD_CAKE.hashCode();
-        CSDPartialModels.IN_RPOD_CAKE.hashCode();
+        //CSDInstancings.IN_PROD_CAKE.hashCode();
+        //CSDPartialModels.IN_RPOD_CAKE.hashCode();
     }
 
     @SuppressWarnings("deprecation")

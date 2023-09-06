@@ -38,7 +38,7 @@ public class InProdCakeInstance extends BlockEntityInstance<InProdCakeBlockEntit
         if (direction == null && false) {
             int edgeLen = blockEntity.edgeLen;
             Vector3f center = Vec3d.of(relative).toVector3f().mul(-1f / edgeLen);
-            self.translate(center).scale(1 + (edgeLen - 1) * (blockEntity.getProgress() - InProdCakeBlockEntity.STEP * AnimationTickHolder.getPartialTicks()));
+            self.translate(center).scale(1 + (edgeLen - 1) * (blockEntity.getProgress() - 1f / InProdCakeBlockEntity.SHRINKING_STEPS * AnimationTickHolder.getPartialTicks()));
         } else {
             float offset = blockEntity.getProgress();
         }

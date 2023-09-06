@@ -31,7 +31,7 @@ public class InProdCakeBlock extends Block implements IBE<InProdCakeBlockEntity>
     @SuppressWarnings("deprecation")
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+        return BlockRenderType.INVISIBLE;
     }
     @SuppressWarnings("deprecation")
     @Override
