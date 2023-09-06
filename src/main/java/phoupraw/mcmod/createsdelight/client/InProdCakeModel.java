@@ -91,7 +91,7 @@ public class InProdCakeModel implements BakedModel {
                 for (int i = 0; i < 4; i++) {
                     quad.copyPos(i, pos1);
                     pos1.add(center);
-                    pos1.mul(1 + (edgeLen - 1) * (inProd.getProgress() - InProdCakeBlockEntity.SHRINKING_STEPS * AnimationTickHolder.getPartialTicks()));
+                    pos1.mul(1 + (edgeLen - 1) * (inProd.getProgress() - InProdCakeBlockEntity.SHRINKING_TICKS * AnimationTickHolder.getPartialTicks()));
                     quad.pos(i, pos1);
                 }
                 return true;

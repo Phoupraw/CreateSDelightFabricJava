@@ -17,8 +17,8 @@ import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public class InProdCakeBlockEntity extends SyncedBlockEntity {
-    public static final int SHRINKING_STEPS = 5;
-    public static final int MOVING_STEPS = 5;
+    public static final int SHRINKING_TICKS = 20;
+    public static final int MOVING_TICKS = 20;
     public CakeIngredient cakeIngredient;
     public BlockPos origin;
     public @Nullable BlockPos relative;
@@ -30,7 +30,7 @@ public class InProdCakeBlockEntity extends SyncedBlockEntity {
     @Deprecated
     public float preProgress;
     public @Nullable Direction direction;
-    public long timeBegin;
+    public volatile long timeBegin = -1;
     public InProdCakeBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.IN_PROD_CAKE, pos, state);}
     public InProdCakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -50,6 +50,11 @@ public class InProdCakeBlockEntity extends SyncedBlockEntity {
             direction = Direction.byId(nbt.getByte("direction"));
         } else {
             direction = null;
+        }
+        if (nbt.contains("timeBegin", NbtElement.LONG_TYPE)) {
+            timeBegin = nbt.getLong("timeBegin");
+        } else {
+            timeBegin = -1;
         }
     }
     @Override
@@ -74,6 +79,8 @@ public class InProdCakeBlockEntity extends SyncedBlockEntity {
         }
         nbt.putByte("edgeLen", (byte) edgeLen);
         nbt.putFloat("progress", progress);
+        if (timeBegin != -1)
+            nbt.putLong("timeBegin", timeBegin);
     }
     public @Nullable VoxelCake getVoxelCake() {
         return voxelCake;

@@ -30,13 +30,15 @@ public class InProdCakeRenderer extends SafeBlockEntityRenderer<InProdCakeBlockE
         int edgeLen = be.edgeLen;
         BlockPos blockPos = be.getPos();
         ms.push();
-        float progress = MathHelper.lerp(partialTicks, be.preProgress, be.getProgress());
+        float progress0 = (be.getWorld().getTime() - be.timeBegin + partialTicks);
         if (direction == Direction.UP) {
+            float progress = MathHelper.clamp(progress0 / InProdCakeBlockEntity.SHRINKING_TICKS, 0, 1);
             var trans = Vec3d.of(relative).multiply(progress - 1);
             ms.translate(trans.x, trans.y, trans.z);
             float scale = 1 + (edgeLen - 1) * (1 - progress);
             ms.scale(scale, scale, scale);
         } else if (direction != null) {
+            float progress = MathHelper.clamp(progress0 / InProdCakeBlockEntity.MOVING_TICKS, 0, 1);
             var trans = direction.getUnitVector().mul(progress);
             ms.translate(trans.x, trans.y, trans.z);
         }

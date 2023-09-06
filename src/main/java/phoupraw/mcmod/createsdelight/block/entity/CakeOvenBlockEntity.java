@@ -1,6 +1,8 @@
 package phoupraw.mcmod.createsdelight.block.entity;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.simibubi.create.AllSpecialTextures;
 import com.simibubi.create.CreateClient;
@@ -75,52 +77,61 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
         super.tick();
         if (isNotWorking()) return;
         World world = getWorld();
-        @SuppressWarnings("ConstantConditions") int elapsed = (int) (world.getTime() - timeBegin);
+        int elapsed = (int) (world.getTime() - getTimeBegin());
         int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
         Set<Direction> biDirection = CakeOvenBlock.BI_DIRECTION.get(getCachedState().get(CakeOvenBlock.FACING));
         BlockPos origin = getPos().up();
         BlockBox bound = new BlockBox(origin);
+        Box outline = Box.from(bound);
         Direction highlightFace = null;
         int elapsed1 = elapsed - 1;
         if (elapsed1 <= 0) {
 
-        } else if (elapsed1 <= edgeLen) {
+        } else if (edgeLen - (elapsed1 - InProdCakeBlockEntity.SHRINKING_TICKS) >= 0) {
             for (Direction direction : appended(biDirection, Direction.UP)) {
-                bound = expanded(bound, direction, elapsed1 - 1);
+                bound = expanded(bound, direction, Math.min(edgeLen, elapsed1) - 1);
             }
             for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
                 for (int y = bound.getMinY(); y <= bound.getMaxY(); y++) {
                     for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
                         BlockPos pos1 = new BlockPos(x, y, z);
+                        if (world.getBlockState(pos1).isOf(CSDBlocks.IN_PROD_CAKE)) {
+                            InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                            if (inProd.timeBegin == -1) {
+                                inProd.timeBegin = world.getTime();
+                            } else if (world.getTime() - inProd.timeBegin >= InProdCakeBlockEntity.SHRINKING_TICKS) {
+                                inProd.direction = null;
+                            }
+                            continue;
+                        }
                         CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos1, null);
                         if (cakeIngredient == null) {
                             continue;
                         }
-                        boolean toInit = world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
-                        if (!(world.getBlockEntity(pos1) instanceof InProdCakeBlockEntity inProd)) return;
-                        if (toInit) {
-                            Vector3i pos20 = new Vector3i(
+                        if (world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState())) {
+                            InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                            Vector3i relative0 = new Vector3i(
                               Math.abs(pos1.getX() - origin.getX()),
                               Math.abs(pos1.getY() - origin.getY()),
                               Math.abs(pos1.getZ() - origin.getZ()));
                             if (biDirection.contains(Direction.WEST)) {
-                                pos20.x = edgeLen - 1 - pos20.x;
+                                relative0.x = edgeLen - 1 - relative0.x;
                             }
                             if (biDirection.contains(Direction.NORTH)) {
-                                pos20.z = edgeLen - 1 - pos20.z;
+                                relative0.z = edgeLen - 1 - relative0.z;
                             }
-                            BlockPos pos2 = new BlockPos(pos20.x, pos20.y, pos20.z);
-                            inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, pos2))));
+                            BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
+                            inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
                             inProd.edgeLen = edgeLen;
-                            inProd.relative = pos2;
-                        } else {
-                            inProd.setProgress(inProd.getProgress() + InProdCakeBlockEntity.STEP);
+                            inProd.relative = relative;
+                            inProd.direction = Direction.UP;
+                            inProd.timeBegin = world.getTime();
                         }
                     }
                 }
             }
         } else {
-            int elapsed2 = (elapsed1 - edgeLen) / 5;
+            int elapsed2 = ((elapsed1 - InProdCakeBlockEntity.SHRINKING_TICKS) - edgeLen) / (InProdCakeBlockEntity.MOVING_TICKS);
             int edgeLen1 = edgeLen - 1;
             if (edgeLen1 - elapsed2 >= 0) {
                 highlightFace = Direction.UP;
@@ -128,7 +139,39 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                     bound = expanded(bound, direction, edgeLen1);
                 }
                 bound = expanded(bound, Direction.UP, edgeLen1 - elapsed2);
-            } else if (edgeLen1 * 2 - elapsed2 >= 0) {
+                int y = bound.getMaxY();
+                for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
+                    for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
+                        BlockPos pos1 = new BlockPos(x, y, z);
+                        BlockPos pos2 = pos1.up();
+                        if (world.getBlockState(pos2).isOf(CSDBlocks.IN_PROD_CAKE)) {
+                            world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
+                            InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                            InProdCakeBlockEntity inProd2 = (InProdCakeBlockEntity) world.getBlockEntity(pos2);
+                            //inProd1.setProgress(0);
+                            if (inProd2.getVoxelCake() instanceof BlocksVoxelCake voxelCake2) {
+                                Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.content0);
+                                if (inProd1.getVoxelCake() instanceof BlocksVoxelCake voxelCake1) {
+                                    map.putAll(voxelCake1.content0);
+                                }
+                                inProd1.setVoxelCake(new BlocksVoxelCake(edgeLen, map));
+                            }
+                            world.removeBlock(pos2, false);
+                            inProd1.direction = null;
+                            inProd1.timeBegin = -1;
+                        }
+                        if (world.getBlockState(pos1).isOf(CSDBlocks.IN_PROD_CAKE)) {
+                            InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                            if (y == bound.getMinY()) {
+                                inProd1.direction = null;
+                            } else if (inProd1.direction == null) {
+                                inProd1.direction = Direction.DOWN;
+                                inProd1.timeBegin = world.getTime();
+                            }
+                        }
+                    }
+                }
+            } /*else if (edgeLen1 * 2 - elapsed2 >= 0) {
                 for (Direction direction : biDirection) {
                     if (direction.getAxis() == Direction.Axis.X) {
                         bound = expanded(bound, direction, edgeLen1 * 2 - elapsed2);
@@ -144,30 +187,30 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                         highlightFace = direction;
                     }
                 }
-            } else {
-                timeBegin = -1;
+            }*/ else {
+                setTimeBegin(-1);
                 return;
             }
         }
-        CreateClient.OUTLINER
-          .chaseAABB(this, Box.from(bound))
-          .withFaceTextures(AllSpecialTextures.CHECKERED, AllSpecialTextures.HIGHLIGHT_CHECKERED)
-          .colored(0xffaa00)
-          .lineWidth(1 / 16f)
-          .highlightFace(highlightFace);
-        CreateClient.OUTLINER.keep(this);
+        if (world.isClient()) {
+            outline = Box.from(bound);
+            CreateClient.OUTLINER
+              .chaseAABB(this, outline)
+              .withFaceTextures(AllSpecialTextures.CHECKERED, AllSpecialTextures.HIGHLIGHT_CHECKERED)
+              .colored(0xffaa00)
+              .lineWidth(1 / 16f)
+              .highlightFace(highlightFace);
+            CreateClient.OUTLINER.keep(this);
+        }
     }
-
     public static <T> @UnmodifiableView Iterable<T> appended(Iterable<T> first, T second) {
         return Iterables.concat(first, List.of(second));
     }
     private @Nullable Text customName;
-    public long timeBegin = -1;
-
+    protected long timeBegin = -1;
     public CakeOvenBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.CAKE_OVEN, pos, state);
     }
-
     public CakeOvenBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -178,7 +221,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             tag.putString("CustomName", Text.Serializer.toJson(getCustomName()));
         }
         if (!isNotWorking()) {
-            tag.putLong("timeBegin", timeBegin);
+            tag.putLong("timeBegin", getTimeBegin());
         }
     }
     @Override
@@ -190,9 +233,9 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             setCustomName(null);
         }
         if (tag.contains("timeBegin", NbtElement.LONG_TYPE)) {
-            timeBegin = tag.getLong("timeBegin");
+            setTimeBegin(tag.getLong("timeBegin"));
         } else {
-            timeBegin = -1;
+            setTimeBegin(-1);
         }
     }
     @Override
@@ -203,39 +246,38 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
         behaviours.add(scroll);
         scroll.setValue(1);
     }
-    public boolean isNotWorking() {return timeBegin == -1;}
-
+    public boolean isNotWorking() {return getTimeBegin() == -1;}
     @Override
     public Text getName() {
         return Objects.requireNonNullElse(getCustomName(), getCachedState().getBlock().getName());
     }
-
     @Nullable
     @Override
     public Text getCustomName() {
         return customName;
     }
-
     public void setCustomName(@Nullable Text customName) {
         this.customName = customName;
+    }
+    public long getTimeBegin() {
+        return timeBegin;
+    }
+    public void setTimeBegin(long timeBegin) {
+        this.timeBegin = timeBegin;
+        sendData();
     }
     @FunctionalInterface
     public interface TriIntPredicate {
         boolean test(int i, int j, int k);
     }
-
     public static class InWorldSlot extends ValueBoxTransform.Sided {
-
         @Override
         protected Vec3d getSouthLocation() {
             return VecHelper.voxelSpace(8, 13, 15.5);
         }
-
         @Override
         protected boolean isSideActive(BlockState state, Direction direction) {
             return direction.getAxis().isHorizontal();
         }
-
     }
-
 }

@@ -99,6 +99,10 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IC
             if (be.isNotWorking()) {
                 be.setTimeBegin(world.getTime());
             }
+        } else {
+            if (!be.isNotWorking()) {
+                be.setTimeBegin(-1);
+            }
         }
     }
 
