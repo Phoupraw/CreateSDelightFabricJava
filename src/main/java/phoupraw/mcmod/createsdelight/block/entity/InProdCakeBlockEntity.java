@@ -87,7 +87,7 @@ public class InProdCakeBlockEntity extends SyncedBlockEntity {
     }
     public void setVoxelCake(@Nullable VoxelCake voxelCake) {
         this.voxelCake = voxelCake;
-        sendData();
+        //sendData();
     }
     public float getProgress() {
         return progress;

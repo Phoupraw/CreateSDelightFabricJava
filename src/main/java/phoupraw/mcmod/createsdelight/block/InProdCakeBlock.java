@@ -50,7 +50,10 @@ public class InProdCakeBlock extends Block implements IBE<InProdCakeBlockEntity>
     @SuppressWarnings("deprecation")
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        //InProdBlockEntity ready = (InProdBlockEntity) world.getBlockEntity(pos);
+        InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos);
+        if (inProd.getVoxelCake() != null && inProd.getVoxelCake().getContent().isEmpty()) {
+            world.removeBlock(pos, false);
+        }
         //for (Direction direction : Direction.values()) {
         //    BlockPos pos1 = pos.offset(direction);
         //    if (world.getBlockEntity(pos1) instanceof InProdBlockEntity ready1 && ready.oven == ready1.oven) {

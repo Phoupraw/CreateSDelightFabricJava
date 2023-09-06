@@ -82,118 +82,144 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
         Set<Direction> biDirection = CakeOvenBlock.BI_DIRECTION.get(getCachedState().get(CakeOvenBlock.FACING));
         BlockPos origin = getPos().up();
         BlockBox bound = new BlockBox(origin);
-        Box outline = Box.from(bound);
+        if (elapsed <= edgeLen) {
+            for (Direction direction : appended(biDirection, Direction.UP)) {
+                bound = expanded(bound, direction, Math.min(edgeLen, elapsed) - 1);
+            }
+        }
+    }
+    /**
+     * 总是抖动，写不出想要的效果，还掉帧，唉，不写了。
+     */
+    public void tick2() {
+        super.tick();
+        if (isNotWorking()) return;
+        World world = getWorld();
+        int elapsed = (int) (world.getTime() - getTimeBegin());
+        int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
+        Set<Direction> biDirection = CakeOvenBlock.BI_DIRECTION.get(getCachedState().get(CakeOvenBlock.FACING));
+        BlockPos origin = getPos().up();
+        BlockBox bound = new BlockBox(origin);
+        Box outline;
         Direction highlightFace = null;
         int elapsed1 = elapsed - 1;
         if (elapsed1 <= 0) {
-
-        } else if (edgeLen - (elapsed1 - InProdCakeBlockEntity.SHRINKING_TICKS) >= 0) {
-            for (Direction direction : appended(biDirection, Direction.UP)) {
-                bound = expanded(bound, direction, Math.min(edgeLen, elapsed1) - 1);
-            }
-            for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
-                for (int y = bound.getMinY(); y <= bound.getMaxY(); y++) {
-                    for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
-                        BlockPos pos1 = new BlockPos(x, y, z);
-                        if (world.getBlockState(pos1).isOf(CSDBlocks.IN_PROD_CAKE)) {
-                            InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
-                            if (inProd.timeBegin == -1) {
-                                inProd.timeBegin = world.getTime();
-                            } else if (world.getTime() - inProd.timeBegin >= InProdCakeBlockEntity.SHRINKING_TICKS) {
-                                inProd.direction = null;
-                            }
-                            continue;
-                        }
-                        CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos1, null);
-                        if (cakeIngredient == null) {
-                            continue;
-                        }
-                        if (world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState())) {
-                            InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
-                            Vector3i relative0 = new Vector3i(
-                              Math.abs(pos1.getX() - origin.getX()),
-                              Math.abs(pos1.getY() - origin.getY()),
-                              Math.abs(pos1.getZ() - origin.getZ()));
-                            if (biDirection.contains(Direction.WEST)) {
-                                relative0.x = edgeLen - 1 - relative0.x;
-                            }
-                            if (biDirection.contains(Direction.NORTH)) {
-                                relative0.z = edgeLen - 1 - relative0.z;
-                            }
-                            BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
-                            inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
-                            inProd.edgeLen = edgeLen;
-                            inProd.relative = relative;
-                            inProd.direction = Direction.UP;
-                            inProd.timeBegin = world.getTime();
-                        }
-                    }
-                }
-            }
+            outline = Box.from(bound);
         } else {
-            int elapsed2 = ((elapsed1 - InProdCakeBlockEntity.SHRINKING_TICKS) - edgeLen) / (InProdCakeBlockEntity.MOVING_TICKS);
-            int edgeLen1 = edgeLen - 1;
-            if (edgeLen1 - elapsed2 >= 0) {
-                highlightFace = Direction.UP;
-                for (Direction direction : biDirection) {
-                    bound = expanded(bound, direction, edgeLen1);
+            int shrinkingTicks = (int) (InProdCakeBlockEntity.SHRINKING_TICKS * Math.abs(getSpeed()) / 32);
+            if (edgeLen - (elapsed1 - shrinkingTicks) >= 0) {
+                for (Direction direction : appended(biDirection, Direction.UP)) {
+                    bound = expanded(bound, direction, Math.min(edgeLen, elapsed1) - 1);
                 }
-                bound = expanded(bound, Direction.UP, edgeLen1 - elapsed2);
-                int y = bound.getMaxY();
+                outline = Box.from(bound);
                 for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
-                    for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
-                        BlockPos pos1 = new BlockPos(x, y, z);
-                        BlockPos pos2 = pos1.up();
-                        if (world.getBlockState(pos2).isOf(CSDBlocks.IN_PROD_CAKE)) {
-                            world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
-                            InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
-                            InProdCakeBlockEntity inProd2 = (InProdCakeBlockEntity) world.getBlockEntity(pos2);
-                            //inProd1.setProgress(0);
-                            if (inProd2.getVoxelCake() instanceof BlocksVoxelCake voxelCake2) {
-                                Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.content0);
-                                if (inProd1.getVoxelCake() instanceof BlocksVoxelCake voxelCake1) {
-                                    map.putAll(voxelCake1.content0);
+                    for (int y = bound.getMinY(); y <= bound.getMaxY(); y++) {
+                        for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
+                            BlockPos pos1 = new BlockPos(x, y, z);
+                            if (world.getBlockState(pos1).isOf(CSDBlocks.IN_PROD_CAKE)) {
+                                InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                                if (inProd.timeBegin == -1) {
+                                    inProd.timeBegin = world.getTime();
+                                } else if (world.getTime() - inProd.timeBegin >= shrinkingTicks) {
+                                    inProd.direction = null;
                                 }
-                                inProd1.setVoxelCake(new BlocksVoxelCake(edgeLen, map));
+                                continue;
                             }
-                            world.removeBlock(pos2, false);
-                            inProd1.direction = null;
-                            inProd1.timeBegin = -1;
-                        }
-                        if (world.getBlockState(pos1).isOf(CSDBlocks.IN_PROD_CAKE)) {
-                            InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
-                            if (y == bound.getMinY()) {
-                                inProd1.direction = null;
-                            } else if (inProd1.direction == null) {
-                                inProd1.direction = Direction.DOWN;
-                                inProd1.timeBegin = world.getTime();
+                            CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos1, null);
+                            if (cakeIngredient == null) {
+                                continue;
+                            }
+                            if (world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState())) {
+                                InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                                Vector3i relative0 = new Vector3i(
+                                  Math.abs(pos1.getX() - origin.getX()),
+                                  Math.abs(pos1.getY() - origin.getY()),
+                                  Math.abs(pos1.getZ() - origin.getZ()));
+                                if (biDirection.contains(Direction.WEST)) {
+                                    relative0.x = edgeLen - 1 - relative0.x;
+                                }
+                                if (biDirection.contains(Direction.NORTH)) {
+                                    relative0.z = edgeLen - 1 - relative0.z;
+                                }
+                                BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
+                                inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
+                                inProd.edgeLen = edgeLen;
+                                inProd.relative = relative;
+                                inProd.direction = Direction.UP;
+                                inProd.timeBegin = world.getTime();
                             }
                         }
                     }
                 }
-            } /*else if (edgeLen1 * 2 - elapsed2 >= 0) {
-                for (Direction direction : biDirection) {
-                    if (direction.getAxis() == Direction.Axis.X) {
-                        bound = expanded(bound, direction, edgeLen1 * 2 - elapsed2);
-                        highlightFace = direction;
-                    } else {
+            } else {
+                double elapsed2d = ((double) elapsed1 - shrinkingTicks - edgeLen) / InProdCakeBlockEntity.MOVING_TICKS;
+                int elapsed2 = (int) elapsed2d;
+                int edgeLen1 = edgeLen - 1;
+                if (edgeLen1 - elapsed2 >= 0) {
+                    highlightFace = Direction.UP;
+                    for (Direction direction : biDirection) {
                         bound = expanded(bound, direction, edgeLen1);
                     }
-                }
-            } else if (edgeLen1 * 3 - elapsed2 >= 0) {
-                for (Direction direction : biDirection) {
-                    if (direction.getAxis() == Direction.Axis.Z) {
-                        bound = expanded(bound, direction, edgeLen1 * 3 - elapsed2);
-                        highlightFace = direction;
+                    outline = expanded(Box.from(bound), Direction.UP, Math.max(0, edgeLen1 - elapsed2d));
+                    bound = expanded(bound, Direction.UP, edgeLen1 - elapsed2);
+                    int y = bound.getMaxY();
+                    for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
+                        for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
+                            BlockPos pos1 = new BlockPos(x, y, z);
+                            BlockPos pos2 = pos1.up();
+                            if (world.getBlockState(pos2).isOf(CSDBlocks.IN_PROD_CAKE)) {
+                                world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
+                                InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                                InProdCakeBlockEntity inProd2 = (InProdCakeBlockEntity) world.getBlockEntity(pos2);
+                                //inProd1.setProgress(0);
+                                if (inProd2.getVoxelCake() instanceof BlocksVoxelCake voxelCake2) {
+                                    Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.content0);
+                                    if (inProd1.getVoxelCake() instanceof BlocksVoxelCake voxelCake1) {
+                                        map.putAll(voxelCake1.content0);
+                                    }
+                                    inProd1.setVoxelCake(new BlocksVoxelCake(edgeLen, map));
+                                    inProd1.sendData();
+                                }
+                                //inProd2.setVoxelCake(VoxelCake.empty());
+                                //world.scheduleBlockTick(pos2, CSDBlocks.IN_PROD_CAKE, 2);
+                                world.removeBlock(pos2, false);
+                                inProd1.direction = null;
+                                inProd1.timeBegin = -1;
+                            }
+                            if (world.getBlockState(pos1).isOf(CSDBlocks.IN_PROD_CAKE)) {
+                                InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
+                                if (y == bound.getMinY()) {
+                                    inProd1.direction = null;
+                                } else if (inProd1.direction == null || Math.abs(elapsed2d - elapsed2) < 0.0001) {
+                                    inProd1.direction = Direction.DOWN;
+                                    inProd1.timeBegin = world.getTime();
+                                }
+                            }
+                        }
                     }
+                } /*else if (edgeLen1 * 2 - elapsed2 >= 0) {
+                    for (Direction direction : biDirection) {
+                        if (direction.getAxis() == Direction.Axis.X) {
+                            bound = expanded(bound, direction, edgeLen1 * 2 - elapsed2);
+                            highlightFace = direction;
+                        } else {
+                            bound = expanded(bound, direction, edgeLen1);
+                        }
+                    }
+                } else if (edgeLen1 * 3 - elapsed2 >= 0) {
+                    for (Direction direction : biDirection) {
+                        if (direction.getAxis() == Direction.Axis.Z) {
+                            bound = expanded(bound, direction, edgeLen1 * 3 - elapsed2);
+                            highlightFace = direction;
+                        }
+                    }
+                }*/ else {
+                    setTimeBegin(-1);
+                    return;
                 }
-            }*/ else {
-                setTimeBegin(-1);
-                return;
             }
         }
         if (world.isClient()) {
-            outline = Box.from(bound);
             CreateClient.OUTLINER
               .chaseAABB(this, outline)
               .withFaceTextures(AllSpecialTextures.CHECKERED, AllSpecialTextures.HIGHLIGHT_CHECKERED)

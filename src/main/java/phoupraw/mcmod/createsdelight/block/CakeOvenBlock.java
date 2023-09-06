@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.block;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumHashBiMap;
+import com.simibubi.create.content.kinetics.base.KineticBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -34,8 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, ICogWheel {
-
+public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEntity>, ICogWheel {
     public static final BiMap<RailShape, Set<Direction>> BI_DIRECTION = EnumHashBiMap.create(Map.of(
       RailShape.EAST_WEST, EnumSet.of(Direction.EAST, Direction.WEST),
       RailShape.NORTH_SOUTH, EnumSet.of(Direction.NORTH, Direction.SOUTH),
@@ -68,21 +68,21 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IC
     public static RailShape mirror(RailShape facing, BlockMirror mirror) {
         return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(mirror::apply).collect(Collectors.toSet()));
     }
-
     public CakeOvenBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, RailShape.NORTH_WEST));
     }
-
     public CakeOvenBlock() {
         this(FabricBlockSettings.copyOf(Blocks.COPPER_BLOCK));
     }
-
+    @Override
+    public SpeedLevel getMinimumRequiredSpeedLevel() {
+        return SpeedLevel.FAST;
+    }
     @Override
     public Class<CakeOvenBlockEntity> getBlockEntityClass() {
         return CakeOvenBlockEntity.class;
     }
-
     @Override
     public BlockEntityType<? extends CakeOvenBlockEntity> getBlockEntityType() {
         return CSDBlockEntityTypes.CAKE_OVEN;
