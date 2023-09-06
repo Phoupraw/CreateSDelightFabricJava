@@ -15,7 +15,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.InProdBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.InProdCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.client.CSDClientModInitializer;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
@@ -53,24 +53,20 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 public final class CSDBlockEntityTypes {
     public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE);
     public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN);
-    public static final BlockEntityType<InProdBlockEntity> IN_PROD_CAKE = of(InProdBlockEntity::new, CSDBlocks.READY_CAKE);
+    public static final BlockEntityType<InProdCakeBlockEntity> IN_PROD_CAKE = of(InProdCakeBlockEntity::new, CSDBlocks.IN_PROD_CAKE);
     static {
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.IN_PROD_CAKE, IN_PROD_CAKE);
     }
-
     @Contract("_, _ -> param2")
     public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, blockEntityType);
     }
-
     @Contract(value = "_,_->new", pure = true)
     public static <T extends BlockEntity> BlockEntityType<T> of(Factory<T> factory, Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory, blocks).build();
     }
-
     private CSDBlockEntityTypes() {
     }
-
 }

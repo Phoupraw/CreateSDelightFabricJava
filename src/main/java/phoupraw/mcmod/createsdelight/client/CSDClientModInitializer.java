@@ -27,10 +27,10 @@ public final class CSDClientModInitializer implements ClientModInitializer {
       PrintedCakeModel.BLOCK_ID, new ConstUnbakedModel(new PrintedCakeModel()),
       PrintedCakeModel.ITEM_ID, new ConstUnbakedModel(new PrintedCakeModel())
     );
-
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        //CDInstancings.SPRINKLER.hashCode();
-        //CDPartialModels.SPRINKLER_LID.hashCode();
+        CSDInstancings.IN_PROD_CAKE.hashCode();
+        CSDPartialModels.IN_RPOD_CAKE.hashCode();
     }
 
     @SuppressWarnings("deprecation")
@@ -49,7 +49,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
               PrintedCakeModel.BLOCK_CACHE.clear();
               PrintedCakeModel.ITEM_CACHE.clear();
               PrintedCakeModel.SPRITE_CACHE.clear();
-              InProdCakeModel.CACHE.clear();
+              InProdCakeModel.CACHE.invalidateAll();
           }, applyExecutor)));
     }
 

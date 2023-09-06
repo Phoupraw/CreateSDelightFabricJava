@@ -7,23 +7,26 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
-public class InProdBlockEntity extends SyncedBlockEntity {
-
+public class InProdCakeBlockEntity extends SyncedBlockEntity {
+    public static final float STEP = 0.2f;
     public CakeIngredient cakeIngredient;
     public BlockPos origin;
     public @Nullable BlockPos relative;
-    public int edgeLen;
+    public @Range(from = 0, to = Byte.MAX_VALUE) int edgeLen;
     public CakeOvenBlockEntity oven;
     @Nullable protected VoxelCake voxelCake;
-
-    public InProdBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.IN_PROD_CAKE, pos, state);}
-
-    public InProdBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    protected @Range(from = 0, to = 1) float progress;
+    public Direction direction;
+    public InProdCakeBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.IN_PROD_CAKE, pos, state);}
+    public InProdCakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
     @Override
@@ -54,5 +57,11 @@ public class InProdBlockEntity extends SyncedBlockEntity {
     public void setVoxelCake(@Nullable VoxelCake voxelCake) {
         this.voxelCake = voxelCake;
         sendData();
+    }
+    public float getProgress() {
+        return progress;
+    }
+    public void setProgress(float progress) {
+        this.progress = MathHelper.clamp(progress, 0, 1);
     }
 }

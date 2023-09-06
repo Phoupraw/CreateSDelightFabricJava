@@ -93,24 +93,29 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                     for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
                         BlockPos pos1 = new BlockPos(x, y, z);
                         CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos1, null);
-                        if (cakeIngredient == null || !world.setBlockState(pos1, CSDBlocks.READY_CAKE.getDefaultState())) continue;
-                        InProdBlockEntity inProd = (InProdBlockEntity) world.getBlockEntity(pos1);
-                        Vector3i pos20 = new Vector3i(
-                          Math.abs(pos1.getX() - origin.getX()),
-                          Math.abs(pos1.getY() - origin.getY()),
-                          Math.abs(pos1.getZ() - origin.getZ()));
-                        if (biDirection.contains(Direction.WEST)) {
-                            pos20.x = edgeLen - 1 - pos20.x;
+                        if (cakeIngredient == null) {
+                            continue;
                         }
-                        if (biDirection.contains(Direction.NORTH)) {
-                            pos20.z = edgeLen - 1 - pos20.z;
+                        boolean toInit = world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
+                        if (!(world.getBlockEntity(pos1) instanceof InProdCakeBlockEntity inProd)) return;
+                        if (toInit) {
+                            Vector3i pos20 = new Vector3i(
+                              Math.abs(pos1.getX() - origin.getX()),
+                              Math.abs(pos1.getY() - origin.getY()),
+                              Math.abs(pos1.getZ() - origin.getZ()));
+                            if (biDirection.contains(Direction.WEST)) {
+                                pos20.x = edgeLen - 1 - pos20.x;
+                            }
+                            if (biDirection.contains(Direction.NORTH)) {
+                                pos20.z = edgeLen - 1 - pos20.z;
+                            }
+                            BlockPos pos2 = new BlockPos(pos20.x, pos20.y, pos20.z);
+                            inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, pos2))));
+                            inProd.edgeLen = edgeLen;
+                            inProd.relative = pos2;
+                        } else {
+                            inProd.setProgress(inProd.getProgress() + InProdCakeBlockEntity.STEP);
                         }
-                        BlockPos pos2 = new BlockPos(pos20.x, pos20.y, pos20.z);
-                        //noinspection ConstantConditions
-                        inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, pos2))));
-                        inProd.edgeLen = edgeLen;
-                        inProd.relative = pos2;
-                        //inProd.origin=origin;
                     }
                 }
             }

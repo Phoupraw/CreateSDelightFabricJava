@@ -35,7 +35,7 @@ public final class CSDBlocks {
     //机器
     public static final Block CAKE_OVEN = new CakeOvenBlock();
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
-    public static final Block READY_CAKE = new InProdCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE).noCollision());
+    public static final Block IN_PROD_CAKE = new InProdCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE).noCollision());
 
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
@@ -43,7 +43,7 @@ public final class CSDBlocks {
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
-        register(CSDIdentifiers.IN_PROD_CAKE, READY_CAKE);
+        register(CSDIdentifiers.IN_PROD_CAKE, IN_PROD_CAKE);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
     }
