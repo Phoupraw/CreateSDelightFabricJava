@@ -103,7 +103,7 @@ public final class CSDIdentifiers {
       CHOCOLATE = of("chocolate"),
       BUCKETED_EGG_LIQUID = of("bucketed_egg_liquid"),
       BOTTLED_EGG_LIQUID = of("bottled_egg_liquid"),
-      READY_CAKE = of("ready_cake"),
+      IN_PROD_CAKE = of("in_prod_cake"),
       SHRINKING_CAKE = of("shrinking_cake"),
       MOVING_CAKE = of("moving_cake");
 

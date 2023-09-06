@@ -21,7 +21,7 @@ public class InProdBlockEntity extends SyncedBlockEntity {
     public CakeOvenBlockEntity oven;
     @Nullable protected VoxelCake voxelCake;
 
-    public InProdBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.READY_CAKE, pos, state);}
+    public InProdBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.IN_PROD_CAKE, pos, state);}
 
     public InProdBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

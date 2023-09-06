@@ -14,7 +14,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
-import phoupraw.mcmod.createsdelight.block.entity.*;
+import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.InProdBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.client.CSDClientModInitializer;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockTagProvider;
@@ -49,19 +51,15 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
  * </ol>
  */
 public final class CSDBlockEntityTypes {
-
     public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE);
     public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN);
-    public static final BlockEntityType<InProdBlockEntity> READY_CAKE = of(InProdBlockEntity::new, CSDBlocks.READY_CAKE);
-    public static final BlockEntityType<ShrinkingCakeBlockEntity> SHRINKING_CAKE = of(ShrinkingCakeBlockEntity::new, CSDBlocks.SHRINKING_CAKE);
-    public static final BlockEntityType<MovingCakeBlockEntity> MOVING_CAKE = of(MovingCakeBlockEntity::new, CSDBlocks.MOVING_CAKE);
+    public static final BlockEntityType<InProdBlockEntity> IN_PROD_CAKE = of(InProdBlockEntity::new, CSDBlocks.READY_CAKE);
     static {
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
-        register(CSDIdentifiers.READY_CAKE, READY_CAKE);
-        register(CSDIdentifiers.SHRINKING_CAKE, SHRINKING_CAKE);
-        register(CSDIdentifiers.MOVING_CAKE, MOVING_CAKE);
+        register(CSDIdentifiers.IN_PROD_CAKE, IN_PROD_CAKE);
     }
+
     @Contract("_, _ -> param2")
     public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, blockEntityType);

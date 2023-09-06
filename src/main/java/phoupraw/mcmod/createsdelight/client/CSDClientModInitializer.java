@@ -41,9 +41,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.EGG_LIQUID, new SimpleFluidRenderHandler(textureId, textureId));
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> CUSTOM_MODEL_REGISTRY.get(resourceId));
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
-        BlockEntityRendererFactories.register(CSDBlockEntityTypes.SHRINKING_CAKE, ShrinkingCakeRenderer::new);
-        BlockEntityRendererFactories.register(CSDBlockEntityTypes.MOVING_CAKE, MovingCakeRenderer::new);
-        BlockEntityRendererFactories.register(CSDBlockEntityTypes.READY_CAKE, InProdCakeRenderer::new);
+        BlockEntityRendererFactories.register(CSDBlockEntityTypes.IN_PROD_CAKE, InProdCakeRenderer::new);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> CompletableFuture
           .completedFuture(null)
           .thenCompose(synchronizer::whenPrepared)

@@ -6,7 +6,9 @@ import net.minecraft.block.MapColor;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.block.*;
+import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
+import phoupraw.mcmod.createsdelight.block.InProdCakeBlock;
+import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 
 ///**
 // * 方块编写流程：
@@ -34,8 +36,6 @@ public final class CSDBlocks {
     public static final Block CAKE_OVEN = new CakeOvenBlock();
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
     public static final Block READY_CAKE = new InProdCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE).noCollision());
-    public static final Block SHRINKING_CAKE = new ShrinkingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
-    public static final Block MOVING_CAKE = new MovingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
 
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
@@ -43,9 +43,7 @@ public final class CSDBlocks {
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
-        register(CSDIdentifiers.READY_CAKE, READY_CAKE);
-        register(CSDIdentifiers.SHRINKING_CAKE, SHRINKING_CAKE);
-        register(CSDIdentifiers.MOVING_CAKE, MOVING_CAKE);
+        register(CSDIdentifiers.IN_PROD_CAKE, READY_CAKE);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
     }
