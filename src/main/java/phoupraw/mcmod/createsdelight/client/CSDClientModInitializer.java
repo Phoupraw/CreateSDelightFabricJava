@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 public final class CSDClientModInitializer implements ClientModInitializer {
 
     public static final Map<Identifier, UnbakedModel> CUSTOM_MODEL_REGISTRY = Map.of(
-      ReadyCakeModel.ID, new ConstUnbakedModel(new ReadyCakeModel()),
+      InProdCakeModel.ID, new ConstUnbakedModel(new InProdCakeModel()),
       PrintedCakeModel.BLOCK_ID, new ConstUnbakedModel(new PrintedCakeModel()),
       PrintedCakeModel.ITEM_ID, new ConstUnbakedModel(new PrintedCakeModel())
     );
@@ -43,6 +43,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.SHRINKING_CAKE, ShrinkingCakeRenderer::new);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.MOVING_CAKE, MovingCakeRenderer::new);
+        BlockEntityRendererFactories.register(CSDBlockEntityTypes.READY_CAKE, InProdCakeRenderer::new);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> CompletableFuture
           .completedFuture(null)
           .thenCompose(synchronizer::whenPrepared)
@@ -50,6 +51,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
               PrintedCakeModel.BLOCK_CACHE.clear();
               PrintedCakeModel.ITEM_CACHE.clear();
               PrintedCakeModel.SPRITE_CACHE.clear();
+              InProdCakeModel.CACHE.clear();
           }, applyExecutor)));
     }
 

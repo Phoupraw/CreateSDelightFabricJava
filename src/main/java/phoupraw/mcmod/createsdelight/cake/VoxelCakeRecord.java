@@ -13,7 +13,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
-import phoupraw.mcmod.createsdelight.registry.CSDCakeIngredients;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 
 public class VoxelCakeRecord implements VoxelCake {
@@ -43,7 +42,7 @@ public class VoxelCakeRecord implements VoxelCake {
             for (int j = 0; j <= size.getY(); j++) {
                 for (int k = 0; k <= size.getZ(); k++) {
                     BlockPos pos1 = pos0.add(i, j, k);
-                    CakeIngredient ci = CSDCakeIngredients.LOOKUP.find(world, pos1, null);
+                    CakeIngredient ci = CakeIngredient.LOOKUP.find(world, pos1, null);
                     if (ci != null) {
                         content.put(ci, new BlockBox(i, j, k, i + 1, j + 1, k + 1));
                     }

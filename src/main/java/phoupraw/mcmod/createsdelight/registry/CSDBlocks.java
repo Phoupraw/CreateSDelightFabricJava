@@ -33,7 +33,7 @@ public final class CSDBlocks {
     //机器
     public static final Block CAKE_OVEN = new CakeOvenBlock();
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
-    public static final Block READY_CAKE = new ReadyCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
+    public static final Block READY_CAKE = new InProdCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE).noCollision());
     public static final Block SHRINKING_CAKE = new ShrinkingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
     public static final Block MOVING_CAKE = new MovingCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE));
 

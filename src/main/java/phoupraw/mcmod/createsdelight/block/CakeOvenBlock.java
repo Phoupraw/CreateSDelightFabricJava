@@ -96,7 +96,7 @@ public class CakeOvenBlock extends Block implements IBE<CakeOvenBlockEntity>, IC
     public void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         if (!(world.getBlockEntity(pos) instanceof CakeOvenBlockEntity be)) return;
         if (world.isReceivingRedstonePower(pos)) {
-            if (!be.isWorking()) {
+            if (be.isNotWorking()) {
                 be.timeBegin = world.getTime();
             }
         }

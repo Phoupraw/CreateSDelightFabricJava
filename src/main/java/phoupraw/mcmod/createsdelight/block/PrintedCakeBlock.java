@@ -25,6 +25,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
@@ -75,13 +76,6 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     }
 
     public static BlockBox rotate(BlockBox box, Vec3i size, Direction facing) {
-        //BlockBox rotated = BlockBox.rotated(
-        //  0, 0, 0,
-        //  box.getMinX(), box.getMinY(), box.getMinZ(),
-        //  box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ(),
-        //  facing);
-        //rotated.offset(facing.getOffsetX() * size.getX(), 0, facing.getOffsetZ() * size.getZ());
-        //return rotated;
         double offsetX = size.getX() / 2.0, offsetZ = size.getZ() / 2.0;
         double angle = -facing.getHorizontal() * Math.PI / 2;
         var min = new Vector3d()
@@ -168,9 +162,13 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
         this(FabricBlockSettings.copyOf(Blocks.CAKE).dynamicBounds());
     }
 
+    public static @NotNull Direction defaultFacing() {
+        return Direction.SOUTH;
+    }
+
     public PrintedCakeBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(FACING, Direction.SOUTH));
+        setDefaultState(getDefaultState().with(FACING, defaultFacing()));
     }
 
     @Override

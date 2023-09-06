@@ -52,7 +52,7 @@ public final class CSDBlockEntityTypes {
 
     public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE);
     public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN);
-    public static final BlockEntityType<ReadyCakeBlockEntity> READY_CAKE = of(ReadyCakeBlockEntity::new, CSDBlocks.READY_CAKE);
+    public static final BlockEntityType<InProdBlockEntity> READY_CAKE = of(InProdBlockEntity::new, CSDBlocks.READY_CAKE);
     public static final BlockEntityType<ShrinkingCakeBlockEntity> SHRINKING_CAKE = of(ShrinkingCakeBlockEntity::new, CSDBlocks.SHRINKING_CAKE);
     public static final BlockEntityType<MovingCakeBlockEntity> MOVING_CAKE = of(MovingCakeBlockEntity::new, CSDBlocks.MOVING_CAKE);
     static {

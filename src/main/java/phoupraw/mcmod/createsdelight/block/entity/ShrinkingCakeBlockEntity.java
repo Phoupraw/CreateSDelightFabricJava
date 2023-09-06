@@ -6,7 +6,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-
+@Deprecated
 public class ShrinkingCakeBlockEntity extends BlockEntity {
 
     public VoxelCake voxelCake;

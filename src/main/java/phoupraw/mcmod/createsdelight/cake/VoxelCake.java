@@ -11,8 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.misc.BlocksVoxelCake;
 import phoupraw.mcmod.createsdelight.misc.EmptyVoxelCake;
-import phoupraw.mcmod.createsdelight.misc.SimplistVoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 
 import java.util.Objects;
@@ -22,10 +22,10 @@ public interface VoxelCake {
         return EmptyVoxelCake.INSTANCE;
     }
     static @Nullable VoxelCake of(NbtCompound nbt) {
-        return SimplistVoxelCake.of(nbt);
+        return BlocksVoxelCake.of(nbt);
     }
     static VoxelCake of(World world, BlockBox bound) {
-        return SimplistVoxelCake.of(world, bound);
+        return BlocksVoxelCake.of(world, bound);
     }
     static VoxelCake of(StructureTemplate st, World world) {
         Vec3i size = st.getSize();

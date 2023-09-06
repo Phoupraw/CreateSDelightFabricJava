@@ -20,7 +20,7 @@ public final class CSDModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE}) {
+        for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.READY_CAKE}) {
             generator.registerSimpleState(block);//该方法会生成方块状态、物品模型。
         }
         for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM_BLOCK}) {

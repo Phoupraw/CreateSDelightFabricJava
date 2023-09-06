@@ -13,7 +13,6 @@ import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 
 public final class CSDCakeIngredients {
 
-    public static final BlockApiLookup<CakeIngredient, @Nullable Void> LOOKUP = BlockApiLookup.get(CSDIdentifiers.CAKE_INGREDIENT, CakeIngredient.class, Void.class);
     public static final BiMap<Block, CakeIngredient> BLOCK = HashBiMap.create();
 
     public static final CakeIngredient HONEY = CakeIngredient.of(14.4/*从蜜渍苹果计算*/ * 4, new Identifier("block/honey_block_side"));
@@ -37,7 +36,7 @@ public final class CSDCakeIngredients {
         BLOCK.put(Blocks.MELON, MELON);
         BLOCK.put(Blocks.HAY_BLOCK, HAY);
 
-        LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> BLOCK.get(state.getBlock()));
+        CakeIngredient.LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> BLOCK.get(state.getBlock()));
     }
 
     public static BlockApiLookup.BlockApiProvider<CakeIngredient, @Nullable Void> constant(CakeIngredient theConst) {

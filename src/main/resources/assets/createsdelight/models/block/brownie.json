@@ -4,7 +4,7 @@
   "render_type": "minecraft:cutout",
   "textures": {
     "0": "createsdelight:block/brownie_side",
-    "1": "createsdelight:block/chocolate",
+    "1": "createsdelight:block/chocolate_block",
     "particle": "createsdelight:block/brownie_side"
   },
   "elements": [

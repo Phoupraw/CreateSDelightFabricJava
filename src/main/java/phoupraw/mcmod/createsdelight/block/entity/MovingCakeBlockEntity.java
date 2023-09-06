@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.cake.VoxelCakeRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-
+@Deprecated
 public class MovingCakeBlockEntity extends BlockEntity {
 
     public static VoxelCake combineSame(VoxelCake cake1, VoxelCake cake2) {

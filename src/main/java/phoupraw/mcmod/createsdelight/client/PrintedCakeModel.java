@@ -256,7 +256,7 @@ public class PrintedCakeModel implements BakedModel {
             if (bakedModel == null) {
                 VoxelCake voxelCake = PrintedCakeBlockEntity.nbt2content(blockEntityTag);
                 if (voxelCake != null) {
-                    bakedModel = content2model(voxelCake, Direction.SOUTH);
+                    bakedModel = content2model(voxelCake, PrintedCakeBlock.defaultFacing());
                     ITEM_CACHE.put(blockEntityTag, bakedModel);
                 }
             }
@@ -300,7 +300,8 @@ public class PrintedCakeModel implements BakedModel {
 
     @Override
     public Sprite getParticleSprite() {
-        return Objects.requireNonNull(FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
+        //noinspection ConstantConditions
+        return FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK));
     }
 
     @Override
