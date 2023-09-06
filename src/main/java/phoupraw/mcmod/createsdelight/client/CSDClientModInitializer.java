@@ -8,11 +8,9 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDFluids;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
@@ -29,7 +27,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
     );
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
-        //CSDInstancings.IN_PROD_CAKE.hashCode();
+        CSDInstancings.CAKE_OVEN.hashCode();
         //CSDPartialModels.IN_RPOD_CAKE.hashCode();
     }
 
@@ -41,7 +39,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.EGG_LIQUID, new SimpleFluidRenderHandler(textureId, textureId));
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> CUSTOM_MODEL_REGISTRY.get(resourceId));
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
-        BlockEntityRendererFactories.register(CSDBlockEntityTypes.IN_PROD_CAKE, InProdCakeRenderer::new);
+        //BlockEntityRendererFactories.register(CSDBlockEntityTypes.IN_PROD_CAKE, InProdCakeRenderer::new);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> CompletableFuture
           .completedFuture(null)
           .thenCompose(synchronizer::whenPrepared)

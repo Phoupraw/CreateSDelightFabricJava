@@ -14,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 import phoupraw.mcmod.createsdelight.block.entity.InProdCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-
+@Deprecated
 public class InProdCakeInstance extends BlockEntityInstance<InProdCakeBlockEntity> implements DynamicInstance {
     public ModelData self;
     public InProdCakeInstance(MaterialManager materialManager, InProdCakeBlockEntity blockEntity) {

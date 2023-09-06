@@ -3,7 +3,6 @@ package phoupraw.mcmod.createsdelight.client;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.jozufozu.flywheel.util.AnimationTickHolder;
 import io.github.tropheusj.milk.Milk;
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
@@ -19,11 +18,9 @@ import net.minecraft.data.client.ModelIds;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.InProdCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
@@ -82,24 +79,24 @@ public class InProdCakeModel implements BakedModel {
         if (voxelCake == null) return;
         BakedModel bakedModel = CACHE.getUnchecked(voxelCake);
         BlockPos relative = inProd.relative;
-        boolean shrink = relative != null && inProd.direction == null && false;
-        if (shrink) {
-            int edgeLen = inProd.edgeLen;
-            Vector3f center = Vec3d.of(relative).toVector3f().mul(-1f / edgeLen);
-            context.pushTransform(quad -> {
-                Vector3f pos1 = new Vector3f();
-                for (int i = 0; i < 4; i++) {
-                    quad.copyPos(i, pos1);
-                    pos1.add(center);
-                    pos1.mul(1 + (edgeLen - 1) * (inProd.getProgress() - InProdCakeBlockEntity.SHRINKING_TICKS * AnimationTickHolder.getPartialTicks()));
-                    quad.pos(i, pos1);
-                }
-                return true;
-            });
-        }
+        //boolean zoom = relative != null && inProd.direction == Direction.UP;
+        //if (zoom) {
+        //    int edgeLen = inProd.edgeLen;
+        //    Vector3f center = Vec3d.of(relative).toVector3f().mul(-1f / edgeLen);
+        //    context.pushTransform(quad -> {
+        //        Vector3f pos1 = new Vector3f();
+        //        for (int i = 0; i < 4; i++) {
+        //            quad.copyPos(i, pos1);
+        //            pos1.add(center);
+        //            pos1.mul(edgeLen);
+        //            quad.pos(i, pos1);
+        //        }
+        //        return true;
+        //    });
+        //}
         bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
-        if (shrink) {
-            context.popTransform();
-        }
+        //if (zoom) {
+        //    context.popTransform();
+        //}
     }
 }

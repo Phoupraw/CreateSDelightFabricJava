@@ -2,7 +2,8 @@ package phoupraw.mcmod.createsdelight.client;
 
 import com.jozufozu.flywheel.backend.instancing.InstancedRenderRegistry;
 import com.jozufozu.flywheel.backend.instancing.blockentity.SimpleBlockEntityInstancingController;
-import phoupraw.mcmod.createsdelight.block.entity.InProdCakeBlockEntity;
+import com.simibubi.create.content.kinetics.crafter.ShaftlessCogwheelInstance;
+import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public final class CSDInstancings {
@@ -11,7 +12,8 @@ public final class CSDInstancings {
     //public static final SimpleBlockEntityInstancingController<PressureCookerBlockEntity> PRESSURE_COOKER = InstancedRenderRegistry.configure(CDBETypes.PRESSURE_COOKER).factory(PressureCookerInstance::new).apply();
     //public static final SimpleBlockEntityInstancingController<MincerBlockEntity> MINCER = InstancedRenderRegistry.configure(CDBETypes.MINCER).factory(MincerInstance::new).apply();
     //public static final SimpleBlockEntityInstancingController<SkewerBlockEntity> SKEWER = InstancedRenderRegistry.configure(CDBETypes.SKEWER).factory(SingleRotatingInstance::new).apply();
-    public static final SimpleBlockEntityInstancingController<InProdCakeBlockEntity> IN_PROD_CAKE = InstancedRenderRegistry.configure(CSDBlockEntityTypes.IN_PROD_CAKE).factory(InProdCakeInstance::new).apply();
+    //public static final SimpleBlockEntityInstancingController<InProdCakeBlockEntity> IN_PROD_CAKE = InstancedRenderRegistry.configure(CSDBlockEntityTypes.IN_PROD_CAKE).factory(InProdCakeInstance::new).apply();
+    public static final SimpleBlockEntityInstancingController<CakeOvenBlockEntity> CAKE_OVEN = InstancedRenderRegistry.configure(CSDBlockEntityTypes.CAKE_OVEN).factory(ShaftlessCogwheelInstance::new).apply();
     private CSDInstancings() {
     }
 

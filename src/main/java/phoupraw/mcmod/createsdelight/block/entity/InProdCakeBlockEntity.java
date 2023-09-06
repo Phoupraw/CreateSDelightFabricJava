@@ -29,7 +29,9 @@ public class InProdCakeBlockEntity extends SyncedBlockEntity {
     protected @Range(from = 0, to = 1) float progress;
     @Deprecated
     public float preProgress;
+    @Deprecated
     public @Nullable Direction direction;
+    @Deprecated
     public volatile long timeBegin = -1;
     public InProdCakeBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.IN_PROD_CAKE, pos, state);}
     public InProdCakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -87,7 +89,7 @@ public class InProdCakeBlockEntity extends SyncedBlockEntity {
     }
     public void setVoxelCake(@Nullable VoxelCake voxelCake) {
         this.voxelCake = voxelCake;
-        //sendData();
+        sendData();
     }
     public float getProgress() {
         return progress;
