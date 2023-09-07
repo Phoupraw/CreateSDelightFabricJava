@@ -57,6 +57,7 @@ public interface VoxelCake {
         nbt.putByteArray("size", new byte[]{(byte) size.getX(), (byte) size.getY(), (byte) size.getZ()});
         return nbt;
     }
+    @Deprecated
     @UnmodifiableView Multimap<CakeIngredient, BlockBox> getContent();
     Vec3i getSize();
 

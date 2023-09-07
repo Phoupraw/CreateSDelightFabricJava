@@ -258,6 +258,8 @@ public class PrintedCakeModel implements BakedModel {
                 if (voxelCake != null) {
                     bakedModel = content2model(voxelCake, PrintedCakeBlock.defaultFacing());
                     ITEM_CACHE.put(blockEntityTag, bakedModel);
+                } else {
+                    stack.setNbt(null);//FIXME 如果蛋糕读取报错，那么报错信息会刷屏
                 }
             }
         }

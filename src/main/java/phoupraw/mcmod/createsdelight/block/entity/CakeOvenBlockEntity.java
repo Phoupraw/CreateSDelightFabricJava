@@ -83,7 +83,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                 if (inProd1.getVoxelCake() instanceof BlockPosVoxelCake voxelCake1) {
                     map.putAll(voxelCake1.blockPosContent);
                 }
-                inProd1.setVoxelCake(new BlockPosVoxelCake(edgeLen, map));
+                inProd1.setVoxelCake(BlockPosVoxelCake.of(edgeLen, map));
             }
             world.removeBlock(pos2, false);
         }
@@ -124,7 +124,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                                 relative0.z = edgeLen - 1 - relative0.z;
                             }
                             BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
-                            inProd.setVoxelCake(new BlockPosVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
+                            inProd.setVoxelCake(BlockPosVoxelCake.of(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
                             inProd.edgeLen = edgeLen;
                             inProd.relative = relative;
                         }
@@ -236,7 +236,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                                     relative0.z = edgeLen - 1 - relative0.z;
                                 }
                                 BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
-                                inProd.setVoxelCake(new BlockPosVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
+                                inProd.setVoxelCake(BlockPosVoxelCake.of(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
                                 inProd.edgeLen = edgeLen;
                                 inProd.relative = relative;
                                 inProd.direction = Direction.UP;
@@ -271,7 +271,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                                     if (inProd1.getVoxelCake() instanceof BlockPosVoxelCake voxelCake1) {
                                         map.putAll(voxelCake1.blockPosContent);
                                     }
-                                    inProd1.setVoxelCake(new BlockPosVoxelCake(edgeLen, map));
+                                    inProd1.setVoxelCake(BlockPosVoxelCake.of(edgeLen, map));
                                     inProd1.sendData();
                                 }
                                 //inProd2.setVoxelCake(VoxelCake.empty());
