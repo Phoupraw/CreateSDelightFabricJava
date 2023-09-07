@@ -11,7 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.misc.BlocksVoxelCake;
+import org.jetbrains.annotations.UnmodifiableView;
+import phoupraw.mcmod.createsdelight.misc.BlockPosVoxelCake;
 import phoupraw.mcmod.createsdelight.misc.EmptyVoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 
@@ -22,10 +23,10 @@ public interface VoxelCake {
         return EmptyVoxelCake.INSTANCE;
     }
     static @Nullable VoxelCake of(NbtCompound nbt) {
-        return BlocksVoxelCake.of(nbt);
+        return BlockPosVoxelCake.of(nbt);
     }
     static VoxelCake of(World world, BlockBox bound) {
-        return BlocksVoxelCake.of(world, bound);
+        return BlockPosVoxelCake.of(world, bound);
     }
     static VoxelCake of(StructureTemplate st, World world) {
         Vec3i size = st.getSize();
@@ -56,7 +57,7 @@ public interface VoxelCake {
         nbt.putByteArray("size", new byte[]{(byte) size.getX(), (byte) size.getY(), (byte) size.getZ()});
         return nbt;
     }
-    Multimap<CakeIngredient, BlockBox> getContent();
+    @UnmodifiableView Multimap<CakeIngredient, BlockBox> getContent();
     Vec3i getSize();
 
 }

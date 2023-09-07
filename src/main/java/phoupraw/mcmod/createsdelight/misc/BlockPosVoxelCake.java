@@ -22,8 +22,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlocksVoxelCake implements VoxelCake {
-    public static @Nullable BlocksVoxelCake of(NbtCompound nbt) {
+public class BlockPosVoxelCake implements VoxelCake {
+    public static @Nullable BlockPosVoxelCake of(NbtCompound nbt) {
         try {
             int edgeLen = nbt.getInt("edgeLen");
             if (edgeLen == 0) return null;
@@ -35,7 +35,7 @@ public class BlocksVoxelCake implements VoxelCake {
             }
             byte[] cells = nbt.getByteArray("cells");
             if (cells.length == 0) return null;
-            ListMultimap<CakeIngredient, BlockPos> content0 = MultimapBuilder.treeKeys(BlocksVoxelCake::compare).arrayListValues().build();
+            ListMultimap<CakeIngredient, BlockPos> content0 = MultimapBuilder.treeKeys(BlockPosVoxelCake::compare).arrayListValues().build();
             for (int x = 0; x < edgeLen; x++) {
                 for (int y = 0; y < edgeLen; y++) {
                     for (int z = 0; z < edgeLen; z++) {
@@ -46,7 +46,7 @@ public class BlocksVoxelCake implements VoxelCake {
                     }
                 }
             }
-            return new BlocksVoxelCake(edgeLen, content0);
+            return new BlockPosVoxelCake(edgeLen, content0);
         } catch (Exception e) {
             CreateSDelight.LOGGER.catching(e);
             return null;
@@ -55,8 +55,8 @@ public class BlocksVoxelCake implements VoxelCake {
     public static int compare(CakeIngredient a, CakeIngredient b) {
         return CSDRegistries.getId(CSDRegistries.CAKE_INGREDIENT, a).compareTo(CSDRegistries.getId(CSDRegistries.CAKE_INGREDIENT, b));
     }
-    public static BlocksVoxelCake of(World world, BlockBox bound) {
-        ListMultimap<CakeIngredient, BlockPos> content = MultimapBuilder.treeKeys(BlocksVoxelCake::compare).arrayListValues().build();
+    public static BlockPosVoxelCake of(World world, BlockBox bound) {
+        ListMultimap<CakeIngredient, BlockPos> content = MultimapBuilder.treeKeys(BlockPosVoxelCake::compare).arrayListValues().build();
         BlockPos origin = new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ());
         for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
             for (int y = bound.getMinY(); y <= bound.getMaxY(); y++) {
@@ -72,17 +72,16 @@ public class BlocksVoxelCake implements VoxelCake {
         for (CakeIngredient cakeIngredient : content.keySet()) {
             Collections.sort(content.get(cakeIngredient));
         }
-        return new BlocksVoxelCake(bound.getBlockCountX(), content);
+        return new BlockPosVoxelCake(bound.getBlockCountX(), content);
     }
     public final int edgeLen;
-    public final Multimap<CakeIngredient, BlockPos> content0;
+    public final Multimap<CakeIngredient, BlockPos> blockPosContent;
     public final Multimap<CakeIngredient, BlockBox> content;
-
-    public BlocksVoxelCake(int edgeLen, Multimap<CakeIngredient, BlockPos> content0) {
+    public BlockPosVoxelCake(int edgeLen, Multimap<CakeIngredient, BlockPos> blockPosContent) {
         this.edgeLen = edgeLen;
-        this.content0 = content0;
-        this.content = MultimapBuilder.linkedHashKeys(content0.keySet().size()).arrayListValues().build();
-        for (Map.Entry<CakeIngredient, BlockPos> entry : content0.entries()) {
+        this.blockPosContent = blockPosContent;
+        this.content = MultimapBuilder.linkedHashKeys(blockPosContent.keySet().size()).arrayListValues().build();
+        for (Map.Entry<CakeIngredient, BlockPos> entry : blockPosContent.entries()) {
             BlockPos pos = entry.getValue();
             content.put(entry.getKey(), BlockBox.create(pos, pos.add(1, 1, 1)));
         }
@@ -93,13 +92,13 @@ public class BlocksVoxelCake implements VoxelCake {
         nbt.putInt("edgeLen", edgeLen);
         NbtList nbtPallete = new NbtList();
         Map<CakeIngredient, Integer> pallete = new HashMap<>();
-        for (CakeIngredient cakeIngredient : content0.keySet()) {
+        for (CakeIngredient cakeIngredient : blockPosContent.keySet()) {
             nbtPallete.add(NbtString.of(CSDRegistries.getId(CSDRegistries.CAKE_INGREDIENT, cakeIngredient).toString()));
             pallete.put(cakeIngredient, pallete.size());
         }
         nbt.put("pallete", nbtPallete);
         byte[] cells = new byte[edgeLen * edgeLen * edgeLen];
-        for (Map.Entry<CakeIngredient, BlockPos> entry : content0.entries()) {
+        for (Map.Entry<CakeIngredient, BlockPos> entry : this.blockPosContent.entries()) {
             BlockPos pos = entry.getValue();
             cells[(pos.getX() * edgeLen + pos.getY()) * edgeLen + pos.getZ()] = (byte) (pallete.get(entry.getKey()) + 1);
         }

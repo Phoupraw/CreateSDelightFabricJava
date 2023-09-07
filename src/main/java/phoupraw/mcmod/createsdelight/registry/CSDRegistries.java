@@ -21,10 +21,10 @@ public class CSDRegistries {
       .<VoxelCake>createSimple(RegistryKey.ofRegistry(CSDIdentifiers.PREDEFINED_CAKE))
       .attribute(RegistryAttribute.SYNCED)
       .buildAndRegister();
-    public static <T> @NotNull Identifier getId(Registry<T> registry, T value) {
-        return Objects.requireNonNull(registry.getId(value), value.toString());
+    public static <T> @NotNull Identifier getId(Registry<T> registry, @NotNull T value) {
+        return Objects.requireNonNull(registry.getId(value), Objects.requireNonNull(value, registry.toString()).toString());
     }
-    public static <T> @NotNull T get(Registry<T> registry, Identifier id) {
+    public static <T> @NotNull T get(Registry<T> registry, @NotNull Identifier id) {
         return Objects.requireNonNull(registry.get(id), id.toString());
     }
 }

@@ -24,7 +24,7 @@ import org.jetbrains.annotations.UnmodifiableView;
 import org.joml.Vector3i;
 import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
-import phoupraw.mcmod.createsdelight.misc.BlocksVoxelCake;
+import phoupraw.mcmod.createsdelight.misc.BlockPosVoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
@@ -78,12 +78,12 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
             InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
             InProdCakeBlockEntity inProd2 = (InProdCakeBlockEntity) world.getBlockEntity(pos2);
-            if (inProd2.getVoxelCake() instanceof BlocksVoxelCake voxelCake2) {
-                Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.content0);
-                if (inProd1.getVoxelCake() instanceof BlocksVoxelCake voxelCake1) {
-                    map.putAll(voxelCake1.content0);
+            if (inProd2.getVoxelCake() instanceof BlockPosVoxelCake voxelCake2) {
+                Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.blockPosContent);
+                if (inProd1.getVoxelCake() instanceof BlockPosVoxelCake voxelCake1) {
+                    map.putAll(voxelCake1.blockPosContent);
                 }
-                inProd1.setVoxelCake(new BlocksVoxelCake(edgeLen, map));
+                inProd1.setVoxelCake(new BlockPosVoxelCake(edgeLen, map));
             }
             world.removeBlock(pos2, false);
         }
@@ -124,7 +124,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                                 relative0.z = edgeLen - 1 - relative0.z;
                             }
                             BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
-                            inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
+                            inProd.setVoxelCake(new BlockPosVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
                             inProd.edgeLen = edgeLen;
                             inProd.relative = relative;
                         }
@@ -236,7 +236,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                                     relative0.z = edgeLen - 1 - relative0.z;
                                 }
                                 BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
-                                inProd.setVoxelCake(new BlocksVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
+                                inProd.setVoxelCake(new BlockPosVoxelCake(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
                                 inProd.edgeLen = edgeLen;
                                 inProd.relative = relative;
                                 inProd.direction = Direction.UP;
@@ -266,12 +266,12 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                                 InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
                                 InProdCakeBlockEntity inProd2 = (InProdCakeBlockEntity) world.getBlockEntity(pos2);
                                 //inProd1.setProgress(0);
-                                if (inProd2.getVoxelCake() instanceof BlocksVoxelCake voxelCake2) {
-                                    Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.content0);
-                                    if (inProd1.getVoxelCake() instanceof BlocksVoxelCake voxelCake1) {
-                                        map.putAll(voxelCake1.content0);
+                                if (inProd2.getVoxelCake() instanceof BlockPosVoxelCake voxelCake2) {
+                                    Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.blockPosContent);
+                                    if (inProd1.getVoxelCake() instanceof BlockPosVoxelCake voxelCake1) {
+                                        map.putAll(voxelCake1.blockPosContent);
                                     }
-                                    inProd1.setVoxelCake(new BlocksVoxelCake(edgeLen, map));
+                                    inProd1.setVoxelCake(new BlockPosVoxelCake(edgeLen, map));
                                     inProd1.sendData();
                                 }
                                 //inProd2.setVoxelCake(VoxelCake.empty());
