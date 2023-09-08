@@ -10,7 +10,7 @@ import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxTransform;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
-import com.simibubi.create.foundation.outliner.Outliner;
+import com.simibubi.create.foundation.outliner.AABBOutline;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -99,7 +99,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
     @ApiStatus.Internal
     protected @Nullable Text customName;
     public double outline0Len;
-    public int outlineLinger;
+    public double outlineLinger = -1;
     public CakeOvenBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.CAKE_OVEN, pos, state);
     }
@@ -123,26 +123,32 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
         BlockPos origin = getPos().up();
         BlockBox bound = new BlockBox(origin);
         Direction highlightFace = null;
-        outline0Len += Math.abs(getSpeed()) / 256;
+        float step = Math.abs(getSpeed()) / 256;
+        outline0Len += step;
         double len0 = outline0Len;
         Box outline0 = new Box(getPos().up());//扩大的框
         for (Direction direction : biDirection.values()) {
             outline0 = expanded(outline0, direction, MathHelper.clamp(len0 - 1, 0, edgeLen - 1));
         }
         outline0 = expanded(outline0, Direction.UP, Math.min(len0, edgeLen) - 1);
+        Box actual0 = outline0;//这个初始化只是占位符，在客户端设置真正的值
         if (world.isClient()) {
             CreateClient.OUTLINER
               .chaseAABB(this, outline0)
               .withFaceTexture(AllSpecialTextures.CHECKERED)
               .colored(0xffaa00)
               .lineWidth(1 / 16f);
+            if (CreateClient.OUTLINER.getOutlines().get(this).getOutline() instanceof AABBOutline aabbOutline) {
+                actual0 = aabbOutline.getBounds();
+            }
         }
         if (len0 > 0) {
             boolean finished = false;
-            for (int i = 1; i < len0 && i <= edgeLen; i++) {
-                finished = true;
+            for (int i = 1; i <= len0 && i <= edgeLen; i++) {
                 double len1 = 2 * i - len0;
+                finished = true;
                 if (len1 < 0) continue;
+                len1 = Math.min(len1, actual0.getYLength());
                 Box outline1 = new Box(getPos().up());
                 for (Direction direction : appended(biDirection.values(), Direction.UP)) {
                     outline1 = expanded(outline1, direction, Math.max(0, len1 - 1));
@@ -157,7 +163,10 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                 finished = false;
             }
             if (finished) {
-                outlineLinger--;
+                if (outlineLinger == -1) {
+                    outlineLinger = 1;
+                }
+                outlineLinger -= step;
                 if (outlineLinger <= 0) {
                     setTimeBegin(-2);
                 }
@@ -323,7 +332,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
         this.timeBegin = timeBegin;
         if (isNotWorking()) {
             outline0Len = 0;
-            outlineLinger = Outliner.OutlineEntry.FADE_TICKS * 2;
+            outlineLinger = -1;
         }
     }
     @FunctionalInterface

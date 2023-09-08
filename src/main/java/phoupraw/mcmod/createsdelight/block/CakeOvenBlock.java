@@ -3,7 +3,6 @@ package phoupraw.mcmod.createsdelight.block;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumHashBiMap;
 import com.simibubi.create.content.kinetics.base.KineticBlock;
-import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -35,7 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEntity>, ICogWheel {
+public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEntity> {
     public static final BiMap<RailShape, Set<Direction>> BI_DIRECTION = EnumHashBiMap.create(Map.of(
       RailShape.EAST_WEST, EnumSet.of(Direction.EAST, Direction.WEST),
       RailShape.NORTH_SOUTH, EnumSet.of(Direction.NORTH, Direction.SOUTH),
