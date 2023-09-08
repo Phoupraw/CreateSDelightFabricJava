@@ -60,11 +60,9 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
           .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry1 -> entry1.getValue().get(0)))));
     }
     public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, RailShape.NORTH_EAST, RailShape.NORTH_WEST, RailShape.SOUTH_EAST, RailShape.SOUTH_WEST);
-
     public static RailShape rotate(RailShape facing, BlockRotation rotation) {
         return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(rotation::rotate).collect(Collectors.toSet()));
     }
-
     public static RailShape mirror(RailShape facing, BlockMirror mirror) {
         return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(mirror::apply).collect(Collectors.toSet()));
     }
@@ -77,7 +75,7 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
     }
     @Override
     public SpeedLevel getMinimumRequiredSpeedLevel() {
-        return SpeedLevel.FAST;
+        return SpeedLevel.NONE;
     }
     @Override
     public Class<CakeOvenBlockEntity> getBlockEntityClass() {
@@ -96,16 +94,15 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
     public void neighborUpdate3(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         if (!(world.getBlockEntity(pos) instanceof CakeOvenBlockEntity be)) return;
         if (world.isReceivingRedstonePower(pos)) {
-            if (be.isNotWorking()) {
+            if (be.getTimeBegin() == -1) {
                 be.setTimeBegin(world.getTime());
+                be.sendData();
             }
-        } else {
-            if (!be.isNotWorking()) {
-                be.setTimeBegin(-1);
-            }
+        } else if (be.getTimeBegin() != -1) {
+            be.setTimeBegin(-1);
+            be.sendData();
         }
     }
-
     @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -122,43 +119,35 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
-
     @SuppressWarnings("deprecation")
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotate(state.get(FACING), rotation));
     }
-
     @SuppressWarnings("deprecation")
     @Override
     public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.with(FACING, mirror(state.get(FACING), mirror));
     }
-
     @Override
     public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
         return originalState.rotate(BlockRotation.CLOCKWISE_90);
     }
-
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return getDefaultState().rotate(BlockRotation.values()[Direction.fromRotation(ctx.getPlayerYaw() + 225).getHorizontal()]);
     }
-
     @Override
     public boolean hasShaftTowards(WorldView world, BlockPos pos, BlockState state, Direction face) {
         return false;
     }
-
     @Override
     public Direction.Axis getRotationAxis(BlockState state) {
         return Direction.Axis.Y;
     }
-
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
-
 }

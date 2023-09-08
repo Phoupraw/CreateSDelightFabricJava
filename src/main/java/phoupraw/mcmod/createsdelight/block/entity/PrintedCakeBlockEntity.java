@@ -16,6 +16,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
@@ -23,13 +24,11 @@ import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 import java.util.*;
 
 public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable {
-
     public static final Comparator<BlockBox> BLOCK_BOX_COMPARATOR = Comparator
       .comparingInt(BlockBox::getMinY)
       .reversed()
       .thenComparingInt(BlockBox::getMinX)
       .thenComparingInt(BlockBox::getMinZ);
-
     public static @Nullable VoxelCake nbt2content(NbtCompound blockEntityTag) {
         if (blockEntityTag.contains("predefined", NbtElement.STRING_TYPE)) {
             Identifier id = new Identifier(blockEntityTag.getString("predefined"));
@@ -41,35 +40,28 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     public @Nullable Identifier predefined;
     private @Nullable VoxelCake voxelCake = VoxelCake.empty();
     private @Nullable Text customName;
-
     public PrintedCakeBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.PRINTED_CAKE, pos, state);
     }
-
     public PrintedCakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
-
     @Override
     public Text getName() {
         return Objects.requireNonNullElse(getCustomName(), getCachedState().getBlock().getName());
     }
-
     @Nullable
     @Override
     public Text getCustomName() {
         return customName;
     }
-
     public void setCustomName(@Nullable Text customName) {
         this.customName = customName;
     }
-
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 
     }
-
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
@@ -83,7 +75,6 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
             tag.putString("CustomName", Text.Serializer.toJson(getCustomName()));
         }
     }
-
     @Override
     protected void read(NbtCompound tag, boolean clientPacket) {
         super.read(tag, clientPacket);
@@ -98,20 +89,13 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
         if (world == null) return;
         world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
-
     public @Nullable VoxelCake getVoxelCake() {
         return voxelCake;
     }
-
     public void setVoxelCake(@Nullable VoxelCake voxelCake) {
         this.voxelCake = voxelCake;
-        if (voxelCake == null) return;
-        //for (CakeIngredient key : voxelCake.getContent().keySet()) {
-        //    if (voxelCake.getContent().get(key) instanceof List<BlockBox> list) {
-        //        list.sort(BLOCK_BOX_COMPARATOR);
-        //    }
-        //}
-        sendData();
+        if (voxelCake != null) {sendData();} else {
+            CreateSDelight.LOGGER.error("在%s位置的蛋糕的NBT不正确！".formatted(getPos()));
+        }
     }
-
 }

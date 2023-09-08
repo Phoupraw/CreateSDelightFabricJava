@@ -2,18 +2,18 @@ package phoupraw.mcmod.createsdelight;
 
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
+import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 import phoupraw.mcmod.createsdelight.registry.*;
 
 public final class CreateSDelight implements ModInitializer {
-
     public static final String MOD_ID = "createsdelight";
     @ApiStatus.Internal
     public static final Logger LOGGER = LogManager.getLogger();
-
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
         //原版
@@ -25,13 +25,12 @@ public final class CreateSDelight implements ModInitializer {
         //我
         CSDCakeIngredients.CREAM_BLOCK.hashCode();
     }
-
     @Override
     public void onInitialize() {
         loadClasses();
         CSDCommands.register();
         VirtualFluids.registerBucketStorage(CSDFluids.EGG_LIQUID, CSDItems.BUCKETED_EGG_LIQUID);
         BlockStressDefaults.setDefaultImpact(CSDIdentifiers.CAKE_OVEN, 4);
+        Registry.register(CSDRegistries.PREDEFINED_CAKE, CSDIdentifiers.of("empty"), VoxelCake.empty());
     }
-
 }
