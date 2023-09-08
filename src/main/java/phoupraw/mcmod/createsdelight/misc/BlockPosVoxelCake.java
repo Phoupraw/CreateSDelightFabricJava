@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
@@ -22,10 +23,7 @@ import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class BlockPosVoxelCake implements VoxelCake, BlockVoxelCake {
     public static @Nullable BlockPosVoxelCake of(NbtCompound nbt) {
@@ -72,24 +70,27 @@ public class BlockPosVoxelCake implements VoxelCake, BlockVoxelCake {
     public static int compare(CakeIngredient a, CakeIngredient b) {
         return CSDRegistries.getId(CSDRegistries.CAKE_INGREDIENT, a).compareTo(CSDRegistries.getId(CSDRegistries.CAKE_INGREDIENT, b));
     }
-    public static BlockPosVoxelCake of(World world, BlockBox bound) {
-        ListMultimap<CakeIngredient, BlockPos> content = MultimapBuilder.treeKeys(BlockPosVoxelCake::compare).arrayListValues().build();
+    public static @Nullable BlockPosVoxelCake of(World world, BlockBox bound) {
+        Pair<BlockPosVoxelCake, Collection<BlockPos>> pair = of(world, bound, BlockPos.iterate(bound.getMinX(), bound.getMinY(), bound.getMinZ(), bound.getMaxX(), bound.getMaxY(), bound.getMaxZ()));
+        return pair == null ? null : pair.getLeft();
+    }
+    public static @Nullable Pair<BlockPosVoxelCake, Collection<BlockPos>> of(World world, BlockBox bound, Iterable<BlockPos> posIterable) {
+        Set<BlockPos> traversed = new HashSet<>();
         BlockPos origin = new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ());
-        for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
-            for (int y = bound.getMinY(); y <= bound.getMaxY(); y++) {
-                for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos, null);
-                    if (cakeIngredient != null) {
-                        content.put(cakeIngredient, pos.subtract(origin));
-                    }
-                }
+        ListMultimap<CakeIngredient, BlockPos> content = MultimapBuilder.treeKeys(BlockPosVoxelCake::compare).arrayListValues().build();
+        Collection<BlockPos> toRemove = new ArrayList<>();
+        for (BlockPos pos : posIterable) {
+            pos = pos.toImmutable();
+            if (!traversed.add(pos)) continue;
+            CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos, null);
+            if (cakeIngredient != null) {
+                content.put(cakeIngredient, pos.subtract(origin));
+                toRemove.add(pos);
             }
         }
-        for (CakeIngredient cakeIngredient : content.keySet()) {
-            Collections.sort(content.get(cakeIngredient));
-        }
-        return of(bound.getBlockCountX(), content);
+        if (content.isEmpty()) return null;
+        int edgeLen = bound.getBlockCountY();
+        return Pair.of(of(edgeLen, content), toRemove);
     }
     public static BlockPosVoxelCake of(int edgeLen, Multimap<CakeIngredient, BlockPos> blockPosContent) {
         return of(edgeLen, blockPosContent, null, null);

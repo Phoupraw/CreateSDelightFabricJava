@@ -48,6 +48,7 @@ public final class CSDCommands {
                           BlockBox bound = BlockBox.create(vertex1, vertex2);
                           ServerWorld world = context.getSource().getWorld();
                           VoxelCake cake = VoxelCake.of(world, bound);
+                          if (cake == null) return 0;
                           PlayerEntity player = context.getSource().getPlayer();
                           if (player == null) return 0;
                           player.getInventory().offerOrDrop(PrintedCakeItem.of(cake));

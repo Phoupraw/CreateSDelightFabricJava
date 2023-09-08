@@ -3,6 +3,7 @@ package phoupraw.mcmod.createsdelight.block;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumHashBiMap;
 import com.simibubi.create.content.kinetics.base.KineticBlock;
+import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -13,6 +14,7 @@ import net.minecraft.block.enums.RailShape;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
@@ -34,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEntity> {
+public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEntity>, ICogWheel {
     public static final BiMap<RailShape, Set<Direction>> BI_DIRECTION = EnumHashBiMap.create(Map.of(
       RailShape.EAST_WEST, EnumSet.of(Direction.EAST, Direction.WEST),
       RailShape.NORTH_SOUTH, EnumSet.of(Direction.NORTH, Direction.SOUTH),
@@ -148,5 +150,12 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+    @Override
+    public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
+        if (((CakeOvenBlockEntity) context.getWorld().getBlockEntity(context.getBlockPos())).isNotWorking()) {
+            return super.onWrenched(state, context);
+        }
+        return ActionResult.FAIL;
     }
 }

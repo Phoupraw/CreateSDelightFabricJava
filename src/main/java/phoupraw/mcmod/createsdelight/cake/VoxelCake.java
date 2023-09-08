@@ -25,10 +25,10 @@ public interface VoxelCake {
     static @Nullable VoxelCake of(NbtCompound nbt) {
         return BlockPosVoxelCake.of(nbt);
     }
-    static VoxelCake of(World world, BlockBox bound) {
+    static @Nullable VoxelCake of(World world, BlockBox bound) {
         return BlockPosVoxelCake.of(world, bound);
     }
-    static VoxelCake of(StructureTemplate st, World world) {
+    static @Nullable VoxelCake of(StructureTemplate st, World world) {
         Vec3i size = st.getSize();
         SchematicWorld sw = new SchematicWorld(world);
         st.place(sw, BlockPos.ORIGIN, BlockPos.ORIGIN, new StructurePlacementData(), sw.getRandom(), 0);
