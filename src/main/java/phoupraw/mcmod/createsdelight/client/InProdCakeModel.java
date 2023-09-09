@@ -28,7 +28,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.List;
 import java.util.function.Supplier;
-
+@Deprecated
 public class InProdCakeModel implements BakedModel {
     public static final Identifier ID = ModelIds.getBlockModelId(CSDBlocks.IN_PROD_CAKE);
     public static final LoadingCache<VoxelCake, BakedModel> CACHE = CacheBuilder.newBuilder().build(CacheLoader.from(InProdCakeModel::toModel));

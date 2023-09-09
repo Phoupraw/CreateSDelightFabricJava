@@ -42,7 +42,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.*;
 import java.util.function.Supplier;
-
+//TODO 大改，看看伪装方块CopycatStepModel
 public class PrintedCakeModel implements BakedModel {
 
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
