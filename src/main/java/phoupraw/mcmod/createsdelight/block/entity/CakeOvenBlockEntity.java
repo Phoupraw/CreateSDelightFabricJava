@@ -3,7 +3,6 @@ package phoupraw.mcmod.createsdelight.block.entity;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
 import com.simibubi.create.AllSpecialTextures;
 import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -25,7 +24,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
-import org.joml.Vector3i;
 import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.misc.BlockPosVoxelCake;
@@ -153,7 +151,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             if (len2 < 0) {
                 continue;
             }
-            len2 = MathHelper.clamp(len2, 1, actual0.getYLength());//防止outline1超出outline0
+            len2 = MathHelper.clamp(len2, (double) len1 / edgeLen, actual0.getYLength());//防止outline1超出outline0
             Box outline1 = new Box(origin);//缩小的框
             BlockPos end = origin;
             Collection<BlockPos> starts = new LinkedList<>();
@@ -205,102 +203,6 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                 cakeBE.setVoxelCake(entireCake);
                 setTimeBegin(-2);
             }
-        }
-    }
-    public void tick2() {
-        super.tick();
-        if (isNotWorking()) return;
-        World world = getWorld();
-        int elapsed = (int) (world.getTime() - getTimeBegin());
-        int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
-        RailShape facing = getCachedState().get(CakeOvenBlock.FACING);
-        var biDirection = CakeOvenBlock.BI_DIRECTION_MAP.get(facing);
-        Direction directionX = biDirection.get(Direction.Axis.X);
-        Direction directionZ = biDirection.get(Direction.Axis.Z);
-        BlockPos origin = getPos().up();
-        BlockBox bound = new BlockBox(origin);
-        Box outline0;//扩大的框
-        Collection<Box> outlines;
-        Direction highlightFace = null;
-        if (elapsed <= edgeLen) {
-            for (Direction direction : appended(biDirection.values(), Direction.UP)) {
-                bound = expanded(bound, direction, Math.max(0, elapsed - 1));
-            }
-            for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
-                for (int y = bound.getMinY(); y <= bound.getMaxY(); y++) {
-                    for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
-                        BlockPos pos1 = new BlockPos(x, y, z);
-                        CakeIngredient cakeIngredient = CakeIngredient.LOOKUP.find(world, pos1, null);
-                        if (cakeIngredient == null) continue;
-                        if (world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState())) {
-                            InProdCakeBlockEntity inProd = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
-                            Vector3i relative0 = new Vector3i(
-                              Math.abs(pos1.getX() - origin.getX()),
-                              Math.abs(pos1.getY() - origin.getY()),
-                              Math.abs(pos1.getZ() - origin.getZ()));
-                            if (directionX == (Direction.WEST)) {
-                                relative0.x = edgeLen - 1 - relative0.x;
-                            }
-                            if (directionZ == (Direction.NORTH)) {
-                                relative0.z = edgeLen - 1 - relative0.z;
-                            }
-                            BlockPos relative = new BlockPos(relative0.x, relative0.y, relative0.z);
-                            inProd.setVoxelCake(BlockPosVoxelCake.of(edgeLen, Multimaps.forMap(Map.of(cakeIngredient, relative))));
-                            inProd.edgeLen = edgeLen;
-                            inProd.relative = relative;
-                        }
-                    }
-                }
-            }
-        } else {
-            int elapsed1 = elapsed - edgeLen;
-            int edgeLen1 = edgeLen - 1;
-            if (edgeLen1 - elapsed1 >= 0) {
-                highlightFace = Direction.UP;
-                for (Direction direction : biDirection.values()) {
-                    bound = expanded(bound, direction, edgeLen1);
-                }
-                bound = expanded(bound, Direction.UP, edgeLen1 - elapsed1);
-                if (bound.getBlockCountY() < edgeLen) {
-                    int y = bound.getMaxY();
-                    for (int x = bound.getMinX(); x <= bound.getMaxX(); x++) {
-                        for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
-                            combine(world, origin, edgeLen, new BlockPos(x, y, z), Direction.UP);
-                        }
-                    }
-                }
-            } else if (edgeLen1 * 2 - elapsed1 >= 0) {
-                highlightFace = directionX;
-                bound = expanded(bound, directionX, edgeLen1 * 2 - elapsed1);
-                bound = expanded(bound, directionZ, edgeLen1);
-                if (bound.getBlockCountX() < edgeLen) {
-                    int x = directionX == Direction.EAST ? bound.getMaxX() : bound.getMinX();
-                    int y = origin.getY();
-                    for (int z = bound.getMinZ(); z <= bound.getMaxZ(); z++) {
-                        combine(world, origin, edgeLen, new BlockPos(x, y, z), directionX);
-                    }
-                }
-            } else if (edgeLen1 * 3 - elapsed1 >= 0) {
-                highlightFace = directionZ;
-                bound = expanded(bound, directionZ, edgeLen1 * 3 - elapsed1);
-                if (bound.getBlockCountZ() < edgeLen) {
-                    int z = directionZ == Direction.SOUTH ? bound.getMaxZ() : bound.getMinZ();
-                    combine(world, origin, edgeLen, new BlockPos(origin.getX(), origin.getY(), z), directionZ);
-                }
-            } else {
-
-                setTimeBegin(-1);
-                return;
-            }
-        }
-        if (world.isClient()) {
-            CreateClient.OUTLINER
-              .chaseAABB(this, Box.from(bound))
-              .withFaceTextures(AllSpecialTextures.CHECKERED, AllSpecialTextures.HIGHLIGHT_CHECKERED)
-              .colored(0xffaa00)
-              .lineWidth(1 / 16f)
-              .highlightFace(highlightFace);
-            CreateClient.OUTLINER.keep(this);
         }
     }
     @Override

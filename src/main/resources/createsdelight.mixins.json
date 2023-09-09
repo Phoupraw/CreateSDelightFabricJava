@@ -3,10 +3,9 @@
   "package": "phoupraw.mcmod.createsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "phoupraw.mcmod.createsdelight.CSDMixinConfigPlugin"
+  "plugin": "phoupraw.mcmod.createsdelight.CSDMixinConfigPlugin", "client": ["AChasingAABBOutline"]
 }
