@@ -12,6 +12,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
@@ -256,7 +257,7 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
         ItemStack stack = super.getPickStack(world, pos, state);
         var be = (PrintedCakeBlockEntity) world.getBlockEntity(pos);
         if (be != null) {
-            BlockItem.setBlockEntityNbt(stack, be.getType(), be.createNbt());
+            BlockItem.setBlockEntityNbt(stack, be.getType(), be.writeBlockEntityTag(new NbtCompound()));
             if (be.getCustomName() != null) {
                 stack.setCustomName(be.getCustomName());
             }

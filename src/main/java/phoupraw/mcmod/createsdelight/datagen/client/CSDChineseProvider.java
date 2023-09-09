@@ -3,17 +3,16 @@ package phoupraw.mcmod.createsdelight.datagen.client;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
 import phoupraw.mcmod.createsdelight.registry.CSDStatusEffects;
 
 public final class CSDChineseProvider extends FabricLanguageProvider {
-
     public CSDChineseProvider(FabricDataOutput dataOutput) {
         super(dataOutput, "zh_cn");
     }
-
     @Override
     public void generateTranslations(TranslationBuilder b) {
         b.add("modmenu.nameTranslation." + CreateSDelight.MOD_ID, "机械动力乐事");
@@ -32,6 +31,6 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         b.add(CSDItems.EGG_SHELL, "鸡蛋壳");
         b.add(CSDItems.KELP_ASH, "海带灰烬");
         b.add(CSDStatusEffects.SATIATION, "饱食");
+        b.add(PrintedCakeItem.getTranslationKey("brownie"), "巧克力饼干蛋糕");
     }
-
 }

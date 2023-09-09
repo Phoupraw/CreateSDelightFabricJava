@@ -65,15 +65,16 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     @Override
     protected void write(NbtCompound tag, boolean clientPacket) {
         super.write(tag, clientPacket);
-        Identifier predefined = this.predefined;
-        if (predefined != null) {
-            tag.putString("predefined", predefined.toString());
-        } else if (getVoxelCake() != null) {
-            tag.put("voxelCake", getVoxelCake().toNbt());
-        }
+        writeBlockEntityTag(tag);
         if (getCustomName() != null) {
             tag.putString("CustomName", Text.Serializer.toJson(getCustomName()));
         }
+    }
+    public NbtCompound writeBlockEntityTag(NbtCompound nbt) {
+        if (getVoxelCake() != null) {
+            nbt.put("voxelCake", getVoxelCake().toNbt());
+        }
+        return nbt;
     }
     @Override
     protected void read(NbtCompound tag, boolean clientPacket) {
@@ -94,8 +95,10 @@ public class PrintedCakeBlockEntity extends SmartBlockEntity implements Nameable
     }
     public void setVoxelCake(@Nullable VoxelCake voxelCake) {
         this.voxelCake = voxelCake;
-        if (voxelCake != null) {sendData();} else {
-            CreateSDelight.LOGGER.error("在%s位置的蛋糕的NBT不正确！".formatted(getPos()));
+        if (voxelCake != null) {
+            sendData();
+        } else {
+            CreateSDelight.LOGGER.error("在坐标(%s)的蛋糕的NBT不正确！".formatted(getPos().toShortString()));
         }
     }
 }

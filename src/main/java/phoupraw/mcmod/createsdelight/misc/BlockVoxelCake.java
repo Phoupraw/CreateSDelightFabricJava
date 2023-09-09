@@ -53,7 +53,7 @@ public interface BlockVoxelCake {
             throw new RuntimeException(e);
         }
     }
-    static Pair<Multimap<CakeIngredient, Vector3ic>, Map<Vector3ic, CakeIngredient>> fromGzip(Vector3ic size, Map<Integer, CakeIngredient> pallete, byte[] gzipBytes) {
+    static Pair<Multimap<CakeIngredient, Vector3ic>, Map<Vector3ic, CakeIngredient>> fromGzip(Vector3ic size, Map<Integer, CakeIngredient> pallete, byte[] gzipBytes) throws IOException {
         Multimap<CakeIngredient, Vector3ic> ingredient2pos = MultimapBuilder.hashKeys().arrayListValues().build();
         Map<Vector3ic, CakeIngredient> pos2ingredient = new HashMap<>();
         try (var input = new ByteArrayInputStream(gzipBytes); var gzip = new GZIPInputStream(input)) {
@@ -71,9 +71,9 @@ public interface BlockVoxelCake {
                 }
             }
         } catch (IOException e) {
-            CreateSDelight.LOGGER.catching(e);
-            CreateSDelight.LOGGER.error(Arrays.toString(gzipBytes));
-            return Pair.of(EmptyVoxelCake.emptyListMultimap(), Map.of());
+            CreateSDelight.LOGGER.error("gzipBytes: " + Arrays.toString(gzipBytes));
+            throw e;
+            //return Pair.of(EmptyVoxelCake.emptyListMultimap(), Map.of());
         }
         return Pair.of(ingredient2pos, pos2ingredient);
     }
@@ -91,7 +91,14 @@ public interface BlockVoxelCake {
             pallete.put(i, CSDRegistries.get(CSDRegistries.CAKE_INGREDIENT, new Identifier(nbtPallete.getString(i))));
         }
         byte[] gzipBytes = nbt.getByteArray("gzip");
-        var pair = fromGzip(size, pallete, gzipBytes);
+        Pair<Multimap<CakeIngredient, Vector3ic>, Map<Vector3ic, CakeIngredient>> pair = null;
+        try {
+            pair = fromGzip(size, pallete, gzipBytes);
+        } catch (IOException e) {
+            CreateSDelight.LOGGER.error("nbt: " + nbt);
+            CreateSDelight.LOGGER.catching(e);
+            return Triple.of(size, EmptyVoxelCake.emptyListMultimap(), Map.of());
+        }
         return Triple.of(size, pair.getLeft(), pair.getRight());
     }
     static NbtCompound write(BlockVoxelCake voxelCake, @NotNull NbtCompound nbt) {

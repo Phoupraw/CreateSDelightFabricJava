@@ -1,11 +1,12 @@
 package phoupraw.mcmod.createsdelight.registry;
 
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
@@ -17,6 +18,8 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
+
+import java.util.Map;
 
 /**
  * 物品编写流程：
@@ -36,7 +39,6 @@ import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
  * </ol>
  */
 public final class CSDItems {
-
     //方块
     public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.CAKE_OVEN, new FabricItemSettings());
     public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
@@ -48,7 +50,6 @@ public final class CSDItems {
     //其它
     public static final Item EGG_SHELL = new Item(new FabricItemSettings());
     public static final Item KELP_ASH = new Item(new FabricItemSettings());
-
     public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
       .displayName(Text.translatable(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup")))
       .icon(Items.CAKE::getDefaultStack)
@@ -64,19 +65,26 @@ public final class CSDItems {
         register(CSDIdentifiers.KELP_ASH, KELP_ASH);
         Registry.register(Registries.ITEM_GROUP, CSDIdentifiers.ITEM_GROUP, ITEM_GROUP);
     }
-
     @Contract("_, _ -> param2")
     public static <T extends Item> T register(Identifier id, T item) {
         return Registry.register(Registries.ITEM, id, item);
     }
-
     private static void addItemGroupEntries(ItemGroup.DisplayContext displayContext, ItemGroup.Entries entries) {
+        try {
+            for (Map.Entry<String, String> entry : PrintedCakeItem.PREDEFINEDS.entrySet()) {
+                NbtCompound blockEntityTag = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
+                ItemStack itemStack = PRINTED_CAKE.getDefaultStack();
+                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.PRINTED_CAKE, blockEntityTag);
+                itemStack.setCustomName(Text.translatable(PrintedCakeItem.getTranslationKey(entry.getKey())));
+                entries.add(itemStack);
+            }
+        } catch (CommandSyntaxException e) {
+            throw new RuntimeException(e);
+        }
         for (Item item : new Item[]{CSDItems.CAKE_OVEN, CSDItems.CHOCOLATE_BLOCK, CSDItems.CREAM_BLOCK, CSDItems.BUCKETED_EGG_LIQUID, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
             entries.add(item);
         }
     }
-
     private CSDItems() {
     }
-
 }
