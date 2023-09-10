@@ -45,14 +45,17 @@ public class CakeOvenRenderer extends KineticBlockEntityRenderer<CakeOvenBlockEn
             int len1 = entry.getKey();
             double len2 = 2 * len1 - len0;
             double len3 = (double) len1 / edgeLen;
-            len2 = Math.max(1, len2);
-            double delta = (len1 - len2) / (len1 - 1);
+            len2 = Math.max(len3, len2);
+            double delta = (len1 - len2) / (len1 - len3);//delta越大，scale越小。
             Outliner.OutlineEntry outlineEntry = CreateClient.OUTLINER.getOutlines().get(len1);
             if (outlineEntry != null && outlineEntry.getOutline() instanceof ChasingAABBOutline aabbOutline0) {
                 var aabbOutline = (ChasingAABBOutline & AChasingAABBOutline) aabbOutline0;
                 Box interpolated = AChasingAABBOutline.invokeInterpolateBBs(aabbOutline.getPrevBB(), aabbOutline.getBounds(), partialTicks);
                 len2 = interpolated.getYLength();
-                delta = (len1 - len2) / (len1 - len3);
+                double delta2 = (len1 - len2) / (len1 - len3);
+                //delta = MathHelper.lerp(Math.pow(1 - delta,5), delta2, delta);
+                //delta=delta2;
+                delta = Math.min(delta, delta2);
             }
             float scale = (float) MathHelper.lerp(delta, edgeLen, 1);
             ts.pushPose();
@@ -64,7 +67,7 @@ public class CakeOvenRenderer extends KineticBlockEntityRenderer<CakeOvenBlockEn
             ts.scale(scale);
             BakedModel model = InProdCakeModel.CACHE.getUnchecked(voxelCake);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderLayers.getBlockLayer(cachedState));
-            context.getRenderManager().getModelRenderer().render(be.getWorld(), model, Blocks.GLOWSTONE.getDefaultState(), be.getPos().up(), ms, vertexConsumer, false, Random.create(0), 0, overlay);
+            context.getRenderManager().getModelRenderer().render(be.getWorld(), model, Blocks.GLOWSTONE.getDefaultState()/*用荧石，使模型没有莫名其妙的阴影*/, be.getPos().up(), ms, vertexConsumer, false, Random.create(0), 0, overlay);
             ts.popPose();
         }
         ts.popPose();

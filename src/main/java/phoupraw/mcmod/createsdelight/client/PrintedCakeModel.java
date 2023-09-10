@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -18,8 +17,6 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
-import net.minecraft.client.render.model.json.ModelOverrideList;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.item.BlockItem;
@@ -42,15 +39,14 @@ import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.*;
 import java.util.function.Supplier;
-//TODO 大改，看看伪装方块CopycatStepModel
-public class PrintedCakeModel implements BakedModel {
 
+//TODO 大改，看看伪装方块CopycatStepModel
+public class PrintedCakeModel implements HasDepthBakedModel, CustomBakedModel {
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
     public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
     public static final Map<VoxelCake, Map<Direction, BakedModel>> BLOCK_CACHE = new WeakHashMap<>();
     public static final Map<NbtCompound, BakedModel> ITEM_CACHE = new WeakHashMap<>();
     public static final Map<CakeIngredient, Sprite> SPRITE_CACHE = new WeakHashMap<>();
-
     public static @NotNull Map<Direction, BakedModel> BLOCK_CACHE_get(VoxelCake voxelCake) {
         var map = BLOCK_CACHE.get(voxelCake);
         if (map == null) {
@@ -59,15 +55,12 @@ public class PrintedCakeModel implements BakedModel {
         }
         return map;
     }
-
     public static @Nullable BakedModel BLOCK_CACHE_get(VoxelCake voxelCake, Direction facing) {
         return BLOCK_CACHE_get(voxelCake).get(facing);
     }
-
     public static @Nullable BakedModel BLOCK_CACHE_put(VoxelCake voxelCake, Direction facing, BakedModel bakedModel) {
         return BLOCK_CACHE_get(voxelCake).put(facing, bakedModel);
     }
-
     public static BakedModel content2model(VoxelCake voxelCake, Direction facing) {
         var faceContent = content2faces(voxelCake, facing);
         ListMultimap<@Nullable Direction, BakedQuad> faces2quads = MultimapBuilder.ListMultimapBuilder.hashKeys().linkedListValues().build();
@@ -80,32 +73,32 @@ public class PrintedCakeModel implements BakedModel {
             switch (norminalFace) {
                 case WEST -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minZ, face.minY, face.maxZ, face.maxY, face.minX, sprite, faces2quads, facing);
+                        square(emitter, norminalFace, face.minZ, face.minY, face.maxZ, face.maxY, face.minX, sprite, faces2quads);
                     }
                 }
                 case EAST -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, 1 - face.maxZ, face.minY, 1 - face.minZ, face.maxY, 1 - face.maxX, sprite, faces2quads, facing);
+                        square(emitter, norminalFace, 1 - face.maxZ, face.minY, 1 - face.minZ, face.maxY, 1 - face.maxX, sprite, faces2quads);
                     }
                 }
                 case DOWN -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, face.minZ, face.maxX, face.maxZ, face.minY, sprite, faces2quads, facing);
+                        square(emitter, norminalFace, face.minX, face.minZ, face.maxX, face.maxZ, face.minY, sprite, faces2quads);
                     }
                 }
                 case UP -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, 1 - face.maxZ, face.maxX, 1 - face.minZ, 1 - face.maxY, sprite, faces2quads, facing);
+                        square(emitter, norminalFace, face.minX, 1 - face.maxZ, face.maxX, 1 - face.minZ, 1 - face.maxY, sprite, faces2quads);
                     }
                 }
                 case NORTH -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, 1 - face.maxX, face.minY, 1 - face.minX, face.maxY, face.minZ, sprite, faces2quads, facing);
+                        square(emitter, norminalFace, 1 - face.maxX, face.minY, 1 - face.minX, face.maxY, face.minZ, sprite, faces2quads);
                     }
                 }
                 case SOUTH -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, face.minY, face.maxX, face.maxY, 1 - face.maxZ, sprite, faces2quads, facing);
+                        square(emitter, norminalFace, face.minX, face.minY, face.maxX, face.maxY, 1 - face.maxZ, sprite, faces2quads);
                     }
                 }
             }
@@ -113,7 +106,6 @@ public class PrintedCakeModel implements BakedModel {
         //noinspection ConstantConditions
         return new SimpleBlockBakedModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
     }
-
     public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake, Direction facing) {
         Table<CakeIngredient, Direction, Collection<BlockBox>> faceContent0 = HashBasedTable.create(cake.getContent().size(), Direction.values().length);
         for (Map.Entry<CakeIngredient, BlockBox> entry : cake.getContent().entries()) {
@@ -175,7 +167,6 @@ public class PrintedCakeModel implements BakedModel {
         }
         return faceContent;
     }
-
     @Environment(EnvType.CLIENT)
     public static @NotNull Sprite getSprite(CakeIngredient cakeIngredient) {
         Sprite sprite = SPRITE_CACHE.get(cakeIngredient);
@@ -185,19 +176,31 @@ public class PrintedCakeModel implements BakedModel {
         }
         return sprite;
     }
-
-    public static void square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, @Nullable Multimap<@Nullable Direction, BakedQuad> faces2quads, Direction facing) {
-        Direction face = depth < QuadEmitter.CULL_FACE_EPSILON ? norminalFace : null;
-        BakedQuad quad = emitter
+    public static QuadEmitter square(QuadEmitter emitter, Box box, Direction norminalFace) {
+        return switch (norminalFace) {
+            case WEST -> square(emitter, norminalFace, box.minZ, box.minY, box.maxZ, box.maxY, box.minX);
+            case EAST -> square(emitter, norminalFace, 1 - box.maxZ, box.minY, 1 - box.minZ, box.maxY, 1 - box.maxX);
+            case DOWN -> square(emitter, norminalFace, box.minX, box.minZ, box.maxX, box.maxZ, box.minY);
+            case UP -> square(emitter, norminalFace, box.minX, 1 - box.maxZ, box.maxX, 1 - box.minZ, 1 - box.maxY);
+            case NORTH -> square(emitter, norminalFace, 1 - box.maxX, box.minY, 1 - box.minX, box.maxY, box.minZ);
+            case SOUTH -> square(emitter, norminalFace, box.minX, box.minY, box.maxX, box.maxY, 1 - box.maxZ);
+        };
+    }
+    public static QuadEmitter square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth) {
+        return emitter.square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth);
+    }
+    public static BakedQuad square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite) {
+        return emitter
           .square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth)
           .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
           .color(-1, -1, -1, -1)
           .toBakedQuad(sprite);
-        if (faces2quads != null) {
-            faces2quads.put(face, quad);
-        }
     }
-
+    public static void square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, Multimap<@Nullable Direction, BakedQuad> faces2quads) {
+        Direction face = depth < QuadEmitter.CULL_FACE_EPSILON ? norminalFace : null;
+        BakedQuad quad = square(emitter, norminalFace, left, bottom, right, top, depth, sprite);
+        faces2quads.put(face, quad);
+    }
     public static @Unmodifiable Map<Direction, BlockBox> to6Faces(BlockBox box) {
         return Map.of(
           Direction.WEST, new BlockBox(box.getMinX(), box.getMinY(), box.getMinZ(), box.getMinX(), box.getMaxY(), box.getMaxZ()),
@@ -208,7 +211,6 @@ public class PrintedCakeModel implements BakedModel {
           Direction.SOUTH, new BlockBox(box.getMinX(), box.getMinY(), box.getMaxZ(), box.getMaxX(), box.getMaxY(), box.getMaxZ())
         );
     }
-
     public static boolean approx(double a, double b) {
         return Math.abs(a - b) < QuadEmitter.CULL_FACE_EPSILON;
     }
@@ -218,12 +220,6 @@ public class PrintedCakeModel implements BakedModel {
         }
         return true;
     }
-
-    @Override
-    public boolean isVanillaAdapter() {
-        return false;
-    }
-
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         if (blockView.getBlockEntity(pos) instanceof PrintedCakeBlockEntity blockEntity) {
@@ -243,7 +239,6 @@ public class PrintedCakeModel implements BakedModel {
         MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitBlockQuads(blockView, state, pos, randomSupplier, context);
         context.popTransform();
     }
-
     /**
      * 每一帧，游戏都会调用一次这个方法
      */
@@ -271,49 +266,9 @@ public class PrintedCakeModel implements BakedModel {
             context.popTransform();
         }
     }
-
-    /**
-     * 当{@link #isVanillaAdapter()}返回{@code true}时，这个方法根本不会被游戏主动调用。
-     */
-    @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
-        return List.of();
-    }
-
-    @Override
-    public boolean useAmbientOcclusion() {
-        return false;
-    }
-
-    @Override
-    public boolean hasDepth() {
-        return true;
-    }
-
-    @Override
-    public boolean isSideLit() {
-        return true;
-    }
-
-    @Override
-    public boolean isBuiltin() {
-        return false;
-    }
-
     @Override
     public Sprite getParticleSprite() {
         //noinspection ConstantConditions
         return FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK));
     }
-
-    @Override
-    public ModelTransformation getTransformation() {
-        return ModelHelper.MODEL_TRANSFORM_BLOCK;
-    }
-
-    @Override
-    public ModelOverrideList getOverrides() {
-        return ModelOverrideList.EMPTY;
-    }
-
 }

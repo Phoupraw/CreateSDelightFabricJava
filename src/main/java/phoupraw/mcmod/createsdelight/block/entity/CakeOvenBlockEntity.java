@@ -138,7 +138,7 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             CreateClient.OUTLINER
               .chaseAABB(this, outline0)
               .withFaceTexture(AllSpecialTextures.CHECKERED)
-              .colored(0xffaa00)
+              .colored(0xFFAA00)
               .lineWidth(1 / 16f);
             if (CreateClient.OUTLINER.getOutlines().get(this).getOutline() instanceof AABBOutline aabbOutline) {
                 actual0 = aabbOutline.getBounds();//outline0的实际大小
@@ -161,23 +161,19 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                 starts.add(origin.offset(direction, len1 - 1));
             }
             if (!len1s.containsKey(len1)) {
-                Collection<Iterable<BlockPos>> poseses = new LinkedList<>();
+                Collection<Iterable<BlockPos>> posIterable0s = new LinkedList<>();
                 for (BlockPos start : starts) {
-                    poseses.add(BlockPos.iterate(start, end));
+                    posIterable0s.add(BlockPos.iterate(start, end));
                 }
-                Iterable<BlockPos> posIterable = Iterables.concat(poseses);
-                var pair = BlockPosVoxelCake.of(world, bound, posIterable);
+                Iterable<BlockPos> posIterable1 = Iterables.concat(posIterable0s);
+                var pair = BlockPosVoxelCake.of(world, bound, posIterable1);
                 if (pair == null) {
                     len1s.put(len1, null);
                 } else {
                     len1s.put(len1, pair.getLeft());
-                    //if (!world.isClient()) {
                     for (BlockPos pos2 : pair.getRight()) {
-                        //world.removeBlock(pos2, false);
                         world.setBlockState(pos2, world.getFluidState(pos2).getBlockState(), Block.NOTIFY_NEIGHBORS);
                     }
-                    //}
-                    //toRemove.addAll(pair.getRight());
                 }
             }
             if (world.isClient()) {
@@ -197,10 +193,12 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
                     if (cake == null) continue;
                     blockPosContent.putAll(cake.blockPosContent);
                 }
-                var entireCake = BlockPosVoxelCake.of(edgeLen, blockPosContent);
-                world.setBlockState(origin, CSDBlocks.PRINTED_CAKE.getDefaultState());
-                PrintedCakeBlockEntity cakeBE = (PrintedCakeBlockEntity) world.getBlockEntity(origin);
-                cakeBE.setVoxelCake(entireCake);
+                if (!blockPosContent.isEmpty()) {
+                    var entireCake = BlockPosVoxelCake.of(edgeLen, blockPosContent);
+                    world.setBlockState(origin, CSDBlocks.PRINTED_CAKE.getDefaultState());
+                    PrintedCakeBlockEntity cakeBE = (PrintedCakeBlockEntity) world.getBlockEntity(origin);
+                    cakeBE.setVoxelCake(entireCake);
+                }
                 setTimeBegin(-2);
             }
         }
