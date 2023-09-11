@@ -22,6 +22,7 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +32,8 @@ import java.util.stream.Stream;
 
 public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
-    public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_N = Stream.concat(Stream.of(Direction.values()), Stream.of((Direction) null)).toList();
-    public static final BlockPos SAMPLE_1_SIZE = new BlockPos(1, 1, 1).multiply(16);
+    public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_N = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
+    public static final BlockPos SAMPLE_1_SIZE = new BlockPos(1, 1, 1).multiply(64);
     public static final Map<BlockPos, BlockState> SAMPLE_1;
     static {
         SAMPLE_1 = new HashMap<>();
@@ -43,26 +44,51 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     }
     public static void emitBlockQuads(Map<BlockPos, BlockState> map, Vec3i size, Supplier<Random> randomSupplier, RenderContext context) {
         Table<Vec3i, Direction, Sprite> table = HashBasedTable.create();
-        for (Map.Entry<BlockPos, BlockState> entry : map.entrySet()) {
+        long t = (System.currentTimeMillis());
+        long seed;
+        if (randomSupplier.get() instanceof ALocalRandom localRandom) {
+            seed = localRandom.getSeed();
+        } else {
+            seed = 1;
+        }
+        map.entrySet().stream().parallel().forEach(entry -> {
             BlockPos pos = entry.getKey();
             BlockState state = entry.getValue();
             BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
             for (Direction face : DIRECTIONS) {
                 BlockPos neighborPos = pos.offset(face);
                 if (!map.containsKey(neighborPos)) {
-                    for (BakedQuad quad : model.getQuads(state, face, randomSupplier.get())) {
-                        table.put(pos, face, quad.getSprite());
-                        break;
+                    Random random = null;
+                    while (true) {
+                        try {
+                            for (BakedQuad quad : model.getQuads(state, face, random)) {
+                                synchronized (table) {
+                                    table.put(pos, face, quad.getSprite());
+                                }
+                                break;
+                            }
+                            break;
+                        } catch (NullPointerException e) {
+                            if (random == null) {
+                                synchronized (randomSupplier) {
+                                    random = randomSupplier.get();
+                                }
+                            } else {
+                                throw e;
+                            }
+                        }
                     }
                 }
             }
-        }
+        });
+        //CreateSDelight.LOGGER.warn("emitBlockQuads: " + (System.currentTimeMillis() - t));
         emitQuads(table, size, context);
     }
     public static void emitQuads(Table<Vec3i, Direction, Sprite> table, Vec3i size, RenderContext context) {
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
+        long t = (System.currentTimeMillis());
         for (var rowEntry : table.rowMap().entrySet()) {
             var pos = rowEntry.getKey();
             var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
@@ -73,6 +99,7 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
                   .emit();
             }
         }
+        //CreateSDelight.LOGGER.warn(System.currentTimeMillis() - t);
         meshBuilder.build().outputTo(context.getEmitter());
     }
     public static boolean isValid(BlockState blockState, BlockView world, BlockPos pos) {
@@ -84,6 +111,8 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     }
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+        long t = (System.currentTimeMillis());
         emitBlockQuads(SAMPLE_1, SAMPLE_1_SIZE, randomSupplier, context);
+        //CreateSDelight.LOGGER.warn("outer: " + (System.currentTimeMillis() - t));
     }
 }
