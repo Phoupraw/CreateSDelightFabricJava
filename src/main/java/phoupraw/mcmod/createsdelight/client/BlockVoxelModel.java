@@ -2,10 +2,13 @@ package phoupraw.mcmod.createsdelight.client;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.collect.Tables;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
+import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,6 +17,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShapes;
@@ -22,11 +26,14 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
+import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -43,7 +50,7 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
         }
     }
     public static void emitBlockQuads(Map<BlockPos, BlockState> map, Vec3i size, Supplier<Random> randomSupplier, RenderContext context) {
-        Table<Vec3i, Direction, Sprite> table = HashBasedTable.create();
+        Table<Vec3i, Direction, Sprite> table = Tables.synchronizedTable(HashBasedTable.create());
         long t = (System.currentTimeMillis());
         long seed;
         if (randomSupplier.get() instanceof ALocalRandom localRandom) {
@@ -58,25 +65,9 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
             for (Direction face : DIRECTIONS) {
                 BlockPos neighborPos = pos.offset(face);
                 if (!map.containsKey(neighborPos)) {
-                    Random random = null;
-                    while (true) {
-                        try {
-                            for (BakedQuad quad : model.getQuads(state, face, random)) {
-                                synchronized (table) {
-                                    table.put(pos, face, quad.getSprite());
-                                }
-                                break;
-                            }
-                            break;
-                        } catch (NullPointerException e) {
-                            if (random == null) {
-                                synchronized (randomSupplier) {
-                                    random = randomSupplier.get();
-                                }
-                            } else {
-                                throw e;
-                            }
-                        }
+                    for (BakedQuad quad : model.getQuads(state, face, Random.create(seed))) {
+                        table.put(pos, face, quad.getSprite());
+                        break;
                     }
                 }
             }
@@ -84,26 +75,94 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
         //CreateSDelight.LOGGER.warn("emitBlockQuads: " + (System.currentTimeMillis() - t));
         emitQuads(table, size, context);
     }
+    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size, Supplier<Random> randomSupplier) {
+        Map<Vec3i, Map<Direction, Sprite>> table = new SupplierDefaultedMap<>(new ConcurrentHashMap<>(), SupplierDefaultedMap.newingEnumMap(Direction.class));
+        long seed;
+        if (randomSupplier.get() instanceof ALocalRandom localRandom) {
+            seed = localRandom.getSeed();
+        } else {
+            seed = 1;
+        }
+        voxels.entrySet().stream().parallel().forEach(entry -> {
+            BlockPos pos = entry.getKey();
+            BlockState state = entry.getValue();
+            BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
+            for (Direction face : DIRECTIONS) {
+                BlockPos neighborPos = pos.offset(face);
+                if (!voxels.containsKey(neighborPos)) {
+                    for (BakedQuad quad : model.getQuads(state, face, Random.create(seed))) {
+                        table.get(pos).put(face, quad.getSprite());
+                        break;
+                    }
+                }
+            }
+        });
+        return table;
+    }
     public static void emitQuads(Table<Vec3i, Direction, Sprite> table, Vec3i size, RenderContext context) {
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
-        long t = (System.currentTimeMillis());
         for (var rowEntry : table.rowMap().entrySet()) {
             var pos = rowEntry.getKey();
             var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
             for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
+                Sprite sprite = entry.getValue();
                 PrintedCakeModel.square(emitter, box, entry.getKey())
                   .color(-1, -1, -1, -1)
-                  .spriteBake(entry.getValue(), MutableQuadView.BAKE_LOCK_UV)
+                  .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
                   .emit();
             }
         }
-        //CreateSDelight.LOGGER.warn(System.currentTimeMillis() - t);
         meshBuilder.build().outputTo(context.getEmitter());
+    }
+    public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads(Map<Vec3i, Map<Direction, Sprite>> table, Vec3i size) {
+        Map<@Nullable Direction, List<BakedQuad>> cullFace2quads = DefaultedMap.arrayListHashMultimap();
+        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        QuadEmitter emitter = meshBuilder.getEmitter();
+        var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
+        for (var rowEntry : table.entrySet()) {
+            var pos = rowEntry.getKey();
+            var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
+            for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
+                Sprite sprite = entry.getValue();
+                var quad0 = PrintedCakeModel.square(emitter, box, entry.getKey())
+                  .color(-1, -1, -1, -1)
+                  .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
+                Direction cullFace = quad0.cullFace();
+                BakedQuad quad = quad0.toBakedQuad(sprite);
+                cullFace2quads.get(cullFace).add(quad);
+            }
+        }
+        return cullFace2quads;
+    }
+    @Deprecated
+    public static MeshBuilder makeQuads(Map<Vec3i, Map<Direction, Sprite>> table, Vec3i size) {
+        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        QuadEmitter emitter = meshBuilder.getEmitter();
+        var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
+        for (var rowEntry : table.entrySet()) {
+            var pos = rowEntry.getKey();
+            var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
+            for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
+                Sprite sprite = entry.getValue();
+                PrintedCakeModel.square(emitter, box, entry.getKey())
+                  .color(-1, -1, -1, -1)
+                  .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
+                  .emit()
+                  .toBakedQuad(sprite);
+            }
+        }
+        return meshBuilder;
     }
     public static boolean isValid(BlockState blockState, BlockView world, BlockPos pos) {
         return blockState.getOutlineShape(world, pos).getBoundingBox().equals(VoxelShapes.fullCube().getBoundingBox()) && !blockState.getCollisionShape(world, pos).isEmpty();
+    }
+    public static Map<@Nullable Direction, List<BakedQuad>> collect(Mesh mesh) {
+        Map<@Nullable Direction, List<BakedQuad>> cullFaces2quads = DefaultedMap.arrayListHashMultimap();
+        SpriteFinder finder = SpriteFinder.get(MinecraftClient.getInstance().getBakedModelManager().getAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE));
+        mesh.forEach(quad -> cullFaces2quads.get(quad.cullFace()).add(quad.toBakedQuad(finder.find(quad))));
+        return cullFaces2quads;
     }
     @Override
     public Sprite getParticleSprite() {
@@ -112,6 +171,9 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         long t = (System.currentTimeMillis());
+        //emitBlockQuads();
+        //MeshBuilder meshBuilder = makeQuads(makeCullFaces(SAMPLE_1,SAMPLE_1_SIZE,randomSupplier),SAMPLE_1_SIZE);
+        //meshBuilder.build().outputTo(context.getEmitter());
         emitBlockQuads(SAMPLE_1, SAMPLE_1_SIZE, randomSupplier, context);
         //CreateSDelight.LOGGER.warn("outer: " + (System.currentTimeMillis() - t));
     }

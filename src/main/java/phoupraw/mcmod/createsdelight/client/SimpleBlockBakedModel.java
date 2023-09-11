@@ -10,38 +10,34 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 public class SimpleBlockBakedModel implements HasDepthBakedModel {
-    private final ListMultimap<@Nullable Direction, BakedQuad> faces2quads;
+    public static SimpleBlockBakedModel of(ListMultimap<@Nullable Direction, BakedQuad> cullFace2quads, @NotNull Sprite particleSprite) {
+        return new SimpleBlockBakedModel((Map<@Nullable Direction, List<BakedQuad>>) (Object) cullFace2quads.asMap(), particleSprite);
+    }
+    public final Map<@Nullable Direction, List<BakedQuad>> cullFace2quads;
     private final Sprite particleSprite;
-    public SimpleBlockBakedModel(ListMultimap<@Nullable Direction, BakedQuad> faces2quads, @NotNull Sprite particleSprite) {
-        this.faces2quads = faces2quads;
+    public SimpleBlockBakedModel(Map<@Nullable Direction, List<BakedQuad>> cullFace2quads, Sprite particleSprite) {
+        this.cullFace2quads = cullFace2quads;
         this.particleSprite = particleSprite;
     }
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
-        return getFaces2quads().get(face);
+        return cullFace2quads.get(face);
     }
-
     @Override
     public boolean isBuiltin() {
         return false;
     }
-
     @Override
     public Sprite getParticleSprite() {
         return particleSprite;
     }
-
     @Override
     public String toString() {
         return "SimpleBakedModel{" +
-               "faces2quads=" + faces2quads + ", " +
+               "faces2quads=" + cullFace2quads + ", " +
                "particle=" + particleSprite + '}';
     }
-
-    public ListMultimap<Direction, BakedQuad> getFaces2quads() {
-        return faces2quads;
-    }
-
 }

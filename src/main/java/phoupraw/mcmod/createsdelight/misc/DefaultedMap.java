@@ -2,27 +2,23 @@ package phoupraw.mcmod.createsdelight.misc;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 
-public abstract class DefaultedMap<K, V> extends ConstForwardingMap<K, V> {
-    public DefaultedMap(Map<K, V> delegate) {
-        super(delegate);
+public interface DefaultedMap<K, V> extends Map<K, V> {
+    static <K, V> DefaultedMap<K, V> loadingCache(Function<? super K, ? extends V> cacheLoader) {
+        return new FunctionDefaultedMap<>(new WeakHashMap<>(), cacheLoader);
     }
+    static <K, V> DefaultedMap<K, List<V>> arrayListHashMultimap() {
+        return new SupplierDefaultedMap<>(new HashMap<>(), ArrayList::new);
+    }
+    static <R, C, V> DefaultedMap<R, Map<C, V>> hashBasedTable() {
+        return new SupplierDefaultedMap<>(new HashMap<>(), HashMap::new);
+    }
+    /**
+     * @throws ClassCastException if the class of the specified key or value prevents it from being stored in this map
+     */
+    @NotNull V getOrPut(Object key, V value);
     @Override
-    public @NotNull V get(Object key) {
-        return getOrPut(key, newValue(key));
-    }
-    @Override
-    public V getOrDefault(Object key, V defaultValue) {
-        return getOrPut(key, defaultValue);
-    }
-    public V getOrPut(Object key, V value) {
-        V v = super.get(key);
-        if (v == null) {
-            v = value;
-            put((K) key, v);
-        }
-        return v;
-    }
-    public abstract @NotNull V newValue(Object key);
+    @NotNull V get(Object key);
 }
