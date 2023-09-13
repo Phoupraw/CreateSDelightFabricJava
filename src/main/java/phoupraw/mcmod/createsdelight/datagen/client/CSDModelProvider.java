@@ -32,22 +32,24 @@ public final class CSDModelProvider extends FabricModelProvider {
         for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
             generator.registerItemModel(item);//生成平面物品模型
         }
-        Identifier modelId = ModelIds.getBlockModelId(Blocks.BROWN_GLAZED_TERRACOTTA);
-        generator.registerParentedItemModel(CSDBlocks.CAKE_OVEN, modelId);
-        generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(CSDBlocks.CAKE_OVEN)
-          .coordinate(BlockStateVariantMap.create(CakeOvenBlock.FACING)
-            .register(RailShape.SOUTH_EAST, BlockStateVariant.create()
-              .put(VariantSettings.MODEL, modelId)
-              .put(VariantSettings.Y, VariantSettings.Rotation.R0))
-            .register(RailShape.SOUTH_WEST, BlockStateVariant.create()
-              .put(VariantSettings.MODEL, modelId)
-              .put(VariantSettings.Y, VariantSettings.Rotation.R90))
-            .register(RailShape.NORTH_WEST, BlockStateVariant.create()
-              .put(VariantSettings.MODEL, modelId)
-              .put(VariantSettings.Y, VariantSettings.Rotation.R180))
-            .register(RailShape.NORTH_EAST, BlockStateVariant.create()
-              .put(VariantSettings.MODEL, modelId)
-              .put(VariantSettings.Y, VariantSettings.Rotation.R270))));
+        for (Block block : new Block[]{CSDBlocks.VOXEL_MAKER, CSDBlocks.CAKE_OVEN}) {
+            Identifier modelId = ModelIds.getBlockModelId(Blocks.BROWN_GLAZED_TERRACOTTA);
+            generator.registerParentedItemModel(block, modelId);
+            generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+              .coordinate(BlockStateVariantMap.create(CakeOvenBlock.FACING)
+                .register(RailShape.SOUTH_EAST, BlockStateVariant.create()
+                  .put(VariantSettings.MODEL, modelId)
+                  .put(VariantSettings.Y, VariantSettings.Rotation.R0))
+                .register(RailShape.SOUTH_WEST, BlockStateVariant.create()
+                  .put(VariantSettings.MODEL, modelId)
+                  .put(VariantSettings.Y, VariantSettings.Rotation.R90))
+                .register(RailShape.NORTH_WEST, BlockStateVariant.create()
+                  .put(VariantSettings.MODEL, modelId)
+                  .put(VariantSettings.Y, VariantSettings.Rotation.R180))
+                .register(RailShape.NORTH_EAST, BlockStateVariant.create()
+                  .put(VariantSettings.MODEL, modelId)
+                  .put(VariantSettings.Y, VariantSettings.Rotation.R270))));
+        }
     }
 
     @Override

@@ -31,6 +31,7 @@ public final class CreateSDelight implements ModInitializer {
         CSDCommands.register();
         VirtualFluids.registerBucketStorage(CSDFluids.EGG_LIQUID, CSDItems.BUCKETED_EGG_LIQUID);
         BlockStressDefaults.setDefaultImpact(CSDIdentifiers.CAKE_OVEN, 16);
+        BlockStressDefaults.setDefaultImpact(CSDIdentifiers.VOXEL_MAKER, 16);
         Registry.register(CSDRegistries.PREDEFINED_CAKE, CSDIdentifiers.of("empty"), VoxelCake.empty());
     }
 }

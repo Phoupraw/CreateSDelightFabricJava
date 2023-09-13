@@ -105,14 +105,13 @@ public final class CSDIdentifiers {
       BOTTLED_EGG_LIQUID = of("bottled_egg_liquid"),
       IN_PROD_CAKE = of("in_prod_cake"),
       SHRINKING_CAKE = of("shrinking_cake"),
-      MOVING_CAKE = of("moving_cake");
-
+      MOVING_CAKE = of("moving_cake"),
+      VOXEL_MAKER = of("voxel_maker");
     @Contract("_ -> new")
     @ApiStatus.Internal
     public static @NotNull Identifier of(String path) {
         return new Identifier(CreateSDelight.MOD_ID, path);
     }
-
     private CSDIdentifiers() {
     }
 

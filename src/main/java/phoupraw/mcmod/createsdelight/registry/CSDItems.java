@@ -41,6 +41,7 @@ import java.util.Map;
 public final class CSDItems {
     //方块
     public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.CAKE_OVEN, new FabricItemSettings());
+    public static final BlockItem VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings()));
     public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
     //蛋糕材料
     public static final BlockItem CREAM_BLOCK = new BlockItem(CSDBlocks.CREAM_BLOCK, new FabricItemSettings());
@@ -81,7 +82,7 @@ public final class CSDItems {
         } catch (CommandSyntaxException e) {
             throw new RuntimeException(e);
         }
-        for (Item item : new Item[]{CSDItems.CAKE_OVEN, CSDItems.CHOCOLATE_BLOCK, CSDItems.CREAM_BLOCK, CSDItems.BUCKETED_EGG_LIQUID, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
+        for (Item item : new Item[]{CAKE_OVEN, VOXEL_MAKER, CHOCOLATE_BLOCK, CREAM_BLOCK, BUCKETED_EGG_LIQUID, EGG_SHELL, KELP_ASH}) {
             entries.add(item);
         }
     }

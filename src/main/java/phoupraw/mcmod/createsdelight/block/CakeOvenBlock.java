@@ -51,15 +51,6 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
       RailShape.NORTH_WEST, Map.of(Direction.Axis.Z, Direction.NORTH, Direction.Axis.X, Direction.WEST),
       RailShape.NORTH_EAST, Map.of(Direction.Axis.Z, Direction.NORTH, Direction.Axis.X, Direction.EAST)
     ));
-    static {
-        var BI_DIRECTION_MAP_ = BI_DIRECTION.entrySet().stream().collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> entry
-          .getValue()
-          .stream()
-          .collect(Collectors.groupingBy(Direction::getAxis))
-          .entrySet()
-          .stream()
-          .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry1 -> entry1.getValue().get(0)))));
-    }
     public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, RailShape.NORTH_EAST, RailShape.NORTH_WEST, RailShape.SOUTH_EAST, RailShape.SOUTH_WEST);
     public static RailShape rotate(RailShape facing, BlockRotation rotation) {
         return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(rotation::rotate).collect(Collectors.toSet()));

@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public abstract class ForwardingDefaultedMap<K, V> extends ConstForwardingMap<K, V> implements DefaultedMap<K, V> {
-    public ForwardingDefaultedMap(Map<K, V> delegate) {
+public abstract class ConstForwardingDefaultedMap<K, V> extends ConstForwardingMap<K, V> implements DefaultedMap<K, V> {
+    public ConstForwardingDefaultedMap(Map<K, V> delegate) {
         super(delegate);
     }
     @Override

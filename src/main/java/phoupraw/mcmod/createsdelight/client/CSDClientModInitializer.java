@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
@@ -24,6 +25,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public final class CSDClientModInitializer implements ClientModInitializer {
@@ -57,8 +59,11 @@ public final class CSDClientModInitializer implements ClientModInitializer {
               PrintedCakeModel.SPRITE_CACHE.clear();
               InProdCakeModel.CACHE.invalidateAll();
           }, applyExecutor)));
-        for (Item item : new Item[]{CSDItems.CAKE_OVEN}) {
+        for (Item item : CSDItems.ITEM_GROUP.getDisplayStacks().stream().map(ItemStack::getItem).collect(Collectors.toSet())) {
             TooltipModifier.REGISTRY.register(item, new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE).andThen(TooltipModifier.mapNull(KineticStats.create(item))));
         }
+        //for (Item item : new Item[]{CSDItems.CAKE_OVEN}) {
+        //    TooltipModifier.REGISTRY.register(item, new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE).andThen(TooltipModifier.mapNull(KineticStats.create(item))));
+        //}
     }
 }

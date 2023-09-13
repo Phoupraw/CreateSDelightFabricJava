@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class SupplierDefaultedMap<K, V> extends ForwardingDefaultedMap<K, V> {
+public class SupplierDefaultedMap<K, V> extends ConstForwardingDefaultedMap<K, V> {
     public static <K extends Enum<K>, V> Supplier<EnumMap<K, V>> newingEnumMap(Class<K> enumClass) {
         return () -> new EnumMap<>(enumClass);
     }

@@ -14,9 +14,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.InProdCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
+import phoupraw.mcmod.createsdelight.block.entity.VoxelMakerBlockEntity;
 import phoupraw.mcmod.createsdelight.client.CSDClientModInitializer;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockTagProvider;
@@ -51,20 +53,16 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
  * </ol>
  */
 public final class CSDBlockEntityTypes {
-    public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE);
-    public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN);
-    public static final BlockEntityType<InProdCakeBlockEntity> IN_PROD_CAKE = of(InProdCakeBlockEntity::new, CSDBlocks.IN_PROD_CAKE);
-    static {
-        register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
-        register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
-        register(CSDIdentifiers.IN_PROD_CAKE, IN_PROD_CAKE);
-    }
+    public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = register(CSDIdentifiers.PRINTED_CAKE, of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE));
+    public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = register(CSDIdentifiers.CAKE_OVEN, of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN));
+    public static final BlockEntityType<VoxelMakerBlockEntity> VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, of(VoxelMakerBlockEntity::new, CSDBlocks.VOXEL_MAKER));
+    public static final BlockEntityType<InProdCakeBlockEntity> IN_PROD_CAKE = register(CSDIdentifiers.IN_PROD_CAKE, of(InProdCakeBlockEntity::new, CSDBlocks.IN_PROD_CAKE));
     @Contract("_, _ -> param2")
-    public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
-        return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, blockEntityType);
+    public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> type) {
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, type);
     }
     @Contract(value = "_,_->new", pure = true)
-    public static <T extends BlockEntity> BlockEntityType<T> of(Factory<T> factory, Block... blocks) {
+    public static <T extends BlockEntity> BlockEntityType<T> of(Factory<T> factory, @NotNull Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory, blocks).build();
     }
     private CSDBlockEntityTypes() {

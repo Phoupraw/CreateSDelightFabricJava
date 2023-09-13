@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.registry;
 
+import com.simibubi.create.AllBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
@@ -9,6 +10,7 @@ import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
 import phoupraw.mcmod.createsdelight.block.InProdCakeBlock;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
+import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
 
 ///**
 // * 方块编写流程：
@@ -31,12 +33,11 @@ import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 // * @see CSDBlockEntityTypes
 // */
 public final class CSDBlocks {
-
     //机器
     public static final Block CAKE_OVEN = new CakeOvenBlock();
+    public static final Block VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new VoxelMakerBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_CASING.get())));//FIXME 可能在机械动力之前初始化，导致错误
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
     public static final Block IN_PROD_CAKE = new InProdCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE).noCollision());
-
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
     public static final Block CREAM_BLOCK = new Block(FabricBlockSettings.create().breakInstantly().mapColor(MapColor.WHITE));
@@ -47,12 +48,9 @@ public final class CSDBlocks {
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
     }
-
-    private static <T extends Block> void register(Identifier id, T block) {
-        Registry.register(Registries.BLOCK, id, block);
+    private static <T extends Block> T register(Identifier id, T block) {
+        return Registry.register(Registries.BLOCK, id, block);
     }
-
     private CSDBlocks() {
     }
-
 }

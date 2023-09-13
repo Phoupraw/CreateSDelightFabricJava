@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.function.Function;
 
-public class FunctionDefaultedMap<K, V> extends ForwardingDefaultedMap<K, V> {
+public class FunctionDefaultedMap<K, V> extends ConstForwardingDefaultedMap<K, V> {
     public final Function<? super K, ? extends V> function;
     public FunctionDefaultedMap(Map<K, V> delegate, Function<? super K, ? extends V> function) {
         super(delegate);
