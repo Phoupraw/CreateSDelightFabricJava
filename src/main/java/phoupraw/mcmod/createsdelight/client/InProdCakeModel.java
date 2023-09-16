@@ -14,23 +14,18 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.data.client.ModelIds;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
-import phoupraw.mcmod.createsdelight.block.entity.InProdCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.List;
 import java.util.function.Supplier;
 @Deprecated
 public class InProdCakeModel implements BakedModel {
-    public static final Identifier ID = ModelIds.getBlockModelId(CSDBlocks.IN_PROD_CAKE);
     public static final LoadingCache<VoxelCake, BakedModel> CACHE = CacheBuilder.newBuilder().build(CacheLoader.from(InProdCakeModel::toModel));
     public static BakedModel toModel(VoxelCake voxelCake) {
         return PrintedCakeModel.content2model(voxelCake, PrintedCakeBlock.defaultFacing());
@@ -74,27 +69,27 @@ public class InProdCakeModel implements BakedModel {
     }
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-        if (!(blockView.getBlockEntity(pos) instanceof InProdCakeBlockEntity inProd)) return;
-        VoxelCake voxelCake = inProd.getVoxelCake();
-        if (voxelCake == null) return;
-        BakedModel bakedModel = CACHE.getUnchecked(voxelCake);
-        BlockPos relative = inProd.relative;
-        //boolean zoom = relative != null && inProd.direction == Direction.UP;
-        //if (zoom) {
-        //    int edgeLen = inProd.edgeLen;
-        //    Vector3f center = Vec3d.of(relative).toVector3f().mul(-1f / edgeLen);
-        //    context.pushTransform(quad -> {
-        //        Vector3f pos1 = new Vector3f();
-        //        for (int i = 0; i < 4; i++) {
-        //            quad.copyPos(i, pos1);
-        //            pos1.add(center);
-        //            pos1.mul(edgeLen);
-        //            quad.pos(i, pos1);
-        //        }
-        //        return true;
-        //    });
-        //}
-        bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        //if (!(blockView.getBlockEntity(pos) instanceof InProdCakeBlockEntity inProd)) return;
+        //VoxelCake voxelCake = inProd.getVoxelCake();
+        //if (voxelCake == null) return;
+        //BakedModel bakedModel = CACHE.getUnchecked(voxelCake);
+        //BlockPos relative = inProd.relative;
+        ////boolean zoom = relative != null && inProd.direction == Direction.UP;
+        ////if (zoom) {
+        ////    int edgeLen = inProd.edgeLen;
+        ////    Vector3f center = Vec3d.of(relative).toVector3f().mul(-1f / edgeLen);
+        ////    context.pushTransform(quad -> {
+        ////        Vector3f pos1 = new Vector3f();
+        ////        for (int i = 0; i < 4; i++) {
+        ////            quad.copyPos(i, pos1);
+        ////            pos1.add(center);
+        ////            pos1.mul(edgeLen);
+        ////            quad.pos(i, pos1);
+        ////        }
+        ////        return true;
+        ////    });
+        ////}
+        //bakedModel.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         //if (zoom) {
         //    context.popTransform();
         //}

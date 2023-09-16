@@ -8,7 +8,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.block.*;
+import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
+import phoupraw.mcmod.createsdelight.block.MadeVoxelBlock;
+import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
+import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
 
 ///**
 // * 方块编写流程：
@@ -36,14 +39,12 @@ public final class CSDBlocks {
     public static final Block VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new VoxelMakerBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_CASING.get())));
     public static final Block MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new MadeVoxelBlock(FabricBlockSettings.create().nonOpaque().dynamicBounds().breakInstantly().sounds(BlockSoundGroup.WOOL).solid()));
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
-    public static final Block IN_PROD_CAKE = new InProdCakeBlock(FabricBlockSettings.copyOf(PRINTED_CAKE).noCollision());
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
     public static final Block CREAM_BLOCK = new Block(FabricBlockSettings.create().breakInstantly().mapColor(MapColor.WHITE));
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
-        register(CSDIdentifiers.IN_PROD_CAKE, IN_PROD_CAKE);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
     }

@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @Environment(EnvType.CLIENT)
 public final class CSDClientModInitializer implements ClientModInitializer {
     public static final Map<Identifier, UnbakedModel> CUSTOM_MODEL_REGISTRY = Map.of(
-      InProdCakeModel.ID, new ConstUnbakedModel(new InProdCakeModel()),
       PrintedCakeModel.BLOCK_ID, new ConstUnbakedModel(new PrintedCakeModel()),
       PrintedCakeModel.ITEM_ID, new ConstUnbakedModel(new PrintedCakeModel()),
       ModelIds.getBlockModelId(CSDBlocks.MADE_VOXEL), new ConstUnbakedModel(new MadeVoxelModel())

@@ -71,22 +71,6 @@ public class CakeOvenBlockEntity extends KineticBlockEntity implements Nameable 
             }
         }
     }
-    public static void combine(World world, BlockPos origin, int edgeLen, BlockPos pos1, Direction direction) {
-        BlockPos pos2 = pos1.offset(direction);
-        if (world.getBlockState(pos2).isOf(CSDBlocks.IN_PROD_CAKE)) {
-            world.setBlockState(pos1, CSDBlocks.IN_PROD_CAKE.getDefaultState());
-            InProdCakeBlockEntity inProd1 = (InProdCakeBlockEntity) world.getBlockEntity(pos1);
-            InProdCakeBlockEntity inProd2 = (InProdCakeBlockEntity) world.getBlockEntity(pos2);
-            if (inProd2.getVoxelCake() instanceof BlockPosVoxelCake voxelCake2) {
-                Multimap<CakeIngredient, BlockPos> map = MultimapBuilder.hashKeys().arrayListValues().build(voxelCake2.blockPosContent);
-                if (inProd1.getVoxelCake() instanceof BlockPosVoxelCake voxelCake1) {
-                    map.putAll(voxelCake1.blockPosContent);
-                }
-                inProd1.setVoxelCake(BlockPosVoxelCake.of(edgeLen, map));
-            }
-            world.removeBlock(pos2, false);
-        }
-    }
     public static <T> @UnmodifiableView Iterable<T> appended(Iterable<T> first, T second) {
         return Iterables.concat(first, List.of(second));
     }
