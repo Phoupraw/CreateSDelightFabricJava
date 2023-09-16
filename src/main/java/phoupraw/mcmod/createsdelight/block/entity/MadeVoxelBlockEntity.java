@@ -9,8 +9,10 @@ import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public class MadeVoxelBlockEntity extends SyncedBlockEntity {
+    public static MadeVoxelBlockEntity of(BlockPos pos, BlockState state) {
+        return new MadeVoxelBlockEntity(CSDBlockEntityTypes.MADE_VOXEL, pos, state);
+    }
     public VoxelRecord voxelRecord;
-    public MadeVoxelBlockEntity(BlockPos pos, BlockState state) {this(CSDBlockEntityTypes.MADE_VOXEL, pos, state);}
     public MadeVoxelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -24,6 +26,6 @@ public class MadeVoxelBlockEntity extends SyncedBlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        voxelRecord = VoxelRecord.of(nbt.getCompound("voxelRecord"));
+        voxelRecord = VoxelRecord.of(nbt.getCompound("voxelRecord"), blockHolderGetter());
     }
 }

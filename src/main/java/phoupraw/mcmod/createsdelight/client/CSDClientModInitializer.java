@@ -14,14 +14,12 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.model.UnbakedModel;
+import net.minecraft.data.client.ModelIds;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.CSDFluids;
-import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
-import phoupraw.mcmod.createsdelight.registry.CSDItems;
+import phoupraw.mcmod.createsdelight.registry.*;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -32,8 +30,8 @@ public final class CSDClientModInitializer implements ClientModInitializer {
     public static final Map<Identifier, UnbakedModel> CUSTOM_MODEL_REGISTRY = Map.of(
       InProdCakeModel.ID, new ConstUnbakedModel(new InProdCakeModel()),
       PrintedCakeModel.BLOCK_ID, new ConstUnbakedModel(new PrintedCakeModel()),
-      PrintedCakeModel.ITEM_ID, new ConstUnbakedModel(new PrintedCakeModel())/*,
-      ModelIds.getBlockModelId(Blocks.BIRCH_PLANKS), new ConstUnbakedModel(new BlockVoxelModel())*/
+      PrintedCakeModel.ITEM_ID, new ConstUnbakedModel(new PrintedCakeModel()),
+      ModelIds.getBlockModelId(CSDBlocks.MADE_VOXEL), new ConstUnbakedModel(new MadeVoxelModel())
     );
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {

@@ -28,21 +28,23 @@ import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
+import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
 import java.util.*;
 
 import static phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity.expanded;
 
 public class VoxelMakerBlockEntity extends KineticBlockEntity {
+    public static final AllSpecialTextures OUTLINE_TEXTURE = AllSpecialTextures.valueOf(CSDIdentifiers.VOXEL_MAKER.toString());
+    public static VoxelMakerBlockEntity of(BlockPos pos, BlockState state) {
+        return new VoxelMakerBlockEntity(CSDBlockEntityTypes.VOXEL_MAKER, pos, state);
+    }
     public double prevOutline0Len;
     public double outline0Len;
     public double outlineLinger;
     protected TriState working = TriState.DEFAULT;
     public DefaultedMap<Integer, Object> outlineSlots = new SupplierDefaultedMap<>(new HashMap<>(), Object::new);
     public Map<Integer, @Nullable VoxelRecord> len1s = new HashMap<>();
-    public VoxelMakerBlockEntity(BlockPos pos, BlockState state) {
-        this(CSDBlockEntityTypes.VOXEL_MAKER, pos, state);
-    }
     public VoxelMakerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -76,6 +78,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
             CreateClient.OUTLINER
               .chaseAABB(this, outline0)
               .withFaceTexture(AllSpecialTextures.CHECKERED)
+              .withFaceTexture(OUTLINE_TEXTURE)
               .colored(0xFFAA00)
               .lineWidth(1 / 16f);
             if (CreateClient.OUTLINER.getOutlines().get(this).getOutline() instanceof AABBOutline aabbOutline) {

@@ -7,6 +7,7 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -14,9 +15,10 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -25,13 +27,6 @@ import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BinaryOperator;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
     /**
@@ -50,27 +45,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public static int getVolumn(BlockBox a) {
         return a.getBlockCountX() * a.getBlockCountY() * a.getBlockCountZ();
     }
-    @Deprecated
-    public static <E> Collection<E> reduceFailable(Collection<E> source, BinaryOperator<@Nullable E> combiner) {
-        Queue<E> queue = new ConcurrentLinkedQueue<>(source);
-        AtomicInteger breaker = new AtomicInteger();
-        while (breaker.get() <= queue.size() * 2) {
-            E e1 = queue.poll();
-            if (e1 == null) continue;
-            breaker.incrementAndGet();
-            E e2 = queue.poll();
-            if (e2 == null) continue;
-            breaker.incrementAndGet();
-            E e12 = combiner.apply(e1, e2);
-            if (e12 == null) continue;
-            queue.offer(e12);
-            breaker.addAndGet(-2);
-        }
-        return queue;
-    }
-    public static Collection<Box> simplify(Collection<Box> boxes) {
-        return boxes.parallelStream().reduce(new ArrayList<>(), (boxes1, box) -> boxes1, (boxes1, boxes2) -> boxes1);
-    }
+
     public MadeVoxelBlock(Settings settings) {
         super(settings);
     }
@@ -90,6 +65,12 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return super.getCollisionShape(state, world, pos, context);//TODO
     }
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
+
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -98,7 +79,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = getBlockEntity(world, pos);
         BlockItem.setBlockEntityNbt(itemStack, blockEntity.getType(), blockEntity.createNbt());
         return itemStack;
     }

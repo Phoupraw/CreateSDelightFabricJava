@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Range;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-
+@Deprecated
 public class InProdCakeBlockEntity extends SyncedBlockEntity {
     public static final int SHRINKING_TICKS = 20;
     public static final int MOVING_TICKS = 20;

@@ -6,11 +6,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(ChasingAABBOutline.class)
+@Mixin(value = ChasingAABBOutline.class, remap = false)
 public interface AChasingAABBOutline {
     @Invoker
     static Box invokeInterpolateBBs(Box current, Box target, float pt) {
-        throw new IllegalStateException("mixin static invoker");
+        throw new AssertionError("mixin static invoker");
     }
     @Accessor
     Box getTargetBB();

@@ -1,14 +1,18 @@
 package phoupraw.mcmod.createsdelight.misc;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import org.jetbrains.annotations.Nullable;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,12 +35,15 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
         }
         return 0;
     }
-    public static VoxelRecord of(NbtCompound nbt) {
+    public static VoxelRecord of(NbtCompound nbt, @Nullable RegistryEntryLookup<Block> blockLookup) {
+        if (blockLookup == null) {
+            blockLookup = Registries.BLOCK.getReadOnlyWrapper();
+        }
         Vec3i size = NbtHelper.toBlockPos(nbt.getCompound("size"));
         NbtList nbtPallete = nbt.getList("pallete", NbtElement.COMPOUND_TYPE);
         List<BlockState> pallete = new ArrayList<>(nbtPallete.size());
         for (int i = 0; i < nbtPallete.size(); i++) {
-            pallete.add(NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbtPallete.getCompound(i)));
+            pallete.add(NbtHelper.toBlockState(blockLookup, nbtPallete.getCompound(i)));
         }
         Map<BlockPos, BlockState> blocks = new HashMap<>();
         try (var input = new ByteArrayInputStream(nbt.getByteArray("gzip")); var gzip = new GZIPInputStream(input)) {
@@ -72,8 +79,11 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
                     for (int k = 0; k < size.getZ(); k++) {
                         BlockPos pos = new BlockPos(i, j, k);
                         BlockState blockState = blocks.get(pos);
-                        if (blockState == null) gzip.write(0);
-                        gzip.write(pallete.get(blockState));
+                        if (blockState == null) {
+                            gzip.write(0);
+                        } else {
+                            gzip.write(pallete.get(blockState));
+                        }
                     }
                 }
             }
@@ -81,6 +91,10 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
             nbt.putByteArray("gzip", output.toByteArray());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            CreateSDelight.LOGGER.fatal("pallete=" + pallete);
+            CreateSDelight.LOGGER.fatal("blocks=" + blocks);
+            throw e;
         }
         nbt.put("size", NbtHelper.fromBlockPos(new BlockPos(size)));
         return nbt;

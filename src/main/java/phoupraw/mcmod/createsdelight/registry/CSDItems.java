@@ -42,6 +42,7 @@ public final class CSDItems {
     //方块
     public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.CAKE_OVEN, new FabricItemSettings());
     public static final BlockItem VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings()));
+    public static final BlockItem MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new BlockItem(CSDBlocks.MADE_VOXEL, new FabricItemSettings()));
     public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
     //蛋糕材料
     public static final BlockItem CREAM_BLOCK = new BlockItem(CSDBlocks.CREAM_BLOCK, new FabricItemSettings());
