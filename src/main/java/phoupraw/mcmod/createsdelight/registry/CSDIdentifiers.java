@@ -106,7 +106,8 @@ public final class CSDIdentifiers {
       IN_PROD_CAKE = of("in_prod_cake"),
       SHRINKING_CAKE = of("shrinking_cake"),
       MOVING_CAKE = of("moving_cake"),
-      VOXEL_MAKER = of("voxel_maker");
+      VOXEL_MAKER = of("voxel_maker"),
+      MADE_VOXEL = of("made_voxel");
     @Contract("_ -> new")
     @ApiStatus.Internal
     public static @NotNull Identifier of(String path) {
@@ -114,5 +115,4 @@ public final class CSDIdentifiers {
     }
     private CSDIdentifiers() {
     }
-
 }

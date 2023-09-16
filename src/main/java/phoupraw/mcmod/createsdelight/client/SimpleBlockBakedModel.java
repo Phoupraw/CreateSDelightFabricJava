@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SimpleBlockBakedModel implements HasDepthBakedModel {
     public static SimpleBlockBakedModel of(ListMultimap<@Nullable Direction, BakedQuad> cullFace2quads0, @NotNull Sprite particleSprite) {
-        DefaultedMap<@Nullable Direction, List<BakedQuad>> cullFace2quads = new ConstDefaultedMap<>(new HashMap<>(BlockVoxelModel.DIRECTIONS_NULL.size()), List.of());
+        DefaultedMap<@Nullable Direction, List<BakedQuad>> cullFace2quads = new ConstDefaultedMap<>(new HashMap<>(MadeVoxelModel.DIRECTIONS_NULL.size()), List.of());
         for (Direction face : cullFace2quads0.asMap().keySet()) {
             cullFace2quads.put(face, cullFace2quads0.get(face));
         }
@@ -26,7 +26,7 @@ public class SimpleBlockBakedModel implements HasDepthBakedModel {
     public final Map<@Nullable Direction, List<BakedQuad>> cullFace2quads;
     private final Sprite particleSprite;
     public SimpleBlockBakedModel(Map<@Nullable Direction, List<BakedQuad>> cullFace2quads, Sprite particleSprite) {
-        for (Direction face : BlockVoxelModel.DIRECTIONS_NULL) {
+        for (Direction face : MadeVoxelModel.DIRECTIONS_NULL) {
             if (cullFace2quads.get(face) == null) {
                 throw new IllegalArgumentException("cullFace2quads[%s] == null".formatted(face == null ? null : face.asString()));
             }

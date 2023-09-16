@@ -20,12 +20,14 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
+import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
+import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
 import java.util.*;
 
@@ -37,7 +39,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
     public double outlineLinger;
     protected TriState working = TriState.DEFAULT;
     public DefaultedMap<Integer, Object> outlineSlots = new SupplierDefaultedMap<>(new HashMap<>(), Object::new);
-    public Map<Integer, Pair<Map<BlockPos, BlockState>, Vec3i>> len1s = new HashMap<>();
+    public Map<Integer, @Nullable VoxelRecord> len1s = new HashMap<>();
     public VoxelMakerBlockEntity(BlockPos pos, BlockState state) {
         this(CSDBlockEntityTypes.VOXEL_MAKER, pos, state);
     }
@@ -50,6 +52,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         if (!getWorking().get()) return;
         World world = getWorld();
         int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
+        Vec3i size = new Vec3i(edgeLen, edgeLen, edgeLen);
         RailShape facing = getCachedState().get(CakeOvenBlock.FACING);
         var biDirection = CakeOvenBlock.BI_DIRECTION_MAP.get(facing);
         BlockPos origin = getPos().up();
@@ -58,7 +61,8 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         for (Direction direction : triDirection) {
             bound = expanded(bound, direction, edgeLen - 1);
         }
-        double step = (Math.abs(getSpeed())) / 256 / 8;
+        BlockPos vertex000 = new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ());
+        double step = (Math.abs(getSpeed())) / 256 / 1;
         prevOutline0Len = outline0Len;
         outline0Len += step;
         double len0 = outline0Len;
@@ -103,10 +107,12 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
                     if (blocks.containsKey(pos1)) continue;
                     BlockState blockState = world.getBlockState(pos1);
                     if (blockState.isAir()) continue;
-                    blocks.put(pos1, blockState);
+                    blocks.put(pos1.subtract(vertex000), blockState);
                     world.setBlockState(pos1, world.getFluidState(pos1).getBlockState(), Block.NOTIFY_NEIGHBORS);
                 }
-                len1s.put(len1, Pair.of(blocks, new Vec3i(len1, len1, len1)));
+                if (!blocks.isEmpty()) {
+                    len1s.put(len1, new VoxelRecord(blocks, size));
+                }
             }
             if (world.isClient()) {
                 CreateClient.OUTLINER
@@ -120,7 +126,8 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         if (finished) {
             outlineLinger += step;
             if (outlineLinger >= 1) {
-                //TODO 产出
+                world.setBlockState(origin, CSDBlocks.MADE_VOXEL.getDefaultState());
+                ((MadeVoxelBlockEntity) world.getBlockEntity(origin)).voxelRecord = new VoxelRecord(len1s.values().stream().filter(Objects::nonNull).map(VoxelRecord::blocks).collect(HashMap::new, Map::putAll, Map::putAll), size);
                 setWorking(TriState.FALSE);
             }
         }

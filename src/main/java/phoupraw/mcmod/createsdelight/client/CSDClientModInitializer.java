@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public final class CSDClientModInitializer implements ClientModInitializer {
     public static final Map<Identifier, UnbakedModel> CUSTOM_MODEL_REGISTRY = Map.of(
       InProdCakeModel.ID, new ConstUnbakedModel(new InProdCakeModel()),
-      PrintedCakeModel.BLOCK_ID, new ConstUnbakedModel(new BlockVoxelModel()),
+      PrintedCakeModel.BLOCK_ID, new ConstUnbakedModel(new PrintedCakeModel()),
       PrintedCakeModel.ITEM_ID, new ConstUnbakedModel(new PrintedCakeModel())/*,
       ModelIds.getBlockModelId(Blocks.BIRCH_PLANKS), new ConstUnbakedModel(new BlockVoxelModel())*/
     );
@@ -50,6 +50,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
         //BlockEntityRendererFactories.register(CSDBlockEntityTypes.IN_PROD_CAKE, InProdCakeRenderer::new);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.CAKE_OVEN, CakeOvenRenderer::new);
+        BlockEntityRendererFactories.register(CSDBlockEntityTypes.VOXEL_MAKER, VoxelMakerRenderer::new);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> CompletableFuture
           .completedFuture(null)
           .thenCompose(synchronizer::whenPrepared)

@@ -47,7 +47,7 @@ public class VoxelMakerRenderer extends KineticBlockEntityRenderer<VoxelMakerBlo
             double len3 = (double) len1 / edgeLen;
             len2 = Math.max(len3, len2);
             double delta = (len1 - len2) / (len1 - len3);//delta越大，scale越小。
-            Outliner.OutlineEntry outlineEntry = CreateClient.OUTLINER.getOutlines().get(len1);
+            Outliner.OutlineEntry outlineEntry = CreateClient.OUTLINER.getOutlines().get(be.outlineSlots.get(len1));
             if (outlineEntry != null && outlineEntry.getOutline() instanceof ChasingAABBOutline aabbOutline0) {
                 var aabbOutline = (ChasingAABBOutline & AChasingAABBOutline) aabbOutline0;
                 Box interpolated = AChasingAABBOutline.invokeInterpolateBBs(aabbOutline.getPrevBB(), aabbOutline.getBounds(), partialTicks);
@@ -63,7 +63,7 @@ public class VoxelMakerRenderer extends KineticBlockEntityRenderer<VoxelMakerBlo
                 }
             }
             ts.scale(scale);
-            BakedModel model = BlockVoxelModel.INSTANCE_CAKE.get(voxelCake);
+            BakedModel model = MadeVoxelModel.MODEL_CACHE.get(voxelCake);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderLayers.getBlockLayer(cachedState));
             context.getRenderManager().getModelRenderer().render(be.getWorld(), model, Blocks.GLOWSTONE.getDefaultState()/*用荧石，使模型没有莫名其妙的阴影*/, be.getPos().up(), ms, vertexConsumer, false, Random.create(0), 0, overlay);
             ts.popPose();

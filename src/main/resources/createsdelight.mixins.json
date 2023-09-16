@@ -2,7 +2,7 @@
   "required": true,
   "package": "phoupraw.mcmod.createsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["ALocalRandom", "MPosition"],
+  "mixins": ["ALocalRandom", "MCreate", "MPosition"],
   "injectors": {
     "defaultRequire": 1
   },

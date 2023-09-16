@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.block;
 
 import com.simibubi.create.content.kinetics.base.KineticBlock;
+import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.Block;
@@ -21,7 +22,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import static phoupraw.mcmod.createsdelight.block.CakeOvenBlock.FACING;
 
-public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlockEntity> {
+public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlockEntity>, ICogWheel {
     public VoxelMakerBlock(Settings properties) {
         super(properties);
     }
@@ -41,8 +42,8 @@ public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlock
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
         if (!(world.getBlockEntity(pos) instanceof VoxelMakerBlockEntity be)) return;
-        if (be.getWorking() == TriState.DEFAULT) {
-            if (world.isReceivingRedstonePower(pos)) {
+        if (world.isReceivingRedstonePower(pos)) {
+            if (be.getWorking() == TriState.DEFAULT) {
                 be.setWorking(TriState.TRUE);
                 be.sendData();
             }
@@ -68,7 +69,7 @@ public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlock
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().rotate(BlockRotation.values()[Direction.fromRotation(ctx.getPlayerYaw() + 225).getHorizontal()]);
+        return getDefaultState().rotate(BlockRotation.values()[Direction.fromRotation(ctx.getPlayerYaw() + 135).getHorizontal()]);
     }
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {

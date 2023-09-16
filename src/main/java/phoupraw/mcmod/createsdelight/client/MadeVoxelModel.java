@@ -17,18 +17,21 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.BlockView;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import org.joml.Vector3f;
+import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
+import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
 
 import java.util.HashMap;
@@ -38,10 +41,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
+public class MadeVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
-    public static final DefaultedMap<Pair<Map<BlockPos, BlockState>, Vec3i>, BakedModel> INSTANCE_CAKE = DefaultedMap.loadingCache(BlockVoxelModel::toBakedModel);
+    public static final DefaultedMap<VoxelRecord, BakedModel> MODEL_CACHE = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
     public static final BlockPos SAMPLE_1_SIZE = new BlockPos(1, 1, 1).multiply(64);
     public static final Map<BlockPos, BlockState> SAMPLE_1;
     static {
@@ -51,8 +54,8 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
             SAMPLE_1.put(pos.toImmutable(), blockStates.get(pos.getY() % blockStates.size()));
         }
     }
-    public static BakedModel toBakedModel(Pair<Map<BlockPos, BlockState>, Vec3i> voxel) {
-        return new SimpleBlockBakedModel(toBakedQuads(toCullFaces(voxel.getLeft(), voxel.getRight()), voxel.getRight()), MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite());
+    public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
+        return new SimpleBlockBakedModel(toBakedQuads(toCullFaces(voxelRecord.blocks(), voxelRecord.size()), voxelRecord.size()), MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite());
     }
     public static void emitBlockQuads(Map<BlockPos, BlockState> map, Vec3i size, Supplier<Random> randomSupplier, RenderContext context) {
         Table<Vec3i, Direction, Sprite> table = Tables.synchronizedTable(HashBasedTable.create());
@@ -155,19 +158,28 @@ public class BlockVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     }
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-        //long t = (System.currentTimeMillis());
-        //emitBlockQuads();
-        //MeshBuilder meshBuilder = makeQuads(makeCullFaces(SAMPLE_1,SAMPLE_1_SIZE,randomSupplier),SAMPLE_1_SIZE);
-        //meshBuilder.build().outputTo(context.getEmitter());
+        if (!(blockView.getBlockEntity(pos) instanceof MadeVoxelBlockEntity blockEntity)) return;
+        VoxelRecord voxelRecord = blockEntity.voxelRecord;
+        if (voxelRecord == null) return;
         context.pushTransform(quad -> {
             Direction nominalFace = quad.nominalFace();
-            if (nominalFace != null && nominalFace.getAxis().isHorizontal()) {
-                quad.nominalFace(nominalFace.rotateYClockwise());
+            if (nominalFace != null && nominalFace.getAxis().isVertical()) {
+                quad.nominalFace(nominalFace.getOpposite());
+            }
+            Vector3f vp = new Vector3f();
+            for (int i = 0; i < 4; i++) {
+                quad.copyPos(i, vp);
+                vp.set(vp.x(), 1 - vp.y(), vp.z());
+                quad.pos(i, vp);
             }
             return true;
-        });//旋转90°
-        emitBlockQuads(SAMPLE_1, SAMPLE_1_SIZE, randomSupplier, context);
+        });//上下颠倒
+        MODEL_CACHE.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        //emitBlockQuads(SAMPLE_1, SAMPLE_1_SIZE, randomSupplier, context);
         context.popTransform();
-        //CreateSDelight.LOGGER.warn("outer: " + (System.currentTimeMillis() - t));
+    }
+    @Override
+    public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
+        HasDepthBakedModel.super.emitItemQuads(stack, randomSupplier, context);
     }
 }
