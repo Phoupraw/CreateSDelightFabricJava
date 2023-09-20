@@ -16,8 +16,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
+import net.minecraft.client.render.model.BakedQuadFactory;
+import net.minecraft.client.render.model.ModelRotation;
+import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
@@ -27,7 +32,10 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
@@ -41,7 +49,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class MadeVoxelModel implements HasDepthBakedModel, CustomBakedModel {
+public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
     public static final DefaultedMap<VoxelRecord, BakedModel> MODEL_CACHE = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
@@ -54,6 +62,8 @@ public class MadeVoxelModel implements HasDepthBakedModel, CustomBakedModel {
             SAMPLE_1.put(pos.toImmutable(), blockStates.get(pos.getY() % blockStates.size()));
         }
     }
+    public static final float MIN_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 8)) - 1.0F;
+    public static final float MAX_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 4)) - 1.0F;
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
         return new SimpleBlockBakedModel(toBakedQuads(toCullFaces(voxelRecord.blocks(), voxelRecord.size()), voxelRecord.size()), MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite());
     }
@@ -152,6 +162,51 @@ public class MadeVoxelModel implements HasDepthBakedModel, CustomBakedModel {
         mesh.forEach(quad -> cullFaces2quads.get(quad.cullFace()).add(quad.toBakedQuad(finder.find(quad))));
         return cullFaces2quads;
     }
+    /**
+     @param vector
+     @param rotation
+     @see BakedQuadFactory#rotateVertex
+     @see BakedQuadFactory#transformVertex(Vector3f, Vector3f, Matrix4f, Vector3f)
+     */
+    public static void rotateVertex(Vector3f vector, @Nullable net.minecraft.client.render.model.json.ModelRotation rotation) {
+        if (rotation != null) {
+            Vector3f vector3f;
+            Vector3f vector3f2;
+            switch (rotation.axis()) {
+                case X -> {
+                    vector3f = new Vector3f(1.0F, 0.0F, 0.0F);
+                    vector3f2 = new Vector3f(0.0F, 1.0F, 1.0F);
+                }
+                case Y -> {
+                    vector3f = new Vector3f(0.0F, 1.0F, 0.0F);
+                    vector3f2 = new Vector3f(1.0F, 0.0F, 1.0F);
+                }
+                case Z -> {
+                    vector3f = new Vector3f(0.0F, 0.0F, 1.0F);
+                    vector3f2 = new Vector3f(1.0F, 1.0F, 0.0F);
+                }
+                default -> throw new IllegalArgumentException("There are only 3 axes");
+            }
+
+            Quaternionf quaternionf = new Quaternionf().rotationAxis(rotation.angle() * (float) (Math.PI / 180.0), vector3f);
+            if (rotation.rescale()) {
+                if (Math.abs(rotation.angle()) == 22.5F) {
+                    vector3f2.mul(MIN_SCALE);
+                } else {
+                    vector3f2.mul(MAX_SCALE);
+                }
+
+                vector3f2.add(1.0F, 1.0F, 1.0F);
+            } else {
+                vector3f2.set(1.0F, 1.0F, 1.0F);
+            }
+
+            Vector3f origin = new Vector3f(rotation.origin());
+            Vector4f vector4f = new Matrix4f().rotation(quaternionf).transform(new Vector4f(vector.x() - origin.x(), vector.y() - origin.y(), vector.z() - origin.z(), 1.0F));
+            vector4f.mul(new Vector4f(vector3f2, 1.0F));
+            vector.set(vector4f.x() + origin.x(), vector4f.y() + origin.y(), vector4f.z() + origin.z());
+        }
+    }
     @Override
     public Sprite getParticleSprite() {
         return MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModelParticleSprite(Blocks.BARRIER.getDefaultState());
@@ -162,15 +217,15 @@ public class MadeVoxelModel implements HasDepthBakedModel, CustomBakedModel {
         VoxelRecord voxelRecord = blockEntity.voxelRecord;
         if (voxelRecord == null) return;
         context.pushTransform(quad -> {
-            Direction nominalFace = quad.nominalFace();
-            if (nominalFace != null && nominalFace.getAxis().isVertical()) {
-                quad.nominalFace(nominalFace.getOpposite());
+            Direction cullFace = quad.cullFace();
+            if (cullFace != null) {
+                quad.cullFace(Direction.transform(ModelRotation.X90_Y0.getRotation().getMatrix(), cullFace));
             }
-            Vector3f vp = new Vector3f();
+            Vector3f vertexPos = new Vector3f();
             for (int i = 0; i < 4; i++) {
-                quad.copyPos(i, vp);
-                vp.set(vp.x(), 1 - vp.y(), vp.z());
-                quad.pos(i, vp);
+                quad.copyPos(i, vertexPos);
+                JsonUnbakedModel.QUAD_FACTORY.transformVertex(vertexPos, ModelRotation.X90_Y0.getRotation());
+                quad.pos(i, vertexPos);
             }
             return true;
         });//上下颠倒
@@ -180,6 +235,6 @@ public class MadeVoxelModel implements HasDepthBakedModel, CustomBakedModel {
     }
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        HasDepthBakedModel.super.emitItemQuads(stack, randomSupplier, context);
+        MinecraftClient.getInstance().getBakedModelManager().getModel(Registries.ITEM.getId(Items.CAKE)).emitItemQuads(stack, randomSupplier, context);
     }
 }

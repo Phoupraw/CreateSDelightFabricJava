@@ -101,8 +101,8 @@ dependencies {
     }
     for (f in [
       "net.fabricmc:fabric-loader:${project["fabric_loader_version"]}",
-      "net.fabricmc.fabric-api:fabric-api:${project["fabric_api_version"]}",
-      "com.simibubi.create:create-fabric-${project["minecraft_version"]}:${project["create_version"]}",
+      "net.fabricmc.fabric-api:fabric-api:${project["fabric_api_version"]}+${project["minecraft_version"]}",
+      "com.simibubi.create:create-fabric-${project["minecraft_version"]}:${project["create_version"]}+mc${project["minecraft_version"]}",
     ]) {
         modImplementation(f)
     }
@@ -118,6 +118,8 @@ dependencies {
     ]) {
         modCompileOnly(f)
     }
+
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project["mixin_extras"]}")))
 }
 processResources {
     inputs.property "version", project["version"]

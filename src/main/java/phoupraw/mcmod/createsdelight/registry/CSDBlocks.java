@@ -37,7 +37,7 @@ public final class CSDBlocks {
     //机器
     public static final Block CAKE_OVEN = new CakeOvenBlock();
     public static final Block VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new VoxelMakerBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_CASING.get())));
-    public static final Block MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new MadeVoxelBlock(FabricBlockSettings.create().nonOpaque().dynamicBounds().breakInstantly().sounds(BlockSoundGroup.WOOL).solid()));
+    public static final Block MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new MadeVoxelBlock(FabricBlockSettings.create().solid().nonOpaque().dynamicBounds().breakInstantly().sounds(BlockSoundGroup.WOOL)));
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));

@@ -26,8 +26,8 @@ public final class CSDModelProvider extends FabricModelProvider {
         for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM_BLOCK}) {
             generator.registerSimpleCubeAll(block);//该方法会生成方块状态、方块模型、物品模型。
         }
-        for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE}) {
-            generator.excludeFromSimpleItemModelGeneration(block);//设置不需要生成物品模型的方块
+        for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.MADE_VOXEL}) {
+            generator.excludeFromSimpleItemModelGeneration(block);//设置在registerSimpleState和registerSimpleCubeAll中不需要生成物品模型的方块
         }
         for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
             generator.registerItemModel(item);//生成平面物品模型

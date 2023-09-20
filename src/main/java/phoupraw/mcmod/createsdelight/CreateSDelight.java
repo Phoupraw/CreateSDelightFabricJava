@@ -11,7 +11,9 @@ import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 import phoupraw.mcmod.createsdelight.registry.*;
 
-public final class CreateSDelight implements ModInitializer {
+/**
+ no {@link ModInitializer#onInitialize()} but {@link #afterCreateInit()} */
+public final class CreateSDelight {
     public static final String MOD_ID = "createsdelight";
     @ApiStatus.Internal
     public static final Logger LOGGER = LogManager.getLogger();
@@ -37,12 +39,5 @@ public final class CreateSDelight implements ModInitializer {
 
         //我
         CSDCakeIngredients.CREAM_BLOCK.hashCode();
-    }
-    /**
-     @see #afterCreateInit()
-     */
-    @Override
-    public void onInitialize() {
-
     }
 }

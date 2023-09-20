@@ -153,7 +153,7 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
           box.getMaxX() / x, box.getMaxY() / y, box.getMaxZ() / z);
     }
     public PrintedCakeBlock() {
-        this(FabricBlockSettings.copyOf(Blocks.CAKE).dynamicBounds());
+        this(FabricBlockSettings.copyOf(Blocks.CAKE).nonOpaque().dynamicBounds());
     }
     public static @NotNull Direction defaultFacing() {
         return Direction.SOUTH;

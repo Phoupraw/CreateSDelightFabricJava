@@ -41,7 +41,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 //TODO 大改，看看伪装方块CopycatStepModel
-public class PrintedCakeModel implements HasDepthBakedModel, CustomBakedModel {
+public class PrintedCakeModel implements CustomBlockModel {
     public static final Identifier BLOCK_ID = ModelIds.getBlockModelId(CSDBlocks.PRINTED_CAKE);
     public static final Identifier ITEM_ID = ModelIds.getItemModelId(CSDItems.PRINTED_CAKE);
     public static final Map<VoxelCake, Map<Direction, BakedModel>> BLOCK_CACHE = new WeakHashMap<>();

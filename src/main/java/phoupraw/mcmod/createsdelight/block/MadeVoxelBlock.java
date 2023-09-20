@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.block;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
@@ -48,6 +50,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
 
     public MadeVoxelBlock(Settings settings) {
         super(settings);
+        setDefaultState(getDefaultState().with(FACING, PrintedCakeBlock.defaultFacing()));
     }
     @Override
     public Class<MadeVoxelBlockEntity> getBlockEntityClass() {
@@ -94,5 +97,10 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     @Override
     public ActionResult onSneakWrenched(BlockState state, ItemUsageContext context) {
         return this.onWrenched(state.rotate(BlockRotation.CLOCKWISE_180), context);
+    }
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        super.appendProperties(builder);
+        builder.add(FACING);
     }
 }
