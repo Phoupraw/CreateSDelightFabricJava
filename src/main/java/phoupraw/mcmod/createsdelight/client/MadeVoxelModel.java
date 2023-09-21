@@ -30,10 +30,7 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.*;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
@@ -42,8 +39,8 @@ import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
 
-import java.util.List;
-import java.util.Map;
+import java.lang.Math;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -58,6 +55,16 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
         return new SimpleBlockBakedModel(toBakedQuads(toCullFaces(voxelRecord.blocks(), voxelRecord.size()), voxelRecord.size()), MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite());
     }
+    @Deprecated
+    public static BakedModel loadBakedModel(VoxelRecord voxelRecord) {
+        new Thread(() -> {
+            BakedModel model = toBakedModel(voxelRecord);
+            do {
+                VOXEL2MODEL.put(voxelRecord, model);
+            } while (VOXEL2MODEL.get(voxelRecord) == SimpleBlockBakedModel.EMPTY);
+        }).start();
+        return SimpleBlockBakedModel.EMPTY;
+    }
     public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size) {
         return toCullFaces(voxels, size, 0);
     }
@@ -71,7 +78,6 @@ public class MadeVoxelModel implements CustomBlockModel {
                 BlockPos neighborPos = pos.offset(face);
                 if (!voxels.containsKey(neighborPos)) {
                     for (BakedQuad quad : model.getQuads(state, face, Random.create(randomSeed))) {
-                        //noinspection ConstantConditions
                         table.get(pos).put(face, quad.getSprite());
                         break;
                     }
@@ -84,8 +90,8 @@ public class MadeVoxelModel implements CustomBlockModel {
         long seed = randomSupplier.get() instanceof ALocalRandom localRandom ? localRandom.getSeed() : 1;
         return toCullFaces(voxels, size, seed);
     }
-    public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads(Map<Vec3i, Map<Direction, Sprite>> table, Vec3i size) {
-        DefaultedMap<@Nullable Direction, List<BakedQuad>> cullFace2quads = DefaultedMap.arrayListHashMultimap();
+    public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads(Map<Vec3i, Map<@NotNull Direction, Sprite>> table, Vec3i size) {
+        Map<@Nullable Direction, List<BakedQuad>> cullFace2quads = DefaultedMap.arrayListHashMultimap();
         @SuppressWarnings("ConstantConditions") MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
@@ -99,8 +105,96 @@ public class MadeVoxelModel implements CustomBlockModel {
                   .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
                 Direction cullFace = quad0.cullFace();
                 BakedQuad quad = quad0.toBakedQuad(sprite);
-                //noinspection ConstantConditions
                 cullFace2quads.get(cullFace).add(quad);
+            }
+        }
+        return cullFace2quads;
+    }
+    public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads2(Map<Vec3i, Map<@NotNull Direction, Sprite>> table, Vec3i size) {
+        Comparator<Vector2ic> comparator = Comparator.comparingInt(Vector2ic::x).thenComparingInt(Vector2ic::y);
+        Map<@NotNull Direction, @NotNull Map<Sprite, @NotNull Map<Integer, @NotNull SortedSet<Vector2ic>>>> depth2vecs =
+          new SupplierDefaultedMap<>(new HashMap<>(),
+            () -> new SupplierDefaultedMap<>(new HashMap<>(),
+              () -> new SupplierDefaultedMap<>(new HashMap<>(),
+                () -> new TreeSet<>(comparator))));
+        for (var rowEntry : table.entrySet()) {
+            Vec3i blockPos = rowEntry.getKey();
+            Box box = new Box(new BlockPos(blockPos));
+            for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
+                Direction face = entry.getKey();
+                var pair = PrintedCakeModel.square(box, face, size);
+                int depth = pair.getRight().intValue();
+                int left = (int) pair.getLeft().m00();
+                int bottom = (int) pair.getLeft().m01();
+                depth2vecs.get(face).get(entry.getValue()).get(depth).add(new Vector2i(left, bottom));
+            }
+        }
+        Map<@NotNull Direction, @NotNull Map<Sprite, @NotNull Map<Integer, @NotNull Collection<Matrix2dc>>>> depth2rects =
+          new SupplierDefaultedMap<>(new HashMap<>(),
+            () -> new SupplierDefaultedMap<>(new HashMap<>(),
+              () -> new SupplierDefaultedMap<>(new HashMap<>(),
+                LinkedList::new)));
+        int x0 = size.getX();
+        int y0 = size.getY();
+        Vector2i vec = new Vector2i();
+        for (var faceEntry : depth2vecs.entrySet()) {
+            Direction face = faceEntry.getKey();
+            for (var spriteEntry : faceEntry.getValue().entrySet()) {
+                Sprite sprite = spriteEntry.getKey();
+                for (var depthEntry : spriteEntry.getValue().entrySet()) {
+                    var vecs = depthEntry.getValue();
+                    while (!vecs.isEmpty()) {
+                        var start = vecs.first();
+                        vecs.remove(start);
+                        int x1 = start.x();
+                        int y1 = start.y();
+                        int x2 = x1 + 1;
+                        int y2 = y1 + 1;
+                        vec.set(start);
+                        for (int i = x1 + 1; i <= x0; i++) {
+                            vec.x = i;
+                            if (!vecs.contains(vec)) {
+                                x2 = i;
+                                break;
+                            }
+                            vecs.remove(vec);
+                        }
+                        vec.set(start);
+                        outer:
+                        for (int i = y1 + 1; i <= y0; i++) {
+                            vec.y = i;
+                            for (int j = x1; j < x2; j++) {
+                                vec.x = j;
+                                if (!vecs.contains(vec)) {
+                                    y2 = i;
+                                    break outer;
+                                }
+                                vecs.remove(vec);
+                            }
+                        }
+                        depth2rects.get(face).get(sprite).get(depthEntry.getKey()).add(new Matrix2d((double) x1 / x0, (double) y1 / y0, (double) x2 / x0, (double) y2 / y0));
+                    }
+                }
+            }
+        }
+        Map<@Nullable Direction, List<BakedQuad>> cullFace2quads = DefaultedMap.arrayListHashMultimap();
+        @SuppressWarnings("ConstantConditions") MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        QuadEmitter emitter = meshBuilder.getEmitter();
+        for (var faceEntry : depth2rects.entrySet()) {
+            Direction face = faceEntry.getKey();
+            for (var spriteEntry : faceEntry.getValue().entrySet()) {
+                Sprite sprite = spriteEntry.getKey();
+                for (var depthEntry : spriteEntry.getValue().entrySet()) {
+                    double depth = (double) depthEntry.getKey() / face.getAxis().choose(size.getX(), size.getY(), size.getZ());
+                    for (var rect : depthEntry.getValue()) {
+                        var quad0 = PrintedCakeModel.square(emitter, face, rect.m00(), rect.m01(), rect.m10(), rect.m11(), depth)
+                          .color(-1, -1, -1, -1)
+                          .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
+                        Direction cullFace = quad0.cullFace();
+                        BakedQuad quad = quad0.toBakedQuad(sprite);
+                        cullFace2quads.get(cullFace).add(quad);
+                    }
+                }
             }
         }
         return cullFace2quads;

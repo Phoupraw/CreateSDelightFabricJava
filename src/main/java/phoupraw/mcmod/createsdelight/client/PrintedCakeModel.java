@@ -27,9 +27,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import org.joml.Matrix2d;
+import org.joml.Matrix2dc;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
@@ -73,32 +76,32 @@ public class PrintedCakeModel implements CustomBlockModel {
             switch (norminalFace) {
                 case WEST -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minZ, face.minY, face.maxZ, face.maxY, face.minX, sprite, faces2quads);
+                        bakeQuad(emitter, norminalFace, face.minZ, face.minY, face.maxZ, face.maxY, face.minX, sprite, faces2quads);
                     }
                 }
                 case EAST -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, 1 - face.maxZ, face.minY, 1 - face.minZ, face.maxY, 1 - face.maxX, sprite, faces2quads);
+                        bakeQuad(emitter, norminalFace, 1 - face.maxZ, face.minY, 1 - face.minZ, face.maxY, 1 - face.maxX, sprite, faces2quads);
                     }
                 }
                 case DOWN -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, face.minZ, face.maxX, face.maxZ, face.minY, sprite, faces2quads);
+                        bakeQuad(emitter, norminalFace, face.minX, face.minZ, face.maxX, face.maxZ, face.minY, sprite, faces2quads);
                     }
                 }
                 case UP -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, 1 - face.maxZ, face.maxX, 1 - face.minZ, 1 - face.maxY, sprite, faces2quads);
+                        bakeQuad(emitter, norminalFace, face.minX, 1 - face.maxZ, face.maxX, 1 - face.minZ, 1 - face.maxY, sprite, faces2quads);
                     }
                 }
                 case NORTH -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, 1 - face.maxX, face.minY, 1 - face.minX, face.maxY, face.minZ, sprite, faces2quads);
+                        bakeQuad(emitter, norminalFace, 1 - face.maxX, face.minY, 1 - face.minX, face.maxY, face.minZ, sprite, faces2quads);
                     }
                 }
                 case SOUTH -> {
                     for (Box face : boxes) {
-                        square(emitter, norminalFace, face.minX, face.minY, face.maxX, face.maxY, 1 - face.maxZ, sprite, faces2quads);
+                        bakeQuad(emitter, norminalFace, face.minX, face.minY, face.maxX, face.maxY, 1 - face.maxZ, sprite, faces2quads);
                     }
                 }
             }
@@ -177,28 +180,41 @@ public class PrintedCakeModel implements CustomBlockModel {
         return sprite;
     }
     public static QuadEmitter square(QuadEmitter emitter, Box box, Direction norminalFace) {
-        return switch (norminalFace) {
-            case WEST -> square(emitter, norminalFace, box.minZ, box.minY, box.maxZ, box.maxY, box.minX);
-            case EAST -> square(emitter, norminalFace, 1 - box.maxZ, box.minY, 1 - box.minZ, box.maxY, 1 - box.maxX);
-            case DOWN -> square(emitter, norminalFace, box.minX, box.minZ, box.maxX, box.maxZ, box.minY);
-            case UP -> square(emitter, norminalFace, box.minX, 1 - box.maxZ, box.maxX, 1 - box.minZ, 1 - box.maxY);
-            case NORTH -> square(emitter, norminalFace, 1 - box.maxX, box.minY, 1 - box.minX, box.maxY, box.minZ);
-            case SOUTH -> square(emitter, norminalFace, box.minX, box.minY, box.maxX, box.maxY, 1 - box.maxZ);
+        var pair = square(box, norminalFace, new Vec3i(1, 1, 1));
+        var rect = pair.getLeft();
+        return square(emitter, norminalFace, rect.m00(), rect.m01(), rect.m10(), rect.m11(), pair.getValue());
+    }
+    /**
+     {@code quadEmitter.square(face,左,下,右,上,深度)}
+     @param box 被取的箱
+     @param face 面
+     @return {@code ((左,下,右,上),深度)}
+     @see QuadEmitter#square(Direction, float, float, float, float, float)
+     */
+    @SuppressWarnings("SuspiciousNameCombination")
+    public static Pair<Matrix2dc, Double> square(Box box, Direction face, Vec3i size) {
+        return switch (face) {
+            case WEST -> Pair.of(new Matrix2d(box.minZ, box.minY, box.maxZ, box.maxY), box.minX);
+            case EAST -> Pair.of(new Matrix2d(size.getZ() - box.maxZ, box.minY, size.getZ() - box.minZ, box.maxY), size.getX() - box.maxX);
+            case DOWN -> Pair.of(new Matrix2d(box.minX, box.minZ, box.maxX, box.maxZ), box.minY);
+            case UP -> Pair.of(new Matrix2d(box.minX, size.getZ() - box.maxZ, box.maxX, size.getZ() - box.minZ), size.getY() - box.maxY);
+            case NORTH -> Pair.of(new Matrix2d(size.getX() - box.maxX, box.minY, size.getX() - box.minX, box.maxY), box.minZ);
+            case SOUTH -> Pair.of(new Matrix2d(box.minX, box.minY, box.maxX, box.maxY), size.getZ() - box.maxZ);
         };
     }
     public static QuadEmitter square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth) {
         return emitter.square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth);
     }
-    public static BakedQuad square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite) {
+    public static BakedQuad toBakedQuad(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite) {
         return emitter
           .square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth)
           .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
           .color(-1, -1, -1, -1)
           .toBakedQuad(sprite);
     }
-    public static void square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, Multimap<@Nullable Direction, BakedQuad> faces2quads) {
+    public static void bakeQuad(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth, Sprite sprite, Multimap<@Nullable Direction, BakedQuad> faces2quads) {
         Direction face = depth < QuadEmitter.CULL_FACE_EPSILON ? norminalFace : null;
-        BakedQuad quad = square(emitter, norminalFace, left, bottom, right, top, depth, sprite);
+        BakedQuad quad = toBakedQuad(emitter, norminalFace, left, bottom, right, top, depth, sprite);
         faces2quads.put(face, quad);
     }
     public static @Unmodifiable Map<Direction, BlockBox> to6Faces(BlockBox box) {
@@ -240,7 +256,7 @@ public class PrintedCakeModel implements CustomBlockModel {
         context.popTransform();
     }
     /**
-     * 每一帧，游戏都会调用一次这个方法
+     每一帧，游戏都会调用一次这个方法
      */
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
