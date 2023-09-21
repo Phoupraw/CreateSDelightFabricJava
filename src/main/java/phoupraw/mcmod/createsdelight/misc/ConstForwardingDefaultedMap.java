@@ -15,7 +15,6 @@ public abstract class ConstForwardingDefaultedMap<K, V> extends ConstForwardingM
         }
         return v;
     }
-    @Deprecated
     @Override
     public V getOrPut(Object key, V value) {
         V v = delegate().get(key);

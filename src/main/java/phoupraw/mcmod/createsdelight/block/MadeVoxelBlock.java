@@ -140,7 +140,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         if (blockEntity != null) {
             VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
             if (voxelRecord != null) {
-                FACING_SHAPE_CACHE.get(state.get(FACING)).get(voxelRecord);
+                shape = FACING_SHAPE_CACHE.get(state.get(FACING)).get(voxelRecord);
             }
             //VoxelShape cachedShape = blockEntity.shapes.get(state.get(FACING));
             //if (cachedShape!=null){
