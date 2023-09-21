@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.state.property.Property;
+import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,10 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
+public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size, BlockBox boundary) {
+    public static VoxelRecord of(Map<BlockPos, BlockState> blocks, Vec3i size) {
+        return new VoxelRecord(blocks, size, BlockBox.encompassPositions(blocks.keySet()).orElseThrow());
+    }
     public static int compare(BlockState a, BlockState b) {
         int r = a.getRegistryEntry().getKey().orElseThrow().getValue().compareTo(b.getRegistryEntry().getKey().orElseThrow().getValue());
         if (r != 0) return r;
@@ -61,7 +65,7 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return new VoxelRecord(blocks, size);
+        return of(blocks, size);
     }
     public NbtCompound write(NbtCompound nbt) {
         List<BlockState> blocks = new ArrayList<>(new HashSet<>(this.blocks.values()));

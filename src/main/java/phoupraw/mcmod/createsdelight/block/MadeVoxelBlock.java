@@ -1,6 +1,5 @@
 package phoupraw.mcmod.createsdelight.block;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.block.*;
@@ -26,6 +25,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.*;
@@ -44,9 +44,16 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         return rotated;
     }));
     /**
-     两点分布
-     @param x
-     @return
+     根据两点分布把小数取整。
+     <table border="1">
+     <caption>分布律</caption>
+     <tbody>
+     <tr><th>X</th><td align="center">⌊{@code x}⌋</td><td>⌊{@code x}⌋+1</td></tr>
+     <tr><th>p</th><td>⌊{@code x}⌋+1-{@code x}</td><td align="center">{@code x}-⌊{@code x}⌋</td></tr>
+     </tbody>
+     </table>
+     @param x 待取整的小数，包含了随机变量的取值范围和分布律信息
+     @return 取得的整数，即随机变量X
      */
     public static long twoPoint(double x) {
         long integer = (long) x;
@@ -176,6 +183,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord != null) {
+            long t = System.currentTimeMillis();
             var size = voxelRecord.size();
             Comparator<BlockPos> comparator;
             if (player.isSneaking()) {
@@ -186,10 +194,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                 comparator = Comparator.comparingDouble(center::getSquaredDistance);
                 comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
             }
-
             Map<BlockPos, BlockState> newBlocks = new HashMap<>(voxelRecord.blocks());
-            AtomicDouble hunger1 = new AtomicDouble();
-            AtomicDouble saturation1 = new AtomicDouble();
             double hunger = 0;
             double saturation = 0;
             HungerManager hungerManager = player.getHungerManager();
@@ -197,10 +202,11 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             double playerSaturation = hungerManager.getSaturationLevel();
             double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
             boolean removed = false;
-            double scale = 8;
+            double scale = 4;
             if (!player.isSneaking()) {
-                int y = size.getY() - 1;
+                int y = size.getY();
                 while (hunger < 2 && hunger + playerHunger < 20 && !newBlocks.isEmpty()) {
+                    y--;
                     List<Map.Entry<BlockPos, BlockState>> sortedBlocks = new ArrayList<>();
                     for (BlockPos pos1 : BlockPos.iterate(0, y, 0, size.getX() - 1, y, size.getZ() - 1)) {
                         if (!newBlocks.containsKey(pos1)) continue;
@@ -213,7 +219,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                         double nowHunger = hunger + playerHunger;
                         if (hunger >= 2 || nowHunger >= 20) break;
                         FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
-                        if (foodBehaviour == null) continue;
                         hunger += foodBehaviour.getHunger(cubicMeters) * scale;
                         saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
                         newBlocks.remove(entry.getKey());
@@ -221,43 +226,24 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                     }
                 }
             } else {
-
-            }
-            List<Map.Entry<BlockPos, BlockState>> sortedBlocks = voxelRecord.blocks()
-              .entrySet()
-              .parallelStream()
-              //.filter(entry -> BlockFoods.BLOCK_STATE.get(entry.getValue()) != null)
-              .sorted(Map.Entry.comparingByKey(comparator))
-              .takeWhile(entry -> {
-                  if (hunger1.get() >= 2 || hunger1.get() + playerHunger >= 20) return false;
-                  FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
-                  if (foodBehaviour == null) return true;
-                  hunger1.addAndGet(foodBehaviour.getHunger(cubicMeters) * scale);
-                  saturation1.addAndGet(foodBehaviour.getSaturation(cubicMeters) * scale);
-                  return true;
-              }).toList();
-            for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
-                double nowHunger = hunger + playerHunger;
-                if (hunger >= 2 || nowHunger >= 20 /*|| saturation + playerSaturation >= nowHunger*/) break;
-                FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
-                if (foodBehaviour == null) continue;
-                hunger += foodBehaviour.getHunger(cubicMeters) * scale;
-                saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
-                newBlocks.remove(entry.getKey());
-                removed = true;
+                int r = 0;
+                List<Map.Entry<BlockPos, BlockState>> sortedBlocks = new ArrayList<>();
             }
             if (!removed) return ActionResult.CONSUME;
-            hungerManager.add((int) twoPoint(hunger1.get()), (float) (saturation1.get() / hunger1.get() / 2));
+            hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
             world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
-            if (!hungerManager.isNotFull()) {
-                world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
-            }
+            boolean burp = !hungerManager.isNotFull();
             if (newBlocks.isEmpty()) {
                 world.removeBlock(pos, false);
+                burp = true;
             } else {
-                blockEntity.setVoxelRecord(new VoxelRecord(newBlocks, size));
+                blockEntity.setVoxelRecord(VoxelRecord.of(newBlocks, size));
                 blockEntity.sendData();
             }
+            if (burp) {
+                world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
+            }
+            CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse运行了%d毫秒".formatted(System.currentTimeMillis() - t));
             return ActionResult.SUCCESS;
         }
         return ActionResult.CONSUME;

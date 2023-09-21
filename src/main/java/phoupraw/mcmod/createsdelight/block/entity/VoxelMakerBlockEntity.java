@@ -114,7 +114,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
                     world.setBlockState(pos1, world.getFluidState(pos1).getBlockState(), Block.NOTIFY_NEIGHBORS);
                 }
                 if (!blocks.isEmpty()) {
-                    len1s.put(len1, new VoxelRecord(blocks, size));
+                    len1s.put(len1, VoxelRecord.of(blocks, size));
                 }
             }
             if (world.isClient()) {
@@ -130,7 +130,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
             outlineLinger += step;
             if (outlineLinger >= 1) {
                 world.setBlockState(origin, CSDBlocks.MADE_VOXEL.getDefaultState());
-                ((MadeVoxelBlockEntity) world.getBlockEntity(origin)).setVoxelRecord(new VoxelRecord(len1s.values().stream().filter(Objects::nonNull).map(VoxelRecord::blocks).collect(HashMap::new, Map::putAll, Map::putAll), size));
+                ((MadeVoxelBlockEntity) world.getBlockEntity(origin)).setVoxelRecord(VoxelRecord.of(len1s.values().stream().filter(Objects::nonNull).map(VoxelRecord::blocks).collect(HashMap::new, Map::putAll, Map::putAll), size));
                 setWorking(TriState.FALSE);
             }
         }
