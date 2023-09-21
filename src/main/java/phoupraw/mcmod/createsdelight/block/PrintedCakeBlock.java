@@ -73,7 +73,7 @@ public class PrintedCakeBlock extends HorizontalFacingBlock implements IBE<Print
     }
     public static BlockBox rotate(BlockBox box, Vec3i size, Direction facing) {
         double offsetX = size.getX() / 2.0, offsetZ = size.getZ() / 2.0;
-        double angle = -facing.getHorizontal() * Math.PI / 2;
+        double angle = (defaultFacing().getHorizontal() - facing.getHorizontal()) * Math.PI / 2;
         var min = new Vector3d()
           .set(box.getMinX() - offsetX, box.getMinY(), box.getMinZ() - offsetZ)
           .rotateY(angle)

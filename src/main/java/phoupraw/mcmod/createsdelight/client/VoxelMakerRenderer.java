@@ -63,7 +63,7 @@ public class VoxelMakerRenderer extends KineticBlockEntityRenderer<VoxelMakerBlo
                 }
             }
             ts.scale(scale);
-            BakedModel model = MadeVoxelModel.MODEL_CACHE.get(voxelCake);
+            BakedModel model = MadeVoxelModel.VOXEL2MODEL.get(voxelCake);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderLayers.getBlockLayer(cachedState));
             context.getRenderManager().getModelRenderer().render(be.getWorld(), model, Blocks.GLOWSTONE.getDefaultState()/*用荧石，使模型没有莫名其妙的阴影*/, be.getPos().up(), ms, vertexConsumer, false, Random.create(0), 0, overlay);
             ts.popPose();

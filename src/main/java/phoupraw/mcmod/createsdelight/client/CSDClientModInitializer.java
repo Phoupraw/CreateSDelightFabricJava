@@ -60,7 +60,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
                   .completedFuture(null)
                   .thenCompose(synchronizer::whenPrepared)
                   .thenRunAsync(() -> {
-                      MadeVoxelModel.MODEL_CACHE.clear();
+                      MadeVoxelModel.VOXEL2MODEL.clear();
                       //PrintedCakeModel.BLOCK_CACHE.clear();
                       //PrintedCakeModel.ITEM_CACHE.clear();
                       //PrintedCakeModel.SPRITE_CACHE.clear();

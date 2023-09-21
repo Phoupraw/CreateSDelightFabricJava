@@ -23,6 +23,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.*;
@@ -31,10 +32,15 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import java.util.*;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
-    @Deprecated
     public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = DefaultedMap.loadingCache(MadeVoxelBlock::shape);
-    @Deprecated
-    public static final DefaultedMap<Direction, DefaultedMap<VoxelRecord, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> DefaultedMap.loadingCache(MadeVoxelBlock.SHAPE_CACHE::get));
+    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = DefaultedMap.loadingCache(voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
+        VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
+        VoxelShape rotated = VoxelShapes.empty();
+        for (Box box : shape.getBoundingBoxes()) {
+            rotated = VoxelShapes.union(rotated, VoxelShapes.cuboid(rotate(box, facing)));
+        }
+        return rotated;
+    }));
     /**
      两点分布
      @param x
@@ -121,6 +127,18 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         }
         return boxes.stream().map(VoxelShapes::cuboid).reduce(VoxelShapes.empty(), VoxelShapes::union);
     }
+    public static Box rotate(Box box, Direction facing) {
+        double angle = (PrintedCakeBlock.defaultFacing().getHorizontal() - facing.getHorizontal()) * Math.PI / 2;
+        var min = new Vector3d()
+          .set(box.minX - 0.5, box.minY, box.minZ - 0.5)
+          .rotateY(angle)
+          .add(0.5, 0, 0.5);
+        var max = new Vector3d()
+          .set(box.maxX - 0.5, box.maxY, box.maxZ - 0.5)
+          .rotateY(angle)
+          .add(0.5, 0, 0.5);
+        return new Box(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
+    }
     public MadeVoxelBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, PrintedCakeBlock.defaultFacing()));
@@ -135,23 +153,20 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        VoxelShape shape = getCollisionShape(state, world, pos, context);
+        return !shape.isEmpty() ? shape : Blocks.CAKE.getDefaultState().getOutlineShape(world, pos, context);
+    }
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape shape = VoxelShapes.empty();
         MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
         if (blockEntity != null) {
             VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
             if (voxelRecord != null) {
-                shape = FACING_SHAPE_CACHE.get(state.get(FACING)).get(voxelRecord);
+                shape = FACING_SHAPE_CACHE.get(voxelRecord).get(state.get(FACING));
             }
-            //VoxelShape cachedShape = blockEntity.shapes.get(state.get(FACING));
-            //if (cachedShape!=null){
-            //    shape=cachedShape;
-            //}
         }
-        return !shape.isEmpty() ? shape : Blocks.CAKE.getDefaultState().getOutlineShape(world, pos, context);
-    }
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return super.getCollisionShape(state, world, pos, context);//TODO
+        return shape;
     }
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -176,7 +191,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             double playerSaturation = hungerManager.getSaturationLevel();
             double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
             boolean removed = false;
-            double scale = 64;
+            double scale = 32;
             for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
                 double nowHunger = hunger + playerHunger;
                 if (nowHunger >= 20 /*|| saturation + playerSaturation >= nowHunger*/) break;

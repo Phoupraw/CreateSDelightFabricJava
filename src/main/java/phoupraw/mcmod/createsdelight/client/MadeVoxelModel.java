@@ -21,8 +21,9 @@ import net.minecraft.client.render.model.BakedQuadFactory;
 import net.minecraft.client.render.model.ModelRotation;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
@@ -47,13 +48,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
-    public static final DefaultedMap<VoxelRecord, BakedModel> MODEL_CACHE = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
+    public static final DefaultedMap<VoxelRecord, BakedModel> VOXEL2MODEL = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
+    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(new Function<NbtCompound, BakedModel>() {
+        @Override
+        public BakedModel apply(NbtCompound compound) {
+            return null;
+        }
+    });
     public static final BlockPos SAMPLE_1_SIZE = new BlockPos(1, 1, 1).multiply(64);
     public static final Map<BlockPos, BlockState> SAMPLE_1;
     static {
@@ -236,12 +244,14 @@ public class MadeVoxelModel implements CustomBlockModel {
         Direction horizontal = blockEntity.getCachedState().get(HorizontalFacingBlock.FACING);
         AffineTransformation rotation = rotatingTo(horizontal);
         context.pushTransform(quad -> rotate(quad, rotation));
-        MODEL_CACHE.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        VOXEL2MODEL.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
         context.popTransform();
     }
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        BakedModel model = MinecraftClient.getInstance().getItemRenderer().getModel(Items.CAKE.getDefaultStack(), null, null, 0);
-        model.emitItemQuads(stack, randomSupplier, context);
+        NbtCompound blockEntityNbt = BlockItem.getBlockEntityNbt(stack);
+        if (blockEntityNbt != null) {
+            NBT2MODEL.get(blockEntityNbt.getCompound("voxelRecord")).emitItemQuads(stack, randomSupplier, context);
+        }
     }
 }
