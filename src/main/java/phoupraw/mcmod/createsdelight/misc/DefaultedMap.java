@@ -30,9 +30,9 @@ public interface DefaultedMap<K, V> extends Map<K, V> {
         return new ConstDefaultedMap<>(new HashMap<>(), 0);
     }
     /**
-     * @throws ClassCastException if the class of the specified key or value prevents it from being stored in this map
+     @throws ClassCastException if the class of the specified key or value prevents it from being stored in this map
      */
-    @NotNull V getOrPut(Object key, V value);
+    V getOrPut(Object key, V value);
     @Override
-    @NotNull V get(Object key);
+    V get(Object key);
 }

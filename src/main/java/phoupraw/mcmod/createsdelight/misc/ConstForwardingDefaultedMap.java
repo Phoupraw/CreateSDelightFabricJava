@@ -1,7 +1,5 @@
 package phoupraw.mcmod.createsdelight.misc;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 
 public abstract class ConstForwardingDefaultedMap<K, V> extends ConstForwardingMap<K, V> implements DefaultedMap<K, V> {
@@ -9,11 +7,17 @@ public abstract class ConstForwardingDefaultedMap<K, V> extends ConstForwardingM
         super(delegate);
     }
     @Override
-    public @NotNull V get(Object key) {
-        return getOrPut(key, makeValue(key));
+    public V get(Object key) {
+        V v = delegate().get(key);
+        if (v == null) {
+            v = makeValue(key);
+            put((K) key, v);
+        }
+        return v;
     }
+    @Deprecated
     @Override
-    public @NotNull V getOrPut(Object key, V value) {
+    public V getOrPut(Object key, V value) {
         V v = delegate().get(key);
         if (v == null) {
             v = value;
@@ -21,5 +25,5 @@ public abstract class ConstForwardingDefaultedMap<K, V> extends ConstForwardingM
         }
         return v;
     }
-    public abstract @NotNull V makeValue(Object key);
+    public abstract V makeValue(Object key);
 }

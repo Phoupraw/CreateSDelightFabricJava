@@ -3,15 +3,13 @@ package phoupraw.mcmod.createsdelight.registry;
 import com.simibubi.create.AllBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
-import phoupraw.mcmod.createsdelight.block.MadeVoxelBlock;
-import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
-import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
+import phoupraw.mcmod.createsdelight.block.*;
 
 ///**
 // * 方块编写流程：
@@ -41,14 +39,14 @@ public final class CSDBlocks {
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
-    public static final Block CREAM_BLOCK = new Block(FabricBlockSettings.create().breakInstantly().mapColor(MapColor.WHITE));
+    public static final Block CREAM_BLOCK = new CreamBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
     }
-    private static <T extends Block> T register(Identifier id, T block) {
+    public static <T extends Block> T register(Identifier id, T block) {
         return Registry.register(Registries.BLOCK, id, block);
     }
     private CSDBlocks() {

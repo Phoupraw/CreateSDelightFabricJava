@@ -64,11 +64,11 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
         return new VoxelRecord(blocks, size);
     }
     public NbtCompound write(NbtCompound nbt) {
-        List<BlockState> blockStates = new ArrayList<>(new HashSet<>(blocks.values()));
-        blockStates.sort(VoxelRecord::compare);
+        List<BlockState> blocks = new ArrayList<>(new HashSet<>(this.blocks.values()));
+        blocks.sort(VoxelRecord::compare);
         Map<BlockState, Integer> pallete = new HashMap<>();
         NbtList nbtPallete = new NbtList();
-        for (BlockState blockState : blockStates) {
+        for (BlockState blockState : blocks) {
             nbtPallete.add(NbtHelper.fromBlockState(blockState));
             pallete.put(blockState, pallete.size() + 1);
         }
@@ -78,7 +78,7 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
                 for (int j = 0; j < size.getY(); j++) {
                     for (int k = 0; k < size.getZ(); k++) {
                         BlockPos pos = new BlockPos(i, j, k);
-                        BlockState blockState = blocks.get(pos);
+                        BlockState blockState = this.blocks.get(pos);
                         if (blockState == null) {
                             gzip.write(0);
                         } else {
@@ -93,7 +93,7 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size) {
             throw new RuntimeException(e);
         } catch (NullPointerException e) {
             CreateSDelight.LOGGER.fatal("pallete=" + pallete);
-            CreateSDelight.LOGGER.fatal("blocks=" + blocks);
+            CreateSDelight.LOGGER.fatal("blocks=" + this.blocks);
             throw e;
         }
         nbt.put("size", NbtHelper.fromBlockPos(new BlockPos(size)));

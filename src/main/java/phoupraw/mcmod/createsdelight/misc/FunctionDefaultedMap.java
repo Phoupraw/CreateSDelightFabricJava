@@ -1,7 +1,5 @@
 package phoupraw.mcmod.createsdelight.misc;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 import java.util.function.Function;
 
@@ -12,7 +10,7 @@ public class FunctionDefaultedMap<K, V> extends ConstForwardingDefaultedMap<K, V
         this.function = function;
     }
     @Override
-    public @NotNull V makeValue(Object key) {
+    public V makeValue(Object key) {
         return function.apply((K) key);
     }
 }

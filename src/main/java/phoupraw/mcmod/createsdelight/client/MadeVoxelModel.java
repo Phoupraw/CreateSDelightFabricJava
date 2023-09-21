@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
@@ -22,7 +23,6 @@ import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
@@ -36,6 +36,7 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
@@ -207,6 +208,22 @@ public class MadeVoxelModel implements CustomBlockModel {
             vector.set(vector4f.x() + origin.x(), vector4f.y() + origin.y(), vector4f.z() + origin.z());
         }
     }
+    public static AffineTransformation rotatingTo(Direction horizontal) {
+        return ModelRotation.get(0, (PrintedCakeBlock.defaultFacing().getHorizontal() - horizontal.getHorizontal()) * 90).getRotation();
+    }
+    public static boolean rotate(MutableQuadView quad, AffineTransformation rotation) {
+        Direction cullFace = quad.cullFace();
+        if (cullFace != null) {
+            quad.cullFace(Direction.transform(rotation.getMatrix(), cullFace));
+        }
+        Vector3f vertexPos = new Vector3f();
+        for (int i = 0; i < 4; i++) {
+            quad.copyPos(i, vertexPos);
+            JsonUnbakedModel.QUAD_FACTORY.transformVertex(vertexPos, rotation);
+            quad.pos(i, vertexPos);
+        }
+        return true;
+    }
     @Override
     public Sprite getParticleSprite() {
         return MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModelParticleSprite(Blocks.BARRIER.getDefaultState());
@@ -214,27 +231,17 @@ public class MadeVoxelModel implements CustomBlockModel {
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         if (!(blockView.getBlockEntity(pos) instanceof MadeVoxelBlockEntity blockEntity)) return;
-        VoxelRecord voxelRecord = blockEntity.voxelRecord;
+        VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord == null) return;
-        context.pushTransform(quad -> {
-            Direction cullFace = quad.cullFace();
-            if (cullFace != null) {
-                quad.cullFace(Direction.transform(ModelRotation.X90_Y0.getRotation().getMatrix(), cullFace));
-            }
-            Vector3f vertexPos = new Vector3f();
-            for (int i = 0; i < 4; i++) {
-                quad.copyPos(i, vertexPos);
-                JsonUnbakedModel.QUAD_FACTORY.transformVertex(vertexPos, ModelRotation.X90_Y0.getRotation());
-                quad.pos(i, vertexPos);
-            }
-            return true;
-        });//上下颠倒
+        Direction horizontal = blockEntity.getCachedState().get(HorizontalFacingBlock.FACING);
+        AffineTransformation rotation = rotatingTo(horizontal);
+        context.pushTransform(quad -> rotate(quad, rotation));
         MODEL_CACHE.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
-        //emitBlockQuads(SAMPLE_1, SAMPLE_1_SIZE, randomSupplier, context);
         context.popTransform();
     }
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        MinecraftClient.getInstance().getBakedModelManager().getModel(Registries.ITEM.getId(Items.CAKE)).emitItemQuads(stack, randomSupplier, context);
+        BakedModel model = MinecraftClient.getInstance().getItemRenderer().getModel(Items.CAKE.getDefaultStack(), null, null, 0);
+        model.emitItemQuads(stack, randomSupplier, context);
     }
 }

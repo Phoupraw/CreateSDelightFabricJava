@@ -3,10 +3,13 @@ package phoupraw.mcmod.createsdelight.misc;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FoodComponent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
 
+/**
+ 没有状态效果，没有额外效果 */
 public class LinearFoodBehaviour implements FoodBehaviour {
     public static final LinearFoodBehaviour CAKE;
     static {
@@ -14,6 +17,31 @@ public class LinearFoodBehaviour implements FoodBehaviour {
         double hunger = 2 * 7;
         double saturation = 0.4 * 7;
         CAKE = new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, 0);
+    }
+    /**
+     只考虑饥饿值、饱食度、使用时间（是否是零食）
+     * @param minuend 被减数
+     * @param subtrahend 减数
+     * @param cubicMeters 体积（立方米）
+     * @return (被减数 - 减数)÷体积
+     */
+    public static LinearFoodBehaviour subtract(FoodComponent minuend, FoodComponent subtrahend, double cubicMeters) {
+        double hunger = minuend.getHunger() - subtrahend.getHunger();
+        double saturation = (minuend.getHunger() * minuend.getSaturationModifier() - subtrahend.getHunger() * subtrahend.getSaturationModifier()) * 2;
+        double duration = 32 + ((minuend.isSnack() ? 0 : 1) + (subtrahend.isSnack() ? 0 : 1)) * 16;
+        return new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, duration / cubicMeters);
+    }
+    /**
+     只考虑饥饿值、饱食度、使用时间（是否是零食）
+     * @param foodComponent 原本食物属性
+     * @param cubicMeters 体积（立方米）
+     * @return 原本食物属性÷体积
+     */
+    public static LinearFoodBehaviour of(FoodComponent foodComponent, double cubicMeters) {
+        double hunger = foodComponent.getHunger();
+        double saturation = foodComponent.getHunger() * foodComponent.getSaturationModifier() * 2;
+        double duration = foodComponent.isSnack() ? 16 : 32;
+        return new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, duration / cubicMeters);
     }
     public final double hunger;
     public final double saturation;
