@@ -1,8 +1,5 @@
 package phoupraw.mcmod.createsdelight.client;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
-import com.google.common.collect.Tables;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
@@ -37,6 +34,7 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
@@ -60,38 +58,12 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
         return new SimpleBlockBakedModel(toBakedQuads(toCullFaces(voxelRecord.blocks(), voxelRecord.size()), voxelRecord.size()), MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite());
     }
-    public static void emitBlockQuads(Map<BlockPos, BlockState> map, Vec3i size, Supplier<Random> randomSupplier, RenderContext context) {
-        Table<Vec3i, Direction, Sprite> table = Tables.synchronizedTable(HashBasedTable.create());
-        long t = (System.currentTimeMillis());
-        long seed;
-        if (randomSupplier.get() instanceof ALocalRandom localRandom) {
-            seed = localRandom.getSeed();
-        } else {
-            seed = 1;
-        }
-        map.entrySet().stream().parallel().forEach(entry -> {
-            BlockPos pos = entry.getKey();
-            BlockState state = entry.getValue();
-            BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
-            for (Direction face : DIRECTIONS) {
-                BlockPos neighborPos = pos.offset(face);
-                if (!map.containsKey(neighborPos)) {
-                    for (BakedQuad quad : model.getQuads(state, face, Random.create(seed))) {
-                        table.put(pos, face, quad.getSprite());
-                        break;
-                    }
-                }
-            }
-        });
-        //CreateSDelight.LOGGER.warn("emitBlockQuads: " + (System.currentTimeMillis() - t));
-        emitQuads(table, size, context);
-    }
     public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size) {
-        return toCullFaces(voxels, size, 1);
+        return toCullFaces(voxels, size, 0);
     }
     public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size, long randomSeed) {
-        Map<Vec3i, Map<Direction, Sprite>> table = new SupplierDefaultedMap<>(new ConcurrentHashMap<>(), SupplierDefaultedMap.newingEnumMap(Direction.class));
-        voxels.entrySet().stream().parallel().forEach(entry -> {
+        DefaultedMap<Vec3i, @NotNull Map<Direction, Sprite>> table = new SupplierDefaultedMap<>(new ConcurrentHashMap<>(), SupplierDefaultedMap.newingEnumMap(Direction.class));
+        voxels.entrySet().parallelStream().forEach(entry -> {
             BlockPos pos = entry.getKey();
             BlockState state = entry.getValue();
             BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
@@ -99,6 +71,7 @@ public class MadeVoxelModel implements CustomBlockModel {
                 BlockPos neighborPos = pos.offset(face);
                 if (!voxels.containsKey(neighborPos)) {
                     for (BakedQuad quad : model.getQuads(state, face, Random.create(randomSeed))) {
+                        //noinspection ConstantConditions
                         table.get(pos).put(face, quad.getSprite());
                         break;
                     }
@@ -111,24 +84,9 @@ public class MadeVoxelModel implements CustomBlockModel {
         long seed = randomSupplier.get() instanceof ALocalRandom localRandom ? localRandom.getSeed() : 1;
         return toCullFaces(voxels, size, seed);
     }
-    public static void emitQuads(Table<Vec3i, Direction, Sprite> table, Vec3i size, RenderContext context) {
-        QuadEmitter emitter = context.getEmitter();
-        var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
-        for (var rowEntry : table.rowMap().entrySet()) {
-            var pos = rowEntry.getKey();
-            var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
-            for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
-                Sprite sprite = entry.getValue();
-                PrintedCakeModel.square(emitter, box, entry.getKey())
-                  .color(-1, -1, -1, -1)
-                  .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV)
-                  .emit();
-            }
-        }
-    }
     public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads(Map<Vec3i, Map<Direction, Sprite>> table, Vec3i size) {
-        Map<@Nullable Direction, List<BakedQuad>> cullFace2quads = DefaultedMap.arrayListHashMultimap();
-        MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+        DefaultedMap<@Nullable Direction, List<BakedQuad>> cullFace2quads = DefaultedMap.arrayListHashMultimap();
+        @SuppressWarnings("ConstantConditions") MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
         for (var rowEntry : table.entrySet()) {
@@ -141,6 +99,7 @@ public class MadeVoxelModel implements CustomBlockModel {
                   .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
                 Direction cullFace = quad0.cullFace();
                 BakedQuad quad = quad0.toBakedQuad(sprite);
+                //noinspection ConstantConditions
                 cullFace2quads.get(cullFace).add(quad);
             }
         }
@@ -230,7 +189,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         context.pushTransform(quad -> rotate(quad, rotation));
         long t = System.currentTimeMillis();
         VOXEL2MODEL.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
-        //CreateSDelight.LOGGER.info("MadeVoxelModel.emitBlockQuads VOXEL2MODEL.get.emitBlockQuads运行了%d毫秒".formatted(System.currentTimeMillis() - t));
+        CreateSDelight.LOGGER.debug("MadeVoxelModel.emitBlockQuads VOXEL2MODEL.get.emitBlockQuads运行了%d毫秒".formatted(System.currentTimeMillis() - t));
         context.popTransform();
     }
     @Override

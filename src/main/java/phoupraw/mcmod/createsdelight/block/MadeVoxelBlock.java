@@ -27,7 +27,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
 import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
@@ -43,6 +42,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
         VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
         VoxelShape rotated = VoxelShapes.empty();
+        //noinspection ConstantConditions
         for (Box box : shape.getBoundingBoxes()) {
             rotated = VoxelShapes.union(rotated, VoxelShapes.cuboid(rotate(box, facing)));
         }
@@ -175,20 +175,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
           .add(0.5, 0, 0.5);
         return new Box(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
-    public static Iterable<@Unmodifiable BlockPos> iterateSphere(BlockPos center, double maxRadius) {
-        return () -> new Iterator<>() {
-            BlockPos.Mutable pos = center.mutableCopy();
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-            @Override
-            public BlockPos next() {
-                BlockPos r = pos.toImmutable();
-                return r;
-            }
-        };
-    }
     public MadeVoxelBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, PrintedCakeBlock.defaultFacing()));
@@ -201,11 +187,13 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public BlockEntityType<? extends MadeVoxelBlockEntity> getBlockEntityType() {
         return CSDBlockEntityTypes.MADE_VOXEL;
     }
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape shape = getCollisionShape(state, world, pos, context);
         return !shape.isEmpty() ? shape : Blocks.CAKE.getDefaultState().getOutlineShape(world, pos, context);
     }
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape shape = VoxelShapes.empty();
@@ -218,12 +206,13 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         }
         return shape;
     }
+    @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient()) return ActionResult.CONSUME;
         HungerManager hungerManager = player.getHungerManager();
         int playerHunger = hungerManager.getFoodLevel();
         if (playerHunger >= 20) return ActionResult.FAIL;
+        if (world.isClient()) return ActionResult.CONSUME;
         MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
         if (blockEntity == null) return ActionResult.FAIL;
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
@@ -275,70 +264,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         }
         return ActionResult.SUCCESS;
     }
-    public ActionResult onUse_old(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient()) return ActionResult.CONSUME;
-        HungerManager hungerManager = player.getHungerManager();
-        int playerHunger = hungerManager.getFoodLevel();
-        if (playerHunger >= 20) return ActionResult.CONSUME;
-        MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
-        VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
-        if (voxelRecord == null) return ActionResult.CONSUME;
-        //long t = System.currentTimeMillis();
-        var size = voxelRecord.size();
-        Comparator<BlockPos> comparator;
-        if (player.isSneaking()) {
-            var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
-            comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
-        } else {
-            var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());
-            comparator = Comparator.comparingDouble(center::getSquaredDistance);
-            comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
-        }
-        Map<BlockPos, BlockState> newBlocks = new LinkedHashMap<>(voxelRecord.blocks());
-        //long t1 = System.currentTimeMillis();
-        var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
-        //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse sorted运行了%d毫秒".formatted(System.currentTimeMillis()-t1));
-        double hunger = 0;
-        double saturation = 0;
-        double playerSaturation = hungerManager.getSaturationLevel();
-        double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
-        boolean removed = false;
-        double scale = 1;
-        Set<Block> eatenBlocks = new HashSet<>();
-        //t1 = System.currentTimeMillis();
-        for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
-            if (hunger >= 1) break;
-            FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
-            hunger += foodBehaviour.getHunger(cubicMeters) * scale;
-            saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
-            eatenBlocks.add(entry.getValue().getBlock());
-            newBlocks.remove(entry.getKey());
-            removed = true;
-        }
-        //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse for(sortedBlocks)运行了%d毫秒".formatted(System.currentTimeMillis()-t1));
-        if (!removed) return ActionResult.CONSUME;
-        hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
-        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
-        boolean burp = !hungerManager.isNotFull();
-        if (newBlocks.isEmpty()) {
-            world.removeBlock(pos, false);
-            burp = true;
-        } else {
-            //t1 = System.currentTimeMillis();
-            blockEntity.setVoxelRecord(VoxelRecord.of(newBlocks, size));
-            //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse blockEntity.setVoxelRecord运行了%d毫秒".formatted(System.currentTimeMillis()-t1));
-            blockEntity.sendData();
-        }
-        if (burp) {
-            world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
-        }
-        int c = (int) Math.ceil(5.0 / eatenBlocks.size());
-        for (Block block : eatenBlocks) {
-            ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, block.getDefaultState()), hit.getPos().getX(), hit.getPos().getY(), hit.getPos().getZ(), c, 0.1, 0.1, 0.1, 1);
-        }
-        //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse运行了%d毫秒".formatted(System.currentTimeMillis() - t));
-        return ActionResult.SUCCESS;
-    }
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -348,6 +273,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
         BlockEntity blockEntity = getBlockEntity(world, pos);
+        //noinspection ConstantConditions
         BlockItem.setBlockEntityNbt(itemStack, blockEntity.getType(), blockEntity.createNbt());
         return itemStack;
     }
