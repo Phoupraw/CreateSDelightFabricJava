@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.block.*;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
@@ -184,8 +186,10 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                 comparator = Comparator.comparingDouble(center::getSquaredDistance);
                 comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
             }
-            List<Map.Entry<BlockPos, BlockState>> sortedBlocks = voxelRecord.blocks().entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
+
             Map<BlockPos, BlockState> newBlocks = new HashMap<>(voxelRecord.blocks());
+            AtomicDouble hunger1 = new AtomicDouble();
+            AtomicDouble saturation1 = new AtomicDouble();
             double hunger = 0;
             double saturation = 0;
             HungerManager hungerManager = player.getHungerManager();
@@ -193,10 +197,48 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             double playerSaturation = hungerManager.getSaturationLevel();
             double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
             boolean removed = false;
-            double scale = 32;
+            double scale = 8;
+            if (!player.isSneaking()) {
+                int y = size.getY() - 1;
+                while (hunger < 2 && hunger + playerHunger < 20 && !newBlocks.isEmpty()) {
+                    List<Map.Entry<BlockPos, BlockState>> sortedBlocks = new ArrayList<>();
+                    for (BlockPos pos1 : BlockPos.iterate(0, y, 0, size.getX() - 1, y, size.getZ() - 1)) {
+                        if (!newBlocks.containsKey(pos1)) continue;
+                        BlockState blockState = newBlocks.get(pos1);
+                        if (BlockFoods.BLOCK_STATE.get(blockState) == null) continue;
+                        sortedBlocks.add(Map.entry(pos1.toImmutable(), blockState));
+                    }
+                    sortedBlocks.sort(Map.Entry.comparingByKey(comparator));
+                    for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
+                        double nowHunger = hunger + playerHunger;
+                        if (hunger >= 2 || nowHunger >= 20) break;
+                        FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
+                        if (foodBehaviour == null) continue;
+                        hunger += foodBehaviour.getHunger(cubicMeters) * scale;
+                        saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
+                        newBlocks.remove(entry.getKey());
+                        removed = true;
+                    }
+                }
+            } else {
+
+            }
+            List<Map.Entry<BlockPos, BlockState>> sortedBlocks = voxelRecord.blocks()
+              .entrySet()
+              .parallelStream()
+              //.filter(entry -> BlockFoods.BLOCK_STATE.get(entry.getValue()) != null)
+              .sorted(Map.Entry.comparingByKey(comparator))
+              .takeWhile(entry -> {
+                  if (hunger1.get() >= 2 || hunger1.get() + playerHunger >= 20) return false;
+                  FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
+                  if (foodBehaviour == null) return true;
+                  hunger1.addAndGet(foodBehaviour.getHunger(cubicMeters) * scale);
+                  saturation1.addAndGet(foodBehaviour.getSaturation(cubicMeters) * scale);
+                  return true;
+              }).toList();
             for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
                 double nowHunger = hunger + playerHunger;
-                if (nowHunger >= 20 /*|| saturation + playerSaturation >= nowHunger*/) break;
+                if (hunger >= 2 || nowHunger >= 20 /*|| saturation + playerSaturation >= nowHunger*/) break;
                 FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
                 if (foodBehaviour == null) continue;
                 hunger += foodBehaviour.getHunger(cubicMeters) * scale;
@@ -205,7 +247,11 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                 removed = true;
             }
             if (!removed) return ActionResult.CONSUME;
-            hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
+            hungerManager.add((int) twoPoint(hunger1.get()), (float) (saturation1.get() / hunger1.get() / 2));
+            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
+            if (!hungerManager.isNotFull()) {
+                world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
+            }
             if (newBlocks.isEmpty()) {
                 world.removeBlock(pos, false);
             } else {
@@ -219,7 +265,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx);//TODO
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
     }
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
