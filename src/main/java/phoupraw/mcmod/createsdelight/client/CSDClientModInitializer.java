@@ -53,18 +53,15 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.CAKE_OVEN, CakeOvenRenderer::new);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.VOXEL_MAKER, VoxelMakerRenderer::new);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-            CreateSDelight.LOGGER.info("ClientLifecycleEvents.CLIENT_STARTED");
+            CreateSDelight.LOGGER.debug("ClientLifecycleEvents.CLIENT_STARTED");
             ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> {
-                CreateSDelight.LOGGER.info("ReloadableResourceManagerImpl.registerReloader");
+                CreateSDelight.LOGGER.debug("ReloadableResourceManagerImpl.registerReloader");
                 return CompletableFuture
                   .completedFuture(null)
                   .thenCompose(synchronizer::whenPrepared)
                   .thenRunAsync(() -> {
                       MadeVoxelModel.VOXEL2MODEL.clear();
-                      //PrintedCakeModel.BLOCK_CACHE.clear();
-                      //PrintedCakeModel.ITEM_CACHE.clear();
-                      //PrintedCakeModel.SPRITE_CACHE.clear();
-                      //InProdCakeModel.CACHE.invalidateAll();
+                      MadeVoxelModel.NBT2MODEL.clear();
                   }, applyExecutor);
             });
         });

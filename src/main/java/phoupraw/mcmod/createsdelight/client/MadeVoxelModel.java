@@ -218,7 +218,7 @@ public class MadeVoxelModel implements CustomBlockModel {
     }
     @Override
     public Sprite getParticleSprite() {
-        return MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModelParticleSprite(Blocks.BARRIER.getDefaultState());
+        return MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModelParticleSprite(Blocks.CAKE.getDefaultState());
     }
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
@@ -228,7 +228,9 @@ public class MadeVoxelModel implements CustomBlockModel {
         Direction horizontal = blockEntity.getCachedState().get(HorizontalFacingBlock.FACING);
         AffineTransformation rotation = rotatingTo(horizontal);
         context.pushTransform(quad -> rotate(quad, rotation));
+        long t = System.currentTimeMillis();
         VOXEL2MODEL.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        //CreateSDelight.LOGGER.info("MadeVoxelModel.emitBlockQuads VOXEL2MODEL.get.emitBlockQuads运行了%d毫秒".formatted(System.currentTimeMillis() - t));
         context.popTransform();
     }
     @Override

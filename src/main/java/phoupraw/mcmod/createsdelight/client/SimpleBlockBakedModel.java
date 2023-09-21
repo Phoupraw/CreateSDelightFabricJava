@@ -2,21 +2,26 @@ package phoupraw.mcmod.createsdelight.client;
 
 import com.google.common.collect.ListMultimap;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.misc.ConstDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
+import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SimpleBlockBakedModel implements HasDepthBakedModel {
+    public static final Sprite EMPTY_SPRITE = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(CSDIdentifiers.EMPTY);
+    public static final SimpleBlockBakedModel EMPTY = new SimpleBlockBakedModel(new ConstDefaultedMap<>(new HashMap<>(MadeVoxelModel.DIRECTIONS_NULL.size()), List.of()), EMPTY_SPRITE);
     public static SimpleBlockBakedModel of(ListMultimap<@Nullable Direction, BakedQuad> cullFace2quads0, @NotNull Sprite particleSprite) {
         DefaultedMap<@Nullable Direction, List<BakedQuad>> cullFace2quads = new ConstDefaultedMap<>(new HashMap<>(MadeVoxelModel.DIRECTIONS_NULL.size()), List.of());
         for (Direction face : cullFace2quads0.asMap().keySet()) {

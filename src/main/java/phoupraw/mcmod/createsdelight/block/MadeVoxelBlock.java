@@ -36,10 +36,11 @@ import phoupraw.mcmod.createsdelight.misc.*;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
-    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = DefaultedMap.loadingCache(MadeVoxelBlock::toShape);
-    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = DefaultedMap.loadingCache(voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
+    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), MadeVoxelBlock::loadShape);
+    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
         VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
         VoxelShape rotated = VoxelShapes.empty();
         for (Box box : shape.getBoundingBoxes()) {
@@ -85,21 +86,26 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         int x0 = size.getX();
         int y0 = size.getY();
         int z0 = size.getZ();
-        SortedSet<BlockPos> posSet = new TreeSet<>(Comparator.comparingInt(BlockPos::getX).thenComparingInt(BlockPos::getZ).thenComparingInt(BlockPos::getY));
-        posSet.addAll(voxelRecord.blocks().keySet());
-        Collection<Box> boxes = new ArrayList<>();
+        Set<BlockPos> posSet = voxelRecord.blocks()
+          .keySet()
+          .parallelStream()
+          .sorted(Comparator.comparingInt(BlockPos::getY).thenComparingInt(BlockPos::getX).thenComparingInt(BlockPos::getZ))
+          .collect(Collectors.toCollection(LinkedHashSet::new));
+        Collection<Box> boxes = new LinkedList<>();
         BlockPos.Mutable pos = new BlockPos.Mutable();
+        int loopC = 0;
         while (!posSet.isEmpty()) {
-            BlockPos start = posSet.first();
+            BlockPos start = posSet.iterator().next();
             posSet.remove(start);
-            pos.set(start);
             int x1 = start.getX();
             int y1 = start.getY();
             int z1 = start.getZ();
             int x2 = x1 + 1;
             int y2 = y1 + 1;
             int z2 = z1 + 1;
-            for (int i = x1 + 1; i < x2; i++) {
+            pos.set(start);
+            for (int i = x1 + 1; i <= x0; i++) {
+                loopC++;
                 pos.setX(i);
                 if (!posSet.contains(pos)) {
                     x2 = i;
@@ -109,9 +115,10 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             }
             pos.set(start);
             outer:
-            for (int i = z1 + 1; i < z2; i++) {
+            for (int i = z1 + 1; i <= z0; i++) {
                 pos.setZ(i);
                 for (int j = x1; j < x2; j++) {
+                    loopC++;
                     pos.setX(j);
                     if (!posSet.contains(pos)) {
                         z2 = i;
@@ -122,11 +129,12 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             }
             pos.set(start);
             outer:
-            for (int i = y1 + 1; i < y2; i++) {
+            for (int i = y1 + 1; i <= y0; i++) {
                 pos.setY(i);
                 for (int j = z1; j < z2; j++) {
                     pos.setZ(j);
                     for (int k = x1; k < x2; k++) {
+                        loopC++;
                         pos.setX(k);
                         if (!posSet.contains(pos)) {
                             y2 = i;
@@ -138,7 +146,22 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             }
             boxes.add(new Box((double) x1 / x0, (double) y1 / y0, (double) z1 / z0, (double) x2 / x0, (double) y2 / y0, (double) z2 / z0));
         }
-        return boxes.stream().map(VoxelShapes::cuboid).reduce(VoxelShapes.empty(), VoxelShapes::union);
+        CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape 循环了%d次".formatted(loopC));
+        CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape boxes.size()=%d".formatted(boxes.size()));
+        return boxes.parallelStream().map(VoxelShapes::cuboid).reduce(VoxelShapes.empty(), VoxelShapes::union);
+    }
+    public static VoxelShape loadShape(VoxelRecord voxelRecord) {
+        new Thread(() -> {
+            VoxelShape shape = toShape(voxelRecord);
+            CreateSDelight.LOGGER.debug("MadeVoxelBlock.loadShape shape=%s计算完成".formatted(shape));
+            do {
+                SHAPE_CACHE.put(voxelRecord, shape);
+                FACING_SHAPE_CACHE.get(voxelRecord).clear();
+            } while (SHAPE_CACHE.get(voxelRecord).isEmpty() || !FACING_SHAPE_CACHE.get(voxelRecord).isEmpty());
+            CreateSDelight.LOGGER.debug("MadeVoxelBlock.loadShape do-while完成");
+        }).start();
+        Thread.yield();
+        return VoxelShapes.empty();
     }
     public static Box rotate(Box box, Direction facing) {
         double angle = (facing.getHorizontal() - PrintedCakeBlock.defaultFacing().getHorizontal()) * Math.PI / 2;
@@ -206,23 +229,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord == null) return ActionResult.FAIL;
         var size = voxelRecord.size();
-        StringJoiner joiner = new StringJoiner(", ", "[", "]");
-        for (BlockPos pos1 : BlockPos.iterateOutwards(BlockPos.ORIGIN, 1, 2, 3)) {
-            joiner.add("(%d,%d,%d)".formatted(pos1.getX(), pos1.getY(), pos1.getZ()));
-        }
-        CreateSDelight.LOGGER.info(joiner.toString());
-        return ActionResult.CONSUME;
-    }
-    public ActionResult onUse_old(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient()) return ActionResult.CONSUME;
-        HungerManager hungerManager = player.getHungerManager();
-        int playerHunger = hungerManager.getFoodLevel();
-        if (playerHunger >= 20) return ActionResult.CONSUME;
-        MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
-        VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
-        if (voxelRecord == null) return ActionResult.CONSUME;
-        long t = System.currentTimeMillis();
-        var size = voxelRecord.size();
         Comparator<BlockPos> comparator;
         if (player.isSneaking()) {
             var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
@@ -232,13 +238,12 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             comparator = Comparator.comparingDouble(center::getSquaredDistance);
             comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
         }
-        Map<BlockPos, BlockState> newBlocks = new LinkedHashMap<>(voxelRecord.blocks());
+        Map<BlockPos, BlockState> newBlocks = new HashMap<>(voxelRecord.blocks());
         var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
         double hunger = 0;
         double saturation = 0;
-        double playerSaturation = hungerManager.getSaturationLevel();
         double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
-        boolean removed = false;
+        boolean looped = false;
         double scale = 1;
         Set<Block> eatenBlocks = new HashSet<>();
         for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
@@ -248,9 +253,9 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
             eatenBlocks.add(entry.getValue().getBlock());
             newBlocks.remove(entry.getKey());
-            removed = true;
+            looped = true;
         }
-        if (!removed) return ActionResult.CONSUME;
+        if (!looped) return ActionResult.FAIL;
         hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
         world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
         boolean burp = !hungerManager.isNotFull();
@@ -264,11 +269,74 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         if (burp) {
             world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
         }
+        int particleCount = (int) Math.ceil(5.0 / eatenBlocks.size());
+        for (Block block : eatenBlocks) {
+            ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, block.getDefaultState()), hit.getPos().getX(), hit.getPos().getY(), hit.getPos().getZ(), particleCount, 0.1, 0.1, 0.1, 0);
+        }
+        return ActionResult.SUCCESS;
+    }
+    public ActionResult onUse_old(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.isClient()) return ActionResult.CONSUME;
+        HungerManager hungerManager = player.getHungerManager();
+        int playerHunger = hungerManager.getFoodLevel();
+        if (playerHunger >= 20) return ActionResult.CONSUME;
+        MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
+        VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
+        if (voxelRecord == null) return ActionResult.CONSUME;
+        //long t = System.currentTimeMillis();
+        var size = voxelRecord.size();
+        Comparator<BlockPos> comparator;
+        if (player.isSneaking()) {
+            var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
+            comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
+        } else {
+            var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());
+            comparator = Comparator.comparingDouble(center::getSquaredDistance);
+            comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
+        }
+        Map<BlockPos, BlockState> newBlocks = new LinkedHashMap<>(voxelRecord.blocks());
+        //long t1 = System.currentTimeMillis();
+        var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
+        //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse sorted运行了%d毫秒".formatted(System.currentTimeMillis()-t1));
+        double hunger = 0;
+        double saturation = 0;
+        double playerSaturation = hungerManager.getSaturationLevel();
+        double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
+        boolean removed = false;
+        double scale = 1;
+        Set<Block> eatenBlocks = new HashSet<>();
+        //t1 = System.currentTimeMillis();
+        for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
+            if (hunger >= 1) break;
+            FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
+            hunger += foodBehaviour.getHunger(cubicMeters) * scale;
+            saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
+            eatenBlocks.add(entry.getValue().getBlock());
+            newBlocks.remove(entry.getKey());
+            removed = true;
+        }
+        //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse for(sortedBlocks)运行了%d毫秒".formatted(System.currentTimeMillis()-t1));
+        if (!removed) return ActionResult.CONSUME;
+        hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
+        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
+        boolean burp = !hungerManager.isNotFull();
+        if (newBlocks.isEmpty()) {
+            world.removeBlock(pos, false);
+            burp = true;
+        } else {
+            //t1 = System.currentTimeMillis();
+            blockEntity.setVoxelRecord(VoxelRecord.of(newBlocks, size));
+            //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse blockEntity.setVoxelRecord运行了%d毫秒".formatted(System.currentTimeMillis()-t1));
+            blockEntity.sendData();
+        }
+        if (burp) {
+            world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
+        }
         int c = (int) Math.ceil(5.0 / eatenBlocks.size());
         for (Block block : eatenBlocks) {
             ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, block.getDefaultState()), hit.getPos().getX(), hit.getPos().getY(), hit.getPos().getZ(), c, 0.1, 0.1, 0.1, 1);
         }
-        CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse运行了%d毫秒".formatted(System.currentTimeMillis() - t));
+        //CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse运行了%d毫秒".formatted(System.currentTimeMillis() - t));
         return ActionResult.SUCCESS;
     }
     @Nullable

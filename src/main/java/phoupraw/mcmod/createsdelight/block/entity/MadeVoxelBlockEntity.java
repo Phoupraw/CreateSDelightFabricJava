@@ -35,10 +35,14 @@ public class MadeVoxelBlockEntity extends SyncedBlockEntity {
     }
     public void setVoxelRecord(VoxelRecord voxelRecord) {
         this.voxelRecord = voxelRecord;
+        //long t = System.currentTimeMillis();
         notifyUpdate();
+        //CreateSDelight.LOGGER.info("MadeVoxelBlockEntity.setVoxelRecord notifyUpdate运行了%d毫秒".formatted(System.currentTimeMillis() - t));
         World world = getWorld();
         if (world != null) {
+            long t = System.currentTimeMillis();
             world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
+            //CreateSDelight.LOGGER.info("MadeVoxelBlockEntity.setVoxelRecord world.updateListeners运行了%d毫秒".formatted(System.currentTimeMillis() - t));
         }
     }
 }
