@@ -11,6 +11,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -24,6 +27,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
@@ -148,6 +152,20 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
           .add(0.5, 0, 0.5);
         return new Box(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
+    public static Iterable<@Unmodifiable BlockPos> iterateSphere(BlockPos center, double maxRadius) {
+        return () -> new Iterator<>() {
+            BlockPos.Mutable pos = center.mutableCopy();
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+            @Override
+            public BlockPos next() {
+                BlockPos r = pos.toImmutable();
+                return r;
+            }
+        };
+    }
     public MadeVoxelBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, PrintedCakeBlock.defaultFacing()));
@@ -180,73 +198,78 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (world.isClient()) return ActionResult.CONSUME;
+        HungerManager hungerManager = player.getHungerManager();
+        int playerHunger = hungerManager.getFoodLevel();
+        if (playerHunger >= 20) return ActionResult.FAIL;
+        MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
+        if (blockEntity == null) return ActionResult.FAIL;
+        VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
+        if (voxelRecord == null) return ActionResult.FAIL;
+        var size = voxelRecord.size();
+        StringJoiner joiner = new StringJoiner(", ", "[", "]");
+        for (BlockPos pos1 : BlockPos.iterateOutwards(BlockPos.ORIGIN, 1, 2, 3)) {
+            joiner.add("(%d,%d,%d)".formatted(pos1.getX(), pos1.getY(), pos1.getZ()));
+        }
+        CreateSDelight.LOGGER.info(joiner.toString());
+        return ActionResult.CONSUME;
+    }
+    public ActionResult onUse_old(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.isClient()) return ActionResult.CONSUME;
+        HungerManager hungerManager = player.getHungerManager();
+        int playerHunger = hungerManager.getFoodLevel();
+        if (playerHunger >= 20) return ActionResult.CONSUME;
         MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
-        if (voxelRecord != null) {
-            long t = System.currentTimeMillis();
-            var size = voxelRecord.size();
-            Comparator<BlockPos> comparator;
-            if (player.isSneaking()) {
-                var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
-                comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
-            } else {
-                var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());
-                comparator = Comparator.comparingDouble(center::getSquaredDistance);
-                comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
-            }
-            Map<BlockPos, BlockState> newBlocks = new HashMap<>(voxelRecord.blocks());
-            double hunger = 0;
-            double saturation = 0;
-            HungerManager hungerManager = player.getHungerManager();
-            int playerHunger = hungerManager.getFoodLevel();
-            double playerSaturation = hungerManager.getSaturationLevel();
-            double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
-            boolean removed = false;
-            double scale = 4;
-            if (!player.isSneaking()) {
-                int y = size.getY();
-                while (hunger < 2 && hunger + playerHunger < 20 && !newBlocks.isEmpty()) {
-                    y--;
-                    List<Map.Entry<BlockPos, BlockState>> sortedBlocks = new ArrayList<>();
-                    for (BlockPos pos1 : BlockPos.iterate(0, y, 0, size.getX() - 1, y, size.getZ() - 1)) {
-                        if (!newBlocks.containsKey(pos1)) continue;
-                        BlockState blockState = newBlocks.get(pos1);
-                        if (BlockFoods.BLOCK_STATE.get(blockState) == null) continue;
-                        sortedBlocks.add(Map.entry(pos1.toImmutable(), blockState));
-                    }
-                    sortedBlocks.sort(Map.Entry.comparingByKey(comparator));
-                    for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
-                        double nowHunger = hunger + playerHunger;
-                        if (hunger >= 2 || nowHunger >= 20) break;
-                        FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
-                        hunger += foodBehaviour.getHunger(cubicMeters) * scale;
-                        saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
-                        newBlocks.remove(entry.getKey());
-                        removed = true;
-                    }
-                }
-            } else {
-                int r = 0;
-                List<Map.Entry<BlockPos, BlockState>> sortedBlocks = new ArrayList<>();
-            }
-            if (!removed) return ActionResult.CONSUME;
-            hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
-            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
-            boolean burp = !hungerManager.isNotFull();
-            if (newBlocks.isEmpty()) {
-                world.removeBlock(pos, false);
-                burp = true;
-            } else {
-                blockEntity.setVoxelRecord(VoxelRecord.of(newBlocks, size));
-                blockEntity.sendData();
-            }
-            if (burp) {
-                world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
-            }
-            CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse运行了%d毫秒".formatted(System.currentTimeMillis() - t));
-            return ActionResult.SUCCESS;
+        if (voxelRecord == null) return ActionResult.CONSUME;
+        long t = System.currentTimeMillis();
+        var size = voxelRecord.size();
+        Comparator<BlockPos> comparator;
+        if (player.isSneaking()) {
+            var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
+            comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
+        } else {
+            var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());
+            comparator = Comparator.comparingDouble(center::getSquaredDistance);
+            comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
         }
-        return ActionResult.CONSUME;
+        Map<BlockPos, BlockState> newBlocks = new LinkedHashMap<>(voxelRecord.blocks());
+        var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
+        double hunger = 0;
+        double saturation = 0;
+        double playerSaturation = hungerManager.getSaturationLevel();
+        double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
+        boolean removed = false;
+        double scale = 1;
+        Set<Block> eatenBlocks = new HashSet<>();
+        for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
+            if (hunger >= 1) break;
+            FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
+            hunger += foodBehaviour.getHunger(cubicMeters) * scale;
+            saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
+            eatenBlocks.add(entry.getValue().getBlock());
+            newBlocks.remove(entry.getKey());
+            removed = true;
+        }
+        if (!removed) return ActionResult.CONSUME;
+        hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
+        world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
+        boolean burp = !hungerManager.isNotFull();
+        if (newBlocks.isEmpty()) {
+            world.removeBlock(pos, false);
+            burp = true;
+        } else {
+            blockEntity.setVoxelRecord(VoxelRecord.of(newBlocks, size));
+            blockEntity.sendData();
+        }
+        if (burp) {
+            world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5f, 1);
+        }
+        int c = (int) Math.ceil(5.0 / eatenBlocks.size());
+        for (Block block : eatenBlocks) {
+            ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, block.getDefaultState()), hit.getPos().getX(), hit.getPos().getY(), hit.getPos().getZ(), c, 0.1, 0.1, 0.1, 1);
+        }
+        CreateSDelight.LOGGER.info("MadeVoxelBlock.onUse运行了%d毫秒".formatted(System.currentTimeMillis() - t));
+        return ActionResult.SUCCESS;
     }
     @Nullable
     @Override
