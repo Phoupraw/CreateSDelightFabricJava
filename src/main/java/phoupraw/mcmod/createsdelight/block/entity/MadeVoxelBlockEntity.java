@@ -35,7 +35,7 @@ public class MadeVoxelBlockEntity extends SyncedBlockEntity {
     }
     public void setVoxelRecord(VoxelRecord voxelRecord) {
         this.voxelRecord = voxelRecord;
-        sendData();
+        notifyUpdate();
         World world = getWorld();
         if (world != null) {
             world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);

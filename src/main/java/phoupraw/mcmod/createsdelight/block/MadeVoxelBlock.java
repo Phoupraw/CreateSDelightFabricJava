@@ -32,7 +32,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 import java.util.*;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
-    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = DefaultedMap.loadingCache(MadeVoxelBlock::shape);
+    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = DefaultedMap.loadingCache(MadeVoxelBlock::toShape);
     public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = DefaultedMap.loadingCache(voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
         VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
         VoxelShape rotated = VoxelShapes.empty();
@@ -67,21 +67,25 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public static int getVolumn(BlockBox a) {
         return a.getBlockCountX() * a.getBlockCountY() * a.getBlockCountZ();
     }
-    public static VoxelShape shape(VoxelRecord voxelRecord) {
-        Map<BlockPos, BlockState> blocks = voxelRecord.blocks();
+    public static VoxelShape toShape(VoxelRecord voxelRecord) {
         Vec3i size = voxelRecord.size();
         int x0 = size.getX();
         int y0 = size.getY();
         int z0 = size.getZ();
         SortedSet<BlockPos> posSet = new TreeSet<>(Comparator.comparingInt(BlockPos::getX).thenComparingInt(BlockPos::getZ).thenComparingInt(BlockPos::getY));
-        posSet.addAll(blocks.keySet());
+        posSet.addAll(voxelRecord.blocks().keySet());
         Collection<Box> boxes = new ArrayList<>();
+        BlockPos.Mutable pos = new BlockPos.Mutable();
         while (!posSet.isEmpty()) {
             BlockPos start = posSet.first();
             posSet.remove(start);
-            int x2 = x0;
-            BlockPos.Mutable pos = new BlockPos.Mutable().set(start);
+            pos.set(start);
             int x1 = start.getX();
+            int y1 = start.getY();
+            int z1 = start.getZ();
+            int x2 = x1 + 1;
+            int y2 = y1 + 1;
+            int z2 = z1 + 1;
             for (int i = x1 + 1; i < x2; i++) {
                 pos.setX(i);
                 if (!posSet.contains(pos)) {
@@ -91,8 +95,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                 posSet.remove(pos);
             }
             pos.set(start);
-            int z2 = z0;
-            int z1 = start.getZ();
             outer:
             for (int i = z1 + 1; i < z2; i++) {
                 pos.setZ(i);
@@ -105,9 +107,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                     posSet.remove(pos);
                 }
             }
-            int y2 = y0;
             pos.set(start);
-            int y1 = start.getY();
             outer:
             for (int i = y1 + 1; i < y2; i++) {
                 pos.setY(i);
@@ -128,7 +128,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         return boxes.stream().map(VoxelShapes::cuboid).reduce(VoxelShapes.empty(), VoxelShapes::union);
     }
     public static Box rotate(Box box, Direction facing) {
-        double angle = (PrintedCakeBlock.defaultFacing().getHorizontal() - facing.getHorizontal()) * Math.PI / 2;
+        double angle = (facing.getHorizontal() - PrintedCakeBlock.defaultFacing().getHorizontal()) * Math.PI / 2;
         var min = new Vector3d()
           .set(box.minX - 0.5, box.minY, box.minZ - 0.5)
           .rotateY(angle)
@@ -174,13 +174,15 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord != null) {
-            Vec3i size = voxelRecord.size();
+            var size = voxelRecord.size();
             Comparator<BlockPos> comparator;
-            Vec3i voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
             if (player.isSneaking()) {
+                var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
                 comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
             } else {
-                comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparingDouble(voxelHitPos::getSquaredDistance);
+                var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());
+                comparator = Comparator.comparingDouble(center::getSquaredDistance);
+                comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
             }
             List<Map.Entry<BlockPos, BlockState>> sortedBlocks = voxelRecord.blocks().entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
             Map<BlockPos, BlockState> newBlocks = new HashMap<>(voxelRecord.blocks());
@@ -202,7 +204,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                 newBlocks.remove(entry.getKey());
                 removed = true;
             }
-            if (!removed) return ActionResult.FAIL;
+            if (!removed) return ActionResult.CONSUME;
             hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
             if (newBlocks.isEmpty()) {
                 world.removeBlock(pos, false);
@@ -212,7 +214,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             }
             return ActionResult.SUCCESS;
         }
-        return ActionResult.FAIL;
+        return ActionResult.CONSUME;
     }
     @Nullable
     @Override

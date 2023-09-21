@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -24,6 +23,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
@@ -44,11 +44,9 @@ import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -56,21 +54,7 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
     public static final DefaultedMap<VoxelRecord, BakedModel> VOXEL2MODEL = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
-    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(new Function<NbtCompound, BakedModel>() {
-        @Override
-        public BakedModel apply(NbtCompound compound) {
-            return null;
-        }
-    });
-    public static final BlockPos SAMPLE_1_SIZE = new BlockPos(1, 1, 1).multiply(64);
-    public static final Map<BlockPos, BlockState> SAMPLE_1;
-    static {
-        SAMPLE_1 = new HashMap<>();
-        List<BlockState> blockStates = Stream.of(Blocks.STONE, Blocks.OAK_PLANKS, Blocks.DIRT, Blocks.MELON).map(Block::getDefaultState).toList();
-        for (BlockPos pos : BlockPos.iterate(BlockPos.ORIGIN, SAMPLE_1_SIZE.add(-1, -1, -1))) {
-            SAMPLE_1.put(pos.toImmutable(), blockStates.get(pos.getY() % blockStates.size()));
-        }
-    }
+    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(nbtVoxelRecord -> toBakedModel(VoxelRecord.of(nbtVoxelRecord, Registries.BLOCK.getReadOnlyWrapper())));
     public static final float MIN_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 8)) - 1.0F;
     public static final float MAX_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 4)) - 1.0F;
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
