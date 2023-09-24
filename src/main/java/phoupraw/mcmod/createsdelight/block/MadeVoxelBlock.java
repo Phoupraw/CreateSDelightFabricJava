@@ -41,8 +41,8 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), MadeVoxelBlock::loadShape);
     public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
         VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
+        if (facing == PrintedCakeBlock.defaultFacing()) return shape;
         VoxelShape rotated = VoxelShapes.empty();
-        //noinspection ConstantConditions
         for (Box box : shape.getBoundingBoxes()) {
             rotated = VoxelShapes.union(rotated, VoxelShapes.cuboid(rotate(box, facing)));
         }
@@ -218,9 +218,12 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord == null) return ActionResult.FAIL;
         var size = voxelRecord.size();
+        Direction facing = state.get(FACING);
         Comparator<BlockPos> comparator;
         if (player.isSneaking()) {
-            var voxelHitPos = BlockPos.ofFloored(hit.getPos().subtract(Vec3d.of(pos)).multiply(size.getX(), size.getY(), size.getZ()));
+            Vec3d relative = hit.getPos().subtract(Vec3d.of(pos));
+            relative = relative.subtract(0.5, 0, 0.5).rotateY((float) (-facing.getHorizontal() * Math.PI / 2)).add(0.5, 0, 0.5);
+            var voxelHitPos = BlockPos.ofFloored(relative.multiply(size.getX(), size.getY(), size.getZ()));
             comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
         } else {
             var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());

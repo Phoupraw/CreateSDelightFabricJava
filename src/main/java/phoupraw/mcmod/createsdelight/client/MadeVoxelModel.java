@@ -109,7 +109,7 @@ public class MadeVoxelModel implements CustomBlockModel {
                 quadsCount++;
             }
         }
-        CreateSDelight.LOGGER.info("MadeVoxelModel.toBakedQuads 一共产生了%d个面".formatted(quadsCount));
+        CreateSDelight.LOGGER.debug("MadeVoxelModel.toBakedQuads 一共产生了%d个面".formatted(quadsCount));
         return cullFace2quads;
     }
     public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads2(Map<Vec3i, Map<@NotNull Direction, Sprite>> table, Vec3i size) {
@@ -280,13 +280,17 @@ public class MadeVoxelModel implements CustomBlockModel {
         if (!(blockView.getBlockEntity(pos) instanceof MadeVoxelBlockEntity blockEntity)) return;
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord == null) return;
-        Direction horizontal = blockEntity.getCachedState().get(HorizontalFacingBlock.FACING);
-        AffineTransformation rotation = rotatingTo(horizontal);
-        context.pushTransform(quad -> rotate(quad, rotation));
+        Direction facing = blockEntity.getCachedState().get(HorizontalFacingBlock.FACING);
+        if (facing != PrintedCakeBlock.defaultFacing()) {
+            AffineTransformation rotation = rotatingTo(facing);
+            context.pushTransform(quad -> rotate(quad, rotation));
+        }
         long t = System.currentTimeMillis();
         VOXEL2MODEL.get(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
         CreateSDelight.LOGGER.debug("MadeVoxelModel.emitBlockQuads VOXEL2MODEL.get.emitBlockQuads运行了%d毫秒".formatted(System.currentTimeMillis() - t));
-        context.popTransform();
+        if (facing != PrintedCakeBlock.defaultFacing()) {
+            context.popTransform();
+        }
     }
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
