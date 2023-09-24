@@ -67,23 +67,23 @@ public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size, BlockBox
         }
         return of(blocks, size);
     }
-    /**
-     {@link WeakHashMap}没有{@link IdentityHashMap}的功能，我得手动重写防止编译器给我自动生成比较内容的{@link Object#equals}。
-     @param obj the reference object with which to compare.
-     @return 两者引用相等
-     */
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj;
-    }
-    /**
-     {@link WeakHashMap}没有{@link IdentityHashMap}的功能，我得手动重写防止编译器给我自动生成根据内容生成散列码的{@link Object#hashCode()}。
-     @return {@link System#identityHashCode}
-     */
-    @Override
-    public int hashCode() {
-        return System.identityHashCode(this);
-    }
+    ///**
+    // {@link WeakHashMap}没有{@link IdentityHashMap}的功能，我得手动重写防止编译器给我自动生成比较内容的{@link Object#equals}。
+    // @param obj the reference object with which to compare.
+    // @return 两者引用相等
+    // */
+    //@Override
+    //public boolean equals(Object obj) {
+    //    return this == obj;
+    //}
+    ///**
+    // {@link WeakHashMap}没有{@link IdentityHashMap}的功能，我得手动重写防止编译器给我自动生成根据内容生成散列码的{@link Object#hashCode()}。
+    // @return {@link System#identityHashCode}
+    // */
+    //@Override
+    //public int hashCode() {
+    //    return System.identityHashCode(this);
+    //}
     public NbtCompound write(NbtCompound nbt) {
         List<BlockState> blocks = new ArrayList<>(new HashSet<>(this.blocks.values()));
         blocks.sort(VoxelRecord::compare);
