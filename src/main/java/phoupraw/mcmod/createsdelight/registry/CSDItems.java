@@ -49,6 +49,7 @@ public final class CSDItems {
     public static final BlockItem CHOCOLATE_BLOCK = new BlockItem(CSDBlocks.CHOCOLATE_BLOCK, new FabricItemSettings());
     //流体
     public static final Item BUCKETED_EGG_LIQUID = new Item(new FabricItemSettings().maxCount(1));
+    public static final Item BUCKETED_APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, new Item(new FabricItemSettings().maxCount(1)));
     //其它
     public static final Item EGG_SHELL = new Item(new FabricItemSettings());
     public static final Item KELP_ASH = new Item(new FabricItemSettings());

@@ -1,8 +1,11 @@
 package phoupraw.mcmod.createsdelight.datagen;
 
+import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.fluids.transfer.EmptyingRecipe;
 import com.simibubi.create.content.kinetics.mixer.CompactingRecipe;
+import com.simibubi.create.content.kinetics.mixer.MixingRecipe;
+import com.simibubi.create.content.processing.recipe.HeatCondition;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import io.github.tropheusj.milk.Milk;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -45,6 +48,26 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
         new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.CREAM_BLOCK)
           .require(Milk.STILL_MILK, FluidConstants.BLOCK)
           .output(CSDItems.CREAM_BLOCK)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MixingRecipe::new, CSDIdentifiers.of(AllFluids.CHOCOLATE.getId().getPath()))
+          .require(CSDItems.CHOCOLATE_BLOCK)
+          .output(AllFluids.CHOCOLATE.get(), FluidConstants.BUCKET)
+          .averageProcessingDuration()
+          .requiresHeat(HeatCondition.HEATED)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MixingRecipe::new, CSDIdentifiers.APPLE_JAM)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.APPLE)
+          .require(Items.SUGAR)
+          .require(CSDItems.KELP_ASH)
+          .output(CSDFluids.APPLE_JAM, FluidConstants.BUCKET / 2)
+          .averageProcessingDuration()
           .build(exporter);
     }
 

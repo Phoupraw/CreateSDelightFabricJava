@@ -26,7 +26,9 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         b.add(CSDBlocks.CHOCOLATE_BLOCK, "巧克力块");
         b.add(CSDBlocks.CREAM_BLOCK, "奶油块");
         b.add(CSDIdentifiers.EGG_LIQUID.toTranslationKey("block"), "鸡蛋液");
+        b.add(CSDIdentifiers.APPLE_JAM.toTranslationKey("block"), "苹果酱");
         b.add(CSDItems.BUCKETED_EGG_LIQUID, "桶装鸡蛋液");
+        b.add(CSDItems.BUCKETED_APPLE_JAM, "桶装苹果酱");
         b.add(CSDItems.EGG_SHELL, "鸡蛋壳");
         b.add(CSDItems.KELP_ASH, "海带灰烬");
         b.add(CSDStatusEffects.SATIATION, "饱食");

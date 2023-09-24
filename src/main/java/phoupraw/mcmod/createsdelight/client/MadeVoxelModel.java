@@ -95,6 +95,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         @SuppressWarnings("ConstantConditions") MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         var scale = new Vec3d(1.0 / size.getX(), 1.0 / size.getY(), 1.0 / size.getZ());
+        int quadsCount = 0;
         for (var rowEntry : table.entrySet()) {
             var pos = rowEntry.getKey();
             var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
@@ -103,11 +104,12 @@ public class MadeVoxelModel implements CustomBlockModel {
                 var quad0 = PrintedCakeModel.square(emitter, box, entry.getKey())
                   .color(-1, -1, -1, -1)
                   .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
-                Direction cullFace = quad0.cullFace();
                 BakedQuad quad = quad0.toBakedQuad(sprite);
-                cullFace2quads.get(cullFace).add(quad);
+                cullFace2quads.get(quad0.cullFace()).add(quad);
+                quadsCount++;
             }
         }
+        CreateSDelight.LOGGER.info("MadeVoxelModel.toBakedQuads 一共产生了%d个面".formatted(quadsCount));
         return cullFace2quads;
     }
     public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads2(Map<Vec3i, Map<@NotNull Direction, Sprite>> table, Vec3i size) {
