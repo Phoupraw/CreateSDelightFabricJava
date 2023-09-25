@@ -36,22 +36,26 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static net.minecraft.block.enums.RailShape.*;
+import static net.minecraft.util.math.Direction.*;
+import static net.minecraft.util.math.Direction.Axis.*;
+
 public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEntity>, ICogWheel {
     public static final BiMap<RailShape, Set<Direction>> BI_DIRECTION = EnumHashBiMap.create(Map.of(
-      RailShape.EAST_WEST, EnumSet.of(Direction.EAST, Direction.WEST),
-      RailShape.NORTH_SOUTH, EnumSet.of(Direction.NORTH, Direction.SOUTH),
-      RailShape.SOUTH_EAST, EnumSet.of(Direction.SOUTH, Direction.EAST),
-      RailShape.SOUTH_WEST, EnumSet.of(Direction.SOUTH, Direction.WEST),
-      RailShape.NORTH_WEST, EnumSet.of(Direction.NORTH, Direction.WEST),
-      RailShape.NORTH_EAST, EnumSet.of(Direction.NORTH, Direction.EAST)
+      EAST_WEST, EnumSet.of(EAST, WEST),
+      NORTH_SOUTH, EnumSet.of(NORTH, SOUTH),
+      SOUTH_EAST, EnumSet.of(SOUTH, EAST),
+      SOUTH_WEST, EnumSet.of(SOUTH, WEST),
+      NORTH_WEST, EnumSet.of(NORTH, WEST),
+      NORTH_EAST, EnumSet.of(NORTH, EAST)
     ));
-    public static final BiMap<RailShape, Map<Direction.Axis, Direction>> BI_DIRECTION_MAP = EnumHashBiMap.create(Map.of(
-      RailShape.SOUTH_EAST, Map.of(Direction.Axis.Z, Direction.SOUTH, Direction.Axis.X, Direction.EAST),
-      RailShape.SOUTH_WEST, Map.of(Direction.Axis.Z, Direction.SOUTH, Direction.Axis.X, Direction.WEST),
-      RailShape.NORTH_WEST, Map.of(Direction.Axis.Z, Direction.NORTH, Direction.Axis.X, Direction.WEST),
-      RailShape.NORTH_EAST, Map.of(Direction.Axis.Z, Direction.NORTH, Direction.Axis.X, Direction.EAST)
+    public static final Map<RailShape, Map<Axis, Direction>> BI_DIRECTION_MAP = /*EnumHashBiMap.create*/(Map.of(
+      SOUTH_EAST, Map.of(Z, SOUTH, X, EAST),
+      SOUTH_WEST, Map.of(Z, SOUTH, X, WEST),
+      NORTH_WEST, Map.of(Z, NORTH, X, WEST),
+      NORTH_EAST, Map.of(Z, NORTH, X, EAST)
     ));
-    public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, RailShape.NORTH_EAST, RailShape.NORTH_WEST, RailShape.SOUTH_EAST, RailShape.SOUTH_WEST);
+    public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST);
     public static RailShape rotate(RailShape facing, BlockRotation rotation) {
         return BI_DIRECTION.inverse().get(BI_DIRECTION.get(facing).stream().map(rotation::rotate).collect(Collectors.toSet()));
     }
@@ -60,7 +64,7 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
     }
     public CakeOvenBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(FACING, RailShape.NORTH_WEST));
+        setDefaultState(getDefaultState().with(FACING, NORTH_WEST));
     }
     public CakeOvenBlock() {
         this(FabricBlockSettings.copyOf(Blocks.COPPER_BLOCK));
@@ -128,15 +132,15 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().rotate(BlockRotation.values()[Direction.fromRotation(ctx.getPlayerYaw() + 225).getHorizontal()]);
+        return getDefaultState().rotate(BlockRotation.values()[fromRotation(ctx.getPlayerYaw() + 225).getHorizontal()]);
     }
     @Override
     public boolean hasShaftTowards(WorldView world, BlockPos pos, BlockState state, Direction face) {
         return false;
     }
     @Override
-    public Direction.Axis getRotationAxis(BlockState state) {
-        return Direction.Axis.Y;
+    public Axis getRotationAxis(BlockState state) {
+        return Y;
     }
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -144,9 +148,6 @@ public class CakeOvenBlock extends KineticBlock implements IBE<CakeOvenBlockEnti
     }
     @Override
     public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
-        if (((CakeOvenBlockEntity) context.getWorld().getBlockEntity(context.getBlockPos())).isNotWorking()) {
-            return super.onWrenched(state, context);
-        }
-        return ActionResult.FAIL;
+        return context.getWorld().getBlockEntity(context.getBlockPos()) instanceof CakeOvenBlockEntity blockEntity && blockEntity.isNotWorking() ? super.onWrenched(state, context) : ActionResult.FAIL;
     }
 }

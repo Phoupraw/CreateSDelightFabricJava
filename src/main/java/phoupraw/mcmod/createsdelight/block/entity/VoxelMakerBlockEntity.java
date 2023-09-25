@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
+import phoupraw.mcmod.createsdelight.misc.BlockFoods;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
@@ -39,6 +40,9 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
     public static VoxelMakerBlockEntity of(BlockPos pos, BlockState state) {
         return new VoxelMakerBlockEntity(CSDBlockEntityTypes.VOXEL_MAKER, pos, state);
     }
+    //public static boolean isValid(BlockState state) {
+    //    return !state.isAir() && !BlockFoods.BLOCK.containsKey(state.getBlock());
+    //}
     public double prevOutline0Len;
     public double outline0Len;
     public double outlineLinger;
@@ -64,6 +68,11 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         for (Direction direction : triDirection) {
             bound = expanded(bound, direction, edgeLen - 1);
         }
+        for (var iter = BlockPos.stream(bound).iterator(); iter.hasNext(); ) {
+            BlockState state = world.getBlockState(iter.next());
+            if (!state.isAir() && !BlockFoods.BLOCK.containsKey(state.getBlock())) return;
+        }
+        //if (BlockPos.stream(bound).parallel().map(world::getBlockState).anyMatch(VoxelMakerBlockEntity::isValid)) return;
         BlockPos vertex000 = new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ());
         double step = (Math.abs(getSpeed())) / 256 / 1;
         prevOutline0Len = outline0Len;
