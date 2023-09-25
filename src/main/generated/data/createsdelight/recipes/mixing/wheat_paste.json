@@ -1,6 +1,5 @@
 {
   "type": "create:mixing",
-  "heatRequirement": "heated",
   "ingredients": [
     {
       "item": "create:wheat_flour"
@@ -30,7 +29,7 @@
   "results": [
     {
       "amount": 40500,
-      "fluid": "createsdelight:apple_jam"
+      "fluid": "createsdelight:wheat_paste"
     }
   ]
 }

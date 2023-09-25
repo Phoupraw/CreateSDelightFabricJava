@@ -89,9 +89,7 @@ public record VoxelRecord(Map<BlockPos, Block> blocks/*TODO 键改成Block*/, Ve
     public static void printNbt(@Nullable World world, NbtCompound nbt) {
         CreateSDelight.LOGGER.error("nbt=" + nbt);
         if (world != null && world.isClient()) {
-            for (String key : nbt.getKeys()) {
-                nbt.remove(key);
-            }
+            nbt.getKeys().clear();
             CreateSDelight.LOGGER.error("检测到处于客户端，为防止错误消息刷屏，已将NBT清空。");
         }
     }

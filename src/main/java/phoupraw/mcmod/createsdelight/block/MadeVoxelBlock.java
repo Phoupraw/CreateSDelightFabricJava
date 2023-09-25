@@ -38,8 +38,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
-    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), MadeVoxelBlock::loadShape);
-    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new WeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
+    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), MadeVoxelBlock::loadShape);
+    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
         VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
         if (facing == PrintedCakeBlock.defaultFacing()) return shape;
         VoxelShape rotated = VoxelShapes.empty();
@@ -91,12 +91,12 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
           .parallelStream()
           .sorted(Comparator.comparingInt(BlockPos::getY).thenComparingInt(BlockPos::getX).thenComparingInt(BlockPos::getZ))
           .collect(Collectors.toCollection(LinkedHashSet::new));
+        CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape 总共有%d个体素".formatted(posSet.size()));
         Collection<Box> boxes = new LinkedList<>();
         BlockPos.Mutable pos = new BlockPos.Mutable();
         int loopC = 0;
         while (!posSet.isEmpty()) {
             BlockPos start = posSet.iterator().next();
-            posSet.remove(start);
             int x1 = start.getX();
             int y1 = start.getY();
             int z1 = start.getZ();
@@ -111,7 +111,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                     x2 = i;
                     break;
                 }
-                posSet.remove(pos);
             }
             pos.set(start);
             outer:
@@ -124,7 +123,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                         z2 = i;
                         break outer;
                     }
-                    posSet.remove(pos);
                 }
             }
             pos.set(start);
@@ -140,14 +138,16 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                             y2 = i;
                             break outer;
                         }
-                        posSet.remove(pos);
                     }
                 }
+            }
+            for (BlockPos pos1 : BlockPos.iterate(x1, y1, z1, x2 - 1, y2 - 1, z2 - 1)) {
+                posSet.remove(pos1);
             }
             boxes.add(new Box((double) x1 / x0, (double) y1 / y0, (double) z1 / z0, (double) x2 / x0, (double) y2 / y0, (double) z2 / z0));
         }
         CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape 循环了%d次".formatted(loopC));
-        CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape boxes.size()=%d".formatted(boxes.size()));
+        CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape 优化至%d个碰撞箱".formatted(boxes.size()));
         return boxes.parallelStream().map(VoxelShapes::cuboid).reduce(VoxelShapes.empty(), VoxelShapes::union);
     }
     public static VoxelShape loadShape(VoxelRecord voxelRecord) {
@@ -157,7 +157,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             do {
                 SHAPE_CACHE.put(voxelRecord, shape);
                 FACING_SHAPE_CACHE.get(voxelRecord).clear();
-            } while (SHAPE_CACHE.get(voxelRecord).isEmpty() || !FACING_SHAPE_CACHE.get(voxelRecord).isEmpty());
+            } while (SHAPE_CACHE.get(voxelRecord).isEmpty() || FACING_SHAPE_CACHE.get(voxelRecord).containsValue(VoxelShapes.empty()));
             CreateSDelight.LOGGER.debug("MadeVoxelBlock.loadShape do-while完成");
         }).start();
         Thread.yield();
