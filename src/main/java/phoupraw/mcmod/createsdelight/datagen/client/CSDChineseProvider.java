@@ -3,7 +3,7 @@ package phoupraw.mcmod.createsdelight.datagen.client;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
+import phoupraw.mcmod.createsdelight.misc.MadeVoxels;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
@@ -41,6 +41,7 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         b.add(CSDItems.EGG_SHELL, "鸡蛋壳");
         b.add(CSDItems.KELP_ASH, "海带灰烬");
         b.add(CSDStatusEffects.SATIATION, "饱食");
-        b.add(PrintedCakeItem.getTranslationKey("brownie"), "巧克力饼干蛋糕");
+        b.add(MadeVoxels.getTranslationKey("brownie"), "巧克力饼干蛋糕");
+        b.add(MadeVoxels.getTranslationKey("minecraft"), "我的世界蛋糕");
     }
 }
