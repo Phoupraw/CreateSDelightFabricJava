@@ -7,8 +7,6 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.tuple.Pair;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 
@@ -42,23 +40,37 @@ public final class BlockFoods {
         var fb = LinearFoodBehaviour.linear(food2factors);
         return new FoodComponent.Builder().hunger((int) /*Math.round*/(fb.hunger)).saturationModifier((float) (fb.saturation / fb.hunger / 2)).build();
     }
-    @SuppressWarnings("ConstantConditions")
     private static void addBuiltins() {
         ITEM.put(Items.CAKE, CAKE);
-        ITEM.put(Items.MILK_BUCKET, linear(Pair.of(AllItems.SWEET_ROLL.get().getFoodComponent(), 3.0), Pair.of(FoodComponents.BREAD, -3.0)));
-        ITEM.put(Items.SUGAR, linear(Pair.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 3)));
-        Item pumpkinSlice = Registries.ITEM.get(new Identifier("farmersdelight", "pumpkin_slice"));
-        FoodComponent pumpkinSliceFood;
-        if (pumpkinSlice != Items.AIR) {
-            pumpkinSliceFood = pumpkinSlice.getFoodComponent();
-        } else {
-            pumpkinSliceFood = new FoodComponent.Builder().hunger(3).saturationModifier(0.3f).build();
-        }
-        ITEM.put(Items.PUMPKIN, linear(Pair.of(pumpkinSliceFood, 4.0)));
-        ITEM.put(Items.EGG, linear(Pair.of(ITEM.get(Items.PUMPKIN_PIE), 1.0), Pair.of(ITEM.get(Items.SUGAR), -1.0), Pair.of(ITEM.get(Items.PUMPKIN), -1.0)));
+        ITEM.put(Items.MILK_BUCKET, linear(
+          Pair.of(ITEM.get(AllItems.SWEET_ROLL.get()), 3.0),
+          Pair.of(FoodComponents.BREAD, -3.0)));
+        ITEM.put(Items.SUGAR, linear(
+          Pair.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 3)));
+        ITEM.put(Items.WHEAT, linear(
+          Pair.of(ITEM.get(Items.BREAD), 1.0 / 3)));
+        ITEM.put(Items.EGG, linear(
+          Pair.of(ITEM.get(Items.CAKE), 1.0),
+          Pair.of(ITEM.get(Items.MILK_BUCKET), -3.0),
+          Pair.of(ITEM.get(Items.SUGAR), -2.0),
+          Pair.of(ITEM.get(Items.WHEAT), -3.0)));
+        ITEM.put(Items.PUMPKIN, linear(
+          Pair.of(ITEM.get(Items.PUMPKIN_PIE), 1.0),
+          Pair.of(ITEM.get(Items.SUGAR), 1.0),
+          Pair.of(ITEM.get(Items.EGG), 1.0)));
+        //Item pumpkinSlice = Registries.ITEM.get(new Identifier("farmersdelight", "pumpkin_slice"));
+        //FoodComponent pumpkinSliceFood;
+        //if (pumpkinSlice != Items.AIR) {
+        //    pumpkinSliceFood = pumpkinSlice.getFoodComponent();
+        //} else {
+        //    pumpkinSliceFood = new FoodComponent.Builder().hunger(3).saturationModifier(0.3f).build();
+        //}
+        //ITEM.put(Items.PUMPKIN, linear(Pair.of(pumpkinSliceFood, 4.0)));
+        //ITEM.put(Items.EGG, linear(Pair.of(ITEM.get(Items.PUMPKIN_PIE), 1.0), Pair.of(ITEM.get(Items.SUGAR), -1.0), Pair.of(ITEM.get(Items.PUMPKIN), -1.0)));
+
         //BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.subtract(AllItems.HONEYED_APPLE.get().getFoodComponent(), FoodComponents.APPLE, 1.0 / 4));//(蜜渍苹果-苹果)×(1桶÷1瓶(蜂蜜))
         BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 4));
-        BLOCK.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(AllItems.BAR_OF_CHOCOLATE.get().getFoodComponent(), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
+        BLOCK.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(ITEM.get(AllItems.BAR_OF_CHOCOLATE.get()), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
         BLOCK.put(CSDBlocks.CREAM_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.MILK_BUCKET), 1));//(奶油甜甜卷-面包)×(1桶÷1瓶)
         BLOCK.put(CSDBlocks.APPLE_JAM_BLOCK, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.APPLE), 12.0), Pair.of(ITEM.get(Items.SUGAR), 2.0)));
     }
