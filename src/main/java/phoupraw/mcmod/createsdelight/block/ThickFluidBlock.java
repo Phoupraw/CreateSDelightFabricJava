@@ -34,6 +34,7 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
      @param entity
      @see PowderSnowBlock#onEntityCollision(BlockState, World, BlockPos, Entity)
      */
+    @SuppressWarnings("deprecation")
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
@@ -64,6 +65,7 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
      @return
      @see PowderSnowBlock#getCollisionShape
      */
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         if (context instanceof EntityShapeContext entityShapeContext) {
@@ -87,6 +89,7 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
      @return
      @see PowderSnowBlock#getCameraCollisionShape
      */
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.empty();
@@ -98,6 +101,7 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
      @return
      @see PowderSnowBlock#isSideInvisible
      */
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
         return /*stateFrom.isOf(this) || */super.isSideInvisible(state, stateFrom, direction);
@@ -109,6 +113,7 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
      @return
      @see PowderSnowBlock#getCullingShape
      */
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
         return VoxelShapes.empty();

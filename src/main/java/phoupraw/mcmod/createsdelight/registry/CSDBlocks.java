@@ -47,15 +47,16 @@ public final class CSDBlocks {
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
-    public static final Block CREAM_BLOCK = new ThickFluidBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
-    public static final Block APPLE_JAM_BLOCK = register(CSDIdentifiers.APPLE_JAM_BLOCK, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM_BLOCK)));
-    public static final Block WHEAT_PASTE_BLOCK = register(CSDIdentifiers.WHEAT_PASTE_BLOCK, new HayBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).breakInstantly()));
+    public static final Block CREAM = new ThickFluidBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
+    public static final Block APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM)));
+    public static final Block WHEAT_PASTE = register(CSDIdentifiers.WHEAT_PASTE, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM)));
+    public static final Block WHEAT_CAKE_BASE_BLOCK = register(CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK, new HayBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL)));
     //TODO 糖块、苹果酱块、胡萝卜酱块、土豆泥块、甜浆果酱块、发光浆果块、甜菜汁块、
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
-        register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
+        register(CSDIdentifiers.CREAM, CREAM);
     }
     public static <T extends Block> T register(Identifier id, T block) {
         return Registry.register(Registries.BLOCK, id, block);

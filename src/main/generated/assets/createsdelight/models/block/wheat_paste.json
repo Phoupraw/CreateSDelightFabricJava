@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "createsdelight:block/apple_jam_block"
+    "all": "createsdelight:block/wheat_paste"
   }
 }

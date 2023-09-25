@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "createsdelight:block/cream_block"
+    "all": "createsdelight:block/wheat_cake_base_block"
   }
 }

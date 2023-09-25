@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "createsdelight:kelp_ash"
+    },
+    {
+      "amount": 81000,
+      "fluid": "milk:still_milk",
+      "nbt": {}
+    }
+  ],
+  "processingTime": 600,
+  "results": [
+    {
+      "amount": 27000,
+      "fluid": "minecraft:water"
+    },
+    {
+      "amount": 13500,
+      "fluid": "createsdelight:cream"
+    }
+  ]
+}

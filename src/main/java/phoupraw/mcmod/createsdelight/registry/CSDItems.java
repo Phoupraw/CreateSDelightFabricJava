@@ -41,14 +41,15 @@ public final class CSDItems {
     public static final BlockItem VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings()));
     public static final BlockItem MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new BlockItem(CSDBlocks.MADE_VOXEL, new FabricItemSettings()));
     public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
-    //蛋糕材料
-    public static final BlockItem CREAM_BLOCK = new BlockItem(CSDBlocks.CREAM_BLOCK, new FabricItemSettings());
+    //蛋糕材料方块
     public static final BlockItem CHOCOLATE_BLOCK = new BlockItem(CSDBlocks.CHOCOLATE_BLOCK, new FabricItemSettings());
-    public static final BlockItem WHEAT_PASTE_BLOCK = register(CSDIdentifiers.WHEAT_PASTE_BLOCK, new BlockItem(CSDBlocks.WHEAT_PASTE_BLOCK, new FabricItemSettings()));
-    //桶装流体
-    public static final Item BUCKETED_EGG_LIQUID = new Item(new FabricItemSettings().maxCount(1));
-    public static final Item BUCKETED_WHEAT_PASTE = register(CSDIdentifiers.BUCKETED_WHEAT_PASTE, new Item(new FabricItemSettings().maxCount(1)));
-    public static final BlockItem BUCKETED_APPLE_JAM = register(CSDIdentifiers.BUCKETED_APPLE_JAM, new ThickFluidBucketItem(CSDBlocks.APPLE_JAM_BLOCK, new FabricItemSettings().maxCount(8)));
+    public static final BlockItem WHEAT_CAKE_BASE_BLOCK = register(CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK, new BlockItem(CSDBlocks.WHEAT_CAKE_BASE_BLOCK, new FabricItemSettings()));
+    //桶装类细雪流体
+    public static final BlockItem BUCKETED_WHEAT_PASTE = register(CSDIdentifiers.BUCKETED_WHEAT_PASTE, new ThickFluidBucketItem(CSDBlocks.WHEAT_PASTE, new FabricItemSettings().maxCount(8)));
+    public static final BlockItem BUCKETED_APPLE_JAM = register(CSDIdentifiers.BUCKETED_APPLE_JAM, new ThickFluidBucketItem(CSDBlocks.APPLE_JAM, new FabricItemSettings().maxCount(8)));
+    public static final BlockItem BUCKETED_CREAM = register(CSDIdentifiers.BUCKETED_CREAM, new ThickFluidBucketItem(CSDBlocks.CREAM, new FabricItemSettings().maxCount(8)));
+    //桶装虚拟流体
+    public static final Item BUCKETED_EGG_LIQUID = new Item(new FabricItemSettings().maxCount(8));
     //其它
     public static final Item EGG_SHELL = new Item(new FabricItemSettings());
     public static final Item KELP_ASH = new Item(new FabricItemSettings());
@@ -61,7 +62,6 @@ public final class CSDItems {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
         register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.EGG_SHELL, EGG_SHELL);
-        register(CSDIdentifiers.CREAM_BLOCK, CREAM_BLOCK);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.BUCKETED_EGG_LIQUID, BUCKETED_EGG_LIQUID);
         register(CSDIdentifiers.KELP_ASH, KELP_ASH);
@@ -83,7 +83,12 @@ public final class CSDItems {
         //} catch (CommandSyntaxException e) {
         //    throw new RuntimeException(e);
         //}
-        for (Item item : new Item[]{/*CAKE_OVEN, */VOXEL_MAKER, CHOCOLATE_BLOCK, CREAM_BLOCK, WHEAT_PASTE_BLOCK, BUCKETED_APPLE_JAM, BUCKETED_EGG_LIQUID, BUCKETED_WHEAT_PASTE, EGG_SHELL, KELP_ASH}) {
+        for (Item item : new Item[]{
+          /*机器*/VOXEL_MAKER,
+          /*方块*/CHOCOLATE_BLOCK, WHEAT_CAKE_BASE_BLOCK,
+          /*类细雪桶*/BUCKETED_APPLE_JAM, BUCKETED_WHEAT_PASTE, BUCKETED_CREAM,
+          /*虚拟流体*/BUCKETED_EGG_LIQUID,
+          /*材料*/EGG_SHELL, KELP_ASH}) {
             entries.add(item);
         }
     }

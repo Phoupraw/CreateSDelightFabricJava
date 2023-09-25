@@ -37,6 +37,9 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
 
     @Override
     public void generate() {
+        for (Block block : new Block[]{CSDBlocks.CAKE_OVEN, CSDBlocks.VOXEL_MAKER, CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.WHEAT_CAKE_BASE_BLOCK}) {
+            addDrop(block);//方块无条件掉落自身
+        }
         addDrop(CSDBlocks.PRINTED_CAKE, LootTable.builder().pool(new LootPool.Builder()
           .rolls(ConstantLootNumberProvider.create(1))
           .with(ItemEntry.builder(CSDItems.PRINTED_CAKE)
@@ -45,30 +48,11 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
               .withOperation("content", "BlockEntityTag.content"))
             .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
               .withOperation("size", "BlockEntityTag.size")))));
-        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CAKE_OVEN}) {
-            addDrop(block);//方块无条件掉落自身
-        }
-        //addDropAge3(this, CDBlocks.JELLY_BEANS_CAKE, CDItems.JELLY_BEANS, 1);
-        //addDropAge3(this, CDBlocks.BASQUE_CAKE, Items.AIR, 0);
-        //addDropAge3(this, CDBlocks.SWEET_BERRIES_CAKE_S, CDItems.SWEET_BERRIES_CAKE, 3);
-        //addDropAge3(this, CDBlocks.APPLE_CREAM_CAKE, Items.APPLE, 1);
-        //addDropAge3(this, CDBlocks.APPLE_CAKE, Items.APPLE, 1);
-        //addDropAge3(this, CDBlocks.CARROT_CREAM_CAKE, Items.CARROT, 1);
-        //addDropAge3(this, CDBlocks.MEDIUM_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
-        //addDropAge3(this, CDBlocks.BIG_CHOCOLATE_CREAM_CAKE, Items.AIR, 0);
-        //addDropAge3(this, CDBlocks.CHOCOLATE_ANTHEMY_CAKE, Items.AIR, 0);
-        //{
-        //    List<LeafEntry.Builder<?>> list = new ArrayList<>();
-        //    for (int i = 0; i <= Properties.AGE_3_MAX; i++) {
-        //        LeafEntry.Builder<?> apply = ItemEntry.builder(CDItems.SWEET_BERRIES_CAKE)
-        //          .conditionally(BlockStatePropertyLootCondition.builder(CDBlocks.SWEET_BERRIES_CAKE).properties(StatePredicate.Builder.create().exactMatch(Properties.AGE_3, i)))
-        //          .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(i + 1)));
-        //        list.add(apply);
-        //    }
-        //    addDrop(CDBlocks.SWEET_BERRIES_CAKE, LootTable.builder().pool(new LootPool.Builder()
-        //      .rolls(ConstantLootNumberProvider.create(1))
-        //      .with(AlternativeEntry.builder(list.toArray(new LootPoolEntry.Builder[0])))));
-        //}
+        addDrop(CSDBlocks.MADE_VOXEL, LootTable.builder().pool(new LootPool.Builder()
+          .rolls(ConstantLootNumberProvider.create(1))
+          .with(ItemEntry.builder(CSDItems.MADE_VOXEL)
+            .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
+              .withOperation("{}", "BlockEntityTag")))));
     }
 
 }

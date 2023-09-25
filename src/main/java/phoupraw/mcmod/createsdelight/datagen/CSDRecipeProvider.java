@@ -46,9 +46,13 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDItems.EGG_SHELL)
           .output(CSDFluids.EGG_LIQUID, FluidConstants.BOTTLE / 2)
           .build(exporter);
-        new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.CREAM_BLOCK)
-          .require(Milk.STILL_MILK, FluidConstants.BLOCK)
-          .output(CSDItems.CREAM_BLOCK)
+        new ProcessingRecipeBuilder<>(MixingRecipe::new, CSDIdentifiers.CREAM)
+          .require(Milk.STILL_MILK, FluidConstants.BUCKET)
+          .require(CSDItems.KELP_ASH)
+          .output(Fluids.WATER, FluidConstants.BOTTLE)
+          .output(CSDFluids.CREAM, FluidConstants.BOTTLE / 2)
+          //TODO 黄油
+          .duration(600)
           .build(exporter);
         new ProcessingRecipeBuilder<>(MixingRecipe::new, CSDIdentifiers.of(AllFluids.CHOCOLATE.getId().getPath()))
           .require(CSDItems.CHOCOLATE_BLOCK)
@@ -78,9 +82,9 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDFluids.WHEAT_PASTE, FluidConstants.BUCKET / 2)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.WHEAT_PASTE_BLOCK)
+        new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK)
           .require(CSDFluids.WHEAT_PASTE, FluidConstants.BUCKET)
-          .output(CSDItems.WHEAT_PASTE_BLOCK)
+          .output(CSDItems.WHEAT_CAKE_BASE_BLOCK)
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
         //TODO 1桶牛奶+1个海带灰烬-加热搅拌->1瓶水+半瓶奶油+半瓶黄油

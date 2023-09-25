@@ -23,13 +23,13 @@ public final class CSDModelProvider extends FabricModelProvider {
         for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.MADE_VOXEL}) {
             generator.registerSimpleState(block);//该方法会生成方块状态、物品模型。
         }
-        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM_BLOCK, CSDBlocks.APPLE_JAM_BLOCK, CSDBlocks.WHEAT_PASTE_BLOCK}) {
+        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK}) {
             generator.registerSimpleCubeAll(block);//该方法会生成方块状态、方块模型、物品模型。
         }
         for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.MADE_VOXEL}) {
             generator.excludeFromSimpleItemModelGeneration(block);//设置在registerSimpleState和registerSimpleCubeAll中不需要生成物品模型的方块
         }
-        for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.BUCKETED_APPLE_JAM, CSDItems.BUCKETED_WHEAT_PASTE, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
+        for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.BUCKETED_APPLE_JAM, CSDItems.BUCKETED_WHEAT_PASTE, CSDItems.BUCKETED_CREAM, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
             generator.registerItemModel(item);//生成平面物品模型
         }
         for (Block block : new Block[]{CSDBlocks.VOXEL_MAKER, CSDBlocks.CAKE_OVEN}) {

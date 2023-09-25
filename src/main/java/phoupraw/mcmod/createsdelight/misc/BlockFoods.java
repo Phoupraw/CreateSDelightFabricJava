@@ -71,9 +71,9 @@ public final class BlockFoods {
         //BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.subtract(AllItems.HONEYED_APPLE.get().getFoodComponent(), FoodComponents.APPLE, 1.0 / 4));//(蜜渍苹果-苹果)×(1桶÷1瓶(蜂蜜))
         BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 4));
         BLOCK.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(ITEM.get(AllItems.BAR_OF_CHOCOLATE.get()), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
-        BLOCK.put(CSDBlocks.CREAM_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.MILK_BUCKET), 1));//(奶油甜甜卷-面包)×(1桶÷1瓶)
-        BLOCK.put(CSDBlocks.APPLE_JAM_BLOCK, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.APPLE), 9.0), Pair.of(ITEM.get(Items.SUGAR), 1.5)));
-        BLOCK.put(CSDBlocks.WHEAT_PASTE_BLOCK, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.BREAD), 5.0 * 3 / 2)));
+        BLOCK.put(CSDBlocks.CREAM, LinearFoodBehaviour.of(ITEM.get(Items.MILK_BUCKET), 1));//(奶油甜甜卷-面包)×(1桶÷1瓶)
+        BLOCK.put(CSDBlocks.APPLE_JAM, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.APPLE), 9.0), Pair.of(ITEM.get(Items.SUGAR), 1.5)));
+        BLOCK.put(CSDBlocks.WHEAT_PASTE, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.BREAD), 5.0 * 3 / 2)));
     }
     private BlockFoods() {}
 }
