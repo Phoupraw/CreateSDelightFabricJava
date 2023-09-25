@@ -83,7 +83,7 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDItems.WHEAT_PASTE_BLOCK)
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
-        //TODO 1桶牛奶-加热搅拌->1瓶水+半瓶奶油+半瓶黄油
+        //TODO 1桶牛奶+1个海带灰烬-加热搅拌->1瓶水+半瓶奶油+半瓶黄油
         //TODO 半桶牛奶-密封发酵->半桶酸奶
     }
 

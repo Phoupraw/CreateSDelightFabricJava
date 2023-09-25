@@ -15,6 +15,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldEvents;
 
 import java.util.Optional;
 
@@ -114,6 +115,10 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
     }
     @Override
     public ItemStack tryDrainFluid(WorldAccess world, BlockPos pos, BlockState state) {
+        world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
+        if (!world.isClient()) {
+            world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state));
+        }
         return asItem().getDefaultStack();
     }
     @Override

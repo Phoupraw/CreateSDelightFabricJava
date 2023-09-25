@@ -107,13 +107,13 @@ dependencies {
         modImplementation(f)
     }
     for (f in [
-      "me.shedaniel:RoughlyEnoughItems-fabric:${project["rei_version"]}",
+      "dev.emi:emi-fabric:${project["emi_version"]}",
     ]) {
         modCompileOnly(f)
         modLocalRuntime(f)
     }
     for (f in [
-      "dev.emi:emi-fabric:${project["emi_version"]}",
+      "me.shedaniel:RoughlyEnoughItems-fabric:${project["rei_version"]}",
       files("D:\\CCC\\Documents\\local_maven\\farmers-delight-fabric-mc${project["farmersdelight_version"]}.jar"),
     ]) {
         modCompileOnly(f)
