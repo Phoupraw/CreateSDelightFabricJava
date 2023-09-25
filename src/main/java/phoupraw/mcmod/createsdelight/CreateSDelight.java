@@ -25,7 +25,8 @@ public final class CreateSDelight {
         loadClasses();
         CSDCommands.register();
         VirtualFluids.registerBucketStorage(CSDFluids.EGG_LIQUID, CSDItems.BUCKETED_EGG_LIQUID);
-        VirtualFluids.registerBottleStorage(CSDFluids.APPLE_JAM, CSDItems.BUCKETED_APPLE_JAM);
+        VirtualFluids.registerBucketStorage(CSDFluids.APPLE_JAM, CSDItems.BUCKETED_APPLE_JAM);
+        VirtualFluids.registerBucketStorage(CSDFluids.WHEAT_PASTE, CSDItems.BUCKETED_WHEAT_PASTE);
         BlockStressDefaults.setDefaultImpact(CSDIdentifiers.CAKE_OVEN, 16);
         BlockStressDefaults.setDefaultImpact(CSDIdentifiers.VOXEL_MAKER, 16);
         Registry.register(CSDRegistries.PREDEFINED_CAKE, CSDIdentifiers.of("empty"), VoxelCake.empty());

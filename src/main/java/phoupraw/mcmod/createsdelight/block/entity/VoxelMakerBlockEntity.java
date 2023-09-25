@@ -53,6 +53,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         super.tick();
         if (!getWorking().get()) return;
         World world = getWorld();
+        if (world == null) return;
         int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
         Vec3i size = new Vec3i(edgeLen, edgeLen, edgeLen);
         RailShape facing = getCachedState().get(CakeOvenBlock.FACING);
@@ -130,6 +131,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
             outlineLinger += step;
             if (outlineLinger >= 1) {
                 world.setBlockState(origin, CSDBlocks.MADE_VOXEL.getDefaultState());
+                //noinspection ConstantConditions
                 ((MadeVoxelBlockEntity) world.getBlockEntity(origin)).setVoxelRecord(VoxelRecord.of(len1s.values().stream().filter(Objects::nonNull).map(VoxelRecord::blocks).collect(HashMap::new, Map::putAll, Map::putAll), size));
                 setWorking(TriState.FALSE);
             }

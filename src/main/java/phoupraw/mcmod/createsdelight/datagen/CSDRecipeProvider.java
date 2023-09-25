@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import phoupraw.mcmod.createsdelight.registry.CSDFluids;
@@ -63,13 +64,29 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .require(Items.APPLE)
           .require(Items.APPLE)
           .require(Items.SUGAR)
-          .require(CSDItems.KELP_ASH)
-          .output(CSDFluids.APPLE_JAM, FluidConstants.BUCKET / 2)
+          .output(CSDFluids.APPLE_JAM, FluidConstants.BOTTLE * 2)
           .averageProcessingDuration()
           .build(exporter);
         new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.APPLE_JAM_BLOCK)
           .require(CSDFluids.APPLE_JAM, FluidConstants.BUCKET)
           .output(CSDItems.APPLE_JAM_BLOCK)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(MixingRecipe::new, CSDIdentifiers.WHEAT_PASTE)
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(AllItems.WHEAT_FLOUR.get())
+          .require(CSDItems.KELP_ASH)
+          .require(Fluids.WATER, FluidConstants.BOTTLE * 2)
+          .output(CSDFluids.APPLE_JAM, FluidConstants.BUCKET / 2)
+          .averageProcessingDuration()
+          .requiresHeat(HeatCondition.HEATED)
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.WHEAT_PASTE_BLOCK)
+          .require(CSDFluids.WHEAT_PASTE, FluidConstants.BUCKET)
+          .output(CSDItems.WHEAT_PASTE_BLOCK)
+          .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
     }
 

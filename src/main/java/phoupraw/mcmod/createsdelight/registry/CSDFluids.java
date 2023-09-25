@@ -36,6 +36,7 @@ public final class CSDFluids {
     //public static final Fluid POPPY_RUSSIAN_SOUP = VirtualFluids.of(CDItems.POPPY_RUSSIAN_SOUP);
     public static final Fluid EGG_LIQUID = VirtualFluids.of(CSDItems.BUCKETED_EGG_LIQUID);
     public static final Fluid APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, VirtualFluids.of(CSDItems.BUCKETED_APPLE_JAM));
+    public static final Fluid WHEAT_PASTE = register(CSDIdentifiers.WHEAT_PASTE, VirtualFluids.of(CSDItems.BUCKETED_WHEAT_PASTE));
     //public static final Fluid WHEAT_BLACK_TEA = VirtualFluids.of(CDItems.WHEAT_BLACK_TEA);
     //public static final Fluid ICED_MELON_JUICE = VirtualFluids.of(CDItems.ICED_MELON_JUICE);
     //public static final Fluid MELON_JUICE = VirtualFluids.of(ItemsRegistry.MELON_JUICE.get());
