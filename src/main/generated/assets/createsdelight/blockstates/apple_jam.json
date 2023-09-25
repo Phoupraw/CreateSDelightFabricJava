@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "createsdelight:block/apple_jam"
-    }
+    "": [
+      {
+        "model": "createsdelight:block/apple_jam"
+      },
+      {
+        "model": "createsdelight:block/apple_jam",
+        "y": 90
+      },
+      {
+        "model": "createsdelight:block/apple_jam",
+        "y": 180
+      },
+      {
+        "model": "createsdelight:block/apple_jam",
+        "y": 270
+      }
+    ]
   }
 }

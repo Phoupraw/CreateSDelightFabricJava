@@ -13,24 +13,26 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 public final class CSDModelProvider extends FabricModelProvider {
-
     public CSDModelProvider(FabricDataOutput dataOutput) {
         super(dataOutput);
     }
-
+    @SuppressWarnings("RedundantOperationOnEmptyContainer")
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
         for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.MADE_VOXEL}) {
-            generator.registerSimpleState(block);//该方法会生成方块状态、物品模型。
+            generator.registerSimpleState(block);//生成单一最简方块状态、继承方块模型的物品模型。
+        }
+        for (Block block : new Block[]{}) {
+            generator.registerSimpleCubeAll(block);//生成单一最简方块状态、六面相同完整方块方块模型、继承方块模型的物品模型。
         }
         for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK}) {
-            generator.registerSimpleCubeAll(block);//该方法会生成方块状态、方块模型、物品模型。
+            generator.blockStateCollector.accept(BlockStateModelGenerator.createBlockStateWithRandomHorizontalRotations(block, TexturedModel.CUBE_ALL.upload(block, generator.modelCollector)));//生成绕竖轴随机旋转模型的单一方块状态、六面相同完整方块方块模型、继承方块模型的物品模型。
         }
         for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.MADE_VOXEL}) {
-            generator.excludeFromSimpleItemModelGeneration(block);//设置在registerSimpleState和registerSimpleCubeAll中不需要生成物品模型的方块
+            generator.excludeFromSimpleItemModelGeneration(block);//不给方块自动生成继承方块模型的物品模型。
         }
         for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.BUCKETED_APPLE_JAM, CSDItems.BUCKETED_WHEAT_PASTE, CSDItems.BUCKETED_CREAM, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
-            generator.registerItemModel(item);//生成平面物品模型
+            generator.registerItemModel(item);//生成用单一纹理最简平面物品模型。
         }
         for (Block block : new Block[]{CSDBlocks.VOXEL_MAKER, CSDBlocks.CAKE_OVEN}) {
             Identifier modelId = ModelIds.getBlockModelId(Blocks.BROWN_GLAZED_TERRACOTTA);
@@ -51,10 +53,8 @@ public final class CSDModelProvider extends FabricModelProvider {
                   .put(VariantSettings.Y, VariantSettings.Rotation.R270))));
         }
     }
-
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
         //generator.register(MyFluids.SUNFLOWER_OIL.getBucketItem(), );
     }
-
 }

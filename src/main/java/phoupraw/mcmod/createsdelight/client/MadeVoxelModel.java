@@ -291,12 +291,27 @@ public class MadeVoxelModel implements CustomBlockModel {
         if (facing != PrintedCakeBlock.defaultFacing()) {
             context.popTransform();
         }
+        if (voxelRecord.equals(VoxelRecord.EMPTY)) {
+            context.pushTransform(PrintedCakeModel::negativeUv);
+            MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+            context.popTransform();
+        }
     }
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
         NbtCompound blockEntityNbt = BlockItem.getBlockEntityNbt(stack);
         if (blockEntityNbt != null) {
-            NBT2MODEL.get(blockEntityNbt.getCompound("voxelRecord")).emitItemQuads(stack, randomSupplier, context);
+            NbtCompound nbtVoxelRecord = blockEntityNbt.getCompound("voxelRecord");
+            if (NBT2MODEL.containsKey(nbtVoxelRecord)) {
+                NBT2MODEL.get(nbtVoxelRecord).emitItemQuads(stack, randomSupplier, context);
+            } else {
+                VoxelRecord voxelRecord = VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord);
+                if (VoxelRecord.EMPTY.equals(voxelRecord)) {
+                    context.pushTransform(PrintedCakeModel::negativeUv);
+                    MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitItemQuads(stack, randomSupplier, context);
+                    context.popTransform();
+                }
+            }
         }
     }
 }

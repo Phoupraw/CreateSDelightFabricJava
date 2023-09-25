@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "createsdelight:block/chocolate_block"
-    }
+    "": [
+      {
+        "model": "createsdelight:block/chocolate_block"
+      },
+      {
+        "model": "createsdelight:block/chocolate_block",
+        "y": 90
+      },
+      {
+        "model": "createsdelight:block/chocolate_block",
+        "y": 180
+      },
+      {
+        "model": "createsdelight:block/chocolate_block",
+        "y": 270
+      }
+    ]
   }
 }

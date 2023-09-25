@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "createsdelight:block/cream"
-    }
+    "": [
+      {
+        "model": "createsdelight:block/cream"
+      },
+      {
+        "model": "createsdelight:block/cream",
+        "y": 90
+      },
+      {
+        "model": "createsdelight:block/cream",
+        "y": 180
+      },
+      {
+        "model": "createsdelight:block/cream",
+        "y": 270
+      }
+    ]
   }
 }
