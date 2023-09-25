@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-public record VoxelRecord(Map<BlockPos, BlockState> blocks, Vec3i size, BlockBox boundary) {
+public record VoxelRecord(Map<BlockPos, BlockState> blocks/*TODO 键改成Block*/, Vec3i size, BlockBox boundary) {
     public static VoxelRecord of(Map<BlockPos, BlockState> blocks, Vec3i size) {
         return new VoxelRecord(blocks, size, BlockBox.encompassPositions(blocks.keySet()).orElseThrow());
     }

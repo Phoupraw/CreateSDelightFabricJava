@@ -8,7 +8,10 @@ import com.google.common.collect.MultimapBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public interface DefaultedMap<K, V> extends Map<K, V> {
@@ -18,7 +21,7 @@ public interface DefaultedMap<K, V> extends Map<K, V> {
      @see CacheBuilder#build(CacheLoader)
      */
     static <K, V> DefaultedMap<K, V> loadingCache(Function<? super K, ? extends V> cacheLoader) {
-        return new FunctionDefaultedMap<>(new WeakHashMap<>(), cacheLoader);
+        return new FunctionDefaultedMap<>(new IdentityWeakHashMap<>(), cacheLoader);
     }
     /**
      {@code MultimapBuilder.hashKeys().arrayListValues().build()}

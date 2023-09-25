@@ -47,6 +47,7 @@ public final class CSDItems {
     //蛋糕材料
     public static final BlockItem CREAM_BLOCK = new BlockItem(CSDBlocks.CREAM_BLOCK, new FabricItemSettings());
     public static final BlockItem CHOCOLATE_BLOCK = new BlockItem(CSDBlocks.CHOCOLATE_BLOCK, new FabricItemSettings());
+    public static final BlockItem APPLE_JAM_BLOCK = register(CSDIdentifiers.APPLE_JAM_BLOCK, new BlockItem(CSDBlocks.APPLE_JAM_BLOCK, new FabricItemSettings()));
     //流体
     public static final Item BUCKETED_EGG_LIQUID = new Item(new FabricItemSettings().maxCount(1));
     public static final Item BUCKETED_APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, new Item(new FabricItemSettings().maxCount(1)));

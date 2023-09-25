@@ -1,5 +1,6 @@
 package phoupraw.mcmod.createsdelight.misc;
 
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.*;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage;
@@ -7,6 +8,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -109,9 +111,11 @@ public final class VirtualFluids {
     public static FluidStorage.@NotNull CombinedItemApiProvider emptyProviderOf(Item fullItem, Fluid fluid, long amount) {
         return context -> new EmptyItemFluidStorage(context, fullItem, fluid, amount);
     }
-
+    public static SimpleFluidRenderHandler simpleFluidRenderHandlerOfBlock(Identifier fluidId) {
+        Identifier textureId = fluidId.withPrefixedPath("block/");
+        return new SimpleFluidRenderHandler(textureId, textureId);
+    }
     private VirtualFluids() {
 
     }
-
 }

@@ -109,7 +109,8 @@ public final class CSDIdentifiers {
       VOXEL_MAKER = of("voxel_maker"),
       MADE_VOXEL = of("made_voxel"),
       EMPTY = of("empty"),
-      APPLE_JAM = of("apple_jam");
+      APPLE_JAM = of("apple_jam"),
+      APPLE_JAM_BLOCK = of("apple_jam_block");
     @Contract("_ -> new")
     @ApiStatus.Internal
     public static @NotNull Identifier of(String path) {
