@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.HayBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
@@ -46,9 +47,9 @@ public final class CSDBlocks {
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
     //蛋糕材料
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
-    public static final Block CREAM_BLOCK = new CreamBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
-    public static final Block APPLE_JAM_BLOCK = register(CSDIdentifiers.APPLE_JAM_BLOCK, new CreamBlock(FabricBlockSettings.copyOf(CREAM_BLOCK)));
-    public static final Block WHEAT_PASTE_BLOCK = register(CSDIdentifiers.WHEAT_PASTE_BLOCK, new Block(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).breakInstantly()));
+    public static final Block CREAM_BLOCK = new ThickFluidBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
+    public static final Block APPLE_JAM_BLOCK = register(CSDIdentifiers.APPLE_JAM_BLOCK, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM_BLOCK)));
+    public static final Block WHEAT_PASTE_BLOCK = register(CSDIdentifiers.WHEAT_PASTE_BLOCK, new HayBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).breakInstantly()));
     //TODO 糖块、苹果酱块、胡萝卜酱块、土豆泥块、甜浆果酱块、发光浆果块、甜菜汁块、
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);

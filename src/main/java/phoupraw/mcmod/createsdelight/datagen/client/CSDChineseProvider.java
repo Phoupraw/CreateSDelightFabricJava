@@ -22,7 +22,9 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
           """);
         b.add(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup"), "机械动力乐事");
         b.add(CSDBlocks.CAKE_OVEN, "蛋糕烤箱");
+        b.add(CSDBlocks.VOXEL_MAKER, "体素蛋糕制作机");
         b.add(CSDBlocks.PRINTED_CAKE, "蓝图蛋糕");
+        b.add(CSDBlocks.MADE_VOXEL, "体素蛋糕");
         b.add(CSDBlocks.CHOCOLATE_BLOCK, "巧克力块");
         b.add(CSDBlocks.CREAM_BLOCK, "奶油块");
         b.add(CSDBlocks.APPLE_JAM_BLOCK, "苹果酱块");

@@ -1,0 +1,16 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "amount": 81000,
+      "fluid": "createsdelight:wheat_paste",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "createsdelight:wheat_paste_block"
+    }
+  ]
+}

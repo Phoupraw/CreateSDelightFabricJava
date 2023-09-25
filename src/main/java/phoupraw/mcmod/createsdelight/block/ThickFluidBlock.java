@@ -13,12 +13,12 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class CreamBlock extends Block {
+public class ThickFluidBlock extends Block {
     /**
      @see PowderSnowBlock#FALLING_SHAPE
      */
     public static final VoxelShape FALLING_SHAPE = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.9F, 1.0);
-    public CreamBlock(Settings settings) {
+    public ThickFluidBlock(Settings settings) {
         super(settings);
     }
     /**

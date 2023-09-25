@@ -75,9 +75,8 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .require(AllItems.WHEAT_FLOUR.get())
           .require(CSDItems.KELP_ASH)
           .require(Fluids.WATER, FluidConstants.BOTTLE * 2)
-          .output(CSDFluids.APPLE_JAM, FluidConstants.BUCKET / 2)
+          .output(CSDFluids.WHEAT_PASTE, FluidConstants.BUCKET / 2)
           .averageProcessingDuration()
-          .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
         new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.WHEAT_PASTE_BLOCK)
           .require(CSDFluids.WHEAT_PASTE, FluidConstants.BUCKET)
