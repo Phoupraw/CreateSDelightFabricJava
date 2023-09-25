@@ -31,7 +31,7 @@ public final class CSDModelProvider extends FabricModelProvider {
             //生成单一最简方块状态、六面相同完整方块方块模型、继承方块模型的物品模型。
             generator.registerSimpleCubeAll(block);
         }
-        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK}) {
+        for (Block block : new Block[]{}) {
             //生成随机旋转模型的单一方块状态、六面相同完整方块方块模型、继承方块模型的物品模型。
             Identifier modelId = TexturedModel.CUBE_ALL.upload(block, generator.modelCollector);
             Collection<BlockStateVariant> variants = new ArrayList<>();
@@ -45,11 +45,15 @@ public final class CSDModelProvider extends FabricModelProvider {
             }
             generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, variants.toArray(BlockStateVariant[]::new)));
         }
+        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK, CSDBlocks.BUTTER_BLOCK}) {
+            //生成绕竖轴随机旋转模型的单一方块状态、带釉陶瓦方块模型（即侧面旋转的方块模型）、继承方块模型的物品模型。
+            generator.blockStateCollector.accept(BlockStateModelGenerator.createBlockStateWithRandomHorizontalRotations(block, TexturedModel.TEMPLATE_GLAZED_TERRACOTTA.upload(block, generator.modelCollector)));
+        }
         for (Block block : new Block[]{CSDBlocks.PRINTED_CAKE, CSDBlocks.MADE_VOXEL}) {
             //不给方块自动生成继承方块模型的物品模型。
             generator.excludeFromSimpleItemModelGeneration(block);
         }
-        for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.BUCKETED_APPLE_JAM, CSDItems.BUCKETED_WHEAT_PASTE, CSDItems.BUCKETED_CREAM, CSDItems.EGG_SHELL, CSDItems.KELP_ASH}) {
+        for (Item item : new Item[]{CSDItems.BUCKETED_EGG_LIQUID, CSDItems.BUCKETED_APPLE_JAM, CSDItems.BUCKETED_WHEAT_PASTE, CSDItems.BUCKETED_CREAM, CSDItems.EGG_SHELL, CSDItems.KELP_ASH, CSDItems.BUTTER_NUGGET, CSDItems.BUTTER_INGOT}) {
             //生成用单一纹理最简平面物品模型。
             generator.registerItemModel(item);
         }

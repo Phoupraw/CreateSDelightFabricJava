@@ -45,12 +45,14 @@ public final class CSDBlocks {
     public static final Block VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new VoxelMakerBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_CASING.get())));
     public static final Block MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new MadeVoxelBlock(FabricBlockSettings.create().solid().nonOpaque().dynamicBounds().breakInstantly().sounds(BlockSoundGroup.WOOL)));
     public static final Block PRINTED_CAKE = new PrintedCakeBlock();
-    //蛋糕材料
-    public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
+    //细雪
     public static final Block CREAM = new ThickFluidBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
     public static final Block APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM)));
     public static final Block WHEAT_PASTE = register(CSDIdentifiers.WHEAT_PASTE, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM)));
+    //固体
+    public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
     public static final Block WHEAT_CAKE_BASE_BLOCK = register(CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK, new HayBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL)));
+    public static final Block BUTTER_BLOCK = register(CSDIdentifiers.BUTTER_BLOCK, new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.YELLOW).sounds(BlockSoundGroup.CANDLE)));
     //TODO 糖块、苹果酱块、胡萝卜酱块、土豆泥块、甜浆果酱块、发光浆果块、甜菜汁块、
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);

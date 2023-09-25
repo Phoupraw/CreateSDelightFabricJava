@@ -44,15 +44,18 @@ public final class CSDItems {
     //蛋糕材料方块
     public static final BlockItem CHOCOLATE_BLOCK = new BlockItem(CSDBlocks.CHOCOLATE_BLOCK, new FabricItemSettings());
     public static final BlockItem WHEAT_CAKE_BASE_BLOCK = register(CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK, new BlockItem(CSDBlocks.WHEAT_CAKE_BASE_BLOCK, new FabricItemSettings()));
+    public static final BlockItem BUTTER_BLOCK = register(CSDIdentifiers.BUTTER_BLOCK, new BlockItem(CSDBlocks.BUTTER_BLOCK, new FabricItemSettings()));
     //桶装类细雪流体
     public static final BlockItem BUCKETED_WHEAT_PASTE = register(CSDIdentifiers.BUCKETED_WHEAT_PASTE, new ThickFluidBucketItem(CSDBlocks.WHEAT_PASTE, new FabricItemSettings().maxCount(8)));
     public static final BlockItem BUCKETED_APPLE_JAM = register(CSDIdentifiers.BUCKETED_APPLE_JAM, new ThickFluidBucketItem(CSDBlocks.APPLE_JAM, new FabricItemSettings().maxCount(8)));
     public static final BlockItem BUCKETED_CREAM = register(CSDIdentifiers.BUCKETED_CREAM, new ThickFluidBucketItem(CSDBlocks.CREAM, new FabricItemSettings().maxCount(8)));
     //桶装虚拟流体
     public static final Item BUCKETED_EGG_LIQUID = new Item(new FabricItemSettings().maxCount(8));
-    //其它
+    //纯材料
     public static final Item EGG_SHELL = new Item(new FabricItemSettings());
     public static final Item KELP_ASH = new Item(new FabricItemSettings());
+    public static final Item BUTTER_NUGGET = register(CSDIdentifiers.BUTTER_NUGGET, new Item(new FabricItemSettings()));
+    public static final Item BUTTER_INGOT = register(CSDIdentifiers.BUTTER_INGOT, new Item(new FabricItemSettings()));
     public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
       .displayName(Text.translatable(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup")))
       .icon(Items.CAKE::getDefaultStack)

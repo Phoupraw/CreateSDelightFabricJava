@@ -37,7 +37,7 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
 
     @Override
     public void generate() {
-        for (Block block : new Block[]{CSDBlocks.CAKE_OVEN, CSDBlocks.VOXEL_MAKER, CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.WHEAT_CAKE_BASE_BLOCK}) {
+        for (Block block : new Block[]{CSDBlocks.CAKE_OVEN, CSDBlocks.VOXEL_MAKER, CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.WHEAT_CAKE_BASE_BLOCK, CSDBlocks.BUTTER_BLOCK}) {
             addDrop(block);//方块无条件掉落自身
         }
         addDrop(CSDBlocks.PRINTED_CAKE, LootTable.builder().pool(new LootPool.Builder()
@@ -52,7 +52,7 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
           .rolls(ConstantLootNumberProvider.create(1))
           .with(ItemEntry.builder(CSDItems.MADE_VOXEL)
             .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
-              .withOperation("{}", "BlockEntityTag")))));
+              .withOperation("voxelRecord", "BlockEntityTag.voxelRecord")))));
     }
 
 }

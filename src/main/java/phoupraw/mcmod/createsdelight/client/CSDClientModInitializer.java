@@ -49,6 +49,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.EGG_LIQUID, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.EGG_LIQUID));
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.APPLE_JAM, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.APPLE_JAM));
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.WHEAT_PASTE, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.WHEAT_PASTE));
+        FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.CREAM, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.CREAM));
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> CUSTOM_MODELS.get(resourceId));
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.CAKE_OVEN, CakeOvenRenderer::new);

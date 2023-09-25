@@ -113,6 +113,9 @@ public final class CSDIdentifiers {
     public static final Identifier BUCKETED_WHEAT_PASTE = of("bucketed_wheat_paste");
     public static final Identifier WHEAT_CAKE_BASE_BLOCK = of("wheat_cake_base_block");
     public static final Identifier BUCKETED_CREAM = of("bucketed_cream");
+    public static final Identifier BUTTER_NUGGET = of("butter_nugget");
+    public static final Identifier BUTTER_INGOT = of("butter_ingot");
+    public static final Identifier BUTTER_BLOCK = of("butter_block");
     @Contract("_ -> new")
     @ApiStatus.Internal
     public static @NotNull Identifier of(String path) {

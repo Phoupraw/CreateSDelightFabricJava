@@ -27,6 +27,7 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         b.add(CSDBlocks.MADE_VOXEL, "体素蛋糕");
         b.add(CSDBlocks.CHOCOLATE_BLOCK, "巧克力块");
         b.add(CSDBlocks.WHEAT_CAKE_BASE_BLOCK, "全麦蛋糕胚块");
+        b.add(CSDBlocks.BUTTER_BLOCK, "黄油块");
         b.add(CSDBlocks.CREAM, "奶油");
         b.add(CSDBlocks.APPLE_JAM, "苹果酱");
         b.add(CSDBlocks.WHEAT_PASTE, "全麦面糊");
@@ -35,6 +36,8 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         b.add(CSDItems.BUCKETED_APPLE_JAM, "桶装苹果酱");
         b.add(CSDItems.BUCKETED_WHEAT_PASTE, "桶装全麦面糊");
         b.add(CSDItems.BUCKETED_CREAM, "桶装奶油");
+        b.add(CSDItems.BUTTER_NUGGET, "黄油粒");
+        b.add(CSDItems.BUTTER_INGOT, "黄油锭");
         b.add(CSDItems.EGG_SHELL, "鸡蛋壳");
         b.add(CSDItems.KELP_ASH, "海带灰烬");
         b.add(CSDStatusEffects.SATIATION, "饱食");
