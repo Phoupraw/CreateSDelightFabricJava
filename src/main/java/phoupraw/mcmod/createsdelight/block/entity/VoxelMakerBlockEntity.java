@@ -69,8 +69,11 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
             bound = expanded(bound, direction, edgeLen - 1);
         }
         for (var iter = BlockPos.stream(bound).iterator(); iter.hasNext(); ) {
-            BlockState state = world.getBlockState(iter.next());
-            if (!state.isAir() && !BlockFoods.BLOCK.containsKey(state.getBlock())) return;
+            BlockPos pos = iter.next();
+            BlockState state = world.getBlockState(pos);
+            if (!(state.isAir() || BlockFoods.BLOCK.containsKey(state.getBlock()) || pos.equals(origin) && state.isOf(CSDBlocks.MADE_VOXEL) && (outlineLinger > 0 || world.isClient()))) {
+                return;
+            }
         }
         //if (BlockPos.stream(bound).parallel().map(world::getBlockState).anyMatch(VoxelMakerBlockEntity::isValid)) return;
         BlockPos vertex000 = new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ());

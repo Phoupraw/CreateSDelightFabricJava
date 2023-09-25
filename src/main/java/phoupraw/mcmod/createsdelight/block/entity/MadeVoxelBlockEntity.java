@@ -7,10 +7,15 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import phoupraw.mcmod.createsdelight.CreateSDelight;
+import phoupraw.mcmod.createsdelight.misc.BlockFoods;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public class MadeVoxelBlockEntity extends SyncedBlockEntity {
+    static {
+        CreateSDelight.LOGGER.info("MadeVoxelBlockEntity.<clinit> BlockFoods.BLOCK=" + BlockFoods.BLOCK);
+    }
     public static MadeVoxelBlockEntity of(BlockPos pos, BlockState state) {
         return new MadeVoxelBlockEntity(CSDBlockEntityTypes.MADE_VOXEL, pos, state);
     }
@@ -28,21 +33,19 @@ public class MadeVoxelBlockEntity extends SyncedBlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        setVoxelRecord(VoxelRecord.of(nbt.getCompound("voxelRecord")));
+        setVoxelRecord(VoxelRecord.of(getWorld(), nbt.getCompound("voxelRecord")));
     }
     public VoxelRecord getVoxelRecord() {
         return voxelRecord;
     }
     public void setVoxelRecord(VoxelRecord voxelRecord) {
         this.voxelRecord = voxelRecord;
-        //long t = System.currentTimeMillis();
         notifyUpdate();
-        //CreateSDelight.LOGGER.info("MadeVoxelBlockEntity.setVoxelRecord notifyUpdate运行了%d毫秒".formatted(System.currentTimeMillis() - t));
         World world = getWorld();
-        if (world != null) {
-            long t = System.currentTimeMillis();
-            world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
-            //CreateSDelight.LOGGER.info("MadeVoxelBlockEntity.setVoxelRecord world.updateListeners运行了%d毫秒".formatted(System.currentTimeMillis() - t));
+        if (world == null) {return;}
+        world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
+        if (VoxelRecord.EMPTY.equals(voxelRecord)) {
+            world.removeBlock(getPos(), false);
         }
     }
 }

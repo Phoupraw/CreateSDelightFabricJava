@@ -49,7 +49,7 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
     public static final DefaultedMap<VoxelRecord, BakedModel> VOXEL2MODEL = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
-    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(nbtVoxelRecord -> toBakedModel(VoxelRecord.of(nbtVoxelRecord)));
+    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(nbtVoxelRecord -> toBakedModel(VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord)));
     public static final float MIN_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 8)) - 1.0F;
     public static final float MAX_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 4)) - 1.0F;
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {

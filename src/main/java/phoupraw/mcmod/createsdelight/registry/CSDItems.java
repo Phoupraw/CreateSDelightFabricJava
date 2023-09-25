@@ -83,7 +83,7 @@ public final class CSDItems {
         //} catch (CommandSyntaxException e) {
         //    throw new RuntimeException(e);
         //}
-        for (Item item : new Item[]{/*CAKE_OVEN, */VOXEL_MAKER, CHOCOLATE_BLOCK, CREAM_BLOCK, BUCKETED_EGG_LIQUID, EGG_SHELL, KELP_ASH}) {
+        for (Item item : new Item[]{/*CAKE_OVEN, */VOXEL_MAKER, CHOCOLATE_BLOCK, CREAM_BLOCK, WHEAT_PASTE_BLOCK, BUCKETED_APPLE_JAM, BUCKETED_EGG_LIQUID, BUCKETED_WHEAT_PASTE, EGG_SHELL, KELP_ASH}) {
             entries.add(item);
         }
     }
