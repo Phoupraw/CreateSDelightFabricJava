@@ -17,24 +17,24 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
+import phoupraw.mcmod.createsdelight.item.ThickFluidBucketItem;
 
 /**
- * 物品编写流程：
- * <ol>
- * <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br/>
- * <li>在{@link CSDIdentifiers}创建{@link Identifier}。<br/>
- * <li>在{@link CSDItems}创建物品<b>并注册</b>。<br/>
- * <li>若不为{@link BlockItem}，则在{@link CSDChineseProvider}和{@link CSDEnglishProvider}添加翻译。<br/>
- * <li>若不为{@link BlockItem}，则在{@link CSDModelProvider}添加模型。<br/>
- * <li>在{@link CSDRecipeProvider}添加配方。<br/>
- * <li>在{@link CSDItemTagProvider}添加标签。<br/>
- * <li>运行数据生成器。<br/>
- * <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br/>
- * <li>运行客户端，检查物品效果是否如预期。<br/>
- * <li>在{@code ChangeLog.md}添加更新日志。<br/>
- * <li>提交git。
- * </ol>
- */
+ 物品编写流程：
+ <ol>
+ <li>若自定义物品，则在{@link phoupraw.mcmod.createsdelight.item}创建物品类，继承{@link Item}；推荐重载无参构造器。<br/>
+ <li>在{@link CSDIdentifiers}创建{@link Identifier}。<br/>
+ <li>在{@link CSDItems}创建物品<b>并注册</b>。<br/>
+ <li>若不为{@link BlockItem}，则在{@link CSDChineseProvider}和{@link CSDEnglishProvider}添加翻译。<br/>
+ <li>若不为{@link BlockItem}，则在{@link CSDModelProvider}添加模型。<br/>
+ <li>在{@link CSDRecipeProvider}添加配方。<br/>
+ <li>在{@link CSDItemTagProvider}添加标签。<br/>
+ <li>运行数据生成器。<br/>
+ <li>在{@code src/main/resources/assets/createsdelight/textures/item}创建纹理。<br/>
+ <li>运行客户端，检查物品效果是否如预期。<br/>
+ <li>在{@code ChangeLog.md}添加更新日志。<br/>
+ <li>提交git。
+ </ol> */
 public final class CSDItems {
     //方块
     public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.CAKE_OVEN, new FabricItemSettings());
@@ -44,12 +44,11 @@ public final class CSDItems {
     //蛋糕材料
     public static final BlockItem CREAM_BLOCK = new BlockItem(CSDBlocks.CREAM_BLOCK, new FabricItemSettings());
     public static final BlockItem CHOCOLATE_BLOCK = new BlockItem(CSDBlocks.CHOCOLATE_BLOCK, new FabricItemSettings());
-    public static final BlockItem APPLE_JAM_BLOCK = register(CSDIdentifiers.APPLE_JAM_BLOCK, new BlockItem(CSDBlocks.APPLE_JAM_BLOCK, new FabricItemSettings()));
     public static final BlockItem WHEAT_PASTE_BLOCK = register(CSDIdentifiers.WHEAT_PASTE_BLOCK, new BlockItem(CSDBlocks.WHEAT_PASTE_BLOCK, new FabricItemSettings()));
-    //流体
+    //桶装流体
     public static final Item BUCKETED_EGG_LIQUID = new Item(new FabricItemSettings().maxCount(1));
-    public static final Item BUCKETED_APPLE_JAM = register(CSDIdentifiers.BUCKETED_APPLE_JAM, new Item(new FabricItemSettings().maxCount(1)));
     public static final Item BUCKETED_WHEAT_PASTE = register(CSDIdentifiers.BUCKETED_WHEAT_PASTE, new Item(new FabricItemSettings().maxCount(1)));
+    public static final BlockItem BUCKETED_APPLE_JAM = register(CSDIdentifiers.BUCKETED_APPLE_JAM, new ThickFluidBucketItem(CSDBlocks.APPLE_JAM_BLOCK, new FabricItemSettings().maxCount(8)));
     //其它
     public static final Item EGG_SHELL = new Item(new FabricItemSettings());
     public static final Item KELP_ASH = new Item(new FabricItemSettings());

@@ -67,10 +67,10 @@ public final class CSDClientModInitializer implements ClientModInitializer {
             });
         });
         ModelLoadingPlugin.register(pluginContext -> {
-            CreateSDelight.LOGGER.info("ModelLoadingPlugin");
+            CreateSDelight.LOGGER.debug("ModelLoadingPlugin");
             pluginContext.modifyModelAfterBake().register((model, context) -> {
                 if (CSDRegistries.getId(Registries.ITEM, Items.APPLE).equals(context.id())) {
-                    CreateSDelight.LOGGER.info("Context.modifyModelAfterBake Items.APPLE");
+                    CreateSDelight.LOGGER.debug("Context.modifyModelAfterBake Items.APPLE");
                 }
                 return model;
             });

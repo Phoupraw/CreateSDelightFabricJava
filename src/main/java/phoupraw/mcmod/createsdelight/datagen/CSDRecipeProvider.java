@@ -67,10 +67,6 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDFluids.APPLE_JAM, FluidConstants.BOTTLE * 2)
           .averageProcessingDuration()
           .build(exporter);
-        new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.APPLE_JAM_BLOCK)
-          .require(CSDFluids.APPLE_JAM, FluidConstants.BUCKET)
-          .output(CSDItems.APPLE_JAM_BLOCK)
-          .build(exporter);
         new ProcessingRecipeBuilder<>(MixingRecipe::new, CSDIdentifiers.WHEAT_PASTE)
           .require(AllItems.WHEAT_FLOUR.get())
           .require(AllItems.WHEAT_FLOUR.get())
@@ -88,6 +84,8 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .output(CSDItems.WHEAT_PASTE_BLOCK)
           .requiresHeat(HeatCondition.HEATED)
           .build(exporter);
+        //TODO 1桶牛奶-加热搅拌->1瓶水+半瓶奶油+半瓶黄油
+        //TODO 半桶牛奶-密封发酵->半桶酸奶
     }
 
 }
