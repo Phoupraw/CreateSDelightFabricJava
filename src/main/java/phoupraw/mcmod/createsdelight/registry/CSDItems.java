@@ -1,12 +1,11 @@
 package phoupraw.mcmod.createsdelight.registry;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.StringNbtReader;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
@@ -18,8 +17,6 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
-
-import java.util.Map;
 
 /**
  * 物品编写流程：
@@ -76,18 +73,18 @@ public final class CSDItems {
         return Registry.register(Registries.ITEM, id, item);
     }
     private static void addItemGroupEntries(ItemGroup.DisplayContext displayContext, ItemGroup.Entries entries) {
-        try {
-            for (Map.Entry<String, String> entry : PrintedCakeItem.PREDEFINEDS.entrySet()) {
-                NbtCompound blockEntityTag = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
-                ItemStack itemStack = PRINTED_CAKE.getDefaultStack();
-                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.PRINTED_CAKE, blockEntityTag);
-                itemStack.setCustomName(Text.translatable(PrintedCakeItem.getTranslationKey(entry.getKey())));
-                entries.add(itemStack);
-            }
-        } catch (CommandSyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        for (Item item : new Item[]{CAKE_OVEN, VOXEL_MAKER, CHOCOLATE_BLOCK, CREAM_BLOCK, BUCKETED_EGG_LIQUID, EGG_SHELL, KELP_ASH}) {
+        //try {
+        //    for (Map.Entry<String, String> entry : PrintedCakeItem.PREDEFINEDS.entrySet()) {
+        //        NbtCompound blockEntityTag = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
+        //        ItemStack itemStack = PRINTED_CAKE.getDefaultStack();
+        //        BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.PRINTED_CAKE, blockEntityTag);
+        //        itemStack.setCustomName(Text.translatable(PrintedCakeItem.getTranslationKey(entry.getKey())));
+        //        entries.add(itemStack);
+        //    }
+        //} catch (CommandSyntaxException e) {
+        //    throw new RuntimeException(e);
+        //}
+        for (Item item : new Item[]{/*CAKE_OVEN, */VOXEL_MAKER, CHOCOLATE_BLOCK, CREAM_BLOCK, BUCKETED_EGG_LIQUID, EGG_SHELL, KELP_ASH}) {
             entries.add(item);
         }
     }
