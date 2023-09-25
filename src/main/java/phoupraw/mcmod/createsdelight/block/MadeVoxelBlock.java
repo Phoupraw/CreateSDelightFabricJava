@@ -230,7 +230,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             comparator = Comparator.comparingDouble(center::getSquaredDistance);
             comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
         }
-        Map<BlockPos, BlockState> newBlocks = new HashMap<>(voxelRecord.blocks());
+        Map<BlockPos, Block> newBlocks = new HashMap<>(voxelRecord.blocks());
         var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
         double hunger = 0;
         double saturation = 0;
@@ -238,12 +238,13 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         boolean looped = false;
         double scale = 1;
         Set<Block> eatenBlocks = new HashSet<>();
-        for (Map.Entry<BlockPos, BlockState> entry : sortedBlocks) {
+        for (var entry : sortedBlocks) {
             if (hunger >= 1) break;
-            FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(entry.getValue());
+            Block block = entry.getValue();
+            FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(block);
             hunger += foodBehaviour.getHunger(cubicMeters) * scale;
             saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
-            eatenBlocks.add(entry.getValue().getBlock());
+            eatenBlocks.add(block);
             newBlocks.remove(entry.getKey());
             looped = true;
         }

@@ -28,7 +28,7 @@ public class MadeVoxelBlockEntity extends SyncedBlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        setVoxelRecord(VoxelRecord.of(nbt.getCompound("voxelRecord"), blockHolderGetter()));
+        setVoxelRecord(VoxelRecord.of(nbt.getCompound("voxelRecord")));
     }
     public VoxelRecord getVoxelRecord() {
         return voxelRecord;

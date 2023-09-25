@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -20,7 +21,6 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
@@ -49,7 +49,7 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
     public static final DefaultedMap<VoxelRecord, BakedModel> VOXEL2MODEL = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
-    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(nbtVoxelRecord -> toBakedModel(VoxelRecord.of(nbtVoxelRecord, Registries.BLOCK.getReadOnlyWrapper())));
+    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(nbtVoxelRecord -> toBakedModel(VoxelRecord.of(nbtVoxelRecord)));
     public static final float MIN_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 8)) - 1.0F;
     public static final float MAX_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 4)) - 1.0F;
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
@@ -65,14 +65,14 @@ public class MadeVoxelModel implements CustomBlockModel {
         }).start();
         return SimpleBlockBakedModel.EMPTY;
     }
-    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size) {
+    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, Block> voxels, Vec3i size) {
         return toCullFaces(voxels, size, 0);
     }
-    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size, long randomSeed) {
+    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, Block> voxels, Vec3i size, long randomSeed) {
         DefaultedMap<Vec3i, @NotNull Map<Direction, Sprite>> table = new SupplierDefaultedMap<>(new ConcurrentHashMap<>(), SupplierDefaultedMap.newingEnumMap(Direction.class));
         voxels.entrySet().parallelStream().forEach(entry -> {
             BlockPos pos = entry.getKey();
-            BlockState state = entry.getValue();
+            BlockState state = entry.getValue().getDefaultState();
             BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
             for (Direction face : DIRECTIONS) {
                 BlockPos neighborPos = pos.offset(face);
@@ -86,7 +86,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         });
         return table;
     }
-    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, BlockState> voxels, Vec3i size, Supplier<Random> randomSupplier) {
+    public static Map<Vec3i, Map<Direction, Sprite>> toCullFaces(Map<BlockPos, Block> voxels, Vec3i size, Supplier<Random> randomSupplier) {
         long seed = randomSupplier.get() instanceof ALocalRandom localRandom ? localRandom.getSeed() : 1;
         return toCullFaces(voxels, size, seed);
     }

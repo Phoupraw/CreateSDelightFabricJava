@@ -2,6 +2,7 @@ package phoupraw.mcmod.createsdelight.misc;
 
 import com.simibubi.create.AllItems;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.FoodComponent;
@@ -19,7 +20,7 @@ public final class BlockFoods {
     @Deprecated
     @SuppressWarnings("unchecked")
     public static final BlockApiLookup<FoodComponent, Pair<Map<BlockPos, BlockState>, Vec3i>> VOXEL = BlockApiLookup.get(CSDIdentifiers.of("block_food"), FoodComponent.class, (Class<Pair<Map<BlockPos, BlockState>, Vec3i>>) (Object) Pair.class);
-    public static final Map<BlockState/*TODO 改成Block*/, FoodBehaviour> BLOCK_STATE = new HashMap<>();
+    public static final Map<Block, FoodBehaviour> BLOCK_STATE = new HashMap<>();
     static {
         //VOXEL.registerForBlocks((world, pos, state, blockEntity, context) -> new FoodComponent.Builder().hunger(2 * ((CakeBlock.MAX_BITES + 1 - state.get(CakeBlock.BITES)) * 2)).saturationModifier(0.1f).build(), Blocks.CAKE);
         //BLOCK_STATE.put(Blocks.CAKE.getDefaultState(), LinearFoodBehaviour.CAKE);
@@ -37,10 +38,10 @@ public final class BlockFoods {
     }
     @SuppressWarnings("ConstantConditions")
     private static void addBuiltins() {
-        BLOCK_STATE.put(Blocks.HONEY_BLOCK.getDefaultState(), LinearFoodBehaviour.subtract(AllItems.HONEYED_APPLE.get().getFoodComponent(), FoodComponents.APPLE, 1.0 / 4));//(蜜渍苹果-苹果)×(1桶÷1瓶(蜂蜜))
-        BLOCK_STATE.put(CSDBlocks.CHOCOLATE_BLOCK.getDefaultState(), LinearFoodBehaviour.of(AllItems.BAR_OF_CHOCOLATE.get().getFoodComponent(), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
-        BLOCK_STATE.put(CSDBlocks.CREAM_BLOCK.getDefaultState(), LinearFoodBehaviour.subtract(AllItems.SWEET_ROLL.get().getFoodComponent(), FoodComponents.BREAD, 1.0 / 3));//(奶油甜甜卷-面包)×(1桶÷1瓶)
-        BLOCK_STATE.put(CSDBlocks.APPLE_JAM_BLOCK.getDefaultState(), LinearFoodBehaviour.subtract())
+        BLOCK_STATE.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.subtract(AllItems.HONEYED_APPLE.get().getFoodComponent(), FoodComponents.APPLE, 1.0 / 4));//(蜜渍苹果-苹果)×(1桶÷1瓶(蜂蜜))
+        BLOCK_STATE.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(AllItems.BAR_OF_CHOCOLATE.get().getFoodComponent(), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
+        BLOCK_STATE.put(CSDBlocks.CREAM_BLOCK, LinearFoodBehaviour.subtract(AllItems.SWEET_ROLL.get().getFoodComponent(), FoodComponents.BREAD, 1.0 / 3));//(奶油甜甜卷-面包)×(1桶÷1瓶)
+        BLOCK_STATE.put(CSDBlocks.APPLE_JAM_BLOCK, LinearFoodBehaviour.subtract(null, null, 1));//TODO
     }
     private BlockFoods() {}
 }
