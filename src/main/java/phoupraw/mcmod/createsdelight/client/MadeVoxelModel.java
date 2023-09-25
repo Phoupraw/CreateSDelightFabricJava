@@ -302,16 +302,16 @@ public class MadeVoxelModel implements CustomBlockModel {
         NbtCompound blockEntityNbt = BlockItem.getBlockEntityNbt(stack);
         if (blockEntityNbt != null) {
             NbtCompound nbtVoxelRecord = blockEntityNbt.getCompound("voxelRecord");
-            if (NBT2MODEL.containsKey(nbtVoxelRecord)) {
-                NBT2MODEL.get(nbtVoxelRecord).emitItemQuads(stack, randomSupplier, context);
-            } else {
-                VoxelRecord voxelRecord = VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord);
-                if (VoxelRecord.EMPTY.equals(voxelRecord)) {
-                    context.pushTransform(PrintedCakeModel::negativeUv);
-                    MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitItemQuads(stack, randomSupplier, context);
-                    context.popTransform();
-                }
-            }
+            NBT2MODEL.get(nbtVoxelRecord).emitItemQuads(stack, randomSupplier, context);
+            //if (NBT2MODEL.containsKey(nbtVoxelRecord)) {
+            //} else {
+            //    VoxelRecord voxelRecord = VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord);
+            //    if (VoxelRecord.EMPTY.equals(voxelRecord)) {
+            //        context.pushTransform(PrintedCakeModel::negativeUv);
+            //        MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitItemQuads(stack, randomSupplier, context);
+            //        context.popTransform();
+            //    }
+            //}
         }
     }
 }
