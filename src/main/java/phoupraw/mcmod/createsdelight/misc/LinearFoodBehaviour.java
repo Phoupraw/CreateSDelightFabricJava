@@ -19,29 +19,42 @@ public class LinearFoodBehaviour implements FoodBehaviour {
         CAKE = new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, 0);
     }
     /**
-     只考虑饥饿值、饱食度、使用时间（是否是零食）
+     只考虑饥饿值、饱食度<s>、使用时间（是否是零食）</s>
      * @param minuend 被减数
      * @param subtrahend 减数
      * @param cubicMeters 体积（立方米）
      * @return (被减数 - 减数)÷体积
      */
     public static LinearFoodBehaviour subtract(FoodComponent minuend, FoodComponent subtrahend, double cubicMeters) {
-        double hunger = minuend.getHunger() - subtrahend.getHunger();
-        double saturation = (minuend.getHunger() * minuend.getSaturationModifier() - subtrahend.getHunger() * subtrahend.getSaturationModifier()) * 2;
-        double duration = 32 + ((minuend.isSnack() ? 0 : 1) + (subtrahend.isSnack() ? 0 : 1)) * 16;
-        return new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, duration / cubicMeters);
+        return linear(Pair.of(minuend, 1 / cubicMeters), Pair.of(subtrahend, -1 / cubicMeters));
+        //double hunger = minuend.getHunger() - subtrahend.getHunger();
+        //double saturation = (minuend.getHunger() * minuend.getSaturationModifier() - subtrahend.getHunger() * subtrahend.getSaturationModifier()) * 2;
+        //double duration = 0;//(32 + ((minuend.isSnack() ? 0 : 1) + (subtrahend.isSnack() ? 0 : 1)) * 16)*cubicMeters;
+        //return new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, duration / cubicMeters);
     }
     /**
-     只考虑饥饿值、饱食度、使用时间（是否是零食）
-     * @param foodComponent 原本食物属性
-     * @param cubicMeters 体积（立方米）
-     * @return 原本食物属性÷体积
+     只考虑饥饿值、饱食度<s>、使用时间（是否是零食）</s>
+     @param fc 原本食物属性
+     @param cubicMeters 体积（立方米）
+     @return 原本食物属性÷体积
      */
-    public static LinearFoodBehaviour of(FoodComponent foodComponent, double cubicMeters) {
-        double hunger = foodComponent.getHunger();
-        double saturation = foodComponent.getHunger() * foodComponent.getSaturationModifier() * 2;
-        double duration = foodComponent.isSnack() ? 16 : 32;
+    public static LinearFoodBehaviour of(FoodComponent fc, double cubicMeters) {
+        double hunger = fc.getHunger();
+        double saturation = fc.getHunger() * fc.getSaturationModifier() * 2;
+        double duration = fc.isSnack() ? 16 : 32;
         return new LinearFoodBehaviour(hunger / cubicMeters, saturation / cubicMeters, 0, duration / cubicMeters);
+    }
+    @SafeVarargs
+    public static LinearFoodBehaviour linear(Pair<FoodComponent, Double>... food2factors) {
+        double hunger = 0;
+        double saturation = 0;
+        for (Pair<FoodComponent, Double> food2factor : food2factors) {
+            FoodComponent fc = food2factor.getKey();
+            double factor = food2factor.getValue();
+            hunger += fc.getHunger() * factor;
+            saturation += fc.getHunger() * fc.getSaturationModifier() * 2 * factor;
+        }
+        return new LinearFoodBehaviour(hunger, saturation, 0, 0);
     }
     public final double hunger;
     public final double saturation;
@@ -77,20 +90,7 @@ public class LinearFoodBehaviour implements FoodBehaviour {
     public void applyExtra(PlayerEntity player) {
 
     }
-    //@Override
-    //public boolean equals(Object obj) {
-    //    if (obj == this) return true;
-    //    if (obj == null || obj.getClass() != this.getClass()) return false;
-    //    var that = (LinearFoodBehaviour) obj;
-    //    return Double.doubleToLongBits(this.hunger) == Double.doubleToLongBits(that.hunger) &&
-    //           Double.doubleToLongBits(this.saturation) == Double.doubleToLongBits(that.saturation) &&
-    //           Double.doubleToLongBits(this.foodTotal) == Double.doubleToLongBits(that.foodTotal) &&
-    //           Double.doubleToLongBits(this.duration) == Double.doubleToLongBits(that.duration);
-    //}
-    //@Override
-    //public int hashCode() {
-    //    return Objects.hash(hunger, saturation, foodTotal, duration);
-    //}
+
     @Override
     public String toString() {
         return "LinearFoodBehaviour[" +

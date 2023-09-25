@@ -62,12 +62,14 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
           .require(Items.APPLE)
           .require(Items.APPLE)
           .require(Items.APPLE)
-          .require(Items.APPLE)
-          .require(Items.APPLE)
           .require(Items.SUGAR)
           .require(CSDItems.KELP_ASH)
           .output(CSDFluids.APPLE_JAM, FluidConstants.BUCKET / 2)
           .averageProcessingDuration()
+          .build(exporter);
+        new ProcessingRecipeBuilder<>(CompactingRecipe::new, CSDIdentifiers.APPLE_JAM_BLOCK)
+          .require(CSDFluids.APPLE_JAM, FluidConstants.BUCKET)
+          .output(CSDItems.APPLE_JAM_BLOCK)
           .build(exporter);
     }
 

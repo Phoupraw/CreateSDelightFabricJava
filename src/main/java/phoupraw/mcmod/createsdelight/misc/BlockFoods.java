@@ -1,47 +1,66 @@
 package phoupraw.mcmod.createsdelight.misc;
 
 import com.simibubi.create.AllItems;
-import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.FoodComponents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.tuple.Pair;
 import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
-import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class BlockFoods {
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static final BlockApiLookup<FoodComponent, Pair<Map<BlockPos, BlockState>, Vec3i>> VOXEL = BlockApiLookup.get(CSDIdentifiers.of("block_food"), FoodComponent.class, (Class<Pair<Map<BlockPos, BlockState>, Vec3i>>) (Object) Pair.class);
-    public static final Map<Block, FoodBehaviour> BLOCK_STATE = new HashMap<>();
+    public static final FoodComponent CAKE = new FoodComponent.Builder().hunger(2 * 7).saturationModifier(0.1f).build();
+    public static final DefaultedMap<Item, FoodComponent> ITEM = new FunctionDefaultedMap<>(new HashMap<>(), Item::getFoodComponent);
+    public static final Map<Block, FoodBehaviour> BLOCK = new HashMap<>();
     static {
         //VOXEL.registerForBlocks((world, pos, state, blockEntity, context) -> new FoodComponent.Builder().hunger(2 * ((CakeBlock.MAX_BITES + 1 - state.get(CakeBlock.BITES)) * 2)).saturationModifier(0.1f).build(), Blocks.CAKE);
         //BLOCK_STATE.put(Blocks.CAKE.getDefaultState(), LinearFoodBehaviour.CAKE);
         addBuiltins();
     }
-    @Deprecated
-    public static FoodComponent combinedHunger(Iterable<FoodComponent> foodComponents) {
+    public static FoodComponent sum(Item... items) {
+        return sum(Arrays.stream(items).map(ITEM::get).toArray(FoodComponent[]::new));
+    }
+    public static FoodComponent sum(FoodComponent... foodComponents) {
         int hunger = 0;
         float saturation = 0;
-        for (FoodComponent foodComponent : foodComponents) {
-            hunger += foodComponent.getHunger();
-            saturation += foodComponent.getHunger() * foodComponent.getSaturationModifier();
+        for (FoodComponent fc : foodComponents) {
+            hunger += fc.getHunger();
+            saturation += fc.getHunger() * fc.getSaturationModifier();
         }
         return new FoodComponent.Builder().hunger(hunger).saturationModifier(saturation / hunger).build();
     }
+    @SafeVarargs
+    public static FoodComponent linear(Pair<FoodComponent, Double>... food2factors) {
+        var fb = LinearFoodBehaviour.linear(food2factors);
+        return new FoodComponent.Builder().hunger((int) /*Math.round*/(fb.hunger)).saturationModifier((float) (fb.saturation / fb.hunger / 2)).build();
+    }
     @SuppressWarnings("ConstantConditions")
     private static void addBuiltins() {
-        BLOCK_STATE.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.subtract(AllItems.HONEYED_APPLE.get().getFoodComponent(), FoodComponents.APPLE, 1.0 / 4));//(蜜渍苹果-苹果)×(1桶÷1瓶(蜂蜜))
-        BLOCK_STATE.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(AllItems.BAR_OF_CHOCOLATE.get().getFoodComponent(), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
-        BLOCK_STATE.put(CSDBlocks.CREAM_BLOCK, LinearFoodBehaviour.subtract(AllItems.SWEET_ROLL.get().getFoodComponent(), FoodComponents.BREAD, 1.0 / 3));//(奶油甜甜卷-面包)×(1桶÷1瓶)
-        BLOCK_STATE.put(CSDBlocks.APPLE_JAM_BLOCK, LinearFoodBehaviour.subtract(null, null, 1));//TODO
+        ITEM.put(Items.CAKE, CAKE);
+        ITEM.put(Items.MILK_BUCKET, linear(Pair.of(AllItems.SWEET_ROLL.get().getFoodComponent(), 3.0), Pair.of(FoodComponents.BREAD, -3.0)));
+        ITEM.put(Items.SUGAR, linear(Pair.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 3)));
+        Item pumpkinSlice = Registries.ITEM.get(new Identifier("farmersdelight", "pumpkin_slice"));
+        FoodComponent pumpkinSliceFood;
+        if (pumpkinSlice != Items.AIR) {
+            pumpkinSliceFood = pumpkinSlice.getFoodComponent();
+        } else {
+            pumpkinSliceFood = new FoodComponent.Builder().hunger(3).saturationModifier(0.3f).build();
+        }
+        ITEM.put(Items.PUMPKIN, linear(Pair.of(pumpkinSliceFood, 4.0)));
+        ITEM.put(Items.EGG, linear(Pair.of(ITEM.get(Items.PUMPKIN_PIE), 1.0), Pair.of(ITEM.get(Items.SUGAR), -1.0), Pair.of(ITEM.get(Items.PUMPKIN), -1.0)));
+        //BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.subtract(AllItems.HONEYED_APPLE.get().getFoodComponent(), FoodComponents.APPLE, 1.0 / 4));//(蜜渍苹果-苹果)×(1桶÷1瓶(蜂蜜))
+        BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 4));
+        BLOCK.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(AllItems.BAR_OF_CHOCOLATE.get().getFoodComponent(), 1.0 / 3));//巧克力棒×(1块÷1巧克力棒)
+        BLOCK.put(CSDBlocks.CREAM_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.MILK_BUCKET), 1));//(奶油甜甜卷-面包)×(1桶÷1瓶)
+        BLOCK.put(CSDBlocks.APPLE_JAM_BLOCK, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.APPLE), 12.0), Pair.of(ITEM.get(Items.SUGAR), 2.0)));
     }
     private BlockFoods() {}
 }

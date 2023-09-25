@@ -241,7 +241,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         for (var entry : sortedBlocks) {
             if (hunger >= 1) break;
             Block block = entry.getValue();
-            FoodBehaviour foodBehaviour = BlockFoods.BLOCK_STATE.get(block);
+            FoodBehaviour foodBehaviour = BlockFoods.BLOCK.get(block);
             hunger += foodBehaviour.getHunger(cubicMeters) * scale;
             saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
             eatenBlocks.add(block);
