@@ -4,7 +4,9 @@ import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -12,8 +14,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
-public class ThickFluidBlock extends Block {
+import java.util.Optional;
+
+public class ThickFluidBlock extends Block implements FluidDrainable {
     /**
      @see PowderSnowBlock#FALLING_SHAPE
      */
@@ -106,5 +111,13 @@ public class ThickFluidBlock extends Block {
     @Override
     public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
         return VoxelShapes.empty();
+    }
+    @Override
+    public ItemStack tryDrainFluid(WorldAccess world, BlockPos pos, BlockState state) {
+        return asItem().getDefaultStack();
+    }
+    @Override
+    public Optional<SoundEvent> getBucketFillSound() {
+        return Optional.of(SoundEvents.ITEM_BUCKET_FILL_POWDER_SNOW);
     }
 }

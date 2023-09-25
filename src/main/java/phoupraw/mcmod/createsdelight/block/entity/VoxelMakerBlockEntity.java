@@ -143,8 +143,15 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
             outlineLinger += step;
             if (outlineLinger >= 1) {
                 world.setBlockState(origin, CSDBlocks.MADE_VOXEL.getDefaultState());
-                //noinspection ConstantConditions
-                ((MadeVoxelBlockEntity) world.getBlockEntity(origin)).setVoxelRecord(VoxelRecord.of(len1s.values().stream().filter(Objects::nonNull).map(VoxelRecord::blocks).collect(HashMap::new, Map::putAll, Map::putAll), size));
+                Map<BlockPos, Block> blocks = len1s.values()
+                  .stream()
+                  .filter(Objects::nonNull)
+                  .map(VoxelRecord::blocks)
+                  .collect(HashMap::new, Map::putAll, Map::putAll);
+                if (!blocks.isEmpty()) {
+                    //noinspection ConstantConditions
+                    ((MadeVoxelBlockEntity) world.getBlockEntity(origin)).setVoxelRecord(VoxelRecord.of(blocks, size));
+                }
                 setWorking(TriState.FALSE);
             }
         }

@@ -22,9 +22,10 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public record VoxelRecord(Map<BlockPos, Block> blocks/*TODO 键改成Block*/, Vec3i size, BlockBox boundary) {
-    public static final VoxelRecord EMPTY = new VoxelRecord(Map.of(), Vec3i.ZERO, BlockBox.create(Vec3i.ZERO, Vec3i.ZERO));
+    public static final BlockBox EMPTY_BOX = BlockBox.create(Vec3i.ZERO, Vec3i.ZERO);
+    public static final VoxelRecord EMPTY = new VoxelRecord(Map.of(), Vec3i.ZERO, EMPTY_BOX);
     public static VoxelRecord of(Map<BlockPos, Block> blocks, Vec3i size) {
-        return new VoxelRecord(blocks, size, BlockBox.encompassPositions(blocks.keySet()).orElseThrow());
+        return new VoxelRecord(blocks, size, BlockBox.encompassPositions(blocks.keySet()).orElse(EMPTY_BOX));
     }
     public static int compare(BlockState a, BlockState b) {
         int r = a.getRegistryEntry().getKey().orElseThrow().getValue().compareTo(b.getRegistryEntry().getKey().orElseThrow().getValue());
