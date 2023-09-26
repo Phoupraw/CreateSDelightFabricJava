@@ -35,6 +35,7 @@ import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
+import phoupraw.mcmod.createsdelight.misc.IdentityWeakHashMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
@@ -49,7 +50,7 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@NotNull Direction> DIRECTIONS = List.of(Direction.values());
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
     public static final DefaultedMap<VoxelRecord, BakedModel> VOXEL2MODEL = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
-    public static final DefaultedMap<NbtCompound, BakedModel> NBT2MODEL = DefaultedMap.loadingCache(nbtVoxelRecord -> toBakedModel(VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord)));
+    public static final Map<NbtCompound, BakedModel> NBT2MODEL = new IdentityWeakHashMap<>();
     public static final float MIN_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 8)) - 1.0F;
     public static final float MAX_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 4)) - 1.0F;
     public static BakedModel toBakedModel(VoxelRecord voxelRecord) {
@@ -291,7 +292,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         if (facing != PrintedCakeBlock.defaultFacing()) {
             context.popTransform();
         }
-        if (voxelRecord.equals(VoxelRecord.EMPTY)) {
+        if (voxelRecord.blocks().isEmpty()) {
             context.pushTransform(PrintedCakeModel::negativeUv);
             MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitBlockQuads(blockView, state, pos, randomSupplier, context);
             context.popTransform();
@@ -302,16 +303,20 @@ public class MadeVoxelModel implements CustomBlockModel {
         NbtCompound blockEntityNbt = BlockItem.getBlockEntityNbt(stack);
         if (blockEntityNbt != null) {
             NbtCompound nbtVoxelRecord = blockEntityNbt.getCompound("voxelRecord");
-            NBT2MODEL.get(nbtVoxelRecord).emitItemQuads(stack, randomSupplier, context);
-            //if (NBT2MODEL.containsKey(nbtVoxelRecord)) {
-            //} else {
-            //    VoxelRecord voxelRecord = VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord);
-            //    if (VoxelRecord.EMPTY.equals(voxelRecord)) {
-            //        context.pushTransform(PrintedCakeModel::negativeUv);
-            //        MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitItemQuads(stack, randomSupplier, context);
-            //        context.popTransform();
-            //    }
-            //}
+            if (NBT2MODEL.containsKey(nbtVoxelRecord)) {
+                NBT2MODEL.get(nbtVoxelRecord).emitItemQuads(stack, randomSupplier, context);
+            } else {
+                VoxelRecord voxelRecord = VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord);
+                if (voxelRecord.blocks().isEmpty()) {
+                    context.pushTransform(PrintedCakeModel::negativeUv);
+                    MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState()).emitItemQuads(stack, randomSupplier, context);
+                    context.popTransform();
+                } else {
+                    BakedModel model = toBakedModel(voxelRecord);
+                    NBT2MODEL.put(nbtVoxelRecord, model);
+                    model.emitItemQuads(stack, randomSupplier, context);
+                }
+            }
         }
     }
 }

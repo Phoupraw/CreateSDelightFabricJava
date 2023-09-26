@@ -1,19 +1,37 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "key": {
-    "A": {
+  "ingredients": [
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
+      "item": "create:bar_of_chocolate"
+    },
+    {
       "item": "create:bar_of_chocolate"
     }
-  },
-  "pattern": [
-    "AAA",
-    "AAA",
-    "AAA"
   ],
   "result": {
     "count": 3,
     "item": "createsdelight:chocolate_block"
-  },
-  "show_notification": true
+  }
 }

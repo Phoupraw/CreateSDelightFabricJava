@@ -2,83 +2,18 @@
   "variants": {
     "": [
       {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 0,
-        "y": 0
+        "model": "createsdelight:block/wheat_cake_base_block"
       },
       {
         "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 90,
-        "y": 0
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 180,
-        "y": 0
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 270,
-        "y": 0
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 0,
         "y": 90
       },
       {
         "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 90,
-        "y": 90
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 180,
-        "y": 90
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 270,
-        "y": 90
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 0,
         "y": 180
       },
       {
         "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 90,
-        "y": 180
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 180,
-        "y": 180
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 270,
-        "y": 180
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 0,
-        "y": 270
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 90,
-        "y": 270
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 180,
-        "y": 270
-      },
-      {
-        "model": "createsdelight:block/wheat_cake_base_block",
-        "x": 270,
         "y": 270
       }
     ]

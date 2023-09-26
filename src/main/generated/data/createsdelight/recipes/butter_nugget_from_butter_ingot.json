@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "createsdelight:butter_ingot"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "createsdelight:butter_nugget"
+  }
+}

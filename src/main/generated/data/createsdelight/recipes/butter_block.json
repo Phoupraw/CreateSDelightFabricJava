@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    },
+    {
+      "item": "createsdelight:butter_ingot"
+    }
+  ],
+  "result": {
+    "item": "createsdelight:butter_block"
+  }
+}

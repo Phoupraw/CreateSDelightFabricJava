@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_glazed_terracotta",
   "textures": {
-    "pattern": "createsdelight:block/cream"
+    "pattern": "createsdelight:block/butter_block"
   }
 }

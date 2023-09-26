@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 9,
+  "ingredient": {
+    "item": "createsdelight:butter_block"
+  },
+  "result": "createsdelight:butter_ingot"
+}

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "createsdelight:block/butter_block"
+      },
+      {
+        "model": "createsdelight:block/butter_block",
+        "y": 90
+      },
+      {
+        "model": "createsdelight:block/butter_block",
+        "y": 180
+      },
+      {
+        "model": "createsdelight:block/butter_block",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/template_glazed_terracotta",
   "textures": {
-    "all": "createsdelight:block/apple_jam"
+    "pattern": "createsdelight:block/apple_jam"
   }
 }

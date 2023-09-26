@@ -5,12 +5,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 import java.util.*;
 
 public class IdentityWeakHashMap<K, V> extends AbstractMap<K, V> {
     public final Map<Reference<K>, V> backMap = new HashMap<>();
     public final ReferenceQueue<Object> refQueue = new ReferenceQueue<>();
+    public int gc = 0;
     @Override
     public int size() {
         return backMap.size();
@@ -21,7 +21,7 @@ public class IdentityWeakHashMap<K, V> extends AbstractMap<K, V> {
     }
     @Override
     public boolean containsKey(Object key) {
-        return backMap.containsKey(new IdWeakRef<>(key, refQueue));
+        return backMap.containsKey(new IdentityWeakReference<>(key, refQueue));
     }
     @Override
     public boolean containsValue(Object value) {
@@ -29,25 +29,31 @@ public class IdentityWeakHashMap<K, V> extends AbstractMap<K, V> {
     }
     @Override
     public V get(Object key) {
-        while (true) {
-            var ref = refQueue.poll();
-            if (ref == null) break;
-            backMap.remove(ref);
-        }
-        return backMap.get(new IdWeakRef<>(key, refQueue));
+        return backMap.get(new IdentityWeakReference<>(key, refQueue));
     }
     @Nullable
     @Override
     public V put(K key, V value) {
-        return backMap.put(new IdWeakRef<>(key, refQueue), value);
+        while (refQueue.poll() != null) {
+            gc++;
+        }
+        if (gc > size() / 2) {
+            Map<K, V> temp = new HashMap<>(this);
+            this.clear();
+            this.putAll(temp);
+        }
+        return backMap.put(new IdentityWeakReference<>(key, refQueue), value);
     }
     @Override
     public V remove(Object key) {
-        return backMap.remove(new IdWeakRef<>(key, refQueue));
+        return backMap.remove(new IdentityWeakReference<>(key, refQueue));
     }
     @Override
     public void clear() {
         backMap.clear();
+        //noinspection StatementWithEmptyBody
+        while (refQueue.poll() != null) ;
+        gc = 0;
     }
     @NotNull
     @Override
@@ -124,18 +130,5 @@ public class IdentityWeakHashMap<K, V> extends AbstractMap<K, V> {
                 return o instanceof Map.Entry<?, ?> entry && IdentityWeakHashMap.this.remove(entry.getKey(), entry.getValue());
             }
         };
-    }
-    public static class IdWeakRef<T> extends WeakReference<T> {
-        public IdWeakRef(T obj, ReferenceQueue<? super T> refQueue) {
-            super(obj, refQueue);
-        }
-        @Override
-        public boolean equals(Object o) {
-            return o instanceof IdentityWeakHashMap.IdWeakRef<?> that && this.get() == that.get();
-        }
-        @Override
-        public int hashCode() {
-            return System.identityHashCode(get());
-        }
     }
 }

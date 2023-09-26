@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/template_glazed_terracotta",
   "textures": {
-    "all": "createsdelight:block/wheat_cake_base_block"
+    "pattern": "createsdelight:block/wheat_cake_base_block"
   }
 }

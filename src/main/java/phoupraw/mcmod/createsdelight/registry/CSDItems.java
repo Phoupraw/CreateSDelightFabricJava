@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
@@ -80,9 +81,9 @@ public final class CSDItems {
         try {
             for (var entry : MadeVoxels.PREDEFINED.entrySet()) {
                 NbtCompound blockEntityTag = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
-                ItemStack itemStack = PRINTED_CAKE.getDefaultStack();
-                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.PRINTED_CAKE, blockEntityTag);
-                itemStack.setCustomName(Text.translatable(MadeVoxels.getTranslationKey(entry.getKey())));
+                ItemStack itemStack = MADE_VOXEL.getDefaultStack();
+                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityTag);
+                itemStack.setCustomName(Text.translatable(MadeVoxels.getTranslationKey(entry.getKey())).setStyle(Style.EMPTY.withItalic(false)));
                 entries.add(itemStack);
             }
         } catch (CommandSyntaxException e) {

@@ -12,8 +12,8 @@
               "ops": [
                 {
                   "op": "replace",
-                  "source": "{}",
-                  "target": "BlockEntityTag"
+                  "source": "voxelRecord",
+                  "target": "BlockEntityTag.voxelRecord"
                 }
               ],
               "source": "block_entity"

@@ -13,6 +13,10 @@
   "processingTime": 600,
   "results": [
     {
+      "count": 5,
+      "item": "createsdelight:butter_nugget"
+    },
+    {
       "amount": 27000,
       "fluid": "minecraft:water"
     },
