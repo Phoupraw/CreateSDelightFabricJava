@@ -43,10 +43,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
-    public static final ThreadPoolExecutor EXECUTOR = new UnorderedThreadPoolEventExecutor(8);
+    public static final ThreadPoolExecutor EXECUTOR = new UnorderedThreadPoolEventExecutor(Runtime.getRuntime().availableProcessors());
     @Deprecated
     public static final Cache<VoxelRecord, VoxelShape> SHAPES = CacheBuilder.newBuilder().weakKeys().build();
-    public static final Cache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().weakKeys().build();
+    public static final Cache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().weakKeys().maximumSize(Long.MAX_VALUE).build();
     @Deprecated
     public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), MadeVoxelBlock::loadShape);
     @Deprecated
@@ -63,6 +63,15 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             rotated = VoxelShapes.union(rotated, VoxelShapes.cuboid(rotate(box, origin, target)));
         }
         return rotated;
+    }
+    @Contract(pure = true)
+    public static VoxelShape rotateParallel(VoxelShape shape, Direction origin, Direction target) {
+        if (target == origin) return shape;
+        if (shape.isEmpty()) return shape;
+        return shape.getBoundingBoxes()
+          .parallelStream()
+          .map(box -> VoxelShapes.cuboid(rotate(box, origin, target)))
+          .reduce(VoxelShapes.empty(), VoxelShapes::union);
     }
     /**
      根据两点分布把小数取整。
@@ -225,18 +234,15 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
                 Direction facing = state.get(FACING);
                 var shapes = FACING_SHAPES.getIfPresent(voxelRecord);
                 if (shapes == null) {
-                    synchronized (voxelRecord) {
-                        if (!FACING_SHAPES.asMap().containsKey(voxelRecord)) {
-                            FACING_SHAPES.put(voxelRecord, Collections.emptyMap());
-                            EXECUTOR.execute(() -> {
-                                Map<Direction, VoxelShape> shapes1 = new EnumMap<>(Direction.class);
-                                shapes1.put(PrintedCakeBlock.defaultFacing(), toShape(voxelRecord));
-                                FACING_SHAPES.put(voxelRecord, shapes1);
-                            });
-                        }
-                    }
-                } else if (shapes != Collections.EMPTY_MAP) {
-                    shape = rotate(shapes.get(PrintedCakeBlock.defaultFacing()), PrintedCakeBlock.defaultFacing(), facing);
+                    shapes = new EnumMap<>(Direction.class);
+                    shapes.put(PrintedCakeBlock.defaultFacing(), toShape(voxelRecord));
+                    FACING_SHAPES.put(voxelRecord, shapes);
+                    CreateSDelight.LOGGER.debug("MadeVoxelBlock.getCollisionShape pos=" + pos);
+                    CreateSDelight.LOGGER.debug("MadeVoxelBlock.getCollisionShape FACING_SHAPES.size()=" + FACING_SHAPES.size());
+                }
+                shape = shapes.get(facing);
+                if (shape == null) {
+                    shape = rotateParallel(shapes.get(PrintedCakeBlock.defaultFacing()), PrintedCakeBlock.defaultFacing(), facing);
                     shapes.put(facing, shape);
                 }
             }

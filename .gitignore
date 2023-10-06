@@ -45,3 +45,4 @@ src/main/generated/.cache/
 /lib/protostuff-runtime-1.7.4.jar
 /lib/protostuff-runtime-1.7.4-javadoc.jar
 /lib/protostuff-runtime-1.7.4-sources.jar
+/.profileconfig.json
