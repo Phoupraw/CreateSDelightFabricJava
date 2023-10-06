@@ -61,9 +61,11 @@ public final class BlockFoods {
         BLOCK.put(Blocks.HONEY_BLOCK, LinearFoodBehaviour.of(ITEM.get(Items.HONEY_BOTTLE), 1.0 / 4));
         BLOCK.put(CSDBlocks.CHOCOLATE_BLOCK, LinearFoodBehaviour.of(ITEM.get(AllItems.BAR_OF_CHOCOLATE.get()), 1.0 / 3));
         BLOCK.put(CSDBlocks.WHEAT_CAKE_BASE_BLOCK, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.BREAD), 5.0 * 3 / 2)));
-        BLOCK.put(CSDBlocks.CREAM, LinearFoodBehaviour.of(ITEM.get(Items.MILK_BUCKET), 1));
+        var cream = LinearFoodBehaviour.of(ITEM.get(Items.MILK_BUCKET), 1);
+        BLOCK.put(CSDBlocks.CREAM, cream);
         BLOCK.put(CSDBlocks.APPLE_JAM, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.APPLE), 9.0), Pair.of(ITEM.get(Items.SUGAR), 1.5)));
         BLOCK.put(CSDBlocks.WHEAT_PASTE, LinearFoodBehaviour.linear(Pair.of(ITEM.get(Items.BREAD), 5.0 * 3 / 2 * 8 / 9)));
+        BLOCK.put(CSDBlocks.BUTTER_BLOCK, cream.mul(2));
     }
     private BlockFoods() {}
 }

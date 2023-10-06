@@ -67,15 +67,15 @@ public class LinearFoodBehaviour implements FoodBehaviour {
         this.duration = duration;
     }
     @Override
-    public double getHunger(double cubicMeters) {
+    public double getHunger(VoxelRecord voxelRecord, double cubicMeters) {
         return hunger * cubicMeters;
     }
     @Override
-    public double getSaturation(double cubicMeters) {
+    public double getSaturation(VoxelRecord voxelRecord, double cubicMeters) {
         return saturation * cubicMeters;
     }
     @Override
-    public double getHungerSurpass(double cubicMeters) {
+    public double getHungerSurpass(VoxelRecord voxelRecord, double cubicMeters) {
         return hungerSurpass * cubicMeters;
     }
     @Override
@@ -90,7 +90,9 @@ public class LinearFoodBehaviour implements FoodBehaviour {
     public void applyExtra(PlayerEntity player) {
 
     }
-
+    public LinearFoodBehaviour mul(double factor) {
+        return new LinearFoodBehaviour(hunger * factor, saturation * factor, hungerSurpass * factor, duration * factor);
+    }
     @Override
     public String toString() {
         return "LinearFoodBehaviour[" +

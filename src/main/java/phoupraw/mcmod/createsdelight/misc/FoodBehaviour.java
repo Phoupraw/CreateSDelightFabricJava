@@ -9,10 +9,17 @@ import org.jetbrains.annotations.UnmodifiableView;
 import java.util.Map;
 
 public interface FoodBehaviour {
-    double getHunger(double cubicMeters);
-    double getSaturation(double cubicMeters);
-    double getHungerSurpass(double cubicMeters);
-    double getDuration(double cubicMeters);
-    @UnmodifiableView Map<StatusEffect, Pair<StatusEffectInstance, Double>> getStatusEffects(double cubicMeters);
-    void applyExtra(PlayerEntity player);
+    double getHunger(VoxelRecord voxelRecord, double cubicMeters);
+    double getSaturation(VoxelRecord voxelRecord, double cubicMeters);
+    double getHungerSurpass(VoxelRecord voxelRecord, double cubicMeters);
+    default double getDuration(double cubicMeters) {
+        return 0;
+    }
+    @UnmodifiableView
+    default Map<StatusEffect, Pair<StatusEffectInstance, Double>> getStatusEffects(double cubicMeters) {
+        return Map.of();
+    }
+    default void applyExtra(PlayerEntity player) {
+
+    }
 }

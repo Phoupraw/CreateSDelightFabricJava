@@ -11,6 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import phoupraw.mcmod.createsdelight.fluid.VirtualFluid;
 
 /**
  * 快捷创建虚拟流体及其相关静态方法。

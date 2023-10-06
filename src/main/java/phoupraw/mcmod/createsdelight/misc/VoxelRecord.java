@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-public record VoxelRecord(Map<BlockPos, Block> blocks/*TODO 键改成Block*/, Vec3i size, BlockBox boundary) {
+public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boundary) {
     public static final BlockBox EMPTY_BOX = BlockBox.create(Vec3i.ZERO, Vec3i.ZERO);
     public static final VoxelRecord EMPTY = new VoxelRecord(Map.of(), Vec3i.ZERO, EMPTY_BOX);
     public static VoxelRecord of(Map<BlockPos, Block> blocks, Vec3i size) {

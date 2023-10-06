@@ -1,5 +1,9 @@
 package phoupraw.mcmod.createsdelight.block;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.block.*;
@@ -26,6 +30,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
@@ -38,16 +43,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
+    public static final Cache<VoxelRecord, VoxelShape> SHAPES = CacheBuilder.newBuilder().weakKeys().build();
+    public static final LoadingCache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().build(CacheLoader.from(() -> new EnumMap<>(Direction.class)));
+    @Deprecated
     public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), MadeVoxelBlock::loadShape);
-    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> {
-        VoxelShape shape = MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord);
-        if (facing == PrintedCakeBlock.defaultFacing()) return shape;
+    @Deprecated
+    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> rotate(MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord), PrintedCakeBlock.defaultFacing(), facing)));
+    /**
+     绕y轴旋转
+     */
+    @Contract(pure = true)
+    public static VoxelShape rotate(VoxelShape shape, Direction origin, Direction target) {
+        if (target == origin) return shape;
+        if (shape.isEmpty()) return shape;
         VoxelShape rotated = VoxelShapes.empty();
         for (Box box : shape.getBoundingBoxes()) {
-            rotated = VoxelShapes.union(rotated, VoxelShapes.cuboid(rotate(box, facing)));
+            rotated = VoxelShapes.union(rotated, VoxelShapes.cuboid(rotate(box, origin, target)));
         }
         return rotated;
-    }));
+    }
     /**
      根据两点分布把小数取整。
      <table border="1">
@@ -81,6 +95,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public static int getVolumn(BlockBox a) {
         return a.getBlockCountX() * a.getBlockCountY() * a.getBlockCountZ();
     }
+    @Contract(pure = true)
     public static VoxelShape toShape(VoxelRecord voxelRecord) {
         Vec3i size = voxelRecord.size();
         int x0 = size.getX();
@@ -163,8 +178,12 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         Thread.yield();
         return VoxelShapes.empty();
     }
-    public static Box rotate(Box box, Direction facing) {
-        double angle = (facing.getHorizontal() - PrintedCakeBlock.defaultFacing().getHorizontal()) * Math.PI / 2;
+    /**
+     绕y轴旋转
+     */
+    @Contract(pure = true)
+    public static Box rotate(Box box, Direction origin, Direction target) {
+        double angle = (target.getHorizontal() - origin.getHorizontal()) * Math.PI / 2;
         var min = new Vector3d()
           .set(box.minX - 0.5, box.minY, box.minZ - 0.5)
           .rotateY(angle)
@@ -201,7 +220,23 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         if (blockEntity != null) {
             VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
             if (voxelRecord != null) {
-                shape = FACING_SHAPE_CACHE.get(voxelRecord).get(state.get(FACING));
+                Direction facing = state.get(FACING);
+                shape = FACING_SHAPES.getUnchecked(voxelRecord).get(facing);
+                if (shape == null) {
+                    shape = SHAPES.getIfPresent(voxelRecord);
+                    if (shape == null) {
+                        shape = VoxelShapes.empty();
+                        SHAPES.put(voxelRecord, shape);
+                        new Thread(() -> {
+                            SHAPES.put(voxelRecord, toShape(voxelRecord));
+                            FACING_SHAPES.invalidate(voxelRecord);
+                        }).start();
+                        Thread.yield();
+                    } else {
+                        shape = rotate(shape, PrintedCakeBlock.defaultFacing(), facing);
+                        FACING_SHAPES.getUnchecked(voxelRecord).put(facing, shape);
+                    }
+                }
             }
         }
         return shape;
@@ -211,7 +246,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         HungerManager hungerManager = player.getHungerManager();
         int playerHunger = hungerManager.getFoodLevel();
-        if (playerHunger >= 20) return ActionResult.FAIL;
+        if (playerHunger >= 20) return ActionResult.CONSUME;//本来是要返回FAIL的，但是返回FAIL竟然不会阻止后续右键，我服了，这是什么时候有的bug？
         if (world.isClient()) return ActionResult.CONSUME;
         MadeVoxelBlockEntity blockEntity = getBlockEntity(world, pos);
         if (blockEntity == null) return ActionResult.FAIL;
@@ -232,24 +267,44 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         }
         Map<BlockPos, Block> newBlocks = new HashMap<>(voxelRecord.blocks());
         var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
-        double hunger = 0;
-        double saturation = 0;
-        double cubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
+
+        double voxelCubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
         boolean looped = false;
-        double scale = 1;
         Set<Block> eatenBlocks = new HashSet<>();
+        Map<FoodBehaviour, Double> eatenFoods = new ConstDefaultedMap<>(new HashMap<>(), 0.0);
         for (var entry : sortedBlocks) {
-            if (hunger >= 1) break;
+            looped = true;
             Block block = entry.getValue();
             FoodBehaviour foodBehaviour = BlockFoods.BLOCK.get(block);
-            hunger += foodBehaviour.getHunger(cubicMeters) * scale;
-            saturation += foodBehaviour.getSaturation(cubicMeters) * scale;
             eatenBlocks.add(block);
+            eatenFoods.put(foodBehaviour, eatenFoods.get(foodBehaviour) + voxelCubicMeters);
             newBlocks.remove(entry.getKey());
-            looped = true;
+            double hunger = 0;
+            for (Map.Entry<FoodBehaviour, Double> e : eatenFoods.entrySet()) {
+                FoodBehaviour food = e.getKey();
+                Double cubicMeters = e.getValue();
+                hunger += food.getHunger(voxelRecord, cubicMeters);
+            }
+            if (hunger >= 1) break;
         }
-        if (!looped) return ActionResult.FAIL;
-        hungerManager.add((int) twoPoint(hunger), (float) (saturation / hunger / 2));
+        if (!looped) return ActionResult.CONSUME;
+        double hunger = 0;
+        double saturation = 0;
+        double hungerSurpass = 0;
+        for (Map.Entry<FoodBehaviour, Double> e : eatenFoods.entrySet()) {
+            FoodBehaviour food = e.getKey();
+            Double cubicMeters = e.getValue();
+            hunger += food.getHunger(voxelRecord, cubicMeters);
+            saturation += food.getSaturation(voxelRecord, cubicMeters);
+            hungerSurpass += food.getHungerSurpass(voxelRecord, cubicMeters);
+        }
+        double newHunger = hungerManager.getFoodLevel() + hunger;
+        double surpassHunger = hungerSurpass - (Math.min(20, newHunger + hungerSurpass) - newHunger);
+        newHunger += surpassHunger;
+        hungerSurpass -= surpassHunger;
+        hungerManager.setFoodLevel((int) twoPoint(newHunger));
+        double newSaturation = Math.min(newHunger, hungerManager.getSaturationLevel() + saturation + hungerSurpass);
+        hungerManager.setSaturationLevel((float) newSaturation);
         world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5f, 1);
         boolean burp = !hungerManager.isNotFull();
         if (newBlocks.isEmpty()) {
@@ -298,4 +353,9 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         super.appendProperties(builder);
         builder.add(FACING);
     }
+    //@Override
+    //public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    //
+    //    return super.canPlaceAt(state, world, pos);
+    //}
 }

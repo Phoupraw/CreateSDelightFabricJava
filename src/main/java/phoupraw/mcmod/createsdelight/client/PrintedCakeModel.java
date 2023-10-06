@@ -107,7 +107,7 @@ public class PrintedCakeModel implements CustomBlockModel {
             }
         }
         //noinspection ConstantConditions
-        return SimpleBlockBakedModel.of(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
+        return new SimpleBlockBakedModel(faces2quads, FluidVariantRendering.getSprite(FluidVariant.of(Milk.STILL_MILK)));
     }
     public static Table<CakeIngredient, Direction, Collection<Box>> content2faces(VoxelCake cake, Direction facing) {
         Table<CakeIngredient, Direction, Collection<BlockBox>> faceContent0 = HashBasedTable.create(cake.getContent().size(), Direction.values().length);

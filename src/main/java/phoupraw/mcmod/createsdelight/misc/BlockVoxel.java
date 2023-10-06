@@ -5,7 +5,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
 import java.util.Map;
-
+@Deprecated
 public class BlockVoxel {
     public final Vec3i size;
     public final Map<BlockPos, BlockState> blocks;

@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.misc;
 
 import net.minecraft.item.Item;
+import phoupraw.mcmod.createsdelight.fluid.VirtualFluid;
 
 /**
  * @since 1.0.0

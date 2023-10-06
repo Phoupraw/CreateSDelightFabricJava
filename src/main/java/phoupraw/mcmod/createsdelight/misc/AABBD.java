@@ -1,5 +1,5 @@
 package phoupraw.mcmod.createsdelight.misc;
-
+@Deprecated
 public interface AABBD {
     double x1();
     double y1();

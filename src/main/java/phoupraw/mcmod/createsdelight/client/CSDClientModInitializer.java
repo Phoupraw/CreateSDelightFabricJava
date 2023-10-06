@@ -62,8 +62,9 @@ public final class CSDClientModInitializer implements ClientModInitializer {
                   .completedFuture(null)
                   .thenCompose(synchronizer::whenPrepared)
                   .thenRunAsync(() -> {
-                      MadeVoxelModel.VOXEL2MODEL.clear();
                       MadeVoxelModel.NBT2MODEL.clear();
+                      MadeVoxelModel.SPRITES.clear();
+                      MadeVoxelModel.VOXEL_2_MODEL.invalidateAll();
                   }, applyExecutor);
             });
         });

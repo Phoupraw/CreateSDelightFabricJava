@@ -15,7 +15,7 @@ import phoupraw.mcmod.createsdelight.client.CSDClientModInitializer;
 import phoupraw.mcmod.createsdelight.datagen.CSDRecipeProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
-import phoupraw.mcmod.createsdelight.misc.ThickStaticFluid;
+import phoupraw.mcmod.createsdelight.fluid.ThickStaticFluid;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 
 /**

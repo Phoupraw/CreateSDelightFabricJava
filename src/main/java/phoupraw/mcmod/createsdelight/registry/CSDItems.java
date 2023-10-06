@@ -91,10 +91,10 @@ public final class CSDItems {
         }
         for (Item item : new Item[]{
           /*机器*/VOXEL_MAKER,
-          /*方块*/CHOCOLATE_BLOCK, WHEAT_CAKE_BASE_BLOCK,
+          /*方块*/CHOCOLATE_BLOCK, WHEAT_CAKE_BASE_BLOCK, BUTTER_BLOCK,
           /*类细雪桶*/BUCKETED_APPLE_JAM, BUCKETED_WHEAT_PASTE, BUCKETED_CREAM,
           /*虚拟流体*/BUCKETED_EGG_LIQUID,
-          /*材料*/EGG_SHELL, KELP_ASH}) {
+          /*材料*/EGG_SHELL, KELP_ASH, BUTTER_INGOT, BUTTER_NUGGET}) {
             entries.add(item);
         }
     }

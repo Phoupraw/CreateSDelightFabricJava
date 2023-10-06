@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.InjectionPoint;
 import java.util.Collection;
 
 //@InjectionPoint.AtCode(namespace = CreateSDelight.MOD_ID,value = "instanceof")
-//TODO
+@Deprecated
 public class BeforeInstanceOf extends InjectionPoint {
     @Override
     public boolean find(String desc, InsnList insns, Collection<AbstractInsnNode> nodes) {

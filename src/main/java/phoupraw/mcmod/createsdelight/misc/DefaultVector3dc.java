@@ -7,7 +7,7 @@ import sun.misc.Unsafe;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
-
+@Deprecated
 public interface DefaultVector3dc extends Vector3dc {
     static Unsafe unsafe() {
         return Unsafe.getUnsafe();

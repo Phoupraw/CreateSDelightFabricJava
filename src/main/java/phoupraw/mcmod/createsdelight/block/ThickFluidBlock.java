@@ -28,10 +28,6 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
         super(settings);
     }
     /**
-     @param state
-     @param world
-     @param pos
-     @param entity
      @see PowderSnowBlock#onEntityCollision(BlockState, World, BlockPos, Entity)
      */
     @SuppressWarnings("deprecation")
@@ -42,11 +38,6 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
         }
     }
     /**
-     @param world
-     @param state
-     @param pos
-     @param entity
-     @param fallDistance
      @see PowderSnowBlock#onLandedUpon(World, BlockState, BlockPos, Entity, float)
      */
     @Override
@@ -58,11 +49,6 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
         }
     }
     /**
-     @param state
-     @param world
-     @param pos
-     @param context
-     @return
      @see PowderSnowBlock#getCollisionShape
      */
     @SuppressWarnings("deprecation")
@@ -82,11 +68,6 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
         return VoxelShapes.empty();
     }
     /**
-     @param state
-     @param world
-     @param pos
-     @param context
-     @return
      @see PowderSnowBlock#getCameraCollisionShape
      */
     @SuppressWarnings("deprecation")
@@ -95,10 +76,6 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
         return VoxelShapes.empty();
     }
     /**
-     @param state
-     @param stateFrom
-     @param direction
-     @return
      @see PowderSnowBlock#isSideInvisible
      */
     @SuppressWarnings("deprecation")
@@ -107,10 +84,6 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
         return /*stateFrom.isOf(this) || */super.isSideInvisible(state, stateFrom, direction);
     }
     /**
-     @param state
-     @param world
-     @param pos
-     @return
      @see PowderSnowBlock#getCullingShape
      */
     @SuppressWarnings("deprecation")
