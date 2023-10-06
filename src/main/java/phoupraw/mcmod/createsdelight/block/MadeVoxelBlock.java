@@ -2,10 +2,9 @@ package phoupraw.mcmod.createsdelight.block;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
+import io.netty.util.concurrent.UnorderedThreadPoolEventExecutor;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -40,11 +39,14 @@ import phoupraw.mcmod.createsdelight.misc.*;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
+    public static final ThreadPoolExecutor EXECUTOR = new UnorderedThreadPoolEventExecutor(8);
+    @Deprecated
     public static final Cache<VoxelRecord, VoxelShape> SHAPES = CacheBuilder.newBuilder().weakKeys().build();
-    public static final LoadingCache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().weakKeys().build(CacheLoader.from(() -> new EnumMap<>(Direction.class)));
+    public static final Cache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().weakKeys().build();
     @Deprecated
     public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), MadeVoxelBlock::loadShape);
     @Deprecated
@@ -221,21 +223,21 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
             if (voxelRecord != null) {
                 Direction facing = state.get(FACING);
-                shape = FACING_SHAPES.getUnchecked(voxelRecord).get(facing);
-                if (shape == null) {
-                    shape = SHAPES.getIfPresent(voxelRecord);
-                    if (shape == null) {
-                        shape = VoxelShapes.empty();
-                        SHAPES.put(voxelRecord, shape);
-                        new Thread(() -> {
-                            SHAPES.put(voxelRecord, toShape(voxelRecord));
-                            FACING_SHAPES.invalidate(voxelRecord);
-                        }).start();
-                        Thread.yield();
-                    } else {
-                        shape = rotate(shape, PrintedCakeBlock.defaultFacing(), facing);
-                        FACING_SHAPES.getUnchecked(voxelRecord).put(facing, shape);
+                var shapes = FACING_SHAPES.getIfPresent(voxelRecord);
+                if (shapes == null) {
+                    synchronized (voxelRecord) {
+                        if (!FACING_SHAPES.asMap().containsKey(voxelRecord)) {
+                            FACING_SHAPES.put(voxelRecord, Collections.emptyMap());
+                            EXECUTOR.execute(() -> {
+                                Map<Direction, VoxelShape> shapes1 = new EnumMap<>(Direction.class);
+                                shapes1.put(PrintedCakeBlock.defaultFacing(), toShape(voxelRecord));
+                                FACING_SHAPES.put(voxelRecord, shapes1);
+                            });
+                        }
                     }
+                } else if (shapes != Collections.EMPTY_MAP) {
+                    shape = rotate(shapes.get(PrintedCakeBlock.defaultFacing()), PrintedCakeBlock.defaultFacing(), facing);
+                    shapes.put(facing, shape);
                 }
             }
         }
