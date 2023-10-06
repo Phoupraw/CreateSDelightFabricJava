@@ -14,7 +14,7 @@ import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 public class MadeVoxelBlockEntity extends SyncedBlockEntity {
     static {
-        CreateSDelight.LOGGER.info("MadeVoxelBlockEntity.<clinit> BlockFoods.BLOCK=" + BlockFoods.BLOCK);
+        CreateSDelight.LOGGER.debug("MadeVoxelBlockEntity.<clinit> BlockFoods.BLOCK=" + BlockFoods.BLOCK);
     }
     public static MadeVoxelBlockEntity of(BlockPos pos, BlockState state) {
         return new MadeVoxelBlockEntity(CSDBlockEntityTypes.MADE_VOXEL, pos, state);

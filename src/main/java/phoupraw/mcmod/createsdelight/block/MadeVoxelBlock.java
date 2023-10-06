@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
     public static final Cache<VoxelRecord, VoxelShape> SHAPES = CacheBuilder.newBuilder().weakKeys().build();
-    public static final LoadingCache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().build(CacheLoader.from(() -> new EnumMap<>(Direction.class)));
+    public static final LoadingCache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().weakKeys().build(CacheLoader.from(() -> new EnumMap<>(Direction.class)));
     @Deprecated
     public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), MadeVoxelBlock::loadShape);
     @Deprecated

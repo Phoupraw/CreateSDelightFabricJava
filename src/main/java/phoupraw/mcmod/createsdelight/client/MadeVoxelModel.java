@@ -29,9 +29,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockRenderView;
-import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -72,12 +70,12 @@ public class MadeVoxelModel implements CustomBlockModel {
         voxels.entrySet().parallelStream().forEach(entry -> {
             BlockPos pos = entry.getKey();
             Block block = entry.getValue();
-            BlockState state = block.getDefaultState();
             for (Direction face : DIRECTIONS) {
                 BlockPos neighborPos = pos.offset(face);
                 if (!voxels.containsKey(neighborPos)) {
                     Sprite sprite = SPRITES.get(block, face);
                     if (sprite == null) {
+                        BlockState state = block.getDefaultState();
                         BakedModel model = MinecraftClient.getInstance().getBlockRenderManager().getModel(state);
                         var iter = model.getQuads(state, face, Random.create(randomSeed)).iterator();
                         if (iter.hasNext()) {
@@ -136,17 +134,17 @@ public class MadeVoxelModel implements CustomBlockModel {
                 quadsCount++;
             }
         }
-        //CreateSDelight.LOGGER.info("MadeVoxelModel.toBakedQuads 一共产生了%d个面".formatted(quadsCount));
+        CreateSDelight.LOGGER.debug("MadeVoxelModel.toBakedQuads 一共产生了%d个面".formatted(quadsCount));
         return cullFace2quads;
     }
-    public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads2(Map<Vec3i, Map<@NotNull Direction, Sprite>> table, Vec3i size) {
+    public static Map<@Nullable Direction, List<BakedQuad>> toBakedQuads2(Table<Vec3i, Direction, Sprite> table, Vec3i size) {
         Comparator<Vector2ic> comparator = Comparator.comparingInt(Vector2ic::x).thenComparingInt(Vector2ic::y);
         Map<@NotNull Direction, @NotNull Map<Sprite, @NotNull Map<Integer, @NotNull SortedSet<Vector2ic>>>> depth2vecs =
           new SupplierDefaultedMap<>(new HashMap<>(),
             () -> new SupplierDefaultedMap<>(new HashMap<>(),
               () -> new SupplierDefaultedMap<>(new HashMap<>(),
                 () -> new TreeSet<>(comparator))));
-        for (var rowEntry : table.entrySet()) {
+        for (var rowEntry : table.rowMap().entrySet()) {
             Vec3i blockPos = rowEntry.getKey();
             Box box = new Box(new BlockPos(blockPos));
             for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
@@ -227,9 +225,6 @@ public class MadeVoxelModel implements CustomBlockModel {
             }
         }
         return cullFace2quads;
-    }
-    public static boolean isValid(BlockState blockState, BlockView world, BlockPos pos) {
-        return blockState.getOutlineShape(world, pos).getBoundingBox().equals(VoxelShapes.fullCube().getBoundingBox()) && !blockState.getCollisionShape(world, pos).isEmpty();
     }
     public static Map<@Nullable Direction, List<BakedQuad>> collect(Mesh mesh) {
         Map<@Nullable Direction, List<BakedQuad>> cullFaces2quads = DefaultedMap.arrayListHashMultimap();
@@ -313,8 +308,11 @@ public class MadeVoxelModel implements CustomBlockModel {
             context.pushTransform(quad -> rotate(quad, rotation));
         }
         long t = System.currentTimeMillis();
-        VOXEL_2_MODEL.getUnchecked(voxelRecord).emitBlockQuads(blockView, state, pos, randomSupplier, context);
-        CreateSDelight.LOGGER.debug("MadeVoxelModel.emitBlockQuads VOXEL_2_MODEL.get.emitBlockQuads运行了%d毫秒".formatted(System.currentTimeMillis() - t));
+        BakedModel model = VOXEL_2_MODEL.getUnchecked(voxelRecord);
+        CreateSDelight.LOGGER.debug("MadeVoxelModel.emitBlockQuads VOXEL_2_MODEL.getUnchecked 运行了%d毫秒".formatted(System.currentTimeMillis() - t));
+        t = System.currentTimeMillis();
+        model.emitBlockQuads(blockView, state, pos, randomSupplier, context);
+        CreateSDelight.LOGGER.debug("MadeVoxelModel.emitBlockQuads model.emitBlockQuads %d ms".formatted(System.currentTimeMillis() - t));
         if (facing != PrintedCakeBlock.defaultFacing()) {
             context.popTransform();
         }
