@@ -130,16 +130,13 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
                     posIterable0s.add(BlockPos.iterate(start, end));
                 }
                 Iterable<BlockPos> posIterable1 = Iterables.concat(posIterable0s);
-                Map<BlockPos, Block> blocks = new HashMap<>();
-                for (BlockPos pos1 : posIterable1) {
-                    if (blocks.containsKey(pos1)) continue;
-                    BlockState blockState = world.getBlockState(pos1);
-                    if (blockState.isAir()) continue;
-                    blocks.put(pos1.subtract(vertex000), blockState.getBlock());
-                    world.setBlockState(pos1, world.getFluidState(pos1).getBlockState(), Block.NOTIFY_NEIGHBORS);
-                }
-                if (!blocks.isEmpty()) {
-                    len1s.put(len1, VoxelRecord.of(blocks, size));
+                var result = VoxelRecord.of(world, vertex000, size, posIterable1);
+                VoxelRecord voxelRecord = result.getLeft();
+                if (!voxelRecord.blocks().isEmpty()) {
+                    for (BlockPos pos1 : result.getRight()) {
+                        world.setBlockState(pos1, world.getFluidState(pos1).getBlockState(), Block.NOTIFY_NEIGHBORS);
+                    }
+                    len1s.put(len1, voxelRecord);
                 }
             }
             if (world.isClient()) {

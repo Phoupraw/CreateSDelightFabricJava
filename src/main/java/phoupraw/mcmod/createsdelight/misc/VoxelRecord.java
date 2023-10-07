@@ -10,6 +10,8 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
@@ -25,6 +27,7 @@ public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boun
     public static final BlockBox EMPTY_BOX = BlockBox.create(Vec3i.ZERO, Vec3i.ZERO);
     public static final VoxelRecord EMPTY = new VoxelRecord(Map.of(), Vec3i.ZERO, EMPTY_BOX);
     public static VoxelRecord of(Map<BlockPos, Block> blocks, Vec3i size) {
+        if (blocks.isEmpty()) return EMPTY;
         return new VoxelRecord(blocks, size, BlockBox.encompassPositions(blocks.keySet()).orElse(EMPTY_BOX));
     }
     public static int compare(BlockState a, BlockState b) {
@@ -42,6 +45,21 @@ public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boun
     }
     public static int compare(Block a, Block b) {
         return CSDRegistries.getId(Registries.BLOCK, a).compareTo(CSDRegistries.getId(Registries.BLOCK, b));
+    }
+    public static Pair<VoxelRecord, Iterable<BlockPos>> of(@NotNull World world, BlockBox bound, Iterable<BlockPos> posIterable) {
+        return of(world, new BlockPos(bound.getMinX(), bound.getMinY(), bound.getMinZ()), new Vec3i(bound.getBlockCountX(), bound.getBlockCountY(), bound.getBlockCountZ()), posIterable);
+    }
+    public static Pair<VoxelRecord, Iterable<BlockPos>> of(@NotNull World world, BlockPos vertex000, Vec3i size, Iterable<BlockPos> posIterable) {
+        Map<BlockPos, Block> blocks = new HashMap<>();
+        Collection<BlockPos> got = new ArrayList<>();
+        for (BlockPos pos : posIterable) {
+            if (blocks.containsKey(pos)) continue;
+            BlockState blockState = world.getBlockState(pos);
+            if (blockState.isAir()) continue;
+            blocks.put(pos.subtract(vertex000), blockState.getBlock());
+            got.add(pos.toImmutable());
+        }
+        return Pair.of(of(blocks, size), got);
     }
     public static VoxelRecord of(@Nullable World world, NbtCompound nbt) {
         Vec3i size = NbtHelper.toBlockPos(nbt.getCompound("size"));
