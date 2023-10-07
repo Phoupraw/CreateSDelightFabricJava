@@ -18,7 +18,6 @@ import phoupraw.mcmod.createsdelight.datagen.CSDRecipeProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDChineseProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
-import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
 import phoupraw.mcmod.createsdelight.item.ThickFluidBucketItem;
 import phoupraw.mcmod.createsdelight.misc.MadeVoxels;
 
@@ -43,7 +42,6 @@ public final class CSDItems {
     public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings());
     public static final BlockItem VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings()));
     public static final BlockItem MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new BlockItem(CSDBlocks.MADE_VOXEL, new FabricItemSettings()));
-    public static final BlockItem PRINTED_CAKE = new PrintedCakeItem();
     //蛋糕材料方块
     public static final BlockItem CHOCOLATE_BLOCK = new BlockItem(CSDBlocks.CHOCOLATE_BLOCK, new FabricItemSettings());
     public static final BlockItem WHEAT_CAKE_BASE_BLOCK = register(CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK, new BlockItem(CSDBlocks.WHEAT_CAKE_BASE_BLOCK, new FabricItemSettings()));
@@ -66,7 +64,7 @@ public final class CSDItems {
       .build();
     static {
         register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
-        register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
+        //register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.EGG_SHELL, EGG_SHELL);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.BUCKETED_EGG_LIQUID, BUCKETED_EGG_LIQUID);

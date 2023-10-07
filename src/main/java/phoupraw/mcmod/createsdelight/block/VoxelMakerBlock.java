@@ -71,10 +71,12 @@ public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlock
     public BlockEntityType<? extends VoxelMakerBlockEntity> getBlockEntityType() {
         return CSDBlockEntityTypes.VOXEL_MAKER;
     }
+    @SuppressWarnings("deprecation")
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
         VoxelMakerBlockEntity be = getBlockEntity(world, pos);
+        if (be == null) return;
         if (world.isReceivingRedstonePower(pos)) {
             if (be.getWorking() == TriState.DEFAULT) {
                 be.setWorking(TriState.TRUE);
@@ -110,7 +112,9 @@ public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlock
     }
     @Override
     public ActionResult onWrenched(BlockState state, ItemUsageContext context) {
-        if (!getBlockEntity(context.getWorld(), context.getBlockPos()).getWorking().get()) {
+        var be = getBlockEntity(context.getWorld(), context.getBlockPos());
+        if (be == null) return ActionResult.FAIL;
+        if (!be.getWorking().get()) {
             return super.onWrenched(state, context);
         }
         return ActionResult.FAIL;

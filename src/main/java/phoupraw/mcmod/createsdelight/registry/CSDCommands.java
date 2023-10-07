@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
@@ -17,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
-import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 
 public final class CSDCommands {
@@ -45,11 +42,11 @@ public final class CSDCommands {
                           BlockPos vertex2 = BlockPosArgumentType.getBlockPos(context, "vertex2");
                           BlockBox bound = BlockBox.create(vertex1, vertex2);
                           ServerWorld world = context.getSource().getWorld();
-                          VoxelCake cake = VoxelCake.of(world, bound);
-                          if (cake == null) return 0;
-                          PlayerEntity player = context.getSource().getPlayer();
-                          if (player == null) return 0;
-                          player.getInventory().offerOrDrop(PrintedCakeItem.of(cake));
+                          //VoxelCake cake = VoxelCake.of(world, bound);
+                          //if (cake == null) return 0;
+                          //PlayerEntity player = context.getSource().getPlayer();
+                          //if (player == null) return 0;
+                          //player.getInventory().offerOrDrop(PrintedCakeItem.of(cake));
                           return 1;
                       } catch (Exception e) {
                           context.getSource().sendError(Text.of(e.toString()));
@@ -80,6 +77,7 @@ public final class CSDCommands {
             }
             StructureTemplate st = new StructureTemplate();
             st.saveFromWorld(sw, BlockPos.ORIGIN, voxelCake.size(), false, null);
+            return 1;
         }
         return 0;
     }

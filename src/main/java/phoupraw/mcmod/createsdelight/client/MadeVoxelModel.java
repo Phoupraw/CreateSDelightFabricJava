@@ -233,8 +233,6 @@ public class MadeVoxelModel implements CustomBlockModel {
         return cullFaces2quads;
     }
     /**
-     @param vector
-     @param rotation
      @see BakedQuadFactory#rotateVertex
      @see BakedQuadFactory#transformVertex(Vector3f, Vector3f, Matrix4f, Vector3f)
      */

@@ -3,11 +3,9 @@ package phoupraw.mcmod.createsdelight;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
-import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
 import phoupraw.mcmod.createsdelight.registry.*;
 
@@ -29,7 +27,7 @@ public final class CreateSDelight {
         VirtualFluids.registerBucketStorage(CSDFluids.WHEAT_PASTE, CSDItems.BUCKETED_WHEAT_PASTE);
         BlockStressDefaults.setDefaultImpact(CSDIdentifiers.CAKE_OVEN, 16);
         BlockStressDefaults.setDefaultImpact(CSDIdentifiers.VOXEL_MAKER, 16);
-        Registry.register(CSDRegistries.PREDEFINED_CAKE, CSDIdentifiers.of("empty"), VoxelCake.empty());
+        //Registry.register(CSDRegistries.PREDEFINED_CAKE, CSDIdentifiers.of("empty"), VoxelCake.empty());
     }
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
@@ -40,6 +38,6 @@ public final class CreateSDelight {
         CSDStatusEffects.SATIATION.hashCode();
 
         //我
-        CSDCakeIngredients.CREAM_BLOCK.hashCode();
+        //CSDCakeIngredients.CREAM_BLOCK.hashCode();
     }
 }
