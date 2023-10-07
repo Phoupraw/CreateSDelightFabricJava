@@ -43,7 +43,6 @@ import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.IdentityWeakHashMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
-import phoupraw.mcmod.createsdelight.mixin.ALocalRandom;
 
 import java.lang.Math;
 import java.util.*;
@@ -112,7 +111,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         return table;
     }
     public static Table<Vec3i, Direction, Sprite> toCullFaces(Map<BlockPos, Block> voxels, Vec3i size, Supplier<Random> randomSupplier) {
-        long seed = randomSupplier.get() instanceof ALocalRandom localRandom ? localRandom.getSeed() : 1;
+        long seed =/* randomSupplier.get() instanceof ALocalRandom localRandom ? localRandom.getSeed() :*/ 1;//FIXME 机械动力混淆表冲突导致原版类mixin无法正常生效
         return toCullFaces(voxels, size, seed);
     }
     public static ListMultimap<@Nullable Direction, BakedQuad> toBakedQuads(Table<Vec3i, Direction, Sprite> table, Vec3i size) {
