@@ -9,8 +9,6 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
-import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
-import phoupraw.mcmod.createsdelight.registry.CSDBlocks;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
 
 import java.util.Map;
@@ -23,14 +21,14 @@ public class PrintedCakeItem extends BlockItem {
         ItemStack itemStack = CSDItems.PRINTED_CAKE.getDefaultStack();
         NbtCompound blockEntityTag = new NbtCompound();
         blockEntityTag.put("voxelCake", voxelCake.toNbt());
-        BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.PRINTED_CAKE, blockEntityTag);
+        BlockItem.setBlockEntityNbt(itemStack, null, blockEntityTag);
         return itemStack;
     }
     public static String getTranslationKey(String cakeName) {
         return CSDItems.PRINTED_CAKE.getTranslationKey() + "." + cakeName;
     }
     public PrintedCakeItem() {
-        this(CSDBlocks.PRINTED_CAKE, new FabricItemSettings());
+        this(null, new FabricItemSettings());
     }
     public PrintedCakeItem(Block block, Settings settings) {
         super(block, settings);

@@ -10,7 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
-
+@Deprecated
 public final class CSDCakeIngredients {
 
     public static final BiMap<Block, CakeIngredient> BLOCK = HashBiMap.create();

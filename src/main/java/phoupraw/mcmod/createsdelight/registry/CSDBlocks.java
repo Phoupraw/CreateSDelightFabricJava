@@ -13,7 +13,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import phoupraw.mcmod.createsdelight.block.*;
+import phoupraw.mcmod.createsdelight.block.MadeVoxelBlock;
+import phoupraw.mcmod.createsdelight.block.ThickFluidBlock;
+import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
 import phoupraw.mcmod.createsdelight.client.CSDClientModInitializer;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockTagProvider;
@@ -41,11 +43,14 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
  </ol>
  @see CSDBlockEntityTypes */
 public final class CSDBlocks {
-    //机器
-    public static final Block CAKE_OVEN = new CakeOvenBlock();
     public static final Block VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new VoxelMakerBlock(FabricBlockSettings.copyOf(AllBlocks.BRASS_CASING.get())));
-    public static final Block MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new MadeVoxelBlock(FabricBlockSettings.create().solid().nonOpaque().dynamicBounds().breakInstantly().sounds(BlockSoundGroup.WOOL).mapColor(MapColor.WHITE)));
-    public static final Block PRINTED_CAKE = new PrintedCakeBlock();
+    public static final Block MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new MadeVoxelBlock(FabricBlockSettings.create()
+      .solid()
+      .nonOpaque()
+      .dynamicBounds()
+      .breakInstantly()
+      .sounds(BlockSoundGroup.WOOL)
+      .mapColor(MapColor.WHITE)));
     //细雪
     public static final Block CREAM = new ThickFluidBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
     public static final Block APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM).mapColor(MapColor.RED)));
@@ -56,8 +61,8 @@ public final class CSDBlocks {
     public static final Block BUTTER_BLOCK = register(CSDIdentifiers.BUTTER_BLOCK, new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.YELLOW).sounds(BlockSoundGroup.CANDLE)));
     //TODO 糖块、苹果酱块、胡萝卜酱块、土豆泥块、甜浆果酱块、发光浆果块、甜菜汁块、
     static {
-        register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
-        register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
+        //register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
+        //register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.CREAM, CREAM);
     }

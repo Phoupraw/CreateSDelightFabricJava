@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.registry.CSDRegistries;
 
 public class VoxelCakeRecord implements VoxelCake {
@@ -50,7 +49,7 @@ public class VoxelCakeRecord implements VoxelCake {
             }
         }
         for (CakeIngredient cakeIngredient : content.keySet()) {
-            content.get(cakeIngredient).sort(PrintedCakeBlockEntity.BLOCK_BOX_COMPARATOR);
+            //content.get(cakeIngredient).sort(PrintedCakeBlockEntity.BLOCK_BOX_COMPARATOR);
         }
         return VoxelCakeRecord.of(content, size);
     }

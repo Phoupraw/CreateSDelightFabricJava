@@ -22,7 +22,8 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
+import phoupraw.mcmod.createsdelight.block.MadeVoxelBlock;
+import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
 import phoupraw.mcmod.createsdelight.misc.BlockFoods;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.SupplierDefaultedMap;
@@ -33,12 +34,23 @@ import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
 import java.util.*;
 
-import static phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity.expanded;
-
 public class VoxelMakerBlockEntity extends KineticBlockEntity {
     public static final AllSpecialTextures OUTLINE_TEXTURE = AllSpecialTextures.valueOf(CSDIdentifiers.VOXEL_MAKER.toString());
     public static VoxelMakerBlockEntity of(BlockPos pos, BlockState state) {
         return new VoxelMakerBlockEntity(CSDBlockEntityTypes.VOXEL_MAKER, pos, state);
+    }
+    public static Box expanded(Box box, Direction direction, double extent) {
+        return switch (direction) {
+            case WEST -> box.withMinX(box.minX - extent);
+            case EAST -> box.withMaxX(box.maxX + extent);
+            case DOWN -> box.withMinY(box.minY - extent);
+            case UP -> box.withMaxY(box.maxY + extent);
+            case NORTH -> box.withMinZ(box.minZ - extent);
+            case SOUTH -> box.withMaxZ(box.maxZ + extent);
+        };
+    }
+    public static BlockBox expanded(BlockBox box, Direction direction, int extent) {
+        return MadeVoxelBlock.toBlockBox(expanded(MadeVoxelBlock.toBox(box), direction, extent));
     }
     //public static boolean isValid(BlockState state) {
     //    return !state.isAir() && !BlockFoods.BLOCK.containsKey(state.getBlock());
@@ -60,8 +72,8 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         if (world == null) return;
         int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
         Vec3i size = new Vec3i(edgeLen, edgeLen, edgeLen);
-        RailShape facing = getCachedState().get(CakeOvenBlock.FACING);
-        var biDirection = CakeOvenBlock.BI_DIRECTION_MAP.get(facing);
+        RailShape facing = getCachedState().get(VoxelMakerBlock.FACING);
+        var biDirection = VoxelMakerBlock.BI_DIRECTION_MAP.get(facing);
         BlockPos origin = getPos().up();
         BlockBox bound = new BlockBox(origin);
         Iterable<Direction> triDirection = Iterables.concat(biDirection.values(), List.of(Direction.UP));
@@ -175,8 +187,8 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
     }
     @Override
     protected Box createRenderBoundingBox() {
-        var facing = getCachedState().get(CakeOvenBlock.FACING);
-        var biDirection = CakeOvenBlock.BI_DIRECTION_MAP.get(facing);
+        var facing = getCachedState().get(VoxelMakerBlock.FACING);
+        var biDirection = VoxelMakerBlock.BI_DIRECTION_MAP.get(facing);
         int edgeLen = getBehaviour(ScrollValueBehaviour.TYPE).getValue();
         Box box = new Box(getPos());
         for (Direction direction : biDirection.values()) {
@@ -204,7 +216,7 @@ public class VoxelMakerBlockEntity extends KineticBlockEntity {
         }
         @Override
         protected boolean isSideActive(BlockState state, Direction direction) {
-            return CakeOvenBlock.BI_DIRECTION.get(state.get(CakeOvenBlock.FACING)).contains(direction.getOpposite());
+            return VoxelMakerBlock.BI_DIRECTION.get(state.get(VoxelMakerBlock.FACING)).contains(direction.getOpposite());
         }
     }
     @ApiStatus.Internal

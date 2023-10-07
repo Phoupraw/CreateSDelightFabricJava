@@ -34,8 +34,8 @@ public final class CreateSDelight {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void loadClasses() {
         //原版
-        CSDBlocks.PRINTED_CAKE.hashCode();
-        CSDBlockEntityTypes.PRINTED_CAKE.hashCode();
+        CSDBlocks.MADE_VOXEL.hashCode();
+        CSDBlockEntityTypes.MADE_VOXEL.hashCode();
         CSDItems.ITEM_GROUP.hashCode();
         CSDStatusEffects.SATIATION.hashCode();
 

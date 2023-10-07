@@ -16,12 +16,10 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
-import phoupraw.mcmod.createsdelight.cake.CakeIngredient;
+import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.cake.VoxelCake;
 import phoupraw.mcmod.createsdelight.item.PrintedCakeItem;
-
-import java.util.Map;
+import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 
 public final class CSDCommands {
 
@@ -65,30 +63,23 @@ public final class CSDCommands {
 
     public static int cake2structure(CommandContext<ServerCommandSource> context) {
         BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
-        if (context.getSource().getWorld().getBlockEntity(pos) instanceof PrintedCakeBlockEntity be) {
-            if (be.predefined != null) {
-                context.getSource().sendError(Text.of("此蛋糕已经是预定义的！"));
-                return 0;
-            }
-            if (be.getVoxelCake() == null) {
+        if (context.getSource().getWorld().getBlockEntity(pos) instanceof MadeVoxelBlockEntity be) {
+            //if (be.predefined != null) {
+            //    context.getSource().sendError(Text.of("此蛋糕已经是预定义的！"));
+            //    return 0;
+            //}
+            if (be.getVoxelRecord() == null) {
                 context.getSource().sendError(Text.of("此蛋糕没有内容！"));
                 return 0;
             }
-            VoxelCake voxelCake = be.getVoxelCake();
+            VoxelRecord voxelCake = be.getVoxelRecord();
             SchematicWorld sw = new SchematicWorld(context.getSource().getWorld());
-            for (Map.Entry<CakeIngredient, BlockBox> entry : voxelCake.getContent().entries()) {
-                BlockState blockState = CSDCakeIngredients.BLOCK.inverse().get(entry.getKey()).getDefaultState();
-                BlockBox box = entry.getValue();
-                for (int i = box.getMinX(); i < box.getMaxX(); i++) {
-                    for (int j = box.getMinY(); j < box.getMaxY(); j++) {
-                        for (int k = box.getMinZ(); k < box.getMaxZ(); k++) {
-                            sw.setBlockState(new BlockPos(i, j, k), blockState, 0);
-                        }
-                    }
-                }
+            for (var entry : voxelCake.blocks().entrySet()) {
+                BlockState blockState = entry.getValue().getDefaultState();
+                sw.setBlockState(entry.getKey(), blockState, 0);
             }
             StructureTemplate st = new StructureTemplate();
-            st.saveFromWorld(sw, BlockPos.ORIGIN, voxelCake.getSize(), false, null);
+            st.saveFromWorld(sw, BlockPos.ORIGIN, voxelCake.size(), false, null);
         }
         return 0;
     }

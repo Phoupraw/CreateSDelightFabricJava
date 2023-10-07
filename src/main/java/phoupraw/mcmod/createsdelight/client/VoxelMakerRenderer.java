@@ -18,7 +18,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
-import phoupraw.mcmod.createsdelight.block.CakeOvenBlock;
+import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
 import phoupraw.mcmod.createsdelight.block.entity.VoxelMakerBlockEntity;
 import phoupraw.mcmod.createsdelight.mixin.AChasingAABBOutline;
 
@@ -38,7 +38,7 @@ public class VoxelMakerRenderer extends KineticBlockEntityRenderer<VoxelMakerBlo
         double len0 = MathHelper.lerp(partialTicks, be.prevOutline0Len, be.outline0Len);
         int edgeLen = be.getBehaviour(ScrollValueBehaviour.TYPE).getValue();
         BlockState cachedState = be.getCachedState();
-        var biDirection = CakeOvenBlock.BI_DIRECTION.get(cachedState.get(CakeOvenBlock.FACING));
+        var biDirection = VoxelMakerBlock.BI_DIRECTION.get(cachedState.get(VoxelMakerBlock.FACING));
         for (var entry : be.len1s.entrySet()) {
             var voxelCake = entry.getValue();
             if (voxelCake == null) continue;

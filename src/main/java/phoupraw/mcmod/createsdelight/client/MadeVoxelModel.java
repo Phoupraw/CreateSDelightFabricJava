@@ -30,12 +30,14 @@ import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import org.joml.*;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.block.PrintedCakeBlock;
+import phoupraw.mcmod.createsdelight.block.MadeVoxelBlock;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
 import phoupraw.mcmod.createsdelight.misc.DefaultedMap;
 import phoupraw.mcmod.createsdelight.misc.IdentityWeakHashMap;
@@ -53,8 +55,6 @@ public class MadeVoxelModel implements CustomBlockModel {
     public static final @Unmodifiable List<@Nullable Direction> DIRECTIONS_NULL = Stream.concat(DIRECTIONS.stream(), Stream.of((Direction) null)).toList();
     public static final LoadingCache<VoxelRecord, BakedModel> VOXEL_2_MODEL = CacheBuilder.newBuilder().weakKeys().build(CacheLoader.from(MadeVoxelModel::toBakedModel));
     public static final Table<Block, Direction, Sprite> SPRITES = HashBasedTable.create();
-    @Deprecated
-    public static final DefaultedMap<VoxelRecord, BakedModel> VOXEL2MODEL = DefaultedMap.loadingCache(MadeVoxelModel::toBakedModel);
     public static final Map<NbtCompound, BakedModel> NBT2MODEL = new IdentityWeakHashMap<>();
     public static final float MIN_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 8)) - 1.0F;
     public static final float MAX_SCALE = 1.0F / (float) Math.cos((float) (Math.PI / 4)) - 1.0F;
@@ -126,7 +126,7 @@ public class MadeVoxelModel implements CustomBlockModel {
             var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
             for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
                 Sprite sprite = entry.getValue();
-                var quad0 = PrintedCakeModel.square(emitter, box, entry.getKey())
+                var quad0 = square(emitter, box, entry.getKey())
                   .color(-1, -1, -1, -1)
                   .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
                 BakedQuad quad = quad0.toBakedQuad(sprite);
@@ -149,7 +149,7 @@ public class MadeVoxelModel implements CustomBlockModel {
             Box box = new Box(new BlockPos(blockPos));
             for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
                 Direction face = entry.getKey();
-                var pair = PrintedCakeModel.square(box, face, size);
+                var pair = square(box, face, size);
                 int depth = pair.getRight().intValue();
                 int left = (int) pair.getLeft().m00();
                 int bottom = (int) pair.getLeft().m01();
@@ -214,7 +214,7 @@ public class MadeVoxelModel implements CustomBlockModel {
                 for (var depthEntry : spriteEntry.getValue().entrySet()) {
                     double depth = (double) depthEntry.getKey() / face.getAxis().choose(size.getX(), size.getY(), size.getZ());
                     for (var rect : depthEntry.getValue()) {
-                        var quad0 = PrintedCakeModel.square(emitter, face, rect.m00(), rect.m01(), rect.m10(), rect.m11(), depth)
+                        var quad0 = square(emitter, face, rect.m00(), rect.m01(), rect.m10(), rect.m11(), depth)
                           .color(-1, -1, -1, -1)
                           .spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
                         Direction cullFace = quad0.cullFace();
@@ -278,7 +278,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         }
     }
     public static AffineTransformation rotatingTo(Direction horizontal) {
-        return ModelRotation.get(0, (PrintedCakeBlock.defaultFacing().getHorizontal() - horizontal.getHorizontal()) * 90).getRotation();
+        return ModelRotation.get(0, (MadeVoxelBlock.defaultFacing().getHorizontal() - horizontal.getHorizontal()) * 90).getRotation();
     }
     public static boolean rotate(MutableQuadView quad, AffineTransformation rotation) {
         Direction cullFace = quad.cullFace();
@@ -293,6 +293,39 @@ public class MadeVoxelModel implements CustomBlockModel {
         }
         return true;
     }
+    public static QuadEmitter square(QuadEmitter emitter, Box box, Direction norminalFace) {
+        var pair = square(box, norminalFace, new Vec3i(1, 1, 1));
+        var rect = pair.getLeft();
+        return square(emitter, norminalFace, rect.m00(), rect.m01(), rect.m10(), rect.m11(), pair.getValue());
+    }
+    /**
+     {@code quadEmitter.square(face,左,下,右,上,深度)}
+     @param box 被取的箱
+     @param face 面
+     @return {@code ((左,下,右,上),深度)}
+     @see QuadEmitter#square(Direction, float, float, float, float, float)
+     */
+    @SuppressWarnings("SuspiciousNameCombination")
+    public static Pair<Matrix2dc, Double> square(Box box, Direction face, Vec3i size) {
+        return switch (face) {
+            case WEST -> Pair.of(new Matrix2d(box.minZ, box.minY, box.maxZ, box.maxY), box.minX);
+            case EAST -> Pair.of(new Matrix2d(size.getZ() - box.maxZ, box.minY, size.getZ() - box.minZ, box.maxY), size.getX() - box.maxX);
+            case DOWN -> Pair.of(new Matrix2d(box.minX, box.minZ, box.maxX, box.maxZ), box.minY);
+            case UP -> Pair.of(new Matrix2d(box.minX, size.getZ() - box.maxZ, box.maxX, size.getZ() - box.minZ), size.getY() - box.maxY);
+            case NORTH -> Pair.of(new Matrix2d(size.getX() - box.maxX, box.minY, size.getX() - box.minX, box.maxY), box.minZ);
+            case SOUTH -> Pair.of(new Matrix2d(box.minX, box.minY, box.maxX, box.maxY), size.getZ() - box.maxZ);
+        };
+    }
+    public static QuadEmitter square(QuadEmitter emitter, Direction norminalFace, double left, double bottom, double right, double top, double depth) {
+        return emitter.square(norminalFace, (float) left, (float) bottom, (float) right, (float) top, (float) depth);
+    }
+    @Contract(mutates = "param")
+    public static boolean missingSprite(MutableQuadView quad) {
+        for (int i = 0; i < 4; i++) {
+            quad.spriteBake(MinecraftClient.getInstance().getBakedModelManager().getMissingModel().getParticleSprite(), MutableQuadView.BAKE_LOCK_UV);
+        }
+        return true;
+    }
     @Override
     public Sprite getParticleSprite() {
         return getCakeModel().getParticleSprite();
@@ -303,7 +336,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord == null) return;
         Direction facing = blockEntity.getCachedState().get(HorizontalFacingBlock.FACING);
-        if (facing != PrintedCakeBlock.defaultFacing()) {
+        if (facing != MadeVoxelBlock.defaultFacing()) {
             AffineTransformation rotation = rotatingTo(facing);
             context.pushTransform(quad -> rotate(quad, rotation));
         }
@@ -313,11 +346,11 @@ public class MadeVoxelModel implements CustomBlockModel {
         t = System.currentTimeMillis();
         model.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         CreateSDelight.LOGGER.debug("MadeVoxelModel.emitBlockQuads model.emitBlockQuads %d ms".formatted(System.currentTimeMillis() - t));
-        if (facing != PrintedCakeBlock.defaultFacing()) {
+        if (facing != MadeVoxelBlock.defaultFacing()) {
             context.popTransform();
         }
         if (voxelRecord.blocks().isEmpty()) {
-            context.pushTransform(PrintedCakeModel::negativeUv);
+            context.pushTransform(MadeVoxelModel::missingSprite);
             getCakeModel().emitBlockQuads(blockView, state, pos, randomSupplier, context);
             context.popTransform();
         }
@@ -335,7 +368,7 @@ public class MadeVoxelModel implements CustomBlockModel {
             } else {
                 VoxelRecord voxelRecord = VoxelRecord.of(MinecraftClient.getInstance().world, nbtVoxelRecord);
                 if (voxelRecord.blocks().isEmpty()) {
-                    context.pushTransform(PrintedCakeModel::negativeUv);
+                    context.pushTransform(MadeVoxelModel::missingSprite);
                     getCakeModel().emitItemQuads(stack, randomSupplier, context);
                     context.popTransform();
                 } else {

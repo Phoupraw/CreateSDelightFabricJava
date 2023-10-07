@@ -15,9 +15,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
-import phoupraw.mcmod.createsdelight.block.entity.PrintedCakeBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.VoxelMakerBlockEntity;
 import phoupraw.mcmod.createsdelight.client.CSDClientModInitializer;
 import phoupraw.mcmod.createsdelight.datagen.CSDBlockLootTableProvider;
@@ -52,8 +50,6 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
  <li>提交git
  </ol> */
 public final class CSDBlockEntityTypes {
-    public static final BlockEntityType<PrintedCakeBlockEntity> PRINTED_CAKE = register(CSDIdentifiers.PRINTED_CAKE, of(PrintedCakeBlockEntity::new, CSDBlocks.PRINTED_CAKE));
-    public static final BlockEntityType<CakeOvenBlockEntity> CAKE_OVEN = register(CSDIdentifiers.CAKE_OVEN, of(CakeOvenBlockEntity::new, CSDBlocks.CAKE_OVEN));
     public static final BlockEntityType<VoxelMakerBlockEntity> VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, of(VoxelMakerBlockEntity::of, CSDBlocks.VOXEL_MAKER));
     public static final BlockEntityType<MadeVoxelBlockEntity> MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, of(MadeVoxelBlockEntity::of, CSDBlocks.MADE_VOXEL));
     @Contract("_, _ -> param2")

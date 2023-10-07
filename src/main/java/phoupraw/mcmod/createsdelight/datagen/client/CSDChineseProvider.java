@@ -21,9 +21,7 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
           添加了各式蛋糕和自定义蛋糕。
           """);
         b.add(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup"), "机械动力乐事");
-        b.add(CSDBlocks.CAKE_OVEN, "蛋糕烤箱");
         b.add(CSDBlocks.VOXEL_MAKER, "体素蛋糕制作机");
-        b.add(CSDBlocks.PRINTED_CAKE, "蓝图蛋糕");
         b.add(CSDBlocks.MADE_VOXEL, "体素蛋糕");
         b.add(CSDBlocks.CHOCOLATE_BLOCK, "巧克力块");
         b.add(CSDBlocks.WHEAT_CAKE_BASE_BLOCK, "全麦蛋糕胚块");

@@ -4,7 +4,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
-import io.netty.util.concurrent.UnorderedThreadPoolEventExecutor;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -30,32 +29,27 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
-import phoupraw.mcmod.createsdelight.block.entity.CakeOvenBlockEntity;
 import phoupraw.mcmod.createsdelight.block.entity.MadeVoxelBlockEntity;
-import phoupraw.mcmod.createsdelight.misc.*;
+import phoupraw.mcmod.createsdelight.misc.BlockFoods;
+import phoupraw.mcmod.createsdelight.misc.ConstDefaultedMap;
+import phoupraw.mcmod.createsdelight.misc.FoodBehaviour;
+import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
-    public static final ThreadPoolExecutor EXECUTOR = new UnorderedThreadPoolEventExecutor(Runtime.getRuntime().availableProcessors());
-    @Deprecated
-    public static final Cache<VoxelRecord, VoxelShape> SHAPES = CacheBuilder.newBuilder().weakKeys().build();
-    public static final Cache<VoxelRecord, Map<Direction, VoxelShape>> FACING_SHAPES = CacheBuilder.newBuilder().weakKeys().maximumSize(Long.MAX_VALUE).build();
-    @Deprecated
-    public static final DefaultedMap<VoxelRecord, VoxelShape> SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), MadeVoxelBlock::loadShape);
-    @Deprecated
-    public static final DefaultedMap<VoxelRecord, DefaultedMap<Direction, VoxelShape>> FACING_SHAPE_CACHE = new FunctionDefaultedMap<>(Collections.synchronizedMap(new IdentityWeakHashMap<>()), voxelRecord -> new FunctionDefaultedMap<>(new EnumMap<>(Direction.class), facing -> rotate(MadeVoxelBlock.SHAPE_CACHE.get(voxelRecord), PrintedCakeBlock.defaultFacing(), facing)));
+    public static final Cache<VoxelRecord, Map<Direction, VoxelShape>> SHAPES = CacheBuilder.newBuilder().weakKeys().maximumSize(Long.MAX_VALUE).build();
     /**
      绕y轴旋转
      */
     @Contract(pure = true)
-    public static VoxelShape rotate(VoxelShape shape, Direction origin, Direction target) {
+    public static VoxelShape rotateSequential(VoxelShape shape, Direction origin, Direction target) {
         if (target == origin) return shape;
         if (shape.isEmpty()) return shape;
         VoxelShape rotated = VoxelShapes.empty();
@@ -64,6 +58,9 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         }
         return rotated;
     }
+    /**
+     绕y轴旋转，使用并行流
+     */
     @Contract(pure = true)
     public static VoxelShape rotateParallel(VoxelShape shape, Direction origin, Direction target) {
         if (target == origin) return shape;
@@ -94,7 +91,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
      {@code a}和{@code b}不能重叠。如果可以合并，则返回合并后的结果，否则返回{@code null}。
      */
     public static @Nullable BlockBox union(BlockBox a, BlockBox b) {
-        BlockBox ab = CakeOvenBlockEntity.toBlockBox(CakeOvenBlockEntity.toBox(a).union(CakeOvenBlockEntity.toBox(b)));
+        BlockBox ab = toBlockBox(toBox(a).union(toBox(b)));
         if (getVolumn(a) + getVolumn(b) == getVolumn(ab)) {
             return ab;
         }
@@ -115,7 +112,10 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         Set<BlockPos> posSet = voxelRecord.blocks()
           .keySet()
           .parallelStream()
-          .sorted(Comparator.comparingInt(BlockPos::getY).thenComparingInt(BlockPos::getX).thenComparingInt(BlockPos::getZ))
+          .sorted(Comparator
+            .comparingInt(BlockPos::getY)
+            .thenComparingInt(BlockPos::getX)
+            .thenComparingInt(BlockPos::getZ))
           .collect(Collectors.toCollection(LinkedHashSet::new));
         CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape 总共有%d个体素".formatted(posSet.size()));
         Collection<Box> boxes = new LinkedList<>();
@@ -176,19 +176,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         CreateSDelight.LOGGER.debug("MadeVoxelBlock.toShape 优化至%d个碰撞箱".formatted(boxes.size()));
         return boxes.parallelStream().map(VoxelShapes::cuboid).reduce(VoxelShapes.empty(), VoxelShapes::union);
     }
-    public static VoxelShape loadShape(VoxelRecord voxelRecord) {
-        new Thread(() -> {
-            VoxelShape shape = toShape(voxelRecord);
-            CreateSDelight.LOGGER.debug("MadeVoxelBlock.loadShape shape=%s计算完成".formatted(shape));
-            do {
-                SHAPE_CACHE.put(voxelRecord, shape);
-                FACING_SHAPE_CACHE.get(voxelRecord).clear();
-            } while (SHAPE_CACHE.get(voxelRecord).isEmpty() || FACING_SHAPE_CACHE.get(voxelRecord).containsValue(VoxelShapes.empty()));
-            CreateSDelight.LOGGER.debug("MadeVoxelBlock.loadShape do-while完成");
-        }).start();
-        Thread.yield();
-        return VoxelShapes.empty();
-    }
     /**
      绕y轴旋转
      */
@@ -205,9 +192,18 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
           .add(0.5, 0, 0.5);
         return new Box(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
+    public static @NotNull Direction defaultFacing() {
+        return Direction.SOUTH;
+    }
+    public static BlockBox toBlockBox(Box box) {
+        return new BlockBox((int) box.minX, (int) box.minY, (int) box.minZ, (int) box.maxX, (int) box.maxY, (int) box.maxZ);
+    }
+    public static Box toBox(BlockBox box) {
+        return new Box(box.getMinX(), box.getMinY(), box.getMinZ(), box.getMaxX(), box.getMaxY(), box.getMaxZ());
+    }
     public MadeVoxelBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(FACING, PrintedCakeBlock.defaultFacing()));
+        setDefaultState(getDefaultState().with(FACING, defaultFacing()));
     }
     @Override
     public Class<MadeVoxelBlockEntity> getBlockEntityClass() {
@@ -232,17 +228,17 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
             if (voxelRecord != null) {
                 Direction facing = state.get(FACING);
-                var shapes = FACING_SHAPES.getIfPresent(voxelRecord);
+                var shapes = SHAPES.getIfPresent(voxelRecord);
                 if (shapes == null) {
                     shapes = new EnumMap<>(Direction.class);
-                    shapes.put(PrintedCakeBlock.defaultFacing(), toShape(voxelRecord));
-                    FACING_SHAPES.put(voxelRecord, shapes);
+                    shapes.put(defaultFacing(), toShape(voxelRecord));
+                    SHAPES.put(voxelRecord, shapes);
                     CreateSDelight.LOGGER.debug("MadeVoxelBlock.getCollisionShape pos=" + pos);
-                    CreateSDelight.LOGGER.debug("MadeVoxelBlock.getCollisionShape FACING_SHAPES.size()=" + FACING_SHAPES.size());
+                    CreateSDelight.LOGGER.debug("MadeVoxelBlock.getCollisionShape FACING_SHAPES.size()=" + SHAPES.size());
                 }
                 shape = shapes.get(facing);
                 if (shape == null) {
-                    shape = rotateParallel(shapes.get(PrintedCakeBlock.defaultFacing()), PrintedCakeBlock.defaultFacing(), facing);
+                    shape = rotateParallel(shapes.get(defaultFacing()), defaultFacing(), facing);
                     shapes.put(facing, shape);
                 }
             }
@@ -275,7 +271,6 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         }
         Map<BlockPos, Block> newBlocks = new HashMap<>(voxelRecord.blocks());
         var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
-
         double voxelCubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
         boolean looped = false;
         Set<Block> eatenBlocks = new HashSet<>();
@@ -306,7 +301,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             saturation += food.getSaturation(voxelRecord, cubicMeters);
             hungerSurpass += food.getHungerSurpass(voxelRecord, cubicMeters);
         }
-        double newHunger = hungerManager.getFoodLevel() + hunger;
+        double newHunger = Math.min(20, hungerManager.getFoodLevel() + hunger);
         double surpassHunger = hungerSurpass - (Math.min(20, newHunger + hungerSurpass) - newHunger);
         newHunger += surpassHunger;
         hungerSurpass -= surpassHunger;
@@ -361,9 +356,4 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         super.appendProperties(builder);
         builder.add(FACING);
     }
-    //@Override
-    //public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-    //
-    //    return super.canPlaceAt(state, world, pos);
-    //}
 }
