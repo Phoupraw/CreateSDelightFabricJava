@@ -24,6 +24,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boundary) {
+    public static final Map<String, VoxelRecord> ID_2_CAKE = new HashMap<>();
+    public static final Map<VoxelRecord, String> CAKE_2_ID = new IdentityHashMap<>();
     public static final BlockBox EMPTY_BOX = BlockBox.create(Vec3i.ZERO, Vec3i.ZERO);
     public static final VoxelRecord EMPTY = new VoxelRecord(Map.of(), Vec3i.ZERO, EMPTY_BOX);
     public static VoxelRecord of(Map<BlockPos, Block> blocks, Vec3i size) {
@@ -62,6 +64,15 @@ public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boun
         return Pair.of(of(blocks, size), got);
     }
     public static VoxelRecord of(@Nullable World world, NbtCompound nbt) {
+        if (nbt.contains("id", NbtElement.STRING_TYPE)) {
+            String id = nbt.getString("id");
+            VoxelRecord voxelRecord = ID_2_CAKE.get(id);
+            if (voxelRecord != null) {
+                return voxelRecord;
+            } else {
+                CreateSDelight.LOGGER.error("找不到ID=%s对应的预定义体素糕点".formatted(id));
+            }
+        }
         Vec3i size = NbtHelper.toBlockPos(nbt.getCompound("size"));
         if (size.getX() <= 0 || size.getY() <= 0 || size.getZ() <= 0) {
             CreateSDelight.LOGGER.error("由于尺寸有维度不大于0，已返回空。");
@@ -112,6 +123,10 @@ public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boun
         }
     }
     public NbtCompound write(NbtCompound nbt) {
+        if (CAKE_2_ID.containsKey(this)) {
+            nbt.putString("id", CAKE_2_ID.get(this));
+            return nbt;
+        }
         List<Block> blocks = new ArrayList<>(new HashSet<>(this.blocks.values()));
         blocks.sort(VoxelRecord::compare);
         Map<Block, Integer> pallete = new HashMap<>();

@@ -52,6 +52,7 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 public final class CSDBlockEntityTypes {
     public static final BlockEntityType<VoxelMakerBlockEntity> VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, of(VoxelMakerBlockEntity::of, CSDBlocks.VOXEL_MAKER));
     public static final BlockEntityType<MadeVoxelBlockEntity> MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, of(MadeVoxelBlockEntity::of, CSDBlocks.MADE_VOXEL));
+    //TODO 原版机器，烧固体燃料，熔炉GUI，结构方块框线，火焰粒子
     @Contract("_, _ -> param2")
     public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> type) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, type);

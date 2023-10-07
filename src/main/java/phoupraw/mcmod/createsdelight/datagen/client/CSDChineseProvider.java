@@ -40,6 +40,6 @@ public final class CSDChineseProvider extends FabricLanguageProvider {
         b.add(CSDItems.KELP_ASH, "海带灰烬");
         b.add(CSDStatusEffects.SATIATION, "饱食");
         b.add(MadeVoxels.getTranslationKey("brownie"), "巧克力饼干蛋糕");
-        b.add(MadeVoxels.getTranslationKey("minecraft"), "我的世界蛋糕");
+        b.add(MadeVoxels.getTranslationKey("minecraft"), "谎言是个蛋糕");
     }
 }

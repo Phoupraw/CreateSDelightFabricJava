@@ -20,6 +20,7 @@ import phoupraw.mcmod.createsdelight.datagen.client.CSDEnglishProvider;
 import phoupraw.mcmod.createsdelight.datagen.client.CSDModelProvider;
 import phoupraw.mcmod.createsdelight.item.ThickFluidBucketItem;
 import phoupraw.mcmod.createsdelight.misc.MadeVoxels;
+import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 
 /**
  物品编写流程：
@@ -78,9 +79,16 @@ public final class CSDItems {
     private static void addItemGroupEntries(ItemGroup.DisplayContext displayContext, ItemGroup.Entries entries) {
         try {
             for (var entry : MadeVoxels.PREDEFINED.entrySet()) {
-                NbtCompound blockEntityTag = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
+                NbtCompound blockEntityNbt = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
+                String id = entry.getKey();
+                NbtCompound nbtVoxelRecord = blockEntityNbt.getCompound("voxelRecord");
+                VoxelRecord voxelRecord = VoxelRecord.of(null, nbtVoxelRecord);
+                VoxelRecord.CAKE_2_ID.put(voxelRecord, id);
+                VoxelRecord.ID_2_CAKE.put(id, voxelRecord);
                 ItemStack itemStack = MADE_VOXEL.getDefaultStack();
-                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityTag);
+                blockEntityNbt = new NbtCompound();
+                blockEntityNbt.put("voxelRecord", voxelRecord.write(new NbtCompound()));
+                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityNbt);
                 itemStack.setCustomName(Text.translatable(MadeVoxels.getTranslationKey(entry.getKey())).setStyle(Style.EMPTY.withItalic(false)));
                 entries.add(itemStack);
             }
