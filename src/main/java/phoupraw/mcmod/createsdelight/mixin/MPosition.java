@@ -4,7 +4,7 @@ import net.minecraft.util.math.Position;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(Position.class)
+@Mixin(value = Position.class, remap = false)
 public interface MPosition /*extends DefaultVector3dc*//*FIXME Vector3dc实属逆天*//* */ {
     @Shadow
     double getX();

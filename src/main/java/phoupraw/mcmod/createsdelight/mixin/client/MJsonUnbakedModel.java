@@ -17,18 +17,18 @@ class MJsonUnbakedModel {
     @Unique private static final ThreadLocal<JsonUnbakedModel> LOCAL_setParents_jsonUnbakedModel = new ThreadLocal<>();
     /** 父模型 */
     @Unique private static final ThreadLocal<UnbakedModel> LOCAL_setParents_unbakedModel = new ThreadLocal<>();
-    @ModifyVariable(method = "setParents", at = @At(value = "INVOKE", target = "Ljava/util/Set;add(Ljava/lang/Object;)Z"), name = "jsonUnbakedModel")
+    @ModifyVariable(method = "setParents", at = @At(value = "INVOKE", target = "Ljava/util/Set;add(Ljava/lang/Object;)Z", remap = false), name = "jsonUnbakedModel", remap = false)
     private JsonUnbakedModel captureLocal_setParents_jsonUnbakedModel(JsonUnbakedModel jsonUnbakedModel) {
         LOCAL_setParents_jsonUnbakedModel.set(jsonUnbakedModel);
         return jsonUnbakedModel;
     }
     @SuppressWarnings("MixinAnnotationTarget")
-    @WrapOperation(method = "setParents", constant = @Constant(classValue = JsonUnbakedModel.class, log = true, ordinal = 0))
+    @WrapOperation(method = "setParents", constant = @Constant(classValue = JsonUnbakedModel.class, log = true, ordinal = 0), remap = false)
     private boolean captureLocal_setParents_unbakedModel(Object unbakedModel, Operation<Boolean> original) {
         LOCAL_setParents_unbakedModel.set((UnbakedModel) unbakedModel);
         return original.call(unbakedModel);
     }
-    @ModifyArg(method = "setParents", at = @At(value = "INVOKE", target = "Ljava/lang/IllegalStateException;<init>(Ljava/lang/String;)V"))
+    @ModifyArg(method = "setParents", at = @At(value = "INVOKE", target = "Ljava/lang/IllegalStateException;<init>(Ljava/lang/String;)V", remap = false), remap = false)
     private String detailMessege(String stupidDetailless) {
         return "BlockModel(%s) parent(%s) has to be a block model.".formatted(LOCAL_setParents_jsonUnbakedModel.get(), LOCAL_setParents_unbakedModel.get());
     }
