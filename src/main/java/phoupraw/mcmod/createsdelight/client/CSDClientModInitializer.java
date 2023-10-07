@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public final class CSDClientModInitializer implements ClientModInitializer {
-    public static final Map<Identifier, UnbakedModel> CUSTOM_MODELS = Map.of(
+    public static final Map<Identifier, UnbakedModel> MODELS = Map.of(
       ModelIds.getBlockModelId(CSDBlocks.MADE_VOXEL), new ConstUnbakedModel(new MadeVoxelModel()),
       ModelIds.getItemModelId(CSDItems.MADE_VOXEL), new ConstUnbakedModel(new MadeVoxelModel())
     );
@@ -48,7 +48,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.APPLE_JAM, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.APPLE_JAM));
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.WHEAT_PASTE, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.WHEAT_PASTE));
         FluidRenderHandlerRegistry.INSTANCE.register(CSDFluids.CREAM, VirtualFluids.simpleFluidRenderHandlerOfBlock(CSDIdentifiers.CREAM));
-        ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> CUSTOM_MODELS.get(resourceId));
+        ModelLoadingRegistry.INSTANCE.registerResourceProvider(resourceManager -> (resourceId, context) -> MODELS.get(resourceId));
         TooltipComponentCallback.EVENT.register(data -> data instanceof StatusEffectsTooltipData data1 ? new StatusEffectsTooltipComponent(data1.statusEffects()) : null);
         //BlockEntityRendererFactories.register(CSDBlockEntityTypes.CAKE_OVEN, CakeOvenRenderer::new);
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.VOXEL_MAKER, VoxelMakerRenderer::new);

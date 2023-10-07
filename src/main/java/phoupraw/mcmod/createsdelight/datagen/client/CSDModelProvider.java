@@ -45,7 +45,7 @@ public final class CSDModelProvider extends FabricModelProvider {
             }
             generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, variants.toArray(BlockStateVariant[]::new)));
         }
-        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK, CSDBlocks.BUTTER_BLOCK}) {
+        for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK, CSDBlocks.BUTTER_BLOCK,}) {
             //生成绕竖轴随机旋转模型的单一方块状态、带釉陶瓦方块模型（即侧面旋转的方块模型）、继承方块模型的物品模型。
             generator.blockStateCollector.accept(BlockStateModelGenerator.createBlockStateWithRandomHorizontalRotations(block, TexturedModel.TEMPLATE_GLAZED_TERRACOTTA.upload(block, generator.modelCollector)));
         }
