@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -17,8 +16,6 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
@@ -64,15 +61,6 @@ public final class CSDClientModInitializer implements ClientModInitializer {
                       MadeVoxelModel.SPRITES.clear();
                       MadeVoxelModel.VOXEL_2_MODEL.invalidateAll();
                   }, applyExecutor);
-            });
-        });
-        ModelLoadingPlugin.register(pluginContext -> {
-            CreateSDelight.LOGGER.debug("ModelLoadingPlugin");
-            pluginContext.modifyModelAfterBake().register((model, context) -> {
-                if (CSDRegistries.getId(Registries.ITEM, Items.APPLE).equals(context.id())) {
-                    CreateSDelight.LOGGER.debug("Context.modifyModelAfterBake Items.APPLE");
-                }
-                return model;
             });
         });
         for (Item item : CSDItems.ITEM_GROUP.getDisplayStacks().stream().map(ItemStack::getItem).collect(Collectors.toSet())) {
