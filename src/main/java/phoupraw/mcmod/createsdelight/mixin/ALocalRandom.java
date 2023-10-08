@@ -2,9 +2,10 @@ package phoupraw.mcmod.createsdelight.mixin;
 
 import net.minecraft.util.random.SingleThreadedRandom;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(value = SingleThreadedRandom.class)
+@Mixin(SingleThreadedRandom.class)
 public interface ALocalRandom {
-    //@Accessor
-    //long getSeed();
+    @Accessor
+    long getSeed();
 }

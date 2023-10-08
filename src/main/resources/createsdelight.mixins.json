@@ -6,5 +6,8 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "phoupraw.mcmod.createsdelight.CSDMixinConfigPlugin", "client": ["AChasingAABBOutline", "client.MJsonUnbakedModel"]
+  "plugin": "phoupraw.mcmod.createsdelight.CSDMixinConfigPlugin", "client": [
+  "AChasingAABBOutline", "client.MJsonUnbakedModel",
+  "client.MMinecraftClient"
+]
 }
