@@ -113,7 +113,7 @@ public final class VirtualFluids {
         return context -> new EmptyItemFluidStorage(context, fullItem, fluid, amount);
     }
     public static SimpleFluidRenderHandler simpleFluidRenderHandlerOfBlock(Identifier fluidId) {
-        Identifier textureId = fluidId.withPrefixedPath("block/");
+        Identifier textureId = fluidId.withPrefix("block/");
         return new SimpleFluidRenderHandler(textureId, textureId);
     }
     private VirtualFluids() {

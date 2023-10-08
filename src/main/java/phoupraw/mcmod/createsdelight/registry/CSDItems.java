@@ -39,8 +39,6 @@ import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
  <li>提交git。
  </ol> */
 public final class CSDItems {
-    //方块
-    public static final BlockItem CAKE_OVEN = new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings());
     public static final BlockItem VOXEL_MAKER = register(CSDIdentifiers.VOXEL_MAKER, new BlockItem(CSDBlocks.VOXEL_MAKER, new FabricItemSettings()));
     public static final BlockItem MADE_VOXEL = register(CSDIdentifiers.MADE_VOXEL, new BlockItem(CSDBlocks.MADE_VOXEL, new FabricItemSettings()));
     //蛋糕材料方块
@@ -59,13 +57,11 @@ public final class CSDItems {
     public static final Item BUTTER_NUGGET = register(CSDIdentifiers.BUTTER_NUGGET, new Item(new FabricItemSettings()));
     public static final Item BUTTER_INGOT = register(CSDIdentifiers.BUTTER_INGOT, new Item(new FabricItemSettings()));
     public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
-      .displayName(Text.translatable(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup")))
+      .name(Text.translatable(CSDIdentifiers.ITEM_GROUP.toTranslationKey("itemGroup")))
       .icon(Items.CAKE::getDefaultStack)
       .entries(CSDItems::addItemGroupEntries)
       .build();
     static {
-        register(CSDIdentifiers.CAKE_OVEN, CAKE_OVEN);
-        //register(CSDIdentifiers.PRINTED_CAKE, PRINTED_CAKE);
         register(CSDIdentifiers.EGG_SHELL, EGG_SHELL);
         register(CSDIdentifiers.CHOCOLATE_BLOCK, CHOCOLATE_BLOCK);
         register(CSDIdentifiers.BUCKETED_EGG_LIQUID, BUCKETED_EGG_LIQUID);
@@ -76,7 +72,7 @@ public final class CSDItems {
     public static <T extends Item> T register(Identifier id, T item) {
         return Registry.register(Registries.ITEM, id, item);
     }
-    private static void addItemGroupEntries(ItemGroup.DisplayContext displayContext, ItemGroup.Entries entries) {
+    private static void addItemGroupEntries(ItemGroup.DisplayParameters displayContext, ItemGroup.ItemStackCollector entries) {
         try {
             for (var entry : MadeVoxels.PREDEFINED.entrySet()) {
                 NbtCompound blockEntityNbt = new StringNbtReader(new StringReader(entry.getValue())).parseCompound();
@@ -88,9 +84,9 @@ public final class CSDItems {
                 ItemStack itemStack = MADE_VOXEL.getDefaultStack();
                 blockEntityNbt = new NbtCompound();
                 blockEntityNbt.put("voxelRecord", voxelRecord.write(new NbtCompound()));
-                BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityNbt);
+                BlockItem.writeBlockEntityNbtToStack(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityNbt);
                 itemStack.setCustomName(Text.translatable(MadeVoxels.getTranslationKey(entry.getKey())).setStyle(Style.EMPTY.withItalic(false)));
-                entries.add(itemStack);
+                entries.addStack(itemStack);
             }
         } catch (CommandSyntaxException e) {
             throw new RuntimeException(e);
@@ -101,7 +97,7 @@ public final class CSDItems {
           /*类细雪桶*/BUCKETED_APPLE_JAM, BUCKETED_WHEAT_PASTE, BUCKETED_CREAM,
           /*虚拟流体*/BUCKETED_EGG_LIQUID,
           /*材料*/EGG_SHELL, KELP_ASH, BUTTER_INGOT, BUTTER_NUGGET}) {
-            entries.add(item);
+            entries.addItem(item);
         }
     }
     private CSDItems() {

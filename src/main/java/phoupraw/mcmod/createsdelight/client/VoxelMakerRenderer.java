@@ -1,6 +1,7 @@
 package phoupraw.mcmod.createsdelight.client;
 
 import com.jozufozu.flywheel.util.transform.TransformStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
@@ -9,7 +10,6 @@ import com.simibubi.create.foundation.outliner.Outliner;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.BakedModel;
@@ -17,7 +17,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.random.RandomGenerator;
 import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
 import phoupraw.mcmod.createsdelight.block.entity.VoxelMakerBlockEntity;
 import phoupraw.mcmod.createsdelight.mixin.AChasingAABBOutline;
@@ -65,7 +65,7 @@ public class VoxelMakerRenderer extends KineticBlockEntityRenderer<VoxelMakerBlo
             ts.scale(scale);
             BakedModel model = MadeVoxelModel.VOXEL_2_MODEL.getUnchecked(voxelCake);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderLayers.getBlockLayer(cachedState));
-            context.getRenderManager().getModelRenderer().render(be.getWorld(), model, Blocks.GLOWSTONE.getDefaultState()/*用荧石，使模型没有莫名其妙的阴影*/, be.getPos().up(), ms, vertexConsumer, false, Random.create(0), 0, overlay);
+            context.getRenderManager().getModelRenderer().render(be.getWorld(), model, Blocks.GLOWSTONE.getDefaultState()/*用荧石，使模型没有莫名其妙的阴影*/, be.getPos().up(), ms, vertexConsumer, false, RandomGenerator.createLegacy(0), 0, overlay);
             ts.popPose();
         }
         ts.popPose();

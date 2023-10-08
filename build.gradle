@@ -4,7 +4,7 @@
 //file:noinspection GroovyUnusedAssignment
 plugins {
     id "fabric-loom" version "1.3-SNAPSHOT"
-    id "io.github.juuxel.loom-quiltflower" version "1.+" // Quiltflower, a better decompiler
+    id "io.github.juuxel.loom-vineflower" version "+" // ~~Quiltflower, a better decompiler~~ plugin 'io.github.juuxel.loom-quiltflower' has been replaced with 'io.github.juuxel.loom-vineflower' and will be removed in a future release
     id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
     id "maven-publish"
 }
@@ -95,10 +95,11 @@ loom {
 }
 dependencies {
     minecraft("com.mojang:minecraft:${project["minecraft_version"]}")
-    mappings loom.layered() {
-        it.mappings("net.fabricmc:yarn:${project["yarn_mappings"]}:v2")
-        it.mappings(file("my_mappings.txt"))
-    }
+//    mappings loom.layered() {
+//        it.mappings("net.fabricmc:yarn:${project["yarn_mappings"]}:v2")
+//        it.mappings(file("my_mappings.txt"))
+//    }
+    mappings "org.quiltmc:quilt-mappings:${minecraft_version}+build.${quilt_mappings}:intermediary-v2"
     for (f in [
       "net.fabricmc:fabric-loader:${project["fabric_loader_version"]}",
       "net.fabricmc.fabric-api:fabric-api:${project["fabric_api_version"]}+${project["minecraft_version"]}",

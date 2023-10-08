@@ -6,7 +6,7 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public interface CustomBlockModel extends HasDepthBakedModel {
     @Override
-    default List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
+    default List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, RandomGenerator random) {
         return List.of();
     }
     @Override
@@ -31,5 +31,5 @@ public interface CustomBlockModel extends HasDepthBakedModel {
         return false;
     }
     @Override
-    void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context);
+    void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<RandomGenerator> randomSupplier, RenderContext context);
 }

@@ -5,7 +5,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.RailShape;
-import net.minecraft.data.client.*;
+import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.model.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.block.VoxelMakerBlock;
@@ -33,7 +34,7 @@ public final class CSDModelProvider extends FabricModelProvider {
         }
         for (Block block : new Block[]{}) {
             //生成随机旋转模型的单一方块状态、六面相同完整方块方块模型、继承方块模型的物品模型。
-            Identifier modelId = TexturedModel.CUBE_ALL.upload(block, generator.modelCollector);
+            Identifier modelId = TexturedModel.CUBE_ALL.create(block, generator.modelCollector);
             Collection<BlockStateVariant> variants = new ArrayList<>();
             for (VariantSettings.Rotation x : rotations) {
                 for (VariantSettings.Rotation y : rotations) {
@@ -47,7 +48,7 @@ public final class CSDModelProvider extends FabricModelProvider {
         }
         for (Block block : new Block[]{CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.CREAM, CSDBlocks.APPLE_JAM, CSDBlocks.WHEAT_PASTE, CSDBlocks.WHEAT_CAKE_BASE_BLOCK, CSDBlocks.BUTTER_BLOCK,}) {
             //生成绕竖轴随机旋转模型的单一方块状态、带釉陶瓦方块模型（即侧面旋转的方块模型）、继承方块模型的物品模型。
-            generator.blockStateCollector.accept(BlockStateModelGenerator.createBlockStateWithRandomHorizontalRotations(block, TexturedModel.TEMPLATE_GLAZED_TERRACOTTA.upload(block, generator.modelCollector)));
+            generator.blockStateCollector.accept(BlockStateModelGenerator.createBlockStateWithRandomHorizontalRotations(block, TexturedModel.TEMPLATE_GLAZED_TERRACOTTA.create(block, generator.modelCollector)));
         }
         for (Block block : new Block[]{CSDBlocks.MADE_VOXEL,}) {
             //不给方块自动生成继承方块模型的物品模型。

@@ -41,6 +41,7 @@ import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 import phoupraw.mcmod.createsdelight.registry.CSDBlockEntityTypes;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVoxelBlockEntity>, IWrenchable {
@@ -262,15 +263,15 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         if (player.isSneaking()) {
             Vec3d relative = hit.getPos().subtract(Vec3d.of(pos));
             relative = relative.subtract(0.5, 0, 0.5).rotateY((float) (-facing.getHorizontal() * Math.PI / 2)).add(0.5, 0, 0.5);
-            var voxelHitPos = BlockPos.ofFloored(relative.multiply(size.getX(), size.getY(), size.getZ()));
+            var voxelHitPos = BlockPos.fromPosition(relative.multiply(size.getX(), size.getY(), size.getZ()));
             comparator = Comparator.comparingDouble(voxelHitPos::getSquaredDistance);
         } else {
-            var center = BlockPos.ofFloored(0.5 * size.getX(), 0, 0.5 * size.getZ());
+            var center = BlockPos.create(0.5 * size.getX(), 0, 0.5 * size.getZ());
             comparator = Comparator.comparingDouble(center::getSquaredDistance);
             comparator = Comparator.comparingInt(BlockPos::getY).reversed().thenComparing(comparator.reversed());
         }
         Map<BlockPos, Block> newBlocks = new HashMap<>(voxelRecord.blocks());
-        var sortedBlocks = newBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey(comparator)).toList();
+        var sortedBlocks = newBlocks.entrySet().stream().sorted(Entry.comparingByKey(comparator)).toList();
         double voxelCubicMeters = 1.0 / (size.getX() * size.getY() * size.getZ());
         boolean looped = false;
         Set<Block> eatenBlocks = new HashSet<>();
@@ -283,7 +284,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
             eatenFoods.put(foodBehaviour, eatenFoods.get(foodBehaviour) + voxelCubicMeters);
             newBlocks.remove(entry.getKey());
             double hunger = 0;
-            for (Map.Entry<FoodBehaviour, Double> e : eatenFoods.entrySet()) {
+            for (Entry<FoodBehaviour, Double> e : eatenFoods.entrySet()) {
                 FoodBehaviour food = e.getKey();
                 Double cubicMeters = e.getValue();
                 hunger += food.getHunger(voxelRecord, cubicMeters);
@@ -294,7 +295,7 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
         double hunger = 0;
         double saturation = 0;
         double hungerSurpass = 0;
-        for (Map.Entry<FoodBehaviour, Double> e : eatenFoods.entrySet()) {
+        for (Entry<FoodBehaviour, Double> e : eatenFoods.entrySet()) {
             FoodBehaviour food = e.getKey();
             Double cubicMeters = e.getValue();
             hunger += food.getHunger(voxelRecord, cubicMeters);
@@ -329,14 +330,14 @@ public class MadeVoxelBlock extends HorizontalFacingBlock implements IBE<MadeVox
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
+        return this.getDefaultState().with(FACING, ctx.getPlayerFacing());
     }
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
         BlockEntity blockEntity = getBlockEntity(world, pos);
         //noinspection ConstantConditions
-        BlockItem.setBlockEntityNbt(itemStack, blockEntity.getType(), blockEntity.createNbt());
+        BlockItem.writeBlockEntityNbtToStack(itemStack, blockEntity.getType(), blockEntity.toNbt());
         return itemStack;
     }
     @Override

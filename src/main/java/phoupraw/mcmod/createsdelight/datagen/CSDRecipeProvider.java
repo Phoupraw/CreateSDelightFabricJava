@@ -12,10 +12,10 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.recipe.RecipeCategory;
 import phoupraw.mcmod.createsdelight.registry.CSDFluids;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 import phoupraw.mcmod.createsdelight.registry.CSDItems;
@@ -28,9 +28,8 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
     public CSDRecipeProvider(FabricDataOutput output) {
         super(output);
     }
-
     @Override
-    public void generate(Consumer<RecipeJsonProvider> exporter) {
+    public void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
         offerCompactingRecipe(exporter, RecipeCategory.FOOD, CSDItems.BUTTER_BLOCK, CSDItems.BUTTER_INGOT);
         offerCompactingRecipe(exporter, RecipeCategory.FOOD, CSDItems.BUTTER_INGOT, CSDItems.BUTTER_NUGGET);
         offerShapelessRecipe(exporter, CSDItems.BUTTER_NUGGET, CSDItems.BUTTER_INGOT, null, 9);
@@ -40,10 +39,10 @@ public final class CSDRecipeProvider extends FabricRecipeProvider {
         offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, AllItems.BAR_OF_CHOCOLATE.get(), CSDItems.CHOCOLATE_BLOCK, 3);
         offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, CSDItems.BUTTER_INGOT, CSDItems.BUTTER_BLOCK, 9);
         offerStonecuttingRecipe(exporter, RecipeCategory.FOOD, CSDItems.BUTTER_NUGGET, CSDItems.BUTTER_INGOT, 9);
-        new ShapelessRecipeJsonBuilder(RecipeCategory.FOOD, CSDItems.CHOCOLATE_BLOCK, 3)
-          .input(AllItems.BAR_OF_CHOCOLATE.get(), 9)
+        new ShapelessRecipeJsonFactory(RecipeCategory.FOOD, CSDItems.CHOCOLATE_BLOCK, 3)
+          .ingredient(AllItems.BAR_OF_CHOCOLATE.get(), 9)
           .criterion("stupidMojang", conditionsFromItem(AllItems.BAR_OF_CHOCOLATE.get()))
-          .offerTo(exporter, CSDIdentifiers.CHOCOLATE_BLOCK.withPrefixedPath("crafting/"));
+          .offerTo(exporter, CSDIdentifiers.CHOCOLATE_BLOCK.withPrefix("crafting/"));
         new ProcessingRecipeBuilder<>(EmptyingRecipe::new, CSDIdentifiers.EGG_LIQUID)
           .require(Items.EGG)
           .output(CSDItems.EGG_SHELL)

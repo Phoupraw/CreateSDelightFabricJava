@@ -30,13 +30,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static net.minecraft.block.enums.RailShape.*;
+import static net.minecraft.util.math.Direction.*;
 import static net.minecraft.util.math.Direction.Axis.X;
 import static net.minecraft.util.math.Direction.Axis.Z;
-import static net.minecraft.util.math.Direction.*;
 
 public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlockEntity>, ICogWheel {
     public static final EnumProperty<RailShape> FACING = EnumProperty.of("facing", RailShape.class, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST);
-    public static final Map<RailShape, Map<Direction.Axis, Direction>> BI_DIRECTION_MAP = /*EnumHashBiMap.create*/(Map.of(
+    public static final Map<RailShape, Map<Axis, Direction>> BI_DIRECTION_MAP = /*EnumHashBiMap.create*/(Map.of(
       SOUTH_EAST, Map.of(Z, SOUTH, X, EAST),
       SOUTH_WEST, Map.of(Z, SOUTH, X, WEST),
       NORTH_WEST, Map.of(Z, NORTH, X, WEST),
@@ -60,8 +60,8 @@ public class VoxelMakerBlock extends KineticBlock implements IBE<VoxelMakerBlock
         super(properties);
     }
     @Override
-    public Direction.Axis getRotationAxis(BlockState state) {
-        return Direction.Axis.Y;
+    public Axis getRotationAxis(BlockState state) {
+        return Axis.Y;
     }
     @Override
     public Class<VoxelMakerBlockEntity> getBlockEntityClass() {

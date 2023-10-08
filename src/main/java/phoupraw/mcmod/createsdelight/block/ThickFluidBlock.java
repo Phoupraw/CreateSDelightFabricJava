@@ -34,7 +34,7 @@ public class ThickFluidBlock extends Block implements FluidDrainable {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
-            entity.slowMovement(state, new Vec3d(0.9F, 1.5, 0.9F));
+            entity.setMovementMultiplier(state, new Vec3d(0.9F, 1.5, 0.9F));
         }
     }
     /**

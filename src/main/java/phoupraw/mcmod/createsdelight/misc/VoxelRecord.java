@@ -33,7 +33,7 @@ public record VoxelRecord(Map<BlockPos, Block> blocks, Vec3i size, BlockBox boun
         return new VoxelRecord(blocks, size, BlockBox.encompassPositions(blocks.keySet()).orElse(EMPTY_BOX));
     }
     public static int compare(BlockState a, BlockState b) {
-        int r = a.getRegistryEntry().getKey().orElseThrow().getValue().compareTo(b.getRegistryEntry().getKey().orElseThrow().getValue());
+        int r = a.getHolder().getKey().orElseThrow().getValue().compareTo(b.getHolder().getKey().orElseThrow().getValue());
         if (r != 0) return r;
         List<Property<?>> properties = new ArrayList<>(a.getProperties());
         properties.sort(Comparator.comparing(Property::getName));

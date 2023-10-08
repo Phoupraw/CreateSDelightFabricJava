@@ -23,7 +23,7 @@ public final class CSDBlockLootTableProvider extends FabricBlockLootTableProvide
         for (Block block : new Block[]{CSDBlocks.VOXEL_MAKER, CSDBlocks.CHOCOLATE_BLOCK, CSDBlocks.WHEAT_CAKE_BASE_BLOCK, CSDBlocks.BUTTER_BLOCK}) {
             addDrop(block);//方块无条件掉落自身
         }
-        addDrop(CSDBlocks.MADE_VOXEL, LootTable.builder().pool(new LootPool.Builder()
+        add(CSDBlocks.MADE_VOXEL, LootTable.builder().pool(new LootPool.Builder()
           .rolls(ConstantLootNumberProvider.create(1))
           .with(ItemEntry.builder(CSDItems.MADE_VOXEL)
             .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))//方块实体需实现Nameable

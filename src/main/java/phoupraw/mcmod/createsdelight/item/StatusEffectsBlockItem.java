@@ -19,7 +19,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -41,7 +41,7 @@ public class StatusEffectsBlockItem extends BlockItem {
      */
     public static void particle(Entity entity, ItemStack stack, int count) {
         World world = entity.getWorld();
-        Random random = world.getRandom();
+        RandomGenerator random = world.getRandom();
         for (int i = 0; i < count; ++i) {
             Vec3d vec3d = new Vec3d((random.nextDouble() - 0.5) * 0.1, random.nextDouble() * 0.1 + 0.1, 0.0);
             vec3d = vec3d.rotateX(-entity.getPitch() * (float) (Math.PI / 180.0));
@@ -65,7 +65,7 @@ public class StatusEffectsBlockItem extends BlockItem {
         Item item = blockState.getBlock().asItem();
         player.incrementStat(Stats.BROKEN.getOrCreateStat(item));
         player.emitGameEvent(GameEvent.EAT);
-        Random random = world.random;
+        RandomGenerator random = world.random;
         player.playSound(item.getEatSound(), 0.5F + 0.5F * random.nextInt(2), (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
         particle(player, item.getDefaultStack(), 10);
         for (int i = 0; i < 10; i++) {

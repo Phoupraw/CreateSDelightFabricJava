@@ -115,7 +115,7 @@ public class VirtualFluid extends FlowableFluid {
     }
 
     @Override
-    public boolean isStill(FluidState state) {
+    public boolean isSource(FluidState state) {
         return true;
     }
 

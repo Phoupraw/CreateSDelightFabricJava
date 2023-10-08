@@ -13,10 +13,10 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.model.UnbakedModel;
-import net.minecraft.data.client.ModelIds;
+import net.minecraft.data.client.model.ModelIds;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resource.ReloadableResourceManagerImpl;
+import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.util.Identifier;
 import phoupraw.mcmod.createsdelight.CreateSDelight;
 import phoupraw.mcmod.createsdelight.misc.VirtualFluids;
@@ -51,7 +51,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
         BlockEntityRendererFactories.register(CSDBlockEntityTypes.VOXEL_MAKER, VoxelMakerRenderer::new);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             CreateSDelight.LOGGER.debug("ClientLifecycleEvents.CLIENT_STARTED");
-            ((ReloadableResourceManagerImpl) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> {
+            ((ReloadableResourceManager) client.getResourceManager()).registerReloader((synchronizer, manager1, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) -> {
                 CreateSDelight.LOGGER.debug("ReloadableResourceManagerImpl.registerReloader");
                 return CompletableFuture
                   .completedFuture(null)
@@ -63,7 +63,7 @@ public final class CSDClientModInitializer implements ClientModInitializer {
                   }, applyExecutor);
             });
         });
-        for (Item item : CSDItems.ITEM_GROUP.getDisplayStacks().stream().map(ItemStack::getItem).collect(Collectors.toSet())) {
+        for (Item item : CSDItems.ITEM_GROUP.getOrInitTabStacks().stream().map(ItemStack::getItem).collect(Collectors.toSet())) {
             TooltipModifier.REGISTRY.register(item, new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE).andThen(TooltipModifier.mapNull(KineticStats.create(item))));
         }
     }

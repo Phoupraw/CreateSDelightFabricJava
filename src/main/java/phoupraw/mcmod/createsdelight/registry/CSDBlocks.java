@@ -50,11 +50,11 @@ public final class CSDBlocks {
       .dynamicBounds()
       .breakInstantly()
       .sounds(BlockSoundGroup.WOOL)
-      .mapColor(MapColor.WHITE)));
+      .mapColor(MapColor.SNOW)));
     //细雪
     public static final Block CREAM = new ThickFluidBlock(FabricBlockSettings.copyOf(Blocks.POWDER_SNOW).breakInstantly());
     public static final Block APPLE_JAM = register(CSDIdentifiers.APPLE_JAM, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM).mapColor(MapColor.RED)));
-    public static final Block WHEAT_PASTE = register(CSDIdentifiers.WHEAT_PASTE, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM).mapColor(MapColor.PALE_YELLOW)));
+    public static final Block WHEAT_PASTE = register(CSDIdentifiers.WHEAT_PASTE, new ThickFluidBlock(FabricBlockSettings.copyOf(CREAM).mapColor(MapColor.SAND)));
     //固体
     public static final Block CHOCOLATE_BLOCK = new Block(FabricBlockSettings.create().hardness(1).mapColor(MapColor.BROWN));
     public static final Block WHEAT_CAKE_BASE_BLOCK = register(CSDIdentifiers.WHEAT_CAKE_BASE_BLOCK, new HayBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).mapColor(DyeColor.BROWN)));

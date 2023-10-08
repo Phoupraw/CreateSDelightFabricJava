@@ -69,7 +69,7 @@ public class ThickStaticFluid extends FlowableFluid {
         return fluidBlock.getDefaultState();
     }
     @Override
-    public boolean isStill(FluidState state) {
+    public boolean isSource(FluidState state) {
         return true;
     }
     @Override

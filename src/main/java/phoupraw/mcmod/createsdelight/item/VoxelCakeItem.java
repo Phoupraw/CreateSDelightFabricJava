@@ -12,7 +12,7 @@ public class VoxelCakeItem {
         ItemStack itemStack = CSDItems.MADE_VOXEL.getDefaultStack();
         NbtCompound blockEntityNbt = new NbtCompound();
         blockEntityNbt.put("voxelRecord", voxelRecord.write(new NbtCompound()));
-        BlockItem.setBlockEntityNbt(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityNbt);
+        BlockItem.writeBlockEntityNbtToStack(itemStack, CSDBlockEntityTypes.MADE_VOXEL, blockEntityNbt);
         return itemStack;
     }
 }

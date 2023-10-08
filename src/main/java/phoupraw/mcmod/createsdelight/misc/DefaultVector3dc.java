@@ -1,7 +1,9 @@
 package phoupraw.mcmod.createsdelight.misc;
 
-import org.joml.Math;
-import org.joml.*;
+import org.joml.Options;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
+import org.joml.Vector3fc;
 import sun.misc.Unsafe;
 
 import java.nio.ByteBuffer;

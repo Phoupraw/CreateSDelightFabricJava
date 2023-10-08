@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -101,7 +101,7 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
         for (var pair : statusEffects) {
             StatusEffectInstance instance = pair.getLeft();
             StatusEffect effect = instance.getEffectType();
-            Formatting categoryColor = effect.getCategory().getFormatting();
+            Formatting categoryColor = effect.getType().getFormatting();
             MutableText line = Text.literal("").formatted(categoryColor);
             int amplifier = instance.getAmplifier();
             int rgb1 = effect.getColor();
@@ -173,23 +173,22 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
             @SuppressWarnings("ConstantConditions") int y1 = y + i * BREADTH + (BREADTH - fontHeight) / 2;
             if (outline) {
                 //noinspection ConstantConditions
-                textRenderer.drawWithOutline(text.asOrderedText(), x1, y1, 0xffffffff, 0x3f000000 | getChancedEffects().get(i).getLeft().getEffectType().getCategory().getFormatting().getColorValue(), matrix, vertexConsumers, LightmapTextureManager.MAX_LIGHT_COORDINATE);
+                textRenderer.drawWithOutline(text.asOrderedText(), x1, y1, 0xffffffff, 0x3f000000 | getChancedEffects().get(i).getLeft().getEffectType().getType().getFormatting().getColorValue(), matrix, vertexConsumers, LightmapTextureManager.MAX_LIGHT_COORDINATE);
             } else {
                 textRenderer.draw(text, x1, y1, 0xffffffff, false, matrix, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
             }
             i++;
         }
     }
-
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, GuiGraphics context) {
         //RenderSystem.setShaderColor(1, 1, 1, 1); TODO 删掉这句会有问题吗？
         int i = 0;
         for (var pair : getChancedEffects()) {
             var effect = pair.getLeft();
             StatusEffect type = effect.getEffectType();
             var sprite = MinecraftClient.getInstance().getStatusEffectSpriteManager().getSprite(type);
-            RenderSystem.setShaderTexture(0, sprite.getAtlasId());
+            RenderSystem.setShaderTexture(0, sprite.getId());
             context.drawSprite(x, y + i * BREADTH, 0, BREADTH, BREADTH, sprite);
             //int alpha = (int) ((1 - (Math.sin(System.currentTimeMillis() % 2000 / 1000.0 * Math.PI) + 1) / 2) * 0x7f);
             //context.fill(x + fontSize, y + i * fontSize, x+fontSize + textRenderer.getWidth(getLines().get(i)), y + (i + 1) * fontSize - 1, (alpha<<24) | type.getCategory().getFormatting().getColorValue());
@@ -216,7 +215,7 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
             for (var pair : chancedEffects) {
                 StatusEffectInstance instance = pair.getLeft();
                 StatusEffect effect = instance.getEffectType();
-                Formatting categoryColor = effect.getCategory().getFormatting();
+                Formatting categoryColor = effect.getType().getFormatting();
                 MutableText line = Text.literal("").formatted(categoryColor);
                 int amplifier = instance.getAmplifier();
                 int rgb1 = effect.getColor();
@@ -258,9 +257,8 @@ public class StatusEffectsTooltipComponent implements TooltipComponent {
         public void drawText(TextRenderer textRenderer, int x, int y, Matrix4f matrix, VertexConsumerProvider.Immediate vertexConsumers) {
 
         }
-
         @Override
-        public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
+        public void drawItems(TextRenderer textRenderer, int x, int y, GuiGraphics context) {
 
         }
 

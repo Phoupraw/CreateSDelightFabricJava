@@ -10,7 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.structure.StructureTemplate;
+import net.minecraft.structure.Structure;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
@@ -44,7 +44,7 @@ public final class CSDCommands {
                 .executes(CSDCommands::cake2structure)))));
     }
     public static int cake2structure(CommandContext<ServerCommandSource> context) {
-        BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
+        BlockPos pos = BlockPosArgumentType.getUnvalidatedBlockPos(context, "pos");
         if (context.getSource().getWorld().getBlockEntity(pos) instanceof MadeVoxelBlockEntity be) {
             //if (be.predefined != null) {
             //    context.getSource().sendError(Text.of("此蛋糕已经是预定义的！"));
@@ -60,7 +60,7 @@ public final class CSDCommands {
                 BlockState blockState = entry.getValue().getDefaultState();
                 sw.setBlockState(entry.getKey(), blockState, 0);
             }
-            StructureTemplate st = new StructureTemplate();
+            Structure st = new Structure();
             st.saveFromWorld(sw, BlockPos.ORIGIN, voxelCake.size(), false, null);
             return 1;
         }
@@ -68,8 +68,8 @@ public final class CSDCommands {
     }
     public static int getCakeFromWorld(CommandContext<ServerCommandSource> context) {
         try {
-            BlockPos vertex1 = BlockPosArgumentType.getBlockPos(context, "vertex1");
-            BlockPos vertex2 = BlockPosArgumentType.getBlockPos(context, "vertex2");
+            BlockPos vertex1 = BlockPosArgumentType.getUnvalidatedBlockPos(context, "vertex1");
+            BlockPos vertex2 = BlockPosArgumentType.getUnvalidatedBlockPos(context, "vertex2");
             ServerWorld world = context.getSource().getWorld();
             var result = VoxelRecord.of(world, BlockBox.create(vertex1, vertex2), BlockPos.iterate(vertex1, vertex2));
             VoxelRecord voxelRecord = result.getLeft();

@@ -3,7 +3,7 @@ package phoupraw.mcmod.createsdelight.effect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.InstantStatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,8 +28,7 @@ public class SatiationStatusEffect extends InstantStatusEffect {
         }
         return recovered;
     }
-
-    public SatiationStatusEffect(StatusEffectCategory statusEffectCategory, int i) {
+    public SatiationStatusEffect(StatusEffectType statusEffectCategory, int i) {
         super(statusEffectCategory, i);
     }
 

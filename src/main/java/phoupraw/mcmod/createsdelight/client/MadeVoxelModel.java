@@ -28,7 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.BlockRenderView;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Contract;
@@ -46,6 +46,7 @@ import phoupraw.mcmod.createsdelight.misc.VoxelRecord;
 
 import java.lang.Math;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -76,12 +77,12 @@ public class MadeVoxelModel implements CustomBlockModel {
                     if (sprite == null) {
                         BlockState state = block.getDefaultState();
                         BakedModel model = MinecraftClient.getInstance().getBlockRenderManager().getModel(state);
-                        var iter = model.getQuads(state, face, Random.create(randomSeed)).iterator();
+                        var iter = model.getQuads(state, face, RandomGenerator.createLegacy(randomSeed)).iterator();
                         if (iter.hasNext()) {
                             sprite = iter.next().getSprite();
                         } else {
                             Sprite sprite1 = null;
-                            for (BakedQuad q : model.getQuads(state, null, Random.create(randomSeed))) {
+                            for (BakedQuad q : model.getQuads(state, null, RandomGenerator.createLegacy(randomSeed))) {
                                 if (q.getFace() == face) {
                                     sprite = q.getSprite();
                                     break;
@@ -110,7 +111,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         }
         return table;
     }
-    public static Table<Vec3i, Direction, Sprite> toCullFaces(Map<BlockPos, Block> voxels, Vec3i size, Supplier<Random> randomSupplier) {
+    public static Table<Vec3i, Direction, Sprite> toCullFaces(Map<BlockPos, Block> voxels, Vec3i size, Supplier<RandomGenerator> randomSupplier) {
         long seed =/* randomSupplier.get() instanceof ALocalRandom localRandom ? localRandom.getSeed() :*/ 1;//FIXME 机械动力混淆表冲突导致原版类mixin无法正常生效
         return toCullFaces(voxels, size, seed);
     }
@@ -123,7 +124,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         for (var rowEntry : table.rowMap().entrySet()) {
             var pos = rowEntry.getKey();
             var box = new Box(Vec3d.of(pos).multiply(scale), Vec3d.of(pos).add(1, 1, 1).multiply(scale));
-            for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
+            for (Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
                 Sprite sprite = entry.getValue();
                 var quad0 = square(emitter, box, entry.getKey())
                   .color(-1, -1, -1, -1)
@@ -146,7 +147,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         for (var rowEntry : table.rowMap().entrySet()) {
             Vec3i blockPos = rowEntry.getKey();
             Box box = new Box(new BlockPos(blockPos));
-            for (Map.Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
+            for (Entry<Direction, Sprite> entry : rowEntry.getValue().entrySet()) {
                 Direction face = entry.getKey();
                 var pair = square(box, face, size);
                 int depth = pair.getRight().intValue();
@@ -328,7 +329,7 @@ public class MadeVoxelModel implements CustomBlockModel {
         return getCakeModel().getParticleSprite();
     }
     @Override
-    public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+    public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<RandomGenerator> randomSupplier, RenderContext context) {
         if (!(blockView.getBlockEntity(pos) instanceof MadeVoxelBlockEntity blockEntity)) return;
         VoxelRecord voxelRecord = blockEntity.getVoxelRecord();
         if (voxelRecord == null) return;
@@ -356,8 +357,8 @@ public class MadeVoxelModel implements CustomBlockModel {
         return MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(Blocks.CAKE.getDefaultState());
     }
     @Override
-    public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        NbtCompound blockEntityNbt = BlockItem.getBlockEntityNbt(stack);
+    public void emitItemQuads(ItemStack stack, Supplier<RandomGenerator> randomSupplier, RenderContext context) {
+        NbtCompound blockEntityNbt = BlockItem.getBlockEntityNbtFromStack(stack);
         if (blockEntityNbt != null) {
             NbtCompound nbtVoxelRecord = blockEntityNbt.getCompound("voxelRecord");
             if (NBT2MODEL.containsKey(nbtVoxelRecord)) {

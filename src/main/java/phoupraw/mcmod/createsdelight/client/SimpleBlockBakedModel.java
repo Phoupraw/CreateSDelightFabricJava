@@ -9,7 +9,7 @@ import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.random.RandomGenerator;
 import org.jetbrains.annotations.Nullable;
 import phoupraw.mcmod.createsdelight.registry.CSDIdentifiers;
 
@@ -25,7 +25,7 @@ public class SimpleBlockBakedModel implements HasDepthBakedModel {
         this.particleSprite = particleSprite;
     }
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, RandomGenerator random) {
         return cullFace2quads.get(face);
     }
     @Override

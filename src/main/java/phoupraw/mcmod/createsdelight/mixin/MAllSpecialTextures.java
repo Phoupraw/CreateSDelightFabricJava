@@ -25,6 +25,6 @@ class MAllSpecialTextures {
         $VALUES = Arrays.copyOf($VALUES, ordinal + 1);
         var myTexture = new MAllSpecialTextures(CSDIdentifiers.VOXEL_MAKER.toString(), ordinal, "");
         $VALUES[ordinal] = (AllSpecialTextures) (Object) myTexture;
-        myTexture.location = CSDIdentifiers.VOXEL_MAKER.withPrefixedPath(AllSpecialTextures.ASSET_PATH).withSuffixedPath(".png");
+        myTexture.location = CSDIdentifiers.VOXEL_MAKER.withPrefix(AllSpecialTextures.ASSET_PATH).extendPath(".png");
     }
 }
